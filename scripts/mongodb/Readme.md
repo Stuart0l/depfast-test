@@ -1,10 +1,10 @@
 # MongoDB
 
 Instructions to run the script -
-1. Create GCP VMs for 1 client and 3 servers.
+1. Create VMs for 1 client and 3 servers.
 2. Setup server configs as mentioned in - https://docs.google.com/document/d/1Kxa6Cf5CHWR_5_Kk6LGMoj844nSY-E_zaXMkuWEqqAI/edit.
-3. Specify the ipaddress and name of the server machines in the given script and helper files - *.sh, parse.py and init_script.js files.
-4. Run the start_follower_exp.sh script for follower experiments, start_leader_exp.sh for leader experiments or start_noslow.sh for no slowness case on the client VM.
+3. Specify the ipaddress and name of the server machines in the given script and helper files - start_experiment.sh, parse.py and init_script.js files.
+4. Run the start_experiment.sh with appropriate arguments on the client VM.
 
 The arguments to the script should be given as follows - <br>
 No slowness - 
