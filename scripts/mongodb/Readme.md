@@ -7,37 +7,28 @@ Instructions to run the script -
 4. Run the start_follower_exp.sh script for follower experiments, start_leader_exp.sh for leader experiments or start_noslow.sh for no slowness case on the client VM.
 
 The arguments to the script should be given as follows - <br>
-No slow - <br>
+No slowness - 
 ```
-./start_noslow.sh 5 workloads/workloada_more 900
+./start_experiment.sh 100 workloads/workloada_more 900 5 gcp noslow
 ```
 1st arg - number of trials  <br>
 2nd arg - workload  <br>
 3rd arg - number of seconds to run  <br>
+4th arg - experiment to run(1,2,3,4,5)  <br>
+5th arg - host type(gcp/aws)  <br>
+6th arg - type of experiment(follower/leader/noslow)  <br>
 
 Follower slowness -  <br>
 ```
-./start_follower_exp.sh 5 workloads/workloada_more 900 5
+./start_experiment.sh 100 workloads/workloada_more 900 5 gcp follower
 ```
-1st arg - number of trials  <br>
-2nd arg - workload  <br>
-3rd arg - number of seconds to run  <br>
-4th arg - experiment number(1/2/3/4/5)  <br>
-Results stored under results/ directory.
-
 Leader slowness -  <br>
 ```
-./start_leader_exp.sh 5 workloads/workloada_more 900 5
+./start_experiment.sh 100 workloads/workloada_more 900 5 gcp leader
 ```
-1st arg - number of trials  <br>
-2nd arg - workload  <br>
-3rd arg - number of seconds to run  <br>
-4th arg - experiment number(1/2/3/4/5)  <br>
-Results stored under leader_results/ directory.
 
 The complete list of experiments can be found here - https://docs.google.com/document/d/1uvgUHcrJQrkyBdbZu1LQNAsYhnThb1Cj8qJVA06WA2A/edit?ts=5e3b6a40#
 
 Known limitations/TODO - <br>
-1. Currently optimised for GCP. Need couple of modifications for AWS.
-2. Need to change the name and IP address of the servers in helper files - init_script.js and parse.py respectively, also in the script files.  
-3. Spwans a single client rather than multiple clients.
+1. Spawns a single client rather than multiple clients.
+2. Only GCP host type supported. 
