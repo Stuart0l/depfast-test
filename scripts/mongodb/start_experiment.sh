@@ -20,7 +20,7 @@ if [ "$#" -ne 6 ]; then
     echo "2nd arg - workload path"
     echo "3rd arg - seconds to run ycsb run"
     echo "4th arg - experiment to run(1,2,3,4,5)"
-    echo "5th arg - host type(gcp/aws)"
+    echo "5th arg - host type(gcp/azure)"
     echo "6th arg - type of experiment(follower/leader/noslow)"
     exit 1
 fi
@@ -52,7 +52,7 @@ function data_cleanup {
 function start_servers {	
 	if [ "$host" == "gcp" ]; then
 		gcloud compute instances start "$s1name" "$s2name" "$s3name" --zone="$serverZone"
-	elif [ "$host" == "aws" ]; then
+	elif [ "$host" == "azure" ]; then
 		echo "Not implemented error"
 		exit 1
 	else
@@ -140,7 +140,7 @@ function cleanup {
 function stop_servers {
 	if [ "$host" == "gcp" ]; then
 		gcloud compute instances stop "$s1name" "$s2name" "$s3name" --zone="$serverZone"
-	elif [ "$host" == "aws" ]; then
+	elif [ "$host" == "azure" ]; then
 		echo "Not implemented error"
 		exit 1
 	else
