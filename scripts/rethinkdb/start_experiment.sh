@@ -4,14 +4,15 @@ set -ex
 
 # Server specific configs
 ##########################
-s1="10.128.15.193"
-s2="10.128.0.14"
-s3="10.128.0.15"
+s1="10.128.15.234"
+s2="10.128.15.235"
+s3="10.128.15.236"
 
-s1name="rethinkdb_first"
-s2name="rethinkdb_second"
-s3name="rethinkdb_third"
+s1name="rethinkdb-1"
+s2name="rethinkdb-2"
+s3name="rethinkdb-3"
 serverZone="us-central1-a"
+clusterPort="29015"
 ###########################
 
 if [ "$#" -ne 6 ]; then
@@ -20,7 +21,7 @@ if [ "$#" -ne 6 ]; then
     echo "2nd arg - workload path"
     echo "3rd arg - seconds to run ycsb run"
     echo "4th arg - experiment to run(1,2,3,4,5)"
-    echo "5th arg - host type(gcp/aws)"
+    echo "5th arg - host type(gcp/azure)"
     echo "6th arg - type of experiment(follower/leader/noslow)"
     exit 1
 fi
@@ -43,16 +44,16 @@ function test_start {
 
 # data_cleanup is called just after servers start
 function data_cleanup {
-	ssh -i ~/.ssh/id_rsa "$s1" "sh -c 'rm -rf /data1/*'"
-	ssh -i ~/.ssh/id_rsa "$s2" "sh -c 'rm -rf /data1/*'"
-	ssh -i ~/.ssh/id_rsa "$s3" "sh -c 'rm -rf /data1/*'"
+	ssh -i ~/.ssh/id_rsa "$s1" "sh -c 'rm -rf /data/*'"
+	ssh -i ~/.ssh/id_rsa "$s2" "sh -c 'rm -rf /data/*'"
+	ssh -i ~/.ssh/id_rsa "$s3" "sh -c 'rm -rf /data/*'"
 }
 
 # start_servers is used to boot the servers up
 function start_servers {	
 	if [ "$host" == "gcp" ]; then
 		gcloud compute instances start "$s1name" "$s2name" "$s3name" --zone="$serverZone"
-	elif [ "$host" == "aws" ]; then
+	elif [ "$host" == "azure" ]; then
 		echo "Not implemented error"
 		exit 1
 	else
@@ -64,14 +65,16 @@ function start_servers {
 
 # init is called to initialise the db servers
 function init {
-
+	 ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs /dev/sdb -f ; sudo mount -t xfs /dev/sdb /data ; sudo mount -t xfs /dev/sdb /data -o remount,noatime ; sudo chmod o+w /data'"
+	 ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs /dev/sdb -f ; sudo mount -t xfs /dev/sdb /data ; sudo mount -t xfs /dev/sdb /data -o remount,noatime ; sudo chmod o+w /data'"
+	 ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs /dev/sdb -f ; sudo mount -t xfs /dev/sdb /data ; sudo mount -t xfs /dev/sdb /data -o remount,noatime ; sudo chmod o+w /data'"
 }
 
 # start_db starts the database instances on each of the server
 function start_db {
-	ssh  -i ~/.ssh/id_rsa "$s1" "sh -c 'nohup taskset -ac 0 rethinkdb --directory /data1/rethinkdb_data1 --bind all --server-name rethinkdb_first > /dev/null 2>&1 &'" 
-	ssh  -i ~/.ssh/id_rsa "$s2" "sh -c 'nohup taskset -ac 0 rethinkdb --directory /data1/rethinkdb_data2 --join 10.128.15.193:29015 --bind all --server-name rethinkdb_second > /dev/null 2>&1 &'"
-	ssh  -i ~/.ssh/id_rsa "$s3" "sh -c 'nohup taskset -ac 0 rethinkdb --directory /data1/rethinkdb_data3 --join 10.128.15.193:29015 --bind all --server-name rethinkdb_third > /dev/null 2>&1 &'"
+	ssh  -i ~/.ssh/id_rsa "$s1" "sh -c 'taskset -ac 0 rethinkdb --directory /data/rethinkdb_data1 --bind all --server-name "$s1name"  --cache-size 10480 --daemon'" 
+	ssh  -i ~/.ssh/id_rsa "$s2" "sh -c 'taskset -ac 0 rethinkdb --directory /data/rethinkdb_data2 --join "$s1":"$clusterPort" --bind all --server-name "$s2name"  --cache-size 10480 --daemon'"
+	ssh  -i ~/.ssh/id_rsa "$s3" "sh -c 'taskset -ac 0 rethinkdb --directory /data/rethinkdb_data3 --join "$s1":"$clusterPort" --bind all --server-name "$s3name"  --cache-size 10480 --daemon'"
 	sleep 30
 }
 
@@ -109,20 +112,20 @@ function db_init {
 
 # ycsb_load is used to run the ycsb load and wait until it completes.
 function ycsb_load {
-	./bin/ycsb load rethinkdb -s -P workloads/workloada_more -p rethinkdb.host=10.128.15.193 -p rethinkdb.port=28015
+	./bin/ycsb load rethinkdb -s -P $workload -p rethinkdb.host=$primaryip -p rethinkdb.port=28015
 }
 
 # ycsb run exectues the given workload and waits for it to complete
 function ycsb_run {
-	./bin/ycsb run rethinkdb -s -P workloads/workloada_more -p maxexecutiontime=900 -p rethinkdb.host=$primaryip -p rethinkdb.port=28015 > "$dirname"/exp"$expno"_trial_"$i".txt
+	./bin/ycsb run rethinkdb -s -P $workload -p maxexecutiontime=$ycsbruntime -p rethinkdb.host=$primaryip -p rethinkdb.port=28015 > "$dirname"/exp"$expno"_trial_"$i".txt
 }
 
 # cleanup is called at the end of the given trial of an experiment
 function cleanup {
-	source venv/bin/activate ;  python cleanup.py > tablesinfo ; deactivate
-	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo rm -rf /data1/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill rethinkdb ; true'"
-	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo rm -rf /data1/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill rethinkdb ; true'"
-	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo rm -rf /data1/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill rethinkdb ; true'"
+	source venv/bin/activate ;  python cleanup.py ; deactivate
+	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo umount /dev/sdb ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill rethinkdb ; true'"
+	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo umount /dev/sdb ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill rethinkdb ; true'"
+	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo umount /dev/sdb ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill rethinkdb ; true'"
 	# Remove the tc rule for exp 5
 	if [ "$expno" == 5 -a "$exptype" != "noslow" ]; then
 		ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev ens4 root ; true'"
@@ -134,7 +137,7 @@ function cleanup {
 function stop_servers {
 	if [ "$host" == "gcp" ]; then
 		gcloud compute instances stop "$s1name" "$s2name" "$s3name" --zone="$serverZone"
-	elif [ "$host" == "aws" ]; then
+	elif [ "$host" == "azure" ]; then
 		echo "Not implemented error"
 		exit 1
 	else
