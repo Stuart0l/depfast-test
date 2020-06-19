@@ -1,5 +1,9 @@
 #!/bin/bash
 
+date=$(date +"%Y%m%d%s")
+exec > "$date"_experiment.log
+exec 2>&1
+
 set -ex
 
 # Server specific configs
@@ -153,6 +157,8 @@ function db_init {
 		FAMILY fam_9_field8 (field8),
 		FAMILY fam_10_field9 (field9)
 	);" --insecure --host="$s1"
+
+	sleep 45s
 }
 
 # ycsb_load is used to run the ycsb load and wait until it completes.
@@ -165,10 +171,10 @@ function ycsb_load {
 
 # ycsb run exectues the given workload and waits for it to complete
 function ycsb_run {
-	taskset -ac 0 bin/ycsb run jdbc -s -P $workload -p maxexecutiontime=$ycsbruntime -cp jdbc-binding/lib/postgresql-42.2.10.jar -p db.driver=org.postgresql.Driver -p db.user=root -p db.passwd=root -p db.url=jdbc:postgresql://"$s1":26257/ycsb?sslmode=disable
+	taskset -ac 0 bin/ycsb run jdbc -s -P $workload -p maxexecutiontime=$ycsbruntime -cp jdbc-binding/lib/postgresql-42.2.10.jar -p db.driver=org.postgresql.Driver -p db.user=root -p db.passwd=root -p db.url=jdbc:postgresql://"$s1":26257/ycsb?sslmode=disable  > "$dirname"/exp"$expno"_trial_"$i".txt
 
 	# Verify that all the range leaseholders are on Node 1.
-	cockroach sql --execute="SHOW RANGES FROM DATABASE ycsb;SHOW RANGES FROM DATABASE system;" --insecure --host="$s1"
+	cockroach sql --execute="SELECT table_name,range_id,lease_holder FROM [show ranges from database system];SELECT table_name,range_id,lease_holder FROM [show ranges from database ycsb];" --insecure --host="$s1"
 }
 
 # cleanup is called at the end of the given trial of an experiment
