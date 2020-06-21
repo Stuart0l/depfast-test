@@ -1,9 +1,10 @@
 from rethinkdb import r
 
+serverIP = "10.0.0.4"
+
 def init():
-    r.connect('10.128.15.234', 28015).repl()
+    r.connect(serverIP, 28015).repl()
     # Connection established
-    print("connected to 10.128.15.234: 28015")
     try:
         r.db('ycsb').table_drop('usertable').run()
     except Exception as e:

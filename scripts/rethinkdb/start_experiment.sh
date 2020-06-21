@@ -4,15 +4,20 @@ set -ex
 
 # Server specific configs
 ##########################
-s1="10.128.15.234"
-s2="10.128.15.235"
-s3="10.128.15.236"
+# Internal IPs
+s1="10.0.0.4"
+s2="10.0.0.10"
+s3="10.0.0.11"
 
-s1name="rethinkdb-1"
-s2name="rethinkdb-2"
-s3name="rethinkdb-3"
-serverZone="us-central1-a"
+s1name="rethinkdb1"
+s2name="rethinkdb2"
+s3name="rethinkdb3"
+servers=($s1name $s2name $s3name)
+serverRegex="rethinkdb[1-3]"
+# serverZone="us-central1-a"
+resource="DepFast"
 clusterPort="29015"
+partitionName="/dev/sdc"
 ###########################
 
 if [ "$#" -ne 6 ]; then
@@ -54,8 +59,14 @@ function start_servers {
 	if [ "$host" == "gcp" ]; then
 		gcloud compute instances start "$s1name" "$s2name" "$s3name" --zone="$serverZone"
 	elif [ "$host" == "azure" ]; then
-		echo "Not implemented error"
-		exit 1
+	        #for cur_s in "${servers[@]}";
+	        #do
+                #    az vm start --name "$cur_s" --resource-group "$resource"
+	        #done
+	        az vm start --ids $(
+			az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex
+		)
+
 	else
 		echo "Not implemented error"
 		exit 1
@@ -65,9 +76,9 @@ function start_servers {
 
 # init is called to initialise the db servers
 function init {
-	 ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs /dev/sdb -f ; sudo mount -t xfs /dev/sdb /data ; sudo mount -t xfs /dev/sdb /data -o remount,noatime ; sudo chmod o+w /data'"
-	 ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs /dev/sdb -f ; sudo mount -t xfs /dev/sdb /data ; sudo mount -t xfs /dev/sdb /data -o remount,noatime ; sudo chmod o+w /data'"
-	 ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs /dev/sdb -f ; sudo mount -t xfs /dev/sdb /data ; sudo mount -t xfs /dev/sdb /data -o remount,noatime ; sudo chmod o+w /data'"
+	 ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
+	 ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
+	 ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
 }
 
 # start_db starts the database instances on each of the server
@@ -123,9 +134,9 @@ function ycsb_run {
 # cleanup is called at the end of the given trial of an experiment
 function cleanup {
 	source venv/bin/activate ;  python cleanup.py ; deactivate
-	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo umount /dev/sdb ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill rethinkdb ; true'"
-	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo umount /dev/sdb ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill rethinkdb ; true'"
-	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo umount /dev/sdb ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill rethinkdb ; true'"
+	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo umount $partitionName ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill rethinkdb ; true'"
+	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo umount $partitionName ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill rethinkdb ; true'"
+	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo umount $partitionName ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill rethinkdb ; true'"
 	# Remove the tc rule for exp 5
 	if [ "$expno" == 5 -a "$exptype" != "noslow" ]; then
 		ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev ens4 root ; true'"
@@ -138,8 +149,13 @@ function stop_servers {
 	if [ "$host" == "gcp" ]; then
 		gcloud compute instances stop "$s1name" "$s2name" "$s3name" --zone="$serverZone"
 	elif [ "$host" == "azure" ]; then
-		echo "Not implemented error"
-		exit 1
+	        #for cur_s in "${servers[@]}";
+	        #do
+	        #    az vm deallocate --name "$cur_s" --resource-group "$resource"
+	        #done
+	        az vm deallocate --ids $(
+			az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex
+		)
 	else
 		echo "Not implemented error"
 		exit 1

@@ -1,16 +1,10 @@
 from rethinkdb import r
 import pdb
 
-"""
-nameToIPMap = {
-        "rethinkdb-1": "10.128.15.193",
-        "rethinkdb-2": "10.128.0.26",
-        "rethinkdb-3": "10.128.0.27"
-    }
-"""
+serverIP = "10.0.0.4"
 
 def init():
-    r.connect('10.128.15.234', 28015).repl()
+    r.connect(serverIP, 28015).repl()
     # Connection established
     try:
         r.db('ycsb').table_drop('usertable').run()
