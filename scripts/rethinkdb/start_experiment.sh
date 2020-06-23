@@ -74,11 +74,18 @@ function start_servers {
 	sleep 60
 }
 
-# init is called to initialise the db servers
-function init {
+# init_disk is called to create and mount directories on disk
+function init_disk {
 	 ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
 	 ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
 	 ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
+}
+
+# init_memory is called to create and mount memory based file system(tmpfs)
+function init_memory {
+	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /data ; sudo mount -t tmpfs -o rw,size=8G tmpfs /data/ ; sudo chmod o+w /data/'"	
+	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /data ; sudo mount -t tmpfs -o rw,size=8G tmpfs /data/ ; sudo chmod o+w /data/'"	
+	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /data ; sudo mount -t tmpfs -o rw,size=8G tmpfs /data/ ; sudo chmod o+w /data/'"	
 }
 
 # start_db starts the database instances on each of the server
@@ -144,6 +151,18 @@ function cleanup {
 	sleep 5
 }
 
+function cleanup_memory {
+	source venv/bin/activate ;  python cleanup.py ; deactivate
+	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'pkill rethinkdb ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
+	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'pkill rethinkdb ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
+	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'pkill rethinkdb ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
+	# Remove the tc rule for exp 5
+	if [ "$expno" == 5 -a "$exptype" != "noslow" ]; then
+		ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev ens4 root ; true'"
+	fi
+	sleep 5
+}
+
 # stop_servers turns off the VM instances
 function stop_servers {
 	if [ "$host" == "gcp" ]; then
@@ -179,7 +198,7 @@ function test_run {
 		data_cleanup	
 
 		# 3. Create data directories
-		init
+		init_memory
 
 		# 4. SSH to all the machines and start db
 		start_db
@@ -199,7 +218,7 @@ function test_run {
 		ycsb_run
 
 		# 9. cleanup
-		cleanup
+		cleanup_memory
 		
 		# 10. Power off all the VMs
 		stop_servers
