@@ -150,7 +150,7 @@ function cleanup {
 	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo umount $partitionName ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill rethinkdb ; true'"
 	# Remove the tc rule for exp 5
 	if [ "$expno" == 5 -a "$exptype" != "noslow" ]; then
-		ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev ens4 root ; true'"
+		ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev eth0 root ; true'"
 	fi
 	sleep 5
 }
@@ -162,7 +162,7 @@ function cleanup_memory {
 	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'pkill rethinkdb ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
 	# Remove the tc rule for exp 5
 	if [ "$expno" == 5 -a "$exptype" != "noslow" ]; then
-		ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev ens4 root ; true'"
+		ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev eth0 root ; true'"
 	fi
 	sleep 5
 }
