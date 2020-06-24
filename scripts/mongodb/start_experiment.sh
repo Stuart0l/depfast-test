@@ -1,5 +1,9 @@
 #!/bin/bash
 
+date=$(date +"%Y%m%d%s")
+exec > "$date"_experiment.log
+exec 2>&1
+
 set -ex
 
 # Server specific configs
