@@ -8,13 +8,13 @@ set -ex
 
 # Server specific configs
 ##########################
-s1="10.128.0.36"
-s2="10.128.0.37"
-s3="10.128.0.38"
+s1="10.0.0.17"
+s2="10.0.0.18"
+s3="10.0.0.19"
 
-s1name="ritz-cockroachdb-1"
-s2name="ritz-cockroachdb-2"
-s3name="ritz-cockroachdb-3"
+s1name="cockroachdb1"
+s2name="cockroachdb2"
+s3name="cockroachdb3"
 serverZone="us-central1-a"
 nic="eth0"
 partitionName="/dev/sdc"
@@ -149,8 +149,9 @@ function db_init {
 		# Create ycsb DB
 		cockroach sql --execute="CREATE DATABASE ycsb;" --insecure --host="$s1"
 	else
-		# Nothing to do
-		echo ""
+		# No Slow
+		# Create ycsb DB
+		cockroach sql --execute="CREATE DATABASE ycsb;" --insecure --host="$s1"
 	fi
 
 	# Create ycsb usertable
