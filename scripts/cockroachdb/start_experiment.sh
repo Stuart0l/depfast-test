@@ -16,6 +16,13 @@ s1name="ritz-cockroachdb-1"
 s2name="ritz-cockroachdb-2"
 s3name="ritz-cockroachdb-3"
 serverZone="us-central1-a"
+nic="eth0"
+partitionName="/dev/sdc"
+# Azure support
+servers=($s1name $s2name $s3name)
+# NOTE: Make sure no other servers on azure matches this regex
+serverRegex="cockroachdb[1-3]"
+resource="DepFast"
 ###########################
 
 if [ "$#" -ne 6 ]; then
@@ -57,8 +64,13 @@ function start_servers {
 	if [ "$host" == "gcp" ]; then
 		gcloud compute instances start "$s1name" "$s2name" "$s3name" --zone="$serverZone"
 	elif [ "$host" == "azure" ]; then
-		echo "Not implemented error"
-		exit 1
+		#for cur_s in "${servers[@]}";
+		#do
+		#    az vm start --name "$cur_s" --resource-group "$resource"
+		#done
+		az vm start --ids $(
+			az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex
+		)
 	else
 		echo "Not implemented error"
 		exit 1
@@ -68,9 +80,16 @@ function start_servers {
 
 # init is called to initialise the db servers
 function init {
-	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs /dev/sdb -f ; sudo mount -t xfs /dev/sdb /data ; sudo mount -t xfs /dev/sdb /data -o remount,noatime ; sudo chmod o+w /data'"
-	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs /dev/sdb -f ; sudo mount -t xfs /dev/sdb /data ; sudo mount -t xfs /dev/sdb /data -o remount,noatime ; sudo chmod o+w /data'"
-	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs /dev/sdb -f ; sudo mount -t xfs /dev/sdb /data ; sudo mount -t xfs /dev/sdb /data -o remount,noatime ; sudo chmod o+w /data'"
+	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
+	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
+	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
+}
+
+# init_memory is called to create and mount memory based file system(tmpfs)
+function init_memory {
+	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /data ; sudo mount -t tmpfs -o rw,size=8G tmpfs /data/ ; sudo chmod o+w /data/'"	
+	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /data ; sudo mount -t tmpfs -o rw,size=8G tmpfs /data/ ; sudo chmod o+w /data/'"	
+	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /data ; sudo mount -t tmpfs -o rw,size=8G tmpfs /data/ ; sudo chmod o+w /data/'"	
 }
 
 # start_db starts the database instances on each of the server
@@ -100,8 +119,6 @@ function db_init {
 	primarypid=$(ssh -i ~/.ssh/id_rsa "$s1" "sh -c 'cat /data/pid'")
 	secondarypid=$(ssh -i ~/.ssh/id_rsa "$s2" "sh -c 'cat /data/pid'")
 
-	# Create ycsb DB
-	cockroach sql --execute="CREATE DATABASE ycsb;" --insecure --host="$s1"
 
 	if [ "$exptype" == "follower" ]; then
 		slowdownpid=$secondarypid
@@ -120,11 +137,17 @@ function db_init {
 
 		ALTER RANGE default CONFIGURE ZONE USING num_replicas = 3, lease_preferences = '[[+datacenter=us-1]]';" --insecure --host="$s1"
 
+		# Create ycsb DB
+		cockroach sql --execute="CREATE DATABASE ycsb;" --insecure --host="$s1"
+
 		cockroach sql --execute="ALTER database ycsb CONFIGURE ZONE USING constraints= '{"+datacenter=us-1": 1}', lease_preferences = '[[+datacenter=us-1]]', num_replicas = 3;" --insecure --host="$s1"
 
 	elif [ "$exptype" == "leader" ]; then
 		slowdownpid=$primarypid
 		slowdownip=$primaryip
+
+		# Create ycsb DB
+		cockroach sql --execute="CREATE DATABASE ycsb;" --insecure --host="$s1"
 	else
 		# Nothing to do
 		echo ""
@@ -163,18 +186,20 @@ function db_init {
 
 # ycsb_load is used to run the ycsb load and wait until it completes.
 function ycsb_load {
-	./bin/ycsb load jdbc -s -P $workload -p db.driver=org.postgresql.Driver -p db.user=root -p db.passwd=root -p db.url=jdbc:postgresql://"$s1":26257/ycsb?sslmode=disable -cp jdbc-binding/lib/postgresql-42.2.10.jar
+	./bin/ycsb load jdbc -s -P $workload -p db.driver=org.postgresql.Driver -p db.user=root -p db.passwd=root -p db.url=jdbc:postgresql://"$primaryip":26257/ycsb?sslmode=disable -cp jdbc-binding/lib/postgresql-42.2.10.jar
 
 	# Check the leaseholders
 	cockroach sql --execute="SELECT table_name,range_id,lease_holder FROM [show ranges from database system];SELECT table_name,range_id,lease_holder FROM [show ranges from database ycsb];" --insecure --host="$s1"
+	#cockroach sql --execute="SHOW RANGES FROM DATABASE ycsb;SHOW RANGES FROM DATABASE system;" --insecure --host="$s1"
 }
 
 # ycsb run exectues the given workload and waits for it to complete
 function ycsb_run {
-	taskset -ac 0 bin/ycsb run jdbc -s -P $workload -p maxexecutiontime=$ycsbruntime -cp jdbc-binding/lib/postgresql-42.2.10.jar -p db.driver=org.postgresql.Driver -p db.user=root -p db.passwd=root -p db.url=jdbc:postgresql://"$s1":26257/ycsb?sslmode=disable  > "$dirname"/exp"$expno"_trial_"$i".txt
+	taskset -ac 0 bin/ycsb run jdbc -s -P $workload -p maxexecutiontime=$ycsbruntime -cp jdbc-binding/lib/postgresql-42.2.10.jar -p db.driver=org.postgresql.Driver -p db.user=root -p db.passwd=root -p db.url=jdbc:postgresql://"$primaryip":26257/ycsb?sslmode=disable  > "$dirname"/exp"$expno"_trial_"$i".txt
 
 	# Verify that all the range leaseholders are on Node 1.
 	cockroach sql --execute="SELECT table_name,range_id,lease_holder FROM [show ranges from database system];SELECT table_name,range_id,lease_holder FROM [show ranges from database ycsb];" --insecure --host="$s1"
+	#cockroach sql --execute="SHOW RANGES FROM DATABASE ycsb;SHOW RANGES FROM DATABASE system;" --insecure --host="$s1"
 }
 
 # cleanup is called at the end of the given trial of an experiment
@@ -184,12 +209,28 @@ function cleanup {
 	cockroach quit --insecure --host="$s2":26257
 	cockroach quit --insecure --host="$s3":26257
 
-	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo rm -rf /data/*; sudo rm -rf /data ; sudo umount /dev/sdb ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill cockroach  ; true'"
-	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo rm -rf /data/* ; sudo rm -rf /data ; sudo umount /dev/sdb ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill cockroach ; true'"
-	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo rm -rf /data/* ; sudo rm -rf /data ; sudo umount /dev/sdb ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill cockroach ; true'"
+	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo rm -rf /data/*; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill cockroach  ; true'"
+	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo rm -rf /data/* ; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill cockroach ; true'"
+	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo rm -rf /data/* ; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill cockroach ; true'"
 	# Remove the tc rule for exp 5
 	if [ "$expno" == 5 -a "$exptype" != "noslow" ]; then
-		ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev ens4 root ; true'"
+		ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev "$nic" root ; true'"
+	fi
+	sleep 5
+}
+
+function cleanup_memory {
+	cockroach sql --execute="drop database ycsb CASCADE;" --insecure --host="$s1"
+	cockroach quit --insecure --host="$s1":26257
+	cockroach quit --insecure --host="$s2":26257
+	cockroach quit --insecure --host="$s3":26257
+
+	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
+	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
+	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
+	# Remove the tc rule for exp 5
+	if [ "$expno" == 5 -a "$exptype" != "noslow" ]; then
+		ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev "$nic" root ; true'"
 	fi
 	sleep 5
 }
@@ -199,8 +240,13 @@ function stop_servers {
 	if [ "$host" == "gcp" ]; then
 		gcloud compute instances stop "$s1name" "$s2name" "$s3name" --zone="$serverZone"
 	elif [ "$host" == "azure" ]; then
-		echo "Not implemented error"
-		exit 1
+		#for cur_s in "${servers[@]}";
+		#do
+			#    az vm deallocate --name "$cur_s" --resource-group "$resource"
+		#done
+		az vm deallocate --ids $(
+			az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex
+		)
 	else
 		echo "Not implemented error"
 		exit 1
@@ -224,7 +270,7 @@ function test_run {
 		data_cleanup	
 
 		# 3. Create data directories
-		init
+		init_memory
 
 		# 4. SSH to all the machines and start db
 		if [ "$exptype" == "follower" ]; then
@@ -248,7 +294,7 @@ function test_run {
 		ycsb_run
 
 		# 9. cleanup
-		cleanup
+		cleanup_memory
 		
 		# 10. Power off all the VMs
 		stop_servers
