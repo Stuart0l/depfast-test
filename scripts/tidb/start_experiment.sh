@@ -36,11 +36,11 @@ exptype=$6
 
 # test_start is executed at the beginning
 function test_start {
-	name=$1
-	
-	echo "Running $exptype experiment $expno for $name"
-	dirname="$name"_"$exptype"_results
-	mkdir -p $dirname
+  name=$1
+  
+  echo "Running $exptype experiment $expno for $name"
+  dirname="$name"_"$exptype"_results
+  mkdir -p $dirname
 }
 
 # data_cleanup is called just after servers start
@@ -49,29 +49,29 @@ function data_cleanup {
 }
 
 # start_servers is used to boot the servers up
-function start_servers {	
-	if [ "$host" == "gcp" ]; then
-		gcloud compute instances start "$s1name" "$s2name" "$s3name" --zone="$serverZone"
-	elif [ "$host" == "azure" ]; then
-		az vm start --resource-group DepFast --name "$s1name"
-		az vm start --resource-group DepFast --name "$s2name"
-		az vm start --resource-group DepFast --name "$s3name"
-	else
-		echo "Not implemented error"
-		exit 1
-	fi
-	sleep 60
+function start_servers {  
+  if [ "$host" == "gcp" ]; then
+    gcloud compute instances start "$s1name" "$s2name" "$s3name" --zone="$serverZone"
+  elif [ "$host" == "azure" ]; then
+    az vm start --resource-group DepFast --name "$s1name"
+    az vm start --resource-group DepFast --name "$s2name"
+    az vm start --resource-group DepFast --name "$s3name"
+  else
+    echo "Not implemented error"
+    exit 1
+  fi
+  sleep 60
 }
 
 # init is called to initialise the db servers
 function init {
-#	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo umount /dev/sdb1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdb1 -F ; sudo mount -t ext4 /dev/sdb1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
-#	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo umount /dev/sdb1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdb1 -F ; sudo mount -t ext4 /dev/sdb1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
-#	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo umount /dev/sdb1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdb1 -F ; sudo mount -t ext4 /dev/sdb1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
+#  ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo umount /dev/sdb1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdb1 -F ; sudo mount -t ext4 /dev/sdb1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
+#  ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo umount /dev/sdb1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdb1 -F ; sudo mount -t ext4 /dev/sdb1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
+#  ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo umount /dev/sdb1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdb1 -F ; sudo mount -t ext4 /dev/sdb1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
 
-	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo echo "vm.swappiness = 0">> /etc/sysctl.conf ; sudo swapoff -a && swapon -a ; sudo sysctl -p'"
-	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo echo "vm.swappiness = 0">> /etc/sysctl.conf ; sudo swapoff -a && swapon -a ; sudo sysctl -p'"
-	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo echo "vm.swappiness = 0">> /etc/sysctl.conf ; sudo swapoff -a && swapon -a ; sudo sysctl -p'"
+  ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo echo "vm.swappiness = 0">> /etc/sysctl.conf ; sudo swapoff -a && swapon -a ; sudo sysctl -p'"
+  ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo echo "vm.swappiness = 0">> /etc/sysctl.conf ; sudo swapoff -a && swapon -a ; sudo sysctl -p'"
+  ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo echo "vm.swappiness = 0">> /etc/sysctl.conf ; sudo swapoff -a && swapon -a ; sudo sysctl -p'"
 
   ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"
   ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"
@@ -90,37 +90,38 @@ function start_db {
 
 # db_init initialises the database
 function db_init {
-	if [ "$exptype" == "follower" ]; then
+  if [ "$exptype" == "follower" ]; then
     followerip=$s1
-	  /home/tidb/.tiup/bin/tiup ctl pd config set label-property reject-leader dc 1 -u http://"$pd":2379     # leader is restricted to s3
-	  followerpid=$(ssh -i ~/.ssh/id_rsa tidb@"$followerip" "pgrep tikv-server")
-		slowdownpid=$followerpid
-		slowdownip=$followerip
-		echo $exptype slowdownip slowdownpid
-		/home/tidb/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=4 ; wait $!
-	elif [ "$exptype" == "leader" ]; then
-	  /home/tidb/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=4 ; wait $!
+    /home/tidb/.tiup/bin/tiup ctl pd config set label-property reject-leader dc 1 -u http://"$pd":2379     # leader is restricted to s3
+    followerpid=$(ssh -i ~/.ssh/id_rsa tidb@"$followerip" "pgrep tikv-server")
+    slowdownpid=$followerpid
+    slowdownip=$followerip
+    echo $exptype slowdownip slowdownpid
+    sleep 10
+    /home/tidb/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=4 ; wait $!
+  elif [ "$exptype" == "leader" ]; then
+    /home/tidb/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=4 ; wait $!
     leaderip=$(python3 getleader.py $pd)
-	  leaderpid=$(ssh -i ~/.ssh/id_rsa tidb@"$leaderip" "pgrep tikv-server")
-		slowdownpid=$leaderpid
-		slowdownip=$leaderip
-	  echo $exptype slowdownip slowdownpid
-	else
-	  /home/tidb/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=4 ; wait $!
-		# Nothing to do
-		echo ""
-	fi
+    leaderpid=$(ssh -i ~/.ssh/id_rsa tidb@"$leaderip" "pgrep tikv-server")
+    slowdownpid=$leaderpid
+    slowdownip=$leaderip
+    echo $exptype slowdownip slowdownpid
+  else
+    /home/tidb/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=4 ; wait $!
+    # Nothing to do
+    echo ""
+  fi
 }
 
 # ycsb_load is used to run the ycsb load and wait until it completes.
 function ycsb_load {
-#	./bin/ycsb load mongodb -s -P $workload -p mongodb.url=mongodb://$primaryip:27017/ycsb?w=majority&readConcernLevel=majority ; wait $!
+#  ./bin/ycsb load mongodb -s -P $workload -p mongodb.url=mongodb://$primaryip:27017/ycsb?w=majority&readConcernLevel=majority ; wait $!
   /home/tidb/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=1 ; wait $!
 }
 
 # ycsb run exectues the given workload and waits for it to complete
 function ycsb_run {
-#	./bin/ycsb run mongodb -s -P $workload  -p maxexecutiontime=$ycsbruntime -p mongodb.url="mongodb://$primaryip:27017/ycsb?w=majority&readConcernLevel=majority" > "$dirname"/exp"$expno"_trial_"$i".txt ; wait $!
+#  ./bin/ycsb run mongodb -s -P $workload  -p maxexecutiontime=$ycsbruntime -p mongodb.url="mongodb://$primaryip:27017/ycsb?w=majority&readConcernLevel=majority" > "$dirname"/exp"$expno"_trial_"$i".txt ; wait $!
   /home/tidb/go-ycsb run tikv -P $workload -p tikv.pd="$pd":2379 > "$dirname"/exp"$expno"_trial_"$i".txt & ppid=$! ; sleep $ycsbruntime ; kill -INT $ppid
 }
 
@@ -145,62 +146,62 @@ function cleanup {
 
 # stop_servers turns off the VM instances
 function stop_servers {
-	if [ "$host" == "gcp" ]; then
-		gcloud compute instances stop "$s1name" "$s2name" "$s3name" --zone="$serverZone"
-	elif [ "$host" == "azure" ]; then
-		az vm deallocate --resource-group DepFast --name "$s1name"
-		az vm deallocate --resource-group DepFast --name "$s2name"
-		az vm deallocate --resource-group DepFast --name "$s3name"
-	else
-		echo "Not implemented error"
-		exit 1
-	fi
+  if [ "$host" == "gcp" ]; then
+    gcloud compute instances stop "$s1name" "$s2name" "$s3name" --zone="$serverZone"
+  elif [ "$host" == "azure" ]; then
+    az vm deallocate --resource-group DepFast --name "$s1name"
+    az vm deallocate --resource-group DepFast --name "$s2name"
+    az vm deallocate --resource-group DepFast --name "$s3name"
+  else
+    echo "Not implemented error"
+    exit 1
+  fi
 }
 
 # run_experiment executes the given experiment
 function run_experiment {
-	./experiment$expno.sh "$slowdownip" "$slowdownpid"
+  ./experiment$expno.sh "$slowdownip" "$slowdownpid"
 }
 
 # test_run is the main driver function
 function test_run {
-	for (( i=1; i<=$iterations; i++ ))
-	do
-		echo "Running experiment $expno - Trial $i"
-		# 1. start servers
-		start_servers
+  for (( i=1; i<=$iterations; i++ ))
+  do
+    echo "Running experiment $expno - Trial $i"
+    # 1. start servers
+    start_servers
 
-		# 2. Cleanup first
-		cleanup
-#		data_cleanup
+    # 2. Cleanup first
+    cleanup
+#    data_cleanup
 
-		# 3. Create data directories
-		init
+    # 3. Create data directories
+    init
 
-		# 4. SSH to all the machines and start db
-		start_db
+    # 4. SSH to all the machines and start db
+    start_db
 
-		# 5. Init
-		db_init
+    # 5. Init
+    db_init
 
-		# 6. ycsb load
-#		ycsb_load
+    # 6. ycsb load
+#    ycsb_load
 
-		# 7. Run experiment if this is not a no slow
-		if [ "$exptype" != "noslow" ]; then
-			run_experiment
-		fi
+    # 7. Run experiment if this is not a no slow
+    if [ "$exptype" != "noslow" ]; then
+      run_experiment
+    fi
 
-		# 8. ycsb run
-		ycsb_run
+    # 8. ycsb run
+    ycsb_run
 
-		# 9. cleanup
-		cleanup
-		data_cleanup
-		
-		# 10. Power off all the VMs
-		stop_servers
-	done
+    # 9. cleanup
+    cleanup
+    data_cleanup
+    
+    # 10. Power off all the VMs
+    stop_servers
+  done
 }
 
 test_start tidb
