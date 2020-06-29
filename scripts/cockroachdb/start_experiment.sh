@@ -8,20 +8,20 @@ set -ex
 
 # Server specific configs
 ##########################
-s1="10.0.0.17"
-s2="10.0.0.18"
-s3="10.0.0.19"
+s1="10.0.0.34"
+s2="10.0.0.35"
+s3="10.0.0.36"
 
-s1name="cockroachdb1"
-s2name="cockroachdb2"
-s3name="cockroachdb3"
+s1name="cockroachdbfourth-1"
+s2name="cockroachdbfourth-2"
+s3name="cockroachdbfourth-3"
 serverZone="us-central1-a"
 nic="eth0"
 partitionName="/dev/sdc"
 # Azure support
 servers=($s1name $s2name $s3name)
 # NOTE: Make sure no other servers on azure matches this regex
-serverRegex="cockroachdb[1-3]"
+serverRegex="cockroachdbfourth-[1-3]"
 resource="DepFast"
 ###########################
 
@@ -32,7 +32,7 @@ if [ "$#" -ne 6 ]; then
     echo "3rd arg - seconds to run ycsb run"
     echo "4th arg - experiment to run(1,2,3,4,5)"
     echo "5th arg - host type(gcp/azure)"
-    echo "6th arg - type of experiment(follower/leader/noslow)"
+    echo "6th arg - type of experiment(follower/leader/noslowfolllower/noslowleader)"
     exit 1
 fi
 
@@ -114,16 +114,7 @@ function db_init {
 	# Wait for startup
 	sleep 60
 
-	primaryip=$s1
-	secondaryip=$s2
-	primarypid=$(ssh -i ~/.ssh/id_rsa "$s1" "sh -c 'cat /data/pid'")
-	secondarypid=$(ssh -i ~/.ssh/id_rsa "$s2" "sh -c 'cat /data/pid'")
-
-
-	if [ "$exptype" == "follower" ]; then
-		slowdownpid=$secondarypid
-		slowdownip=$secondaryip	
-
+	if [ "$exptype" == "follower" -o "$exptype" == "noslowfollower" ]; then
 		# Set leaseholder config for follower tests
 		cockroach sql --execute="ALTER TABLE system.public.replication_stats CONFIGURE ZONE USING lease_preferences = '[[+datacenter=us-1]]';
 
@@ -142,16 +133,13 @@ function db_init {
 
 		cockroach sql --execute="ALTER database ycsb CONFIGURE ZONE USING constraints= '{"+datacenter=us-1": 1}', lease_preferences = '[[+datacenter=us-1]]', num_replicas = 3;" --insecure --host="$s1"
 
-	elif [ "$exptype" == "leader" ]; then
-		slowdownpid=$primarypid
-		slowdownip=$primaryip
-
+	elif [ "$exptype" == "leader" -o "$exptype" == "noslowleader" ]; then
 		# Create ycsb DB
 		cockroach sql --execute="CREATE DATABASE ycsb;" --insecure --host="$s1"
 	else
 		# No Slow
 		# Create ycsb DB
-		cockroach sql --execute="CREATE DATABASE ycsb;" --insecure --host="$s1"
+		echo ""
 	fi
 
 	# Create ycsb usertable
@@ -187,20 +175,20 @@ function db_init {
 
 # ycsb_load is used to run the ycsb load and wait until it completes.
 function ycsb_load {
-	./bin/ycsb load jdbc -s -P $workload -p db.driver=org.postgresql.Driver -p db.user=root -p db.passwd=root -p db.url=jdbc:postgresql://"$primaryip":26257/ycsb?sslmode=disable -cp jdbc-binding/lib/postgresql-42.2.10.jar
+	# load on the first server
+	./bin/ycsb load jdbc -s -P $workload -p db.driver=org.postgresql.Driver -p db.user=root -p db.passwd=root -p db.url=jdbc:postgresql://"$s1":26257/ycsb?sslmode=disable -cp jdbc-binding/lib/postgresql-42.2.10.jar
 
 	# Check the leaseholders
 	cockroach sql --execute="SELECT table_name,range_id,lease_holder FROM [show ranges from database system];SELECT table_name,range_id,lease_holder FROM [show ranges from database ycsb];" --insecure --host="$s1"
-	#cockroach sql --execute="SHOW RANGES FROM DATABASE ycsb;SHOW RANGES FROM DATABASE system;" --insecure --host="$s1"
 }
 
 # ycsb run exectues the given workload and waits for it to complete
 function ycsb_run {
+	# Run ycsb always at primary
 	taskset -ac 0 bin/ycsb run jdbc -s -P $workload -p maxexecutiontime=$ycsbruntime -cp jdbc-binding/lib/postgresql-42.2.10.jar -p db.driver=org.postgresql.Driver -p db.user=root -p db.passwd=root -p db.url=jdbc:postgresql://"$primaryip":26257/ycsb?sslmode=disable  > "$dirname"/exp"$expno"_trial_"$i".txt
 
 	# Verify that all the range leaseholders are on Node 1.
 	cockroach sql --execute="SELECT table_name,range_id,lease_holder FROM [show ranges from database system];SELECT table_name,range_id,lease_holder FROM [show ranges from database ycsb];" --insecure --host="$s1"
-	#cockroach sql --execute="SHOW RANGES FROM DATABASE ycsb;SHOW RANGES FROM DATABASE system;" --insecure --host="$s1"
 }
 
 # cleanup is called at the end of the given trial of an experiment
@@ -233,6 +221,7 @@ function cleanup_memory {
 	if [ "$expno" == 5 -a "$exptype" != "noslow" ]; then
 		ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev "$nic" root ; true'"
 	fi
+	rm raft.json
 	sleep 5
 }
 
@@ -252,6 +241,32 @@ function stop_servers {
 		echo "Not implemented error"
 		exit 1
 	fi
+}
+
+function find_node_to_slowdown {
+	if [  "$exptype" == "leader" -o "$exptype" == "noslowleader" ]; then
+		# Download raft stats
+		wget http://"$s1":8080/_status/raft -O raft.json
+		# Identify the node that needs to be slowed down here
+		nodeid=$(python3 maxthroughputparser.py raft.json | grep -Eo 'nodeid=[0-9]' | cut -d'=' -f2-)
+		echo $nodeid
+
+		# run the parser code to identify the node id of the max throughput node
+		slowdownip=$(cockroach node status --host="$s1":26257 --insecure --format tsv | awk '{print $1, $2 }' | grep "$nodeid " | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}')
+		slowdownpid=$(ssh -i ~/.ssh/id_rsa "$slowdownip" "sh -c 'cat /data/pid'")
+		primaryip=$slowdownip
+	elif [  "$exptype" == "follower" -o "$exptype" == "noslowfollower" ]; then
+		# Since locality is set on s1, that is the primary and rest are secondary
+		# Choose s2 as secondary
+		primaryip=$s1
+	    	secondaryip=$s2
+	    	primarypid=$(ssh -i ~/.ssh/id_rsa "$s1" "sh -c 'cat /data/pid'")
+	    	secondarypid=$(ssh -i ~/.ssh/id_rsa "$s2" "sh -c 'cat /data/pid'")
+		slowdownpid=$secondarypid
+		slowdownip=$secondaryip
+	else
+		echo "Nothing to slowdown"
+  	fi
 }
 
 # run_experiment executes the given experiment
@@ -274,10 +289,14 @@ function test_run {
 		init_memory
 
 		# 4. SSH to all the machines and start db
-		if [ "$exptype" == "follower" ]; then
+		if [ "$exptype" == "follower" -o "$exptype" == "noslowfollower" ]; then
+			# With locality config set
 			start_follower_db
-		else
+	        elif [ "$exptype" == "leader" -o "$exptype" == "noslowleader" ]; then
+			# Without locality config set
 			start_leader_db
+	        else
+			echo ""
 		fi
 
 		# 5. Init
@@ -286,18 +305,21 @@ function test_run {
 		# 6. ycsb load
 		ycsb_load
 
-		# 7. Run experiment if this is not a no slow
-		if [ "$exptype" != "noslow" ]; then
+		# 7. Find out node to slowdown
+		find_node_to_slowdown
+
+		# 8. Run experiment if this is not a no slow
+		if [ "$exptype" != "noslowleader" -a "$exptype" != "noslowfollower" ]; then
 			run_experiment
 		fi
 
-		# 8. ycsb run
+		# 9. ycsb run
 		ycsb_run
 
-		# 9. cleanup
+		# 10. cleanup
 		cleanup_memory
 		
-		# 10. Power off all the VMs
+		# 11. Power off all the VMs
 		stop_servers
 	done
 }
