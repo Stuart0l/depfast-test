@@ -112,7 +112,7 @@ function db_init {
 # ycsb_load is used to run the ycsb load and wait until it completes.
 function ycsb_load {
 #	./bin/ycsb load mongodb -s -P $workload -p mongodb.url=mongodb://$primaryip:27017/ycsb?w=majority&readConcernLevel=majority ; wait $!
-  /home/tidb/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=16 ; wait $!
+  /home/tidb/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=1 ; wait $!
 }
 
 # ycsb run exectues the given workload and waits for it to complete
