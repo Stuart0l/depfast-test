@@ -120,12 +120,12 @@ function db_init {
 
 # ycsb_load is used to run the ycsb load and wait until it completes.
 function ycsb_load {
-	./bin/ycsb load mongodb -s -P $workload -p mongodb.url=mongodb://$primaryip:27017/ycsb?w=majority&readConcernLevel=majority ; wait $!
+	/home/tidb/YCSB/bin/ycsb load mongodb -s -P $workload -p mongodb.url=mongodb://$primaryip:27017/ycsb?w=majority&readConcernLevel=majority ; wait $!
 }
 
 # ycsb run exectues the given workload and waits for it to complete
 function ycsb_run {
-	./bin/ycsb run mongodb -s -P $workload  -p maxexecutiontime=$ycsbruntime -p mongodb.url="mongodb://$primaryip:27017/ycsb?w=majority&readConcernLevel=majority" > "$dirname"/exp"$expno"_trial_"$i".txt ; wait $!
+	/home/tidb/YCSB/bin/ycsb run mongodb -s -P $workload  -p maxexecutiontime=$ycsbruntime -p mongodb.url="mongodb://$primaryip:27017/ycsb?w=majority&readConcernLevel=majority" > "$dirname"/exp"$expno"_trial_"$i".txt ; wait $!
 }
 
 # cleanup is called at the end of the given trial of an experiment
