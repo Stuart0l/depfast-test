@@ -8,8 +8,6 @@ pd="10.0.0.5"
 s1="10.0.0.6"
 s2="10.0.0.7"
 s3="10.0.0.8"
-leaderip=$s3
-followerip=$s1
 
 pdname="tidb_pd"
 s1name="tikv1"
@@ -87,24 +85,24 @@ function start_db {
   ssh -i ~/.ssh/id_rsa tidb@"$s2" "sudo sed -i 's#bin/tikv-server#taskset -ac 0 bin/tikv-server#g' /ramdisk/tidb-deploy/tikv-20160/scripts/run_tikv.sh "
   ssh -i ~/.ssh/id_rsa tidb@"$s3" "sudo sed -i 's#bin/tikv-server#taskset -ac 0 bin/tikv-server#g' /ramdisk/tidb-deploy/tikv-20160/scripts/run_tikv.sh "
   ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster start mytidb"
-  /home/tidb/.tiup/bin/tiup ctl pd config set label-property reject-leader dc 1 -u http://"$pd":2379     # leader is restricted to s3
   sleep 40
 }
 
-# db_init initialises the database -- tidb do not need it
+# db_init initialises the database
 function db_init {
-	leaderpid=$(ssh -i ~/.ssh/id_rsa tidb@"$leaderip" "pgrep tikv-server")
-	echo $leaderpid
-
-	followerpid=$(ssh -i ~/.ssh/id_rsa tidb@"$followerip" "pgrep tikv-server")
-	echo $followerpid
-
 	if [ "$exptype" == "follower" ]; then
+    followerip=$s1
+	  /home/tidb/.tiup/bin/tiup ctl pd config set label-property reject-leader dc 1 -u http://"$pd":2379     # leader is restricted to s3
+	  followerpid=$(ssh -i ~/.ssh/id_rsa tidb@"$followerip" "pgrep tikv-server")
 		slowdownpid=$followerpid
 		slowdownip=$followerip
+		echo $exptype slowdownip slowdownpid
 	elif [ "$exptype" == "leader" ]; then
+    leaderip=$(python3 getleader.py $pd)
+	  leaderpid=$(ssh -i ~/.ssh/id_rsa tidb@"$leaderip" "pgrep tikv-server")
 		slowdownpid=$leaderpid
 		slowdownip=$leaderip
+	  echo $exptype slowdownip slowdownpid
 	else
 		# Nothing to do
 		echo ""
