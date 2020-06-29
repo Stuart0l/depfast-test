@@ -80,7 +80,11 @@ function init {
 
 # start_db starts the database instances on each of the server
 function start_db {
-  ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster deploy mytidb v4.0.0 ./tidb.yaml --user tidb -y"
+  if [ "$exptype" == "follower" ]; then
+    ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster deploy mytidb v4.0.0 ./tidb_restrict.yaml --user tidb -y"
+  else
+    ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster deploy mytidb v4.0.0 ./tidb.yaml --user tidb -y"
+  fi
   ssh -i ~/.ssh/id_rsa tidb@"$s1" "sudo sed -i 's#bin/tikv-server#taskset -ac 0 bin/tikv-server#g' /ramdisk/tidb-deploy/tikv-20160/scripts/run_tikv.sh "
   ssh -i ~/.ssh/id_rsa tidb@"$s2" "sudo sed -i 's#bin/tikv-server#taskset -ac 0 bin/tikv-server#g' /ramdisk/tidb-deploy/tikv-20160/scripts/run_tikv.sh "
   ssh -i ~/.ssh/id_rsa tidb@"$s3" "sudo sed -i 's#bin/tikv-server#taskset -ac 0 bin/tikv-server#g' /ramdisk/tidb-deploy/tikv-20160/scripts/run_tikv.sh "
@@ -97,17 +101,13 @@ function db_init {
     slowdownpid=$followerpid
     slowdownip=$followerip
     echo $exptype slowdownip slowdownpid
-    sleep 10
-    /home/tidb/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=4 ; wait $!
   elif [ "$exptype" == "leader" ]; then
-    /home/tidb/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=4 ; wait $!
     leaderip=$(python3 getleader.py $pd)
     leaderpid=$(ssh -i ~/.ssh/id_rsa tidb@"$leaderip" "pgrep tikv-server")
     slowdownpid=$leaderpid
     slowdownip=$leaderip
     echo $exptype slowdownip slowdownpid
   else
-    /home/tidb/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=4 ; wait $!
     # Nothing to do
     echo ""
   fi
@@ -185,7 +185,7 @@ function test_run {
     db_init
 
     # 6. ycsb load
-#    ycsb_load
+    ycsb_load
 
     # 7. Run experiment if this is not a no slow
     if [ "$exptype" != "noslow" ]; then
