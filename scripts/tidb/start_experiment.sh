@@ -97,13 +97,16 @@ function db_init {
 		slowdownpid=$followerpid
 		slowdownip=$followerip
 		echo $exptype slowdownip slowdownpid
+		/home/tidb/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=4 ; wait $!
 	elif [ "$exptype" == "leader" ]; then
+	  /home/tidb/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=4 ; wait $!
     leaderip=$(python3 getleader.py $pd)
 	  leaderpid=$(ssh -i ~/.ssh/id_rsa tidb@"$leaderip" "pgrep tikv-server")
 		slowdownpid=$leaderpid
 		slowdownip=$leaderip
 	  echo $exptype slowdownip slowdownpid
 	else
+	  /home/tidb/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=4 ; wait $!
 		# Nothing to do
 		echo ""
 	fi
@@ -181,7 +184,7 @@ function test_run {
 		db_init
 
 		# 6. ycsb load
-		ycsb_load
+#		ycsb_load
 
 		# 7. Run experiment if this is not a no slow
 		if [ "$exptype" != "noslow" ]; then
