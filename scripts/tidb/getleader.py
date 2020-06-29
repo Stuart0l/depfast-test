@@ -4,10 +4,10 @@ import sys
 
 def main(argv):
     pd=argv[1]
-    nodes=int(argv[2])
     cmd='curl http://'+pd+':9090/api/v1/query?query=tikv_raftstore_region_count%7Btype%3D%22leader%22%7D'
     res=os.popen(cmd).read()
     dres=json.loads(res)
+    nodes=len(dres['data']['result'])    #int(argv[2])
     maxcnt=0
     maxip=dres['data']['result'][0]['metric']['instance'].replace(':20180','')
     for i in range(nodes):
