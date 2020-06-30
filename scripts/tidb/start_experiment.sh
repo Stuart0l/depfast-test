@@ -92,7 +92,7 @@ function start_db {
   sleep 40
 }
 
-# db_init initialises the database
+# db_init initialises the database, get slowdown_ip and pid
 function db_init {
   if [ "$exptype" == "follower" ]; then
     followerip=$s1
@@ -181,11 +181,11 @@ function test_run {
     # 4. SSH to all the machines and start db
     start_db
 
-    # 5. Init
-    db_init
-
-    # 6. ycsb load
+    # 5. ycsb load
     ycsb_load
+
+    # 6. Init
+    db_init
 
     # 7. Run experiment if this is not a no slow
     if [ "$exptype" != "noslow1" ] && [ "$exptype" != "noslow2" ] ; then
