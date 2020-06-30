@@ -4,7 +4,9 @@ import sys
 
 def main(argv):
     pd=argv[1]
-    cmd='curl http://'+pd+':9090/api/v1/query?query=tikv_raftstore_region_count%7Btype%3D%22leader%22%7D'
+    sec=str(int(time.time()))
+    #cmd='curl http://'+pd+':9090/api/v1/query?query=tikv_raftstore_region_count%7Btype%3D%22leader%22%7D'
+    cmd='curl http://'+pd+':9090/api/v1/query?query=tikv_grpc_msg_duration_seconds_count%7Btype%3D%22raw_put%22%7D&time='+sec
     res=os.popen(cmd).read()
     dres=json.loads(res)
     nodes=len(dres['data']['result'])    #int(argv[2])
