@@ -1,0 +1,14 @@
+[
+	{
+		"name" : "mongodb1:27017",
+		"stateStr" : "PRIMARY"
+	},
+	{
+		"name" : "mongodb2:27017",
+		"stateStr" : "SECONDARY"
+	},
+	{
+		"name" : "mongodb3:27017",
+		"stateStr" : "SECONDARY"
+	}
+]

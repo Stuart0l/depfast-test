@@ -71,27 +71,27 @@ function init {
 #	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs /dev/sdb -f ; sudo mount -t xfs /dev/sdb /data ; sudo mount -t xfs /dev/sdb /data -o remount,noatime ; sudo mkdir /data/db ; sudo chmod o+w /data/db'"
 #	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs /dev/sdb -f ; sudo mount -t xfs /dev/sdb /data ; sudo mount -t xfs /dev/sdb /data -o remount,noatime ; sudo mkdir /data/db ; sudo chmod o+w /data/db'"
 #	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs /dev/sdb -f ; sudo mount -t xfs /dev/sdb /data ; sudo mount -t xfs /dev/sdb /data -o remount,noatime ; sudo mkdir /data/db ; sudo chmod o+w /data/db'"
-  ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/ ; mkdir /ramdisk/mongodb-data'"
-  ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/ ; mkdir /ramdisk/mongodb-data'"
-  ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/ ; mkdir /ramdisk/mongodb-data'"
+  ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/ ; mkdir /ramdisk/mongodb-data ; sudo chmod o+w /ramdisk/mongodb-data'"
+  ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/ ; mkdir /ramdisk/mongodb-data ; sudo chmod o+w /ramdisk/mongodb-data'"
+  ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/ ; mkdir /ramdisk/mongodb-data ; sudo chmod o+w /ramdisk/mongodb-data'"
 }
 
 # start_db starts the database instances on each of the server
 function start_db {
-	ssh  -i ~/.ssh/id_rsa "$s1" "sh -c 'numactl --interleave=all taskset -ac 0 mongod --replSet rs0 --bind_ip localhost,"$s1name" --fork --logpath /tmp/mongod.log --dbpath /ramdisk/mongodb-data'"
-	ssh  -i ~/.ssh/id_rsa "$s2" "sh -c 'numactl --interleave=all taskset -ac 0 mongod --replSet rs0 --bind_ip localhost,"$s2name" --fork --logpath /tmp/mongod.log --dbpath /ramdisk/mongodb-data'"
-	ssh  -i ~/.ssh/id_rsa "$s3" "sh -c 'numactl --interleave=all taskset -ac 0 mongod --replSet rs0 --bind_ip localhost,"$s3name" --fork --logpath /tmp/mongod.log --dbpath /ramdisk/mongodb-data'"
+	ssh  -i ~/.ssh/id_rsa "$s1" "sh -c 'numactl --interleave=all taskset -ac 0 /home/tidb/mongodb/bin/mongod --replSet rs0 --bind_ip localhost,"$s1name" --fork --logpath /tmp/mongod.log --dbpath /ramdisk/mongodb-data'"
+	ssh  -i ~/.ssh/id_rsa "$s2" "sh -c 'numactl --interleave=all taskset -ac 0 /home/tidb/mongodb/bin/mongod --replSet rs0 --bind_ip localhost,"$s2name" --fork --logpath /tmp/mongod.log --dbpath /ramdisk/mongodb-data'"
+	ssh  -i ~/.ssh/id_rsa "$s3" "sh -c 'numactl --interleave=all taskset -ac 0 /home/tidb/mongodb/bin/mongod --replSet rs0 --bind_ip localhost,"$s3name" --fork --logpath /tmp/mongod.log --dbpath /ramdisk/mongodb-data'"
 	sleep 30
 }
 
 # db_init initialises the database
 function db_init {
-	mongo --host "$s1name" < init_script.js
+	/home/tidb/mongodb/bin/mongo --host "$s1name" < init_script.js
 
 	# Wait for startup
 	sleep 60
 
-	mongo --host "$s1name" < fetchprimary.js  | tail -n +5 | head -n -1  > result.json
+	/home/tidb/mongodb/bin/mongo --host "$s1name" < fetchprimary.js  | tail -n +5 | head -n -1  > result.json
 	cat result.json
 
 	primaryip=$(python parse.py | grep primary | cut -d" " -f2-)
@@ -115,7 +115,7 @@ function db_init {
 	fi
 
 	# Disable chaining allowed
-	mongo --host $primaryip --eval "cfg = rs.config(); cfg.settings.chainingAllowed = false; rs.reconfig(cfg);"
+	/home/tidb/mongodb/bin/mongo --host $primaryip --eval "cfg = rs.config(); cfg.settings.chainingAllowed = false; rs.reconfig(cfg);"
 }
 
 # ycsb_load is used to run the ycsb load and wait until it completes.
@@ -130,8 +130,8 @@ function ycsb_run {
 
 # cleanup is called at the end of the given trial of an experiment
 function cleanup {
-	mongo --host "$primaryip" < cleanup_script.js
-	mongo --host "$primaryip" --eval "db.getCollectionNames().forEach(function(n){db[n].remove()});"
+	/home/tidb/mongodb/bin/mongo --host "$primaryip" < cleanup_script.js
+	/home/tidb/mongodb/bin/mongo --host "$primaryip" --eval "db.getCollectionNames().forEach(function(n){db[n].remove()});"
 #	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'rm -rf /data/db ; sudo umount /dev/sdb ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill mongod ; true'"
 #	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'rm -rf /data/db ; sudo umount /dev/sdb ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill mongod ; true'"
 #	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'rm -rf /data/db ; sudo umount /dev/sdb ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill mongod ; true'"
@@ -180,7 +180,7 @@ function test_run {
 		start_servers
 
 		# 2. Cleanup first
-		data_cleanup	
+		#data_cleanup	
 
 		# 3. Create data directories
 		init
@@ -204,7 +204,8 @@ function test_run {
 
 		# 9. cleanup
 		cleanup
-		
+	        data_cleanup
+
 		# 10. Power off all the VMs
 		stop_servers
 	done
