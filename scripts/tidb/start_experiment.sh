@@ -23,7 +23,7 @@ if [ "$#" -ne 6 ]; then
     echo "3rd arg - seconds to run ycsb run"
     echo "4th arg - experiment to run(1,2,3,4,5)"
     echo "5th arg - host type(gcp/aws)"
-    echo "6th arg - type of experiment(follower/leader/noslow)"
+    echo "6th arg - type of experiment(follower/leader/noslow1/noslow2)"
     exit 1
 fi
 
@@ -80,7 +80,7 @@ function init {
 
 # start_db starts the database instances on each of the server
 function start_db {
-  if [ "$exptype" == "follower" ]; then
+  if [ "$exptype" == "follower" ] || [ "$exptype" == "noslow2" ] ; then
     ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster deploy mytidb v4.0.0 ./tidb_restrict.yaml --user tidb -y"
   else
     ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster deploy mytidb v4.0.0 ./tidb.yaml --user tidb -y"
@@ -188,7 +188,7 @@ function test_run {
     ycsb_load
 
     # 7. Run experiment if this is not a no slow
-    if [ "$exptype" != "noslow" ]; then
+    if [ "$exptype" != "noslow1" ] && [ "$exptype" != "noslow2" ] ; then
       run_experiment
     fi
 
