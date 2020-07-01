@@ -185,6 +185,8 @@ function ycsb_load {
 # ycsb run exectues the given workload and waits for it to complete
 function ycsb_run {
 	# Run ycsb always at primary
+	# For leader slowness, this is the node with max throughput
+	# For follower slowness, we chose leader as s1, as it has the locality config set
 	taskset -ac 0 bin/ycsb run jdbc -s -P $workload -p maxexecutiontime=$ycsbruntime -cp jdbc-binding/lib/postgresql-42.2.10.jar -p db.driver=org.postgresql.Driver -p db.user=root -p db.passwd=root -p db.url=jdbc:postgresql://"$primaryip":26257/ycsb?sslmode=disable  > "$dirname"/exp"$expno"_trial_"$i".txt
 
 	# Verify that all the range leaseholders are on Node 1.
@@ -218,10 +220,14 @@ function cleanup_memory {
 	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
 	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
 	# Remove the tc rule for exp 5
-	if [ "$expno" == 5 -a "$exptype" != "noslow" ]; then
-		ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev "$nic" root ; true'"
-	fi
-	rm raft.json
+        if [ "$expno" == 5 -a "$exptype" != "noslowfollower" ]; then
+	    if [ "$exptype" != "noslowleader" ]; then
+	      ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev "$nic" root ; true'"
+	    fi  
+        fi  
+	if [  "$exptype" == "leader" -o "$exptype" == "noslowleader" ]; then
+	    rm raft.json
+	fi 
 	sleep 5
 }
 
@@ -243,15 +249,17 @@ function stop_servers {
 	fi
 }
 
+# This is specific to cockroachdb as it has concept of ranges and hence needs
+# different way to identify the node that has to be slowed-down.
 function find_node_to_slowdown {
 	if [  "$exptype" == "leader" -o "$exptype" == "noslowleader" ]; then
 		# Download raft stats
 		wget http://"$s1":8080/_status/raft -O raft.json
 		# Identify the node that needs to be slowed down here
+		# run the parser code to identify the node id of the max throughput node
 		nodeid=$(python3 maxthroughputparser.py raft.json | grep -Eo 'nodeid=[0-9]' | cut -d'=' -f2-)
 		echo $nodeid
 
-		# run the parser code to identify the node id of the max throughput node
 		slowdownip=$(cockroach node status --host="$s1":26257 --insecure --format tsv | awk '{print $1, $2 }' | grep "$nodeid " | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}')
 		slowdownpid=$(ssh -i ~/.ssh/id_rsa "$slowdownip" "sh -c 'cat /data/pid'")
 		primaryip=$slowdownip
