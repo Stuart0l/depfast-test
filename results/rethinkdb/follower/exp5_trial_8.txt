@@ -1,0 +1,26 @@
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+[OVERALL], RunTime(ms), 900005
+[OVERALL], Throughput(ops/sec), 522.4504308309398
+[TOTAL_GCS_G1_Young_Generation], Count, 189
+[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 415
+[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.04611085493969478
+[TOTAL_GCS_G1_Old_Generation], Count, 0
+[TOTAL_GC_TIME_G1_Old_Generation], Time(ms), 0
+[TOTAL_GC_TIME_%_G1_Old_Generation], Time(%), 0.0
+[TOTAL_GCs], Count, 189
+[TOTAL_GC_TIME], Time(ms), 415
+[TOTAL_GC_TIME_%], Time(%), 0.04611085493969478
+[CLEANUP], Operations, 1
+[CLEANUP], AverageLatency(us), 226.0
+[CLEANUP], MinLatency(us), 226
+[CLEANUP], MaxLatency(us), 226
+[CLEANUP], 99thPercentileLatency(us), 226
+[CLEANUP], 99.9PercentileLatency(us), 226
+[UPDATE], Operations, 470208
+[UPDATE], AverageLatency(us), 1909.2720391826597
+[UPDATE], MinLatency(us), 1016
+[UPDATE], MaxLatency(us), 790015
+[UPDATE], 99thPercentileLatency(us), 11367
+[UPDATE], 99.9PercentileLatency(us), 23631
+[UPDATE], Return=OK, 470208

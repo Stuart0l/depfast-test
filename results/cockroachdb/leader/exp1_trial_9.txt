@@ -1,0 +1,29 @@
+Adding shard node URL: jdbc:postgresql://10.0.0.32:26257/ycsb?sslmode=disable
+Using shards: 1, batchSize:-1, fetchSize: -1
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
+[OVERALL], RunTime(ms), 907475
+[OVERALL], Throughput(ops/sec), 24.850271357337668
+[TOTAL_GCS_Copy], Count, 1
+[TOTAL_GC_TIME_Copy], Time(ms), 8
+[TOTAL_GC_TIME_%_Copy], Time(%), 8.815669853163998E-4
+[TOTAL_GCS_MarkSweepCompact], Count, 0
+[TOTAL_GC_TIME_MarkSweepCompact], Time(ms), 0
+[TOTAL_GC_TIME_%_MarkSweepCompact], Time(%), 0.0
+[TOTAL_GCs], Count, 1
+[TOTAL_GC_TIME], Time(ms), 8
+[TOTAL_GC_TIME_%], Time(%), 8.815669853163998E-4
+[CLEANUP], Operations, 1
+[CLEANUP], AverageLatency(us), 394.0
+[CLEANUP], MinLatency(us), 394
+[CLEANUP], MaxLatency(us), 394
+[CLEANUP], 99thPercentileLatency(us), 394
+[CLEANUP], 99.9PercentileLatency(us), 394
+[UPDATE], Operations, 22551
+[UPDATE], AverageLatency(us), 40209.05622810518
+[UPDATE], MinLatency(us), 1126
+[UPDATE], MaxLatency(us), 8015871
+[UPDATE], 99thPercentileLatency(us), 933375
+[UPDATE], 99.9PercentileLatency(us), 2000895
+[UPDATE], Return=OK, 22551
