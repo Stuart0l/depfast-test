@@ -21,9 +21,11 @@ if [ "$#" -ne 6 ]; then
     echo "1st arg - number of iterations"
     echo "2nd arg - workload path"
     echo "3rd arg - seconds to run ycsb run"
-    echo "4th arg - experiment to run(1,2,3,4,5)"
+    echo "4th arg - experiment to run(1,2,5,6)"
     echo "5th arg - host type(gcp/aws)"
     echo "6th arg - type of experiment(follower/leader/noslow1/noslow2)"
+    echo "7th arg - turn on swap (swapon/swapoff) [swapon only for exp6] "
+    echo "8th arg - in disk or in memory (hdd/mem)"
     exit 1
 fi
 
@@ -33,13 +35,15 @@ ycsbruntime=$3
 expno=$4
 host=$5
 exptype=$6
+swapness=$7
+ondisk=$8
 
 # test_start is executed at the beginning
 function test_start {
   name=$1
   
   echo "Running $exptype experiment $expno for $name"
-  dirname="$name"_"$exptype"_results
+  dirname="$name"_"$exptype"_"$swapness"_"$ondisk"_results
   mkdir -p $dirname
 }
 
@@ -60,36 +64,58 @@ function start_servers {
     echo "Not implemented error"
     exit 1
   fi
-  sleep 60
+  sleep 30
 }
 
 # init is called to initialise the db servers
 function init {
-#  ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo umount /dev/sdb1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdb1 -F ; sudo mount -t ext4 /dev/sdb1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
-#  ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo umount /dev/sdb1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdb1 -F ; sudo mount -t ext4 /dev/sdb1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
-#  ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo umount /dev/sdb1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdb1 -F ; sudo mount -t ext4 /dev/sdb1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
+  ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo umount /dev/sdb1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdb1 -F ; sudo mount -t ext4 /dev/sdb1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
+  ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo umount /dev/sdb1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdb1 -F ; sudo mount -t ext4 /dev/sdb1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
+  ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo umount /dev/sdb1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdb1 -F ; sudo mount -t ext4 /dev/sdb1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
+  
+  if [ "$swapness" == "swapoff" ] ; then
+    ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo echo "vm.swappiness = 0">> /etc/sysctl.conf ; sudo swapoff -a && swapon -a ; sudo sysctl -p'"
+    ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo echo "vm.swappiness = 0">> /etc/sysctl.conf ; sudo swapoff -a && swapon -a ; sudo sysctl -p'"
+    ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo echo "vm.swappiness = 0">> /etc/sysctl.conf ; sudo swapoff -a && swapon -a ; sudo sysctl -p'"
+  else
+    ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo dd if=/dev/zero of=/data1/swapfile bs=1024 count=8388608 ; sudo chmod 600 /data1/swapfile ; sudo mkswap /data1/swapfile'"  # 8GB
+    ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo echo "vm.swappiness = 60">> /etc/sysctl.conf ; sudo sysctl -p ; sudo swapon /data1/swapfile'"
+    ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo dd if=/dev/zero of=/data1/swapfile bs=1024 count=8388608 ; sudo chmod 600 /data1/swapfile ; sudo mkswap /data1/swapfile'"  # 8GB
+    ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo echo "vm.swappiness = 60">> /etc/sysctl.conf ; sudo sysctl -p ; sudo swapon /data1/swapfile'"
+    ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo dd if=/dev/zero of=/data1/swapfile bs=1024 count=8388608 ; sudo chmod 600 /data1/swapfile ; sudo mkswap /data1/swapfile'"  # 8GB
+    ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo echo "vm.swappiness = 60">> /etc/sysctl.conf ; sudo sysctl -p ; sudo swapon /data1/swapfile'"
+  fi
 
-  ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo echo "vm.swappiness = 0">> /etc/sysctl.conf ; sudo swapoff -a && swapon -a ; sudo sysctl -p'"
-  ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo echo "vm.swappiness = 0">> /etc/sysctl.conf ; sudo swapoff -a && swapon -a ; sudo sysctl -p'"
-  ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo echo "vm.swappiness = 0">> /etc/sysctl.conf ; sudo swapoff -a && swapon -a ; sudo sysctl -p'"
-
-  ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"
-  ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"
-  ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"
+  if [ "$ondisk" == "mem" ] ; then
+    ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"
+    ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"
+    ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"
+  fi
 }
 
 # start_db starts the database instances on each of the server
 function start_db {
-  if [ "$exptype" == "follower" ] || [ "$exptype" == "noslow2" ] ; then
-    ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster deploy mytidb v4.0.0 ./tidb_restrict.yaml --user tidb -y"
+  if [ "$ondisk" == "mem" ] ; then
+    if [ "$exptype" == "follower" ] || [ "$exptype" == "noslow2" ] ; then
+      ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster deploy mytidb v4.0.0 ./tidb_restrict_mem.yaml --user tidb -y"
+    else
+      ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster deploy mytidb v4.0.0 ./tidb_mem.yaml --user tidb -y"
+    fi
+    ssh -i ~/.ssh/id_rsa tidb@"$s1" "sudo sed -i 's#bin/tikv-server#taskset -ac 0 bin/tikv-server#g' /ramdisk/tidb-deploy/tikv-20160/scripts/run_tikv.sh "
+    ssh -i ~/.ssh/id_rsa tidb@"$s2" "sudo sed -i 's#bin/tikv-server#taskset -ac 0 bin/tikv-server#g' /ramdisk/tidb-deploy/tikv-20160/scripts/run_tikv.sh "
+    ssh -i ~/.ssh/id_rsa tidb@"$s3" "sudo sed -i 's#bin/tikv-server#taskset -ac 0 bin/tikv-server#g' /ramdisk/tidb-deploy/tikv-20160/scripts/run_tikv.sh "
   else
-    ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster deploy mytidb v4.0.0 ./tidb.yaml --user tidb -y"
+    if [ "$exptype" == "follower" ] || [ "$exptype" == "noslow2" ] ; then
+      ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster deploy mytidb v4.0.0 ./tidb_restrict_hdd.yaml --user tidb -y"
+    else
+      ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster deploy mytidb v4.0.0 ./tidb_hdd.yaml --user tidb -y"
+    fi
+    ssh -i ~/.ssh/id_rsa tidb@"$s1" "sudo sed -i 's#bin/tikv-server#taskset -ac 0 bin/tikv-server#g' /data1/tidb-deploy/tikv-20160/scripts/run_tikv.sh "
+    ssh -i ~/.ssh/id_rsa tidb@"$s2" "sudo sed -i 's#bin/tikv-server#taskset -ac 0 bin/tikv-server#g' /data1/tidb-deploy/tikv-20160/scripts/run_tikv.sh "
+    ssh -i ~/.ssh/id_rsa tidb@"$s3" "sudo sed -i 's#bin/tikv-server#taskset -ac 0 bin/tikv-server#g' /data1/tidb-deploy/tikv-20160/scripts/run_tikv.sh "
   fi
-  ssh -i ~/.ssh/id_rsa tidb@"$s1" "sudo sed -i 's#bin/tikv-server#taskset -ac 0 bin/tikv-server#g' /ramdisk/tidb-deploy/tikv-20160/scripts/run_tikv.sh "
-  ssh -i ~/.ssh/id_rsa tidb@"$s2" "sudo sed -i 's#bin/tikv-server#taskset -ac 0 bin/tikv-server#g' /ramdisk/tidb-deploy/tikv-20160/scripts/run_tikv.sh "
-  ssh -i ~/.ssh/id_rsa tidb@"$s3" "sudo sed -i 's#bin/tikv-server#taskset -ac 0 bin/tikv-server#g' /ramdisk/tidb-deploy/tikv-20160/scripts/run_tikv.sh "
   ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster start mytidb"
-  sleep 40
+  sleep 30
 }
 
 # db_init initialises the database, get slowdown_ip and pid
