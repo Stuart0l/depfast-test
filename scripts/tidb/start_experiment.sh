@@ -24,7 +24,7 @@ if [ "$#" -ne 8 ]; then
     echo "4th arg - experiment to run(1,2,5,6)"
     echo "5th arg - host type(gcp/aws)"
     echo "6th arg - type of experiment(follower/leader/noslow1/noslow2)"
-    echo "7th arg - turn on swap (swapon/swapoff) [swapon only for exp6] "
+    echo "7th arg - turn on swap (swapon/swapoff) [swapon only for exp6+mem] "
     echo "8th arg - in disk or in memory (hdd/mem)"
     exit 1
 fi
