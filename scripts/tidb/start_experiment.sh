@@ -16,7 +16,7 @@ s3name="tikv3"
 serverZone="us-central1-a"
 ###########################
 
-if [ "$#" -ne 6 ]; then
+if [ "$#" -ne 8 ]; then
     echo "Wrong number of parameters"
     echo "1st arg - number of iterations"
     echo "2nd arg - workload path"
