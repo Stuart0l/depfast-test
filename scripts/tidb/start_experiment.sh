@@ -78,11 +78,11 @@ function init {
     ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo echo "vm.swappiness = 0">> /etc/sysctl.conf ; sudo swapoff -a && swapon -a ; sudo sysctl -p'"
     ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo echo "vm.swappiness = 0">> /etc/sysctl.conf ; sudo swapoff -a && swapon -a ; sudo sysctl -p'"
   else
-    ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo dd if=/dev/zero of=/data1/swapfile bs=1024 count=8388608 ; sudo chmod 600 /data1/swapfile ; sudo mkswap /data1/swapfile'"  # 8GB
+    ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo dd if=/dev/zero of=/data1/swapfile bs=1024 count=10485760 ; sudo chmod 600 /data1/swapfile ; sudo mkswap /data1/swapfile'"  # 8GB
     ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo echo "vm.swappiness = 60">> /etc/sysctl.conf ; sudo swapoff -a && swapon -a ; sudo sysctl -p ; sudo swapon /data1/swapfile'"
-    ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo dd if=/dev/zero of=/data1/swapfile bs=1024 count=8388608 ; sudo chmod 600 /data1/swapfile ; sudo mkswap /data1/swapfile'"  # 8GB
+    ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo dd if=/dev/zero of=/data1/swapfile bs=1024 count=10485760 ; sudo chmod 600 /data1/swapfile ; sudo mkswap /data1/swapfile'"  # 8GB
     ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo echo "vm.swappiness = 60">> /etc/sysctl.conf ; sudo swapoff -a && swapon -a ; sudo sysctl -p ; sudo swapon /data1/swapfile'"
-    ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo dd if=/dev/zero of=/data1/swapfile bs=1024 count=8388608 ; sudo chmod 600 /data1/swapfile ; sudo mkswap /data1/swapfile'"  # 8GB
+    ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo dd if=/dev/zero of=/data1/swapfile bs=1024 count=10485760 ; sudo chmod 600 /data1/swapfile ; sudo mkswap /data1/swapfile'"  # 8GB
     ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo echo "vm.swappiness = 60">> /etc/sysctl.conf ; sudo swapoff -a && swapon -a ; sudo sysctl -p ; sudo swapon /data1/swapfile'"
   fi
 
