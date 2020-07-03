@@ -74,16 +74,16 @@ function init {
   ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo umount /dev/sdc1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdc1 -F ; sudo mount -t ext4 /dev/sdc1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
   
   if [ "$swapness" == "swapoff" ] ; then
-    ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo echo "vm.swappiness = 0">> /etc/sysctl.conf ; sudo swapoff -a && swapon -a ; sudo sysctl -p'"
-    ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo echo "vm.swappiness = 0">> /etc/sysctl.conf ; sudo swapoff -a && swapon -a ; sudo sysctl -p'"
-    ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo echo "vm.swappiness = 0">> /etc/sysctl.conf ; sudo swapoff -a && swapon -a ; sudo sysctl -p'"
+    ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
+    ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
+    ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
   else
-    ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo dd if=/dev/zero of=/data1/swapfile bs=1024 count=10485760 ; sudo chmod 600 /data1/swapfile ; sudo mkswap /data1/swapfile'"  # 8GB
-    ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo echo "vm.swappiness = 60">> /etc/sysctl.conf ; sudo swapoff -a && swapon -a ; sudo sysctl -p ; sudo swapon /data1/swapfile'"
-    ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo dd if=/dev/zero of=/data1/swapfile bs=1024 count=10485760 ; sudo chmod 600 /data1/swapfile ; sudo mkswap /data1/swapfile'"  # 8GB
-    ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo echo "vm.swappiness = 60">> /etc/sysctl.conf ; sudo swapoff -a && swapon -a ; sudo sysctl -p ; sudo swapon /data1/swapfile'"
-    ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo dd if=/dev/zero of=/data1/swapfile bs=1024 count=10485760 ; sudo chmod 600 /data1/swapfile ; sudo mkswap /data1/swapfile'"  # 8GB
-    ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo echo "vm.swappiness = 60">> /etc/sysctl.conf ; sudo swapoff -a && swapon -a ; sudo sysctl -p ; sudo swapon /data1/swapfile'"
+    ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo dd if=/dev/zero of=/data1/swapfile bs=1024 count=11485760 ; sudo chmod 600 /data1/swapfile ; sudo mkswap /data1/swapfile'"  # 8GB
+    ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && swapon -a ; sudo swapon /data1/swapfile'"
+    ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo dd if=/dev/zero of=/data1/swapfile bs=1024 count=11485760 ; sudo chmod 600 /data1/swapfile ; sudo mkswap /data1/swapfile'"  # 8GB
+    ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && swapon -a ; sudo swapon /data1/swapfile'"
+    ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo dd if=/dev/zero of=/data1/swapfile bs=1024 count=11485760 ; sudo chmod 600 /data1/swapfile ; sudo mkswap /data1/swapfile'"  # 8GB
+    ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && swapon -a ; sudo swapon /data1/swapfile'"
   fi
 
   if [ "$ondisk" == "mem" ] ; then
