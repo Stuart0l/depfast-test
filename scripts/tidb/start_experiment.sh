@@ -23,7 +23,7 @@ if [ "$#" -ne 8 ]; then
     echo "3rd arg - seconds to run ycsb run"
     echo "4th arg - experiment to run(1,2,4 only for hdd,5,6 only for swapon+mem)"
     echo "5th arg - host type(gcp/aws)"
-    echo "6th arg - type of experiment(follower/leader/noslow1/noslow2)"
+    echo "6th arg - type of experiment(follower/leaderlow/leaderhigh/noslow1/noslow2)"
     echo "7th arg - turn on swap (swapon/swapoff) [swapon only for exp6+mem] "
     echo "8th arg - in disk or in memory (hdd/mem)"
     exit 1
@@ -127,8 +127,14 @@ function db_init {
     slowdownpid=$followerpid
     slowdownip=$followerip
     echo $exptype slowdownip slowdownpid
-  elif [ "$exptype" == "leader" ]; then
-    leaderip=$(python3 getleader.py $pd)
+  elif [ "$exptype" == "leaderlow" ]; then
+    leaderip=$(python3 getleader.py $pd min)
+    leaderpid=$(ssh -i ~/.ssh/id_rsa tidb@"$leaderip" "pgrep tikv-server")
+    slowdownpid=$leaderpid
+    slowdownip=$leaderip
+    echo $exptype slowdownip slowdownpid
+  elif [ "$exptype" == "leaderhigh" ]; then
+    leaderip=$(python3 getleader.py $pd max)
     leaderpid=$(ssh -i ~/.ssh/id_rsa tidb@"$leaderip" "pgrep tikv-server")
     slowdownpid=$leaderpid
     slowdownip=$leaderip
