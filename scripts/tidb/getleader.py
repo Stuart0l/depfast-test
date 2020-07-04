@@ -13,7 +13,7 @@ def main(argv):
     dres=json.loads(res)
     nodes=len(dres['data']['result'])    #int(argv[2])
     maxcnt=0
-    mincnt=dres['data']['result'][0]['value'][1]
+    mincnt=int(dres['data']['result'][0]['value'][1])
     maxip=dres['data']['result'][0]['metric']['instance'].replace(':20180','')
     minip=dres['data']['result'][0]['metric']['instance'].replace(':20180','')
     for i in range(nodes):
