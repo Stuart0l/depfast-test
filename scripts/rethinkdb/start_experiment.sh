@@ -24,14 +24,15 @@ clusterPort="29015"
 partitionName="/dev/sdc"
 ###########################
 
-if [ "$#" -ne 6 ]; then
+if [ "$#" -ne 8 ]; then
     echo "Wrong number of parameters"
     echo "1st arg - number of iterations"
     echo "2nd arg - workload path"
     echo "3rd arg - seconds to run ycsb run"
     echo "4th arg - experiment to run(1,2,3,4,5)"
     echo "5th arg - host type(gcp/azure)"
-    echo "6th arg - type of experiment(follower/leader/noslow)"
+    echo "6th arg - type of experiment(follower,leader,noslow)"
+	echo "7th arg - file system to use(disk,memory)"
     exit 1
 fi
 
@@ -41,6 +42,7 @@ ycsbruntime=$3
 expno=$4
 host=$5
 exptype=$6
+filesystem=$7
 
 # test_start is executed at the beginning
 function test_start {
@@ -143,11 +145,11 @@ function ycsb_run {
 }
 
 # cleanup is called at the end of the given trial of an experiment
-function cleanup {
+function cleanup_disk {
 	source venv/bin/activate ;  python cleanup.py ; deactivate
-	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo umount $partitionName ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill rethinkdb ; true'"
-	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo umount $partitionName ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill rethinkdb ; true'"
-	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo umount $partitionName ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill rethinkdb ; true'"
+	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'pkill rethinkdb ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo umount $partitionName ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
+	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'pkill rethinkdb ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo umount $partitionName ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
+	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'pkill rethinkdb ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo umount $partitionName ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
 	# Remove the tc rule for exp 5
 	if [ "$expno" == 5 -a "$exptype" != "noslow" ]; then
 		ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev eth0 root ; true'"
@@ -202,7 +204,14 @@ function test_run {
 		data_cleanup	
 
 		# 3. Create data directories
-		init_memory
+		if [ "$filesystem" == "disk" ]; then
+			init_disk	
+		elif [ "$filesystem" == "memory"]; then
+			init_memory
+		else
+			echo "This option in filesystem is not supported.Exiting."
+			exit 1
+		fi
 
 		# 4. SSH to all the machines and start db
 		start_db
@@ -222,7 +231,14 @@ function test_run {
 		ycsb_run
 
 		# 9. cleanup
-		cleanup_memory
+		if [ "$filesystem" == "disk" ]; then
+			cleanup_disk
+		elif [ "$filesystem" == "memory"]; then
+			cleanup_memory
+		else
+			echo "This option in filesystem is not supported.Exiting."
+			exit 1
+		fi
 		
 		# 10. Power off all the VMs
 		stop_servers
