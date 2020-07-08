@@ -299,7 +299,7 @@ function find_node_to_slowdown {
 		echo $nodeid
 
 		slowdownip=$(cockroach node status --host="$s1":26257 --insecure --format tsv | awk '{print $1, $2 }' | grep "$nodeid " | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}')
-		slowdownpid=$(ssh -i ~/.ssh/id_rsa "$slowdownip" "sh -c 'cat /data/pid'")
+		slowdownpid=$(ssh -i ~/.ssh/id_rsa "$slowdownip" "sh -c 'cat /"$datadir"/pid'")
 		primaryip=$slowdownip
 	elif [  "$exptype" == "minthroughput" -o "$exptype" == "noslowminthroughput" ]; then
 		# Download raft stats
@@ -311,15 +311,15 @@ function find_node_to_slowdown {
 		echo $nodeid
 
 		slowdownip=$(cockroach node status --host="$s1":26257 --insecure --format tsv | awk '{print $1, $2 }' | grep "$nodeid " | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}')
-		slowdownpid=$(ssh -i ~/.ssh/id_rsa "$slowdownip" "sh -c 'cat /data/pid'")
+		slowdownpid=$(ssh -i ~/.ssh/id_rsa "$slowdownip" "sh -c 'cat /"$datadir"/pid'")
 		primaryip=$slowdownip
 	elif [  "$exptype" == "follower" -o "$exptype" == "noslowfollower" ]; then
 		# Since locality is set on s1, that is the primary and rest are secondary
 		# Choose s2 as secondary
 		primaryip=$s1
 		secondaryip=$s2
-		primarypid=$(ssh -i ~/.ssh/id_rsa "$s1" "sh -c 'cat /data/pid'")
-		secondarypid=$(ssh -i ~/.ssh/id_rsa "$s2" "sh -c 'cat /data/pid'")
+		primarypid=$(ssh -i ~/.ssh/id_rsa "$s1" "sh -c 'cat /"$datadir"/pid'")
+		secondarypid=$(ssh -i ~/.ssh/id_rsa "$s2" "sh -c 'cat /"$datadir"/pid'")
 		slowdownpid=$secondarypid
 		slowdownip=$secondaryip
 	else
