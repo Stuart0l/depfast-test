@@ -251,6 +251,11 @@ function cleanup_memory {
 	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
 	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
 	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
+	if [ "$expno" == 6 ]; then
+		ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo umount $partitionName'"
+		ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo umount $partitionName'"
+		ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo umount $partitionName'"
+	fi
 	# Remove the tc rule for exp 5
 	if [ "$expno" == 5 -a "$exptype" != "noslowfollower" ]; then
 		if [ "$exptype" != "noslowmaxthroughput" -a "$exptype" != "noslowminthroughput" ]; then
