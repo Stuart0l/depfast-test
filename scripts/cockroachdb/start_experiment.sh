@@ -26,14 +26,16 @@ resource="DepFast"
 tppattern="[max|min]throughput"
 ###########################
 
-if [ "$#" -ne 6 ]; then
+if [ "$#" -ne 8 ]; then
     echo "Wrong number of parameters"
     echo "1st arg - number of iterations"
     echo "2nd arg - workload path"
     echo "3rd arg - seconds to run ycsb run"
-    echo "4th arg - experiment to run(1,2,3,4,5)"
+    echo "4th arg - experiment to run(1,2,3,4,5,6)"
     echo "5th arg - host type(gcp/azure)"
     echo "6th arg - type of experiment(follower/maxthroughput/minthroughput/noslowfolllower/noslowmaxthroughput/noslowminthroughput)"
+	echo "7th arg - file system to use(disk,memory)"
+	echo "8th arg - vm swappiness parameter(swapoff,swapon)[swapon only for exp6+mem]"
     exit 1
 fi
 
@@ -43,13 +45,15 @@ ycsbruntime=$3
 expno=$4
 host=$5
 exptype=$6
+filesystem=$7
+swappiness=$8
 
 # test_start is executed at the beginning
 function test_start {
 	name=$1
 	
 	echo "Running $exptype experiment $expno for $name"
-	dirname="$name"_"$exptype"_results
+	dirname="$name"_"$exptype"_"$filesystem"_"$swappiness"_results
 	mkdir -p $dirname
 }
 
@@ -79,8 +83,8 @@ function start_servers {
 	sleep 60
 }
 
-# init is called to initialise the db servers
-function init {
+# init_disk is called to create and mount directories on disk
+function init_disk {
 	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
 	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
 	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
@@ -93,7 +97,26 @@ function init_memory {
 	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /data ; sudo mount -t tmpfs -o rw,size=8G tmpfs /data/ ; sudo chmod o+w /data/'"	
 }
 
-# start_db starts the database instances on each of the server
+function set_swap_config {
+	# swappiness config
+	if [ "$swappiness" == "swapoff" ] ; then
+		ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
+		ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
+		ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
+	elif [ "$swappiness" == "swapon" ] ; then
+		ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 41GB
+    	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && swapon -a ; sudo swapon /data/swapfile'"
+		ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 41GB
+    	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && swapon -a ; sudo swapon /data/swapfile'"
+		ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 41GB
+    	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && swapon -a ; sudo swapon /data/swapfile'"
+	else
+		echo "swappiness option not recognised. Exiting."
+		exit 1
+	fi
+}
+
+# start_follower_db starts the database instances on each of the server with locality config set. s1 is set to house all the leaseholders.
 function start_follower_db {
 	ssh  -i ~/.ssh/id_rsa "$s1" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s1" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/data/node1/ --pid-file /data/pid --locality=datacenter=us-1 > /dev/null 2>&1 &'"
 	ssh  -i ~/.ssh/id_rsa "$s2" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s2" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/data/node1/ --pid-file /data/pid --locality=datacenter=us-2 > /dev/null 2>&1 &'"
@@ -101,6 +124,7 @@ function start_follower_db {
 	sleep 30
 }
 
+# start_max_min_throughput_db starts cockroach instances without the locality config set
 function start_max_min_throughput_db {
 	ssh  -i ~/.ssh/id_rsa "$s1" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s1" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/data/node1/ --pid-file /data/pid > /dev/null 2>&1 &'"
 	ssh  -i ~/.ssh/id_rsa "$s2" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s2" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/data/node1/ --pid-file /data/pid > /dev/null 2>&1 &'"
@@ -194,20 +218,25 @@ function ycsb_run {
 	cockroach sql --execute="SELECT table_name,range_id,lease_holder FROM [show ranges from database system];SELECT table_name,range_id,lease_holder FROM [show ranges from database ycsb];" --insecure --host="$s1"
 }
 
-# cleanup is called at the end of the given trial of an experiment
-function cleanup {
+# cleanup_disk is called at the end of the given trial of an experiment
+function cleanup_disk {
 	cockroach sql --execute="drop database ycsb CASCADE;" --insecure --host="$s1"
 	cockroach quit --insecure --host="$s1":26257
 	cockroach quit --insecure --host="$s2":26257
 	cockroach quit --insecure --host="$s3":26257
 
-	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo rm -rf /data/*; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill cockroach  ; true'"
-	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo rm -rf /data/* ; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill cockroach ; true'"
-	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo rm -rf /data/* ; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill cockroach ; true'"
+	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/*; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db  ; true'"
+	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/* ; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
+	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/* ; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
 	# Remove the tc rule for exp 5
-	if [ "$expno" == 5 -a "$exptype" != "noslow" ]; then
-		ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev "$nic" root ; true'"
-	fi
+	if [ "$expno" == 5 -a "$exptype" != "noslowfollower" ]; then
+		if [ "$exptype" != "noslowmaxthroughput" -a "$exptype" != "noslowminthroughput" ]; then
+		  ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev "$nic" root ; true'"
+		fi  
+	fi  
+	if [  "$exptype" =~ $tppattern ]; then
+	    rm raft.json
+	fi 
 	sleep 5
 }
 
@@ -221,11 +250,11 @@ function cleanup_memory {
 	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
 	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
 	# Remove the tc rule for exp 5
-        if [ "$expno" == 5 -a "$exptype" != "noslowfollower" ]; then
-	    if [ "$exptype" != "noslowmaxthroughput" -a "$exptype" != "noslowminthroughput" ]; then
-	      ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev "$nic" root ; true'"
-	    fi  
-        fi  
+	if [ "$expno" == 5 -a "$exptype" != "noslowfollower" ]; then
+		if [ "$exptype" != "noslowmaxthroughput" -a "$exptype" != "noslowminthroughput" ]; then
+		  ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev "$nic" root ; true'"
+		fi  
+	fi  
 	if [  "$exptype" =~ $tppattern ]; then
 	    rm raft.json
 	fi 
@@ -257,7 +286,8 @@ function find_node_to_slowdown {
 		# Download raft stats
 		wget http://"$s1":8080/_status/raft -O raft.json
 		# Identify the node that needs to be slowed down here
-		# run the parser code to identify the node id of the max throughput node
+		# run the parser code to identify the node id of the MAX throughput node
+		echo "Picking max throughput node to slowdown"
 		nodeid=$(python3 throughputparser.py raft.json | grep -Eo 'maxnodeid=[0-9]' | cut -d'=' -f2-)
 		echo $nodeid
 
@@ -268,7 +298,8 @@ function find_node_to_slowdown {
 		# Download raft stats
 		wget http://"$s1":8080/_status/raft -O raft.json
 		# Identify the node that needs to be slowed down here
-		# run the parser code to identify the node id of the min throughput node
+		# run the parser code to identify the node id of the MIN throughput node
+		echo "Picking min throughput node to slowdown"
 		nodeid=$(python3 throughputparser.py raft.json | grep -Eo 'minnodeid=[0-9]' | cut -d'=' -f2-)
 		echo $nodeid
 
@@ -279,9 +310,9 @@ function find_node_to_slowdown {
 		# Since locality is set on s1, that is the primary and rest are secondary
 		# Choose s2 as secondary
 		primaryip=$s1
-	    	secondaryip=$s2
-	    	primarypid=$(ssh -i ~/.ssh/id_rsa "$s1" "sh -c 'cat /data/pid'")
-	    	secondarypid=$(ssh -i ~/.ssh/id_rsa "$s2" "sh -c 'cat /data/pid'")
+		secondaryip=$s2
+		primarypid=$(ssh -i ~/.ssh/id_rsa "$s1" "sh -c 'cat /data/pid'")
+		secondarypid=$(ssh -i ~/.ssh/id_rsa "$s2" "sh -c 'cat /data/pid'")
 		slowdownpid=$secondarypid
 		slowdownip=$secondaryip
 	else
@@ -306,9 +337,19 @@ function test_run {
 		data_cleanup	
 
 		# 3. Create data directories
-		init_memory
+		if [ "$filesystem" == "disk" ]; then
+			init_disk
+		elif [ "$filesystem" == "memory"]; then
+			init_memory
+		else
+			echo "This option in filesystem is not supported.Exiting."
+			exit 1
+		fi
 
-		# 4. SSH to all the machines and start db
+		# 4. Set swappiness config
+		set_swap_config
+
+		# 5. SSH to all the machines and start db
 		if [ "$exptype" == "follower" -o "$exptype" == "noslowfollower" ]; then
 			# With locality config set
 			start_follower_db
@@ -319,27 +360,34 @@ function test_run {
 			echo ""
 		fi
 
-		# 5. Init
+		# 6. Init
 		db_init
 
-		# 6. ycsb load
+		# 7. ycsb load
 		ycsb_load
 
-		# 7. Find out node to slowdown
+		# 8. Find out node to slowdown
 		find_node_to_slowdown
 
-		# 8. Run experiment if this is not a no slow
+		# 9. Run experiment if this is not a no slow
 		if [ "$exptype" != "noslowmaxthroughput" -a "$exptype" != "noslowminthroughput" -a "$exptype" != "noslowfollower" ]; then
 			run_experiment
 		fi
 
-		# 9. ycsb run
+		# 10. ycsb run
 		ycsb_run
 
-		# 10. cleanup
-		cleanup_memory
+		# 11. cleanup
+		if [ "$filesystem" == "disk" ]; then
+			cleanup_disk
+		elif [ "$filesystem" == "memory"]; then
+			cleanup_memory
+		else
+			echo "This option in filesystem is not supported.Exiting."
+			exit 1
+		fi
 		
-		# 11. Power off all the VMs
+		# 12. Power off all the VMs
 		stop_servers
 	done
 }
