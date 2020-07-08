@@ -50,6 +50,8 @@ def main(argv):
         # Average out the throughput
         maxTP = 0
         maxNodeId = 1
+        minTP = 999999
+        minNodeId = 1
         for k in nodesThroughput:
             nodesThroughput[k] = nodesThroughput[k]/len(intRanges)*1.0
             if debug:
@@ -57,9 +59,14 @@ def main(argv):
             if nodesThroughput[k] > maxTP:
                 maxTP = nodesThroughput[k]
                 maxNodeId = k
+            if nodesThroughput[k] < minTP:
+                minTP = nodesThroughput[k]
+                minNodeId = k
 
         print("maxthroughput=", maxTP, sep='')
-        print("nodeid=", maxNodeId, sep='')
+        print("maxnodeid=", maxNodeId, sep='')
+        print("minthroughput=", minTP, sep='')
+        print("minnodeid=", minNodeId, sep='')
 
 if __name__ == "__main__":
    main(sys.argv[1:])

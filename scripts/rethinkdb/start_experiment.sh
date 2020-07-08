@@ -87,17 +87,16 @@ function init_disk {
 	 ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
 	 ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
 	 ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
-	# No need for swapiness config here
+	# No need for swappiness config here
 }
 
-# init_memory is called to create and mount memory based file system(tmpfs)
-function init_memory {
-	# Swapiness config
-	if [ "$swapiness" == "swapoff" ] ; then
+function set_swap_config {
+	# swappiness config
+	if [ "$swappiness" == "swapoff" ] ; then
 		ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
 		ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
 		ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
-	elif [ "$swapiness" == "swapon" ] ; then
+	elif [ "$swappiness" == "swapon" ] ; then
 		# Assuming this is swapon
 		ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 41GB
     	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && swapon -a ; sudo swapon /data/swapfile'"
@@ -106,10 +105,13 @@ function init_memory {
 		ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 41GB
     	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && swapon -a ; sudo swapon /data/swapfile'"
 	else
-		echo "Swapiness option not recognised. Exiting."
+		echo "swappiness option not recognised. Exiting."
 		exit 1
 	fi
+}
 
+# init_memory is called to create and mount memory based file system(tmpfs)
+function init_memory {
 	# Mount tmpfs
 	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /data ; sudo mount -t tmpfs -o rw,size=8G tmpfs /data/ ; sudo chmod o+w /data/'"	
 	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /data ; sudo mount -t tmpfs -o rw,size=8G tmpfs /data/ ; sudo chmod o+w /data/'"	
@@ -127,6 +129,7 @@ function start_db {
 # db_init initialises the database
 function db_init {
 	source venv/bin/activate ;  python initr.py > tablesinfo ; deactivate
+	sleep 5
 	primaryreplica=$(cat tablesinfo | grep -Eo 'primaryreplica=.{1,50}' | cut -d'=' -f2-)
 	echo $primaryreplica
 
@@ -176,6 +179,7 @@ function cleanup_disk {
 	if [ "$expno" == 5 -a "$exptype" != "noslow" ]; then
 		ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev eth0 root ; true'"
 	fi
+	rm tablesinfo
 	sleep 5
 }
 
@@ -188,6 +192,7 @@ function cleanup_memory {
 	if [ "$expno" == 5 -a "$exptype" != "noslow" ]; then
 		ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev eth0 root ; true'"
 	fi
+	rm tablesinfo
 	sleep 5
 }
 
@@ -235,24 +240,27 @@ function test_run {
 			exit 1
 		fi
 
-		# 4. SSH to all the machines and start db
+		# 4. Set swappiness config
+		set_swap_config
+
+		# 5. SSH to all the machines and start db
 		start_db
 
-		# 5. Init
+		# 6. Init
 		db_init
 
-		# 6. ycsb load
+		# 7. ycsb load
 		ycsb_load
 
-		# 7. Run experiment if this is not a no slow
+		# 8. Run experiment if this is not a no slow
 		if [ "$exptype" != "noslow" ]; then
 			run_experiment
 		fi
 
-		# 8. ycsb run
+		# 9. ycsb run
 		ycsb_run
 
-		# 9. cleanup
+		# 10. cleanup
 		if [ "$filesystem" == "disk" ]; then
 			cleanup_disk
 		elif [ "$filesystem" == "memory"]; then
@@ -262,7 +270,7 @@ function test_run {
 			exit 1
 		fi
 		
-		# 10. Power off all the VMs
+		# 11. Power off all the VMs
 		stop_servers
 	done
 }

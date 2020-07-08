@@ -23,6 +23,7 @@ servers=($s1name $s2name $s3name)
 # NOTE: Make sure no other servers on azure matches this regex
 serverRegex="cockroachdbfourth-[1-3]"
 resource="DepFast"
+tppattern="[max|min]throughput"
 ###########################
 
 if [ "$#" -ne 6 ]; then
@@ -32,7 +33,7 @@ if [ "$#" -ne 6 ]; then
     echo "3rd arg - seconds to run ycsb run"
     echo "4th arg - experiment to run(1,2,3,4,5)"
     echo "5th arg - host type(gcp/azure)"
-    echo "6th arg - type of experiment(follower/leader/noslowfolllower/noslowleader)"
+    echo "6th arg - type of experiment(follower/maxthroughput/minthroughput/noslowfolllower/noslowmaxthroughput/noslowminthroughput)"
     exit 1
 fi
 
@@ -100,7 +101,7 @@ function start_follower_db {
 	sleep 30
 }
 
-function start_leader_db {
+function start_max_min_throughput_db {
 	ssh  -i ~/.ssh/id_rsa "$s1" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s1" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/data/node1/ --pid-file /data/pid > /dev/null 2>&1 &'"
 	ssh  -i ~/.ssh/id_rsa "$s2" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s2" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/data/node1/ --pid-file /data/pid > /dev/null 2>&1 &'"
 	ssh  -i ~/.ssh/id_rsa "$s3" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s3" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/data/node1/ --pid-file /data/pid > /dev/null 2>&1 &'"
@@ -113,7 +114,6 @@ function db_init {
 
 	# Wait for startup
 	sleep 60
-
 	if [ "$exptype" == "follower" -o "$exptype" == "noslowfollower" ]; then
 		# Set leaseholder config for follower tests
 		cockroach sql --execute="ALTER TABLE system.public.replication_stats CONFIGURE ZONE USING lease_preferences = '[[+datacenter=us-1]]';
@@ -133,7 +133,7 @@ function db_init {
 
 		cockroach sql --execute="ALTER database ycsb CONFIGURE ZONE USING constraints= '{"+datacenter=us-1": 1}', lease_preferences = '[[+datacenter=us-1]]', num_replicas = 3;" --insecure --host="$s1"
 
-	elif [ "$exptype" == "leader" -o "$exptype" == "noslowleader" ]; then
+	elif [ "$exptype" =~ $tppattern ]; then
 		# Create ycsb DB
 		cockroach sql --execute="CREATE DATABASE ycsb;" --insecure --host="$s1"
 	else
@@ -185,7 +185,8 @@ function ycsb_load {
 # ycsb run exectues the given workload and waits for it to complete
 function ycsb_run {
 	# Run ycsb always at primary
-	# For leader slowness, this is the node with max throughput
+	# For maxthroughput slowness, this is the node with max throughput
+	# For minthroughput slowness, this is the node with min throughput
 	# For follower slowness, we chose leader as s1, as it has the locality config set
 	taskset -ac 0 bin/ycsb run jdbc -s -P $workload -p maxexecutiontime=$ycsbruntime -cp jdbc-binding/lib/postgresql-42.2.10.jar -p db.driver=org.postgresql.Driver -p db.user=root -p db.passwd=root -p db.url=jdbc:postgresql://"$primaryip":26257/ycsb?sslmode=disable  > "$dirname"/exp"$expno"_trial_"$i".txt
 
@@ -221,11 +222,11 @@ function cleanup_memory {
 	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
 	# Remove the tc rule for exp 5
         if [ "$expno" == 5 -a "$exptype" != "noslowfollower" ]; then
-	    if [ "$exptype" != "noslowleader" ]; then
+	    if [ "$exptype" != "noslowmaxthroughput" -a "$exptype" != "noslowminthroughput" ]; then
 	      ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev "$nic" root ; true'"
 	    fi  
         fi  
-	if [  "$exptype" == "leader" -o "$exptype" == "noslowleader" ]; then
+	if [  "$exptype" =~ $tppattern ]; then
 	    rm raft.json
 	fi 
 	sleep 5
@@ -252,12 +253,23 @@ function stop_servers {
 # This is specific to cockroachdb as it has concept of ranges and hence needs
 # different way to identify the node that has to be slowed-down.
 function find_node_to_slowdown {
-	if [  "$exptype" == "leader" -o "$exptype" == "noslowleader" ]; then
+	if [  "$exptype" == "maxthroughput" -o "$exptype" == "noslowmaxthroughput" ]; then
 		# Download raft stats
 		wget http://"$s1":8080/_status/raft -O raft.json
 		# Identify the node that needs to be slowed down here
 		# run the parser code to identify the node id of the max throughput node
-		nodeid=$(python3 maxthroughputparser.py raft.json | grep -Eo 'nodeid=[0-9]' | cut -d'=' -f2-)
+		nodeid=$(python3 throughputparser.py raft.json | grep -Eo 'maxnodeid=[0-9]' | cut -d'=' -f2-)
+		echo $nodeid
+
+		slowdownip=$(cockroach node status --host="$s1":26257 --insecure --format tsv | awk '{print $1, $2 }' | grep "$nodeid " | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}')
+		slowdownpid=$(ssh -i ~/.ssh/id_rsa "$slowdownip" "sh -c 'cat /data/pid'")
+		primaryip=$slowdownip
+	if [  "$exptype" == "minthroughput" -o "$exptype" == "noslowminthroughput" ]; then
+		# Download raft stats
+		wget http://"$s1":8080/_status/raft -O raft.json
+		# Identify the node that needs to be slowed down here
+		# run the parser code to identify the node id of the min throughput node
+		nodeid=$(python3 throughputparser.py raft.json | grep -Eo 'minnodeid=[0-9]' | cut -d'=' -f2-)
 		echo $nodeid
 
 		slowdownip=$(cockroach node status --host="$s1":26257 --insecure --format tsv | awk '{print $1, $2 }' | grep "$nodeid " | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}')
@@ -300,10 +312,10 @@ function test_run {
 		if [ "$exptype" == "follower" -o "$exptype" == "noslowfollower" ]; then
 			# With locality config set
 			start_follower_db
-	        elif [ "$exptype" == "leader" -o "$exptype" == "noslowleader" ]; then
+		elif [ "$exptype" =~ $tppattern ]; then
 			# Without locality config set
-			start_leader_db
-	        else
+			start_max_min_throughput_db
+		else
 			echo ""
 		fi
 
@@ -317,7 +329,7 @@ function test_run {
 		find_node_to_slowdown
 
 		# 8. Run experiment if this is not a no slow
-		if [ "$exptype" != "noslowleader" -a "$exptype" != "noslowfollower" ]; then
+		if [ "$exptype" != "noslowmaxthroughput" -a "$exptype" != "noslowminthroughput" -a "$exptype" != "noslowfollower" ]; then
 			run_experiment
 		fi
 
