@@ -92,9 +92,9 @@ function init_disk {
 
 # init_memory is called to create and mount memory based file system(tmpfs)
 function init_memory {
-	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /data ; sudo mount -t tmpfs -o rw,size=8G tmpfs /data/ ; sudo chmod o+w /data/'"	
-	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /data ; sudo mount -t tmpfs -o rw,size=8G tmpfs /data/ ; sudo chmod o+w /data/'"	
-	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /data ; sudo mount -t tmpfs -o rw,size=8G tmpfs /data/ ; sudo chmod o+w /data/'"	
+	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"	
+	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"	
+	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"	
 }
 
 function set_swap_config {
@@ -104,12 +104,14 @@ function set_swap_config {
 		ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
 		ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
 	elif [ "$swappiness" == "swapon" ] ; then
+		# Disk needed for swapfile		
+		init_disk
 		ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 41GB
-    	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && swapon -a ; sudo swapon /data/swapfile'"
+    	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && sudo swapon -a ; sudo swapon /data/swapfile'"
 		ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 41GB
-    	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && swapon -a ; sudo swapon /data/swapfile'"
+    	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && sudo swapon -a ; sudo swapon /data/swapfile'"
 		ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 41GB
-    	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && swapon -a ; sudo swapon /data/swapfile'"
+    	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && sudo swapon -a ; sudo swapon /data/swapfile'"
 	else
 		echo "swappiness option not recognised. Exiting."
 		exit 1
@@ -118,17 +120,17 @@ function set_swap_config {
 
 # start_follower_db starts the database instances on each of the server with locality config set. s1 is set to house all the leaseholders.
 function start_follower_db {
-	ssh  -i ~/.ssh/id_rsa "$s1" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s1" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/data/node1/ --pid-file /data/pid --locality=datacenter=us-1 > /dev/null 2>&1 &'"
-	ssh  -i ~/.ssh/id_rsa "$s2" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s2" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/data/node1/ --pid-file /data/pid --locality=datacenter=us-2 > /dev/null 2>&1 &'"
-	ssh  -i ~/.ssh/id_rsa "$s3" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s3" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/data/node1/ --pid-file /data/pid --locality=datacenter=us-3 > /dev/null 2>&1 &'"
+	ssh  -i ~/.ssh/id_rsa "$s1" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s1" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/"$datadir"/node1/ --pid-file /"$datadir"/pid --locality=datacenter=us-1 > /dev/null 2>&1 &'"
+	ssh  -i ~/.ssh/id_rsa "$s2" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s2" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/"$datadir"/node1/ --pid-file /"$datadir"/pid --locality=datacenter=us-2 > /dev/null 2>&1 &'"
+	ssh  -i ~/.ssh/id_rsa "$s3" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s3" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/"$datadir"/node1/ --pid-file /"$datadir"/pid --locality=datacenter=us-3 > /dev/null 2>&1 &'"
 	sleep 30
 }
 
 # start_max_min_throughput_db starts cockroach instances without the locality config set
 function start_max_min_throughput_db {
-	ssh  -i ~/.ssh/id_rsa "$s1" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s1" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/data/node1/ --pid-file /data/pid > /dev/null 2>&1 &'"
-	ssh  -i ~/.ssh/id_rsa "$s2" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s2" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/data/node1/ --pid-file /data/pid > /dev/null 2>&1 &'"
-	ssh  -i ~/.ssh/id_rsa "$s3" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s3" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/data/node1/ --pid-file /data/pid > /dev/null 2>&1 &'"
+	ssh  -i ~/.ssh/id_rsa "$s1" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s1" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/"$datadir"/node1/ --pid-file /"$datadir"/pid > /dev/null 2>&1 &'"
+	ssh  -i ~/.ssh/id_rsa "$s2" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s2" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/"$datadir"/node1/ --pid-file /"$datadir"/pid > /dev/null 2>&1 &'"
+	ssh  -i ~/.ssh/id_rsa "$s3" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s3" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/"$datadir"/node1/ --pid-file /"$datadir"/pid > /dev/null 2>&1 &'"
 	sleep 30
 }
 
@@ -337,9 +339,11 @@ function test_run {
 		data_cleanup	
 
 		# 3. Create data directories
+		datadir="data"
 		if [ "$filesystem" == "disk" ]; then
 			init_disk
 		elif [ "$filesystem" == "memory" ]; then
+			datadir="ramdisk"
 			init_memory
 		else
 			echo "This option in filesystem is not supported.Exiting."
