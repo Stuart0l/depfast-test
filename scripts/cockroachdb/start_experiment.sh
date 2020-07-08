@@ -159,7 +159,7 @@ function db_init {
 
 		cockroach sql --execute="ALTER database ycsb CONFIGURE ZONE USING constraints= '{"+datacenter=us-1": 1}', lease_preferences = '[[+datacenter=us-1]]', num_replicas = 3;" --insecure --host="$s1"
 
-	elif [ "$exptype" =~ $tppattern ]; then
+	elif [[ "$exptype" =~ $tppattern ]]; then
 		# Create ycsb DB
 		cockroach sql --execute="CREATE DATABASE ycsb;" --insecure --host="$s1"
 	else
@@ -236,7 +236,7 @@ function cleanup_disk {
 		  ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev "$nic" root ; true'"
 		fi  
 	fi  
-	if [  "$exptype" =~ $tppattern ]; then
+	if [[  "$exptype" =~ $tppattern ]]; then
 	    rm raft.json
 	fi 
 	sleep 5
@@ -257,7 +257,7 @@ function cleanup_memory {
 		  ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev "$nic" root ; true'"
 		fi  
 	fi  
-	if [  "$exptype" =~ $tppattern ]; then
+	if [[  "$exptype" =~ $tppattern ]]; then
 	    rm raft.json
 	fi 
 	sleep 5
@@ -296,7 +296,7 @@ function find_node_to_slowdown {
 		slowdownip=$(cockroach node status --host="$s1":26257 --insecure --format tsv | awk '{print $1, $2 }' | grep "$nodeid " | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}')
 		slowdownpid=$(ssh -i ~/.ssh/id_rsa "$slowdownip" "sh -c 'cat /data/pid'")
 		primaryip=$slowdownip
-	if [  "$exptype" == "minthroughput" -o "$exptype" == "noslowminthroughput" ]; then
+	elif [  "$exptype" == "minthroughput" -o "$exptype" == "noslowminthroughput" ]; then
 		# Download raft stats
 		wget http://"$s1":8080/_status/raft -O raft.json
 		# Identify the node that needs to be slowed down here
@@ -357,7 +357,7 @@ function test_run {
 		if [ "$exptype" == "follower" -o "$exptype" == "noslowfollower" ]; then
 			# With locality config set
 			start_follower_db
-		elif [ "$exptype" =~ $tppattern ]; then
+		elif [[ "$exptype" =~ $tppattern ]]; then
 			# Without locality config set
 			start_max_min_throughput_db
 		else
