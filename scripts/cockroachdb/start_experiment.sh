@@ -339,7 +339,7 @@ function test_run {
 		# 3. Create data directories
 		if [ "$filesystem" == "disk" ]; then
 			init_disk
-		elif [ "$filesystem" == "memory"]; then
+		elif [ "$filesystem" == "memory" ]; then
 			init_memory
 		else
 			echo "This option in filesystem is not supported.Exiting."
@@ -380,7 +380,7 @@ function test_run {
 		# 11. cleanup
 		if [ "$filesystem" == "disk" ]; then
 			cleanup_disk
-		elif [ "$filesystem" == "memory"]; then
+		elif [ "$filesystem" == "memory" ]; then
 			cleanup_memory
 		else
 			echo "This option in filesystem is not supported.Exiting."

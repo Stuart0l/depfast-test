@@ -96,12 +96,14 @@ function set_swap_config {
 		ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
 		ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
 	elif [ "$swappiness" == "swapon" ] ; then
+		# Disk needed for swapfile
+		init_disk
 		ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 41GB
-    	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && swapon -a ; sudo swapon /data/swapfile'"
+    	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && sudo swapon -a ; sudo swapon /data/swapfile'"
 		ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 41GB
-    	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && swapon -a ; sudo swapon /data/swapfile'"
+    	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && sudo swapon -a ; sudo swapon /data/swapfile'"
 		ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 41GB
-    	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && swapon -a ; sudo swapon /data/swapfile'"
+    	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && sudo swapon -a ; sudo swapon /data/swapfile'"
 	else
 		echo "swappiness option not recognised. Exiting."
 		exit 1
@@ -111,16 +113,16 @@ function set_swap_config {
 # init_memory is called to create and mount memory based file system(tmpfs)
 function init_memory {
 	# Mount tmpfs
-	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /data ; sudo mount -t tmpfs -o rw,size=8G tmpfs /data/ ; sudo chmod o+w /data/'"	
-	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /data ; sudo mount -t tmpfs -o rw,size=8G tmpfs /data/ ; sudo chmod o+w /data/'"	
-	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /data ; sudo mount -t tmpfs -o rw,size=8G tmpfs /data/ ; sudo chmod o+w /data/'"	
+	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"	
+	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"	
+	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"	
 }
 
 # start_db starts the database instances on each of the server
 function start_db {
-	ssh  -i ~/.ssh/id_rsa "$s1" "sh -c 'taskset -ac 0 rethinkdb --directory /data/rethinkdb_data1 --bind all --server-name "$s1name"  --cache-size 10480 --daemon'" 
-	ssh  -i ~/.ssh/id_rsa "$s2" "sh -c 'taskset -ac 0 rethinkdb --directory /data/rethinkdb_data2 --join "$s1":"$clusterPort" --bind all --server-name "$s2name"  --cache-size 10480 --daemon'"
-	ssh  -i ~/.ssh/id_rsa "$s3" "sh -c 'taskset -ac 0 rethinkdb --directory /data/rethinkdb_data3 --join "$s1":"$clusterPort" --bind all --server-name "$s3name"  --cache-size 10480 --daemon'"
+	ssh  -i ~/.ssh/id_rsa "$s1" "sh -c 'taskset -ac 0 rethinkdb --directory /"$datadir"/rethinkdb_data1 --bind all --server-name "$s1name"  --cache-size 10480 --daemon'" 
+	ssh  -i ~/.ssh/id_rsa "$s2" "sh -c 'taskset -ac 0 rethinkdb --directory /"$datadir"/rethinkdb_data2 --join "$s1":"$clusterPort" --bind all --server-name "$s2name"  --cache-size 10480 --daemon'"
+	ssh  -i ~/.ssh/id_rsa "$s3" "sh -c 'taskset -ac 0 rethinkdb --directory /"$datadir"/rethinkdb_data3 --join "$s1":"$clusterPort" --bind all --server-name "$s3name"  --cache-size 10480 --daemon'"
 	sleep 30
 }
 
@@ -229,9 +231,11 @@ function test_run {
 		data_cleanup	
 
 		# 3. Create data directories
+		datadir="data"
 		if [ "$filesystem" == "disk" ]; then
 			init_disk	
-		elif [ "$filesystem" == "memory"]; then
+		elif [ "$filesystem" == "memory" ]; then
+			datadir="ramdisk"
 			init_memory
 		else
 			echo "This option in filesystem is not supported.Exiting."
@@ -261,7 +265,7 @@ function test_run {
 		# 10. cleanup
 		if [ "$filesystem" == "disk" ]; then
 			cleanup_disk
-		elif [ "$filesystem" == "memory"]; then
+		elif [ "$filesystem" == "memory" ]; then
 			cleanup_memory
 		else
 			echo "This option in filesystem is not supported.Exiting."
