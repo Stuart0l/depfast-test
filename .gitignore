@@ -1,5 +1,3 @@
 /.idea/
-/scripts/tidb/tidb_follower_results/
-/scripts/tidb/tidb_leader_results/
-/scripts/tidb/tidb_noslow_results/
+/scripts/tidb/*/
 
