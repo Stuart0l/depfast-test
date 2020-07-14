@@ -1,8 +1,8 @@
 #!/bin/bash
 
-date=$(date +"%Y%m%d%s")
-exec > "$date"_experiment.log
-exec 2>&1
+#date=$(date +"%Y%m%d%s")
+#exec > "$date"_experiment.log
+#exec 2>&1
 
 set -ex
 
@@ -47,9 +47,9 @@ function test_start {
 
 # data_cleanup is called just after servers start
 function data_cleanup {
-	ssh -i ~/.ssh/id_rsa "$s1" "sh -c 'rm -rf /ramdisk/mongodb-data'"
-	ssh -i ~/.ssh/id_rsa "$s2" "sh -c 'rm -rf /ramdisk/mongodb-data'"
-	ssh -i ~/.ssh/id_rsa "$s3" "sh -c 'rm -rf /ramdisk/mongodb-data'"
+	ssh -i ~/.ssh/id_rsa "$s1" "sh -c 'sudo rm -rf /ramdisk/mongodb-data'"
+	ssh -i ~/.ssh/id_rsa "$s2" "sh -c 'sudo rm -rf /ramdisk/mongodb-data'"
+	ssh -i ~/.ssh/id_rsa "$s3" "sh -c 'sudo rm -rf /ramdisk/mongodb-data'"
 }
 
 function start_servers {
@@ -120,18 +120,27 @@ function db_init {
 
 # ycsb_load is used to run the ycsb load and wait until it completes.
 function ycsb_load {
-	/home/tidb/YCSB/bin/ycsb load mongodb -s -P $workload -p mongodb.url=mongodb://$primaryip:27017/ycsb?w=majority&readConcernLevel=majority ; wait $!
+  cd /home/tidb/YCSB
+  /home/tidb/YCSB/bin/ycsb load mongodb -s -P ./workloads/workloada_more -p mongodb.url=mongodb://$primaryip:27017/ycsb?w=majority&readConcernLevel=majority ; wait $!
+  cd /home/tidb/gray-testing/scripts/mongodb
 }
 
 # ycsb run exectues the given workload and waits for it to complete
 function ycsb_run {
-	/home/tidb/YCSB/bin/ycsb run mongodb -s -P $workload  -p maxexecutiontime=$ycsbruntime -p mongodb.url="mongodb://$primaryip:27017/ycsb?w=majority&readConcernLevel=majority" > "$dirname"/exp"$expno"_trial_"$i".txt ; wait $!
+  cd /home/tidb/YCSB
+  /home/tidb/YCSB/bin/ycsb run mongodb -s -P ./workloads/workloada_more -p maxexecutiontime=$ycsbruntime -p mongodb.url="mongodb://$primaryip:27017/ycsb?w=majority&readConcernLevel=majority" > /home/tidb/gray-testing/scripts/mongodb/"$dirname"/exp"$expno"_trial_"$i".txt ; wait $!
+  cd /home/tidb/gray-testing/scripts/mongodb
 }
 
 # cleanup is called at the end of the given trial of an experiment
-function cleanup {
+function mongo_cleanup {
 	/home/tidb/mongodb/bin/mongo --host "$primaryip" < cleanup_script.js
 	/home/tidb/mongodb/bin/mongo --host "$primaryip" --eval "db.getCollectionNames().forEach(function(n){db[n].remove()});"
+	rm result.json
+	sleep 5
+}
+
+function node_cleanup {
 #	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'rm -rf /data/db ; sudo umount /dev/sdb ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill mongod ; true'"
 #	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'rm -rf /data/db ; sudo umount /dev/sdb ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill mongod ; true'"
 #	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'rm -rf /data/db ; sudo umount /dev/sdb ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill mongod ; true'"
@@ -148,8 +157,6 @@ function cleanup {
   ssh -i ~/.ssh/id_rsa tidb@"$s3" "sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db memory:db ; true"
   ssh -i ~/.ssh/id_rsa tidb@"$s3" "sudo /sbin/tc qdisc del dev eth0 root ; true"
   sleep 5
-	rm result.json
-	sleep 5
 }
 
 # stop_servers turns off the VM instances
@@ -181,6 +188,7 @@ function test_run {
 
 		# 2. Cleanup first
 		#data_cleanup	
+		node_cleanup
 
 		# 3. Create data directories
 		init
@@ -203,7 +211,8 @@ function test_run {
 		ycsb_run
 
 		# 9. cleanup
-		cleanup
+		mongo_cleanup
+		node_cleanup
 	        data_cleanup
 
 		# 10. Power off all the VMs
