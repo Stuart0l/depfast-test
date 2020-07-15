@@ -41,8 +41,7 @@ ondisk=$8
 # test_start is executed at the beginning
 function test_start {
   name=$1
-  
-  echo "Running $exptype experiment $expno for $name"
+  echo "Running $exptype experiment $expno $swapness $ondisk for $name"
   dirname="$name"_"$exptype"_"$swapness"_"$ondisk"_results
   mkdir -p $dirname
 }
