@@ -18,7 +18,7 @@ s3name="mongodb3"
 serverZone="us-central1-a"
 ###########################
 
-if [ "$#" -ne 6 ]; then
+if [ "$#" -ne 8 ]; then
     echo "Wrong number of parameters"
     echo "1st arg - number of iterations"
     echo "2nd arg - workload path"
@@ -43,9 +43,8 @@ ondisk=$8
 # test_start is executed at the beginning
 function test_start {
   name=$1
-  
-  echo "Running $exptype experiment $expno for $name"
-  dirname="$name"_"$exptype"_results
+  echo "Running $exptype experiment $expno $swapness $ondisk for $name"
+  dirname="$name"_"$exptype"_"$swapness"_"$ondisk"_results 
   mkdir -p $dirname
 }
 
@@ -78,9 +77,9 @@ function start_servers {
 
 # init is called to initialise the db servers
 function init {
-  ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo umount /dev/sdc1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdc1 -F ; sudo mount -t ext4 /dev/sdc1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
-  ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo umount /dev/sdc1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdc1 -F ; sudo mount -t ext4 /dev/sdc1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
-  ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo umount /dev/sdc1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdc1 -F ; sudo mount -t ext4 /dev/sdc1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
+  ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo umount /dev/sdc1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdc1 -F ; sudo mount -t ext4 /dev/sdc1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/ ; mkdir /data1/mongodb-data ; sudo chmod o+w /data1/mongodb-data'"
+  ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo umount /dev/sdc1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdc1 -F ; sudo mount -t ext4 /dev/sdc1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/ ; mkdir /data1/mongodb-data ; sudo chmod o+w /data1/mongodb-data'"
+  ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo umount /dev/sdc1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdc1 -F ; sudo mount -t ext4 /dev/sdc1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/ ; mkdir /data1/mongodb-data ; sudo chmod o+w /data1/mongodb-data'"
 
   if [ "$swapness" == "swapoff" ] ; then
     ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
@@ -96,9 +95,9 @@ function init {
   fi
 
   if [ "$ondisk" == "mem" ] ; then
-    ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"
-    ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"
-    ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"
+    ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/ ; mkdir /ramdisk/mongodb-data ; sudo chmod o+w /ramdisk/mongodb-data'"
+    ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/ ; mkdir /ramdisk/mongodb-data ; sudo chmod o+w /ramdisk/mongodb-data'"
+    ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/ ; mkdir /ramdisk/mongodb-data ; sudo chmod o+w /ramdisk/mongodb-data'"
   fi
 }
 
