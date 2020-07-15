@@ -23,9 +23,11 @@ if [ "$#" -ne 6 ]; then
     echo "1st arg - number of iterations"
     echo "2nd arg - workload path"
     echo "3rd arg - seconds to run ycsb run"
-    echo "4th arg - experiment to run(1,2,3,4,5)"
+    echo "4th arg - experiment to run(1, 2, 3 only for hdd, 4 only for hdd, 5, 6 only for swapon+mem)"
     echo "5th arg - host type(gcp/azure)"
     echo "6th arg - type of experiment(follower/leader/noslow)"
+    echo "7th arg - turn on swap (swapon/swapoff) [swapon only for exp6+mem] "
+    echo "8th arg - in disk or in memory (hdd/mem)"
     exit 1
 fi
 
@@ -35,87 +37,117 @@ ycsbruntime=$3
 expno=$4
 host=$5
 exptype=$6
+swapness=$7
+ondisk=$8
 
 # test_start is executed at the beginning
 function test_start {
-	name=$1
-	
-	echo "Running $exptype experiment $expno for $name"
-	dirname="$name"_"$exptype"_results
-	mkdir -p $dirname
+  name=$1
+  
+  echo "Running $exptype experiment $expno for $name"
+  dirname="$name"_"$exptype"_results
+  mkdir -p $dirname
 }
 
 # data_cleanup is called just after servers start
 function data_cleanup {
-	ssh -i ~/.ssh/id_rsa "$s1" "sh -c 'sudo rm -rf /ramdisk/mongodb-data'"
-	ssh -i ~/.ssh/id_rsa "$s2" "sh -c 'sudo rm -rf /ramdisk/mongodb-data'"
-	ssh -i ~/.ssh/id_rsa "$s3" "sh -c 'sudo rm -rf /ramdisk/mongodb-data'"
+  if [ "$ondisk" == "mem" ] ; then
+    ssh -i ~/.ssh/id_rsa "$s1" "sh -c 'sudo rm -rf /ramdisk/mongodb-data'"
+    ssh -i ~/.ssh/id_rsa "$s2" "sh -c 'sudo rm -rf /ramdisk/mongodb-data'"
+    ssh -i ~/.ssh/id_rsa "$s3" "sh -c 'sudo rm -rf /ramdisk/mongodb-data'"
+  else
+    ssh -i ~/.ssh/id_rsa "$s1" "sh -c 'sudo rm -rf /data1/mongodb-data'"
+    ssh -i ~/.ssh/id_rsa "$s2" "sh -c 'sudo rm -rf /data1/mongodb-data'"
+    ssh -i ~/.ssh/id_rsa "$s3" "sh -c 'sudo rm -rf /data1/mongodb-data'"
+  fi
 }
 
 function start_servers {
-	if [ "$host" == "gcp" ]; then
-		gcloud compute instances start "$s1name" "$s2name" "$s3name" --zone="$serverZone"
-	elif [ "$host" == "azure" ]; then
-		az vm start --resource-group DepFast --name "$s1name"
-		az vm start --resource-group DepFast --name "$s2name"
-		az vm start --resource-group DepFast --name "$s3name"
-	else
-		echo "Not implemented error"
-		exit 1
-	fi
-	sleep 60
+  if [ "$host" == "gcp" ]; then
+    gcloud compute instances start "$s1name" "$s2name" "$s3name" --zone="$serverZone"
+  elif [ "$host" == "azure" ]; then
+    az vm start --resource-group DepFast --name "$s1name"
+    az vm start --resource-group DepFast --name "$s2name"
+    az vm start --resource-group DepFast --name "$s3name"
+  else
+    echo "Not implemented error"
+    exit 1
+  fi
+  sleep 60
 }
 
 # init is called to initialise the db servers
 function init {
-#	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs /dev/sdb -f ; sudo mount -t xfs /dev/sdb /data ; sudo mount -t xfs /dev/sdb /data -o remount,noatime ; sudo mkdir /data/db ; sudo chmod o+w /data/db'"
-#	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs /dev/sdb -f ; sudo mount -t xfs /dev/sdb /data ; sudo mount -t xfs /dev/sdb /data -o remount,noatime ; sudo mkdir /data/db ; sudo chmod o+w /data/db'"
-#	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs /dev/sdb -f ; sudo mount -t xfs /dev/sdb /data ; sudo mount -t xfs /dev/sdb /data -o remount,noatime ; sudo mkdir /data/db ; sudo chmod o+w /data/db'"
-  ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/ ; mkdir /ramdisk/mongodb-data ; sudo chmod o+w /ramdisk/mongodb-data'"
-  ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/ ; mkdir /ramdisk/mongodb-data ; sudo chmod o+w /ramdisk/mongodb-data'"
-  ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/ ; mkdir /ramdisk/mongodb-data ; sudo chmod o+w /ramdisk/mongodb-data'"
+  ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo umount /dev/sdc1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdc1 -F ; sudo mount -t ext4 /dev/sdc1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
+  ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo umount /dev/sdc1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdc1 -F ; sudo mount -t ext4 /dev/sdc1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
+  ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo umount /dev/sdc1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdc1 -F ; sudo mount -t ext4 /dev/sdc1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
+
+  if [ "$swapness" == "swapoff" ] ; then
+    ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
+    ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
+    ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
+  else
+    ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo dd if=/dev/zero of=/data1/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data1/swapfile ; sudo mkswap /data1/swapfile'"  # 41GB
+    ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && swapon -a ; sudo swapon /data1/swapfile'"
+    ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo dd if=/dev/zero of=/data1/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data1/swapfile ; sudo mkswap /data1/swapfile'"  # 41GB
+    ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && swapon -a ; sudo swapon /data1/swapfile'"
+    ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo dd if=/dev/zero of=/data1/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data1/swapfile ; sudo mkswap /data1/swapfile'"  # 41GB
+    ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && swapon -a ; sudo swapon /data1/swapfile'"
+  fi
+
+  if [ "$ondisk" == "mem" ] ; then
+    ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"
+    ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"
+    ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"
+  fi
 }
 
 # start_db starts the database instances on each of the server
 function start_db {
-	ssh  -i ~/.ssh/id_rsa "$s1" "sh -c 'numactl --interleave=all taskset -ac 0 /home/tidb/mongodb/bin/mongod --replSet rs0 --bind_ip localhost,"$s1name" --fork --logpath /tmp/mongod.log --dbpath /ramdisk/mongodb-data'"
-	ssh  -i ~/.ssh/id_rsa "$s2" "sh -c 'numactl --interleave=all taskset -ac 0 /home/tidb/mongodb/bin/mongod --replSet rs0 --bind_ip localhost,"$s2name" --fork --logpath /tmp/mongod.log --dbpath /ramdisk/mongodb-data'"
-	ssh  -i ~/.ssh/id_rsa "$s3" "sh -c 'numactl --interleave=all taskset -ac 0 /home/tidb/mongodb/bin/mongod --replSet rs0 --bind_ip localhost,"$s3name" --fork --logpath /tmp/mongod.log --dbpath /ramdisk/mongodb-data'"
-	sleep 30
+  if [ "$ondisk" == "mem" ] ; then
+    ssh  -i ~/.ssh/id_rsa "$s1" "sh -c 'numactl --interleave=all taskset -ac 0 /home/tidb/mongodb/bin/mongod --replSet rs0 --bind_ip localhost,"$s1name" --fork --logpath /tmp/mongod.log --dbpath /ramdisk/mongodb-data'"
+    ssh  -i ~/.ssh/id_rsa "$s2" "sh -c 'numactl --interleave=all taskset -ac 0 /home/tidb/mongodb/bin/mongod --replSet rs0 --bind_ip localhost,"$s2name" --fork --logpath /tmp/mongod.log --dbpath /ramdisk/mongodb-data'"
+    ssh  -i ~/.ssh/id_rsa "$s3" "sh -c 'numactl --interleave=all taskset -ac 0 /home/tidb/mongodb/bin/mongod --replSet rs0 --bind_ip localhost,"$s3name" --fork --logpath /tmp/mongod.log --dbpath /ramdisk/mongodb-data'"
+  else
+    ssh  -i ~/.ssh/id_rsa "$s1" "sh -c 'numactl --interleave=all taskset -ac 0 /home/tidb/mongodb/bin/mongod --replSet rs0 --bind_ip localhost,"$s1name" --fork --logpath /tmp/mongod.log --dbpath /data1/mongodb-data'"
+    ssh  -i ~/.ssh/id_rsa "$s2" "sh -c 'numactl --interleave=all taskset -ac 0 /home/tidb/mongodb/bin/mongod --replSet rs0 --bind_ip localhost,"$s2name" --fork --logpath /tmp/mongod.log --dbpath /data1/mongodb-data'"
+    ssh  -i ~/.ssh/id_rsa "$s3" "sh -c 'numactl --interleave=all taskset -ac 0 /home/tidb/mongodb/bin/mongod --replSet rs0 --bind_ip localhost,"$s3name" --fork --logpath /tmp/mongod.log --dbpath /data1/mongodb-data'"
+  fi
+  sleep 30
 }
 
 # db_init initialises the database
 function db_init {
-	/home/tidb/mongodb/bin/mongo --host "$s1name" < init_script.js
+  /home/tidb/mongodb/bin/mongo --host "$s1name" < init_script.js
 
-	# Wait for startup
-	sleep 60
+  # Wait for startup
+  sleep 60
 
-	/home/tidb/mongodb/bin/mongo --host "$s1name" < fetchprimary.js  | tail -n +5 | head -n -1  > result.json
-	cat result.json
+  /home/tidb/mongodb/bin/mongo --host "$s1name" < fetchprimary.js  | tail -n +5 | head -n -1  > result.json
+  cat result.json
 
-	primaryip=$(python parse.py | grep primary | cut -d" " -f2-)
-	secondaryip=$(python parse.py | grep secondary | cut -d" " -f2-)
+  primaryip=$(python parse.py | grep primary | cut -d" " -f2-)
+  secondaryip=$(python parse.py | grep secondary | cut -d" " -f2-)
 
-	primarypid=$(ssh -i ~/.ssh/id_rsa "$primaryip" "sh -c 'pgrep mongo'")
-	echo $primarypid
+  primarypid=$(ssh -i ~/.ssh/id_rsa "$primaryip" "sh -c 'pgrep mongo'")
+  echo $primarypid
 
-	secondarypid=$(ssh -i ~/.ssh/id_rsa "$secondaryip" "sh -c 'pgrep mongo'")
-	echo $secondarypid
+  secondarypid=$(ssh -i ~/.ssh/id_rsa "$secondaryip" "sh -c 'pgrep mongo'")
+  echo $secondarypid
 
-	if [ "$exptype" == "follower" ]; then
-		slowdownpid=$secondarypid
-		slowdownip=$secondaryip	
-	elif [ "$exptype" == "leader" ]; then
-		slowdownpid=$primarypid
-		slowdownip=$primaryip
-	else
-		# Nothing to do
-		echo ""
-	fi
+  if [ "$exptype" == "follower" ]; then
+    slowdownpid=$secondarypid
+    slowdownip=$secondaryip  
+  elif [ "$exptype" == "leader" ]; then
+    slowdownpid=$primarypid
+    slowdownip=$primaryip
+  else
+    # Nothing to do
+    echo ""
+  fi
 
-	# Disable chaining allowed
-	/home/tidb/mongodb/bin/mongo --host $primaryip --eval "cfg = rs.config(); cfg.settings.chainingAllowed = false; rs.reconfig(cfg);"
+  # Disable chaining allowed
+  /home/tidb/mongodb/bin/mongo --host $primaryip --eval "cfg = rs.config(); cfg.settings.chainingAllowed = false; rs.reconfig(cfg);"
 }
 
 # ycsb_load is used to run the ycsb load and wait until it completes.
@@ -134,20 +166,20 @@ function ycsb_run {
 
 # cleanup is called at the end of the given trial of an experiment
 function mongo_cleanup {
-	/home/tidb/mongodb/bin/mongo --host "$primaryip" < cleanup_script.js
-	/home/tidb/mongodb/bin/mongo --host "$primaryip" --eval "db.getCollectionNames().forEach(function(n){db[n].remove()});"
-	rm result.json
-	sleep 5
+  /home/tidb/mongodb/bin/mongo --host "$primaryip" < cleanup_script.js
+  /home/tidb/mongodb/bin/mongo --host "$primaryip" --eval "db.getCollectionNames().forEach(function(n){db[n].remove()});"
+  rm result.json
+  sleep 5
 }
 
 function node_cleanup {
-#	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'rm -rf /data/db ; sudo umount /dev/sdb ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill mongod ; true'"
-#	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'rm -rf /data/db ; sudo umount /dev/sdb ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill mongod ; true'"
-#	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'rm -rf /data/db ; sudo umount /dev/sdb ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill mongod ; true'"
-#	# Remove the tc rule for exp 5
-#	if [ "$expno" == 5 -a "$exptype" != "noslow" ]; then
-#		ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev eth0 root ; true'"
-#	fi
+#  ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'rm -rf /data/db ; sudo umount /dev/sdb ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill mongod ; true'"
+#  ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'rm -rf /data/db ; sudo umount /dev/sdb ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill mongod ; true'"
+#  ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'rm -rf /data/db ; sudo umount /dev/sdb ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; pkill mongod ; true'"
+#  # Remove the tc rule for exp 5
+#  if [ "$expno" == 5 -a "$exptype" != "noslow" ]; then
+#    ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev eth0 root ; true'"
+#  fi
   ssh -i ~/.ssh/id_rsa tidb@"$s1" "sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db memory:db ; true"
   ssh -i ~/.ssh/id_rsa tidb@"$s1" "sudo /sbin/tc qdisc del dev eth0 root ; true"
   sleep 5
@@ -161,63 +193,63 @@ function node_cleanup {
 
 # stop_servers turns off the VM instances
 function stop_servers {
-	if [ "$host" == "gcp" ]; then
-		gcloud compute instances stop "$s1name" "$s2name" "$s3name" --zone="$serverZone"
-	elif [ "$host" == "azure" ]; then
-		az vm deallocate --resource-group DepFast --name "$s1name"
-		az vm deallocate --resource-group DepFast --name "$s2name"
-		az vm deallocate --resource-group DepFast --name "$s3name"
-	else
-		echo "Not implemented error"
-		exit 1
-	fi
+  if [ "$host" == "gcp" ]; then
+    gcloud compute instances stop "$s1name" "$s2name" "$s3name" --zone="$serverZone"
+  elif [ "$host" == "azure" ]; then
+    az vm deallocate --resource-group DepFast --name "$s1name"
+    az vm deallocate --resource-group DepFast --name "$s2name"
+    az vm deallocate --resource-group DepFast --name "$s3name"
+  else
+    echo "Not implemented error"
+    exit 1
+  fi
 }
 
 # run_experiment executes the given experiment
 function run_experiment {
-	./experiment$expno.sh "$slowdownip" "$slowdownpid"
+  ./experiment$expno.sh "$slowdownip" "$slowdownpid"
 }
 
 # test_run is the main driver function
 function test_run {
-	for (( i=1; i<=$iterations; i++ ))
-	do
-		echo "Running experiment $expno - Trial $i"
-		# 1. start servers
-		start_servers
+  for (( i=1; i<=$iterations; i++ ))
+  do
+    echo "Running experiment $expno - Trial $i"
+    # 1. start servers
+    start_servers
 
-		# 2. Cleanup first
-		#data_cleanup	
-		node_cleanup
+    # 2. Cleanup first
+    #data_cleanup  
+    node_cleanup
 
-		# 3. Create data directories
-		init
+    # 3. Create data directories
+    init
 
-		# 4. SSH to all the machines and start db
-		start_db
+    # 4. SSH to all the machines and start db
+    start_db
 
-		# 5. Init
-		db_init
+    # 5. Init
+    db_init
 
-		# 6. ycsb load
-		ycsb_load
+    # 6. ycsb load
+    ycsb_load
 
-		# 7. Run experiment if this is not a no slow
-		if [ "$exptype" != "noslow" ]; then
-			run_experiment
-		fi
+    # 7. Run experiment if this is not a no slow
+    if [ "$exptype" != "noslow" ]; then
+      run_experiment
+    fi
 
-		# 8. ycsb run
-		ycsb_run
+    # 8. ycsb run
+    ycsb_run
 
-		# 9. cleanup
-		mongo_cleanup
-		node_cleanup
-	        data_cleanup
+    # 9. cleanup
+    mongo_cleanup
+    node_cleanup
+    data_cleanup
 
-		# 10. Power off all the VMs
-		stop_servers
-	done
+    # 10. Power off all the VMs
+    stop_servers
+  done
 }
 
 test_start mongodb
