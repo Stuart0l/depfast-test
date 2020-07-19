@@ -1,0 +1,26 @@
+Adding shard node URL: jdbc:postgresql://10.0.0.28:26257/ycsb?sslmode=disable
+Using shards: 1, batchSize:-1, fetchSize: -1
+[OVERALL], RunTime(ms), 900086
+[OVERALL], Throughput(ops/sec), 11.457794033014624
+[TOTAL_GCS_Copy], Count, 1
+[TOTAL_GC_TIME_Copy], Time(ms), 7
+[TOTAL_GC_TIME_%_Copy], Time(%), 7.777034638912282E-4
+[TOTAL_GCS_MarkSweepCompact], Count, 0
+[TOTAL_GC_TIME_MarkSweepCompact], Time(ms), 0
+[TOTAL_GC_TIME_%_MarkSweepCompact], Time(%), 0.0
+[TOTAL_GCs], Count, 1
+[TOTAL_GC_TIME], Time(ms), 7
+[TOTAL_GC_TIME_%], Time(%), 7.777034638912282E-4
+[CLEANUP], Operations, 1
+[CLEANUP], AverageLatency(us), 395.0
+[CLEANUP], MinLatency(us), 395
+[CLEANUP], MaxLatency(us), 395
+[CLEANUP], 99thPercentileLatency(us), 395
+[CLEANUP], 99.9PercentileLatency(us), 395
+[UPDATE], Operations, 10313
+[UPDATE], AverageLatency(us), 87195.1909240764
+[UPDATE], MinLatency(us), 1464
+[UPDATE], MaxLatency(us), 2390015
+[UPDATE], 99thPercentileLatency(us), 305919
+[UPDATE], 99.9PercentileLatency(us), 1287167
+[UPDATE], Return=OK, 10313
