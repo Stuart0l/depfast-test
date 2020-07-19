@@ -1,0 +1,41 @@
+mongo client connection created with mongodb://10.0.0.13:27017/ycsb?w=majority&readConcernLevel=majority
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
+[OVERALL], RunTime(ms), 619953
+[OVERALL], Throughput(ops/sec), 0.538750518184443
+[TOTAL_GCS_G1_Young_Generation], Count, 2
+[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 21
+[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.003387353557447097
+[TOTAL_GCS_G1_Old_Generation], Count, 0
+[TOTAL_GC_TIME_G1_Old_Generation], Time(ms), 0
+[TOTAL_GC_TIME_%_G1_Old_Generation], Time(%), 0.0
+[TOTAL_GCs], Count, 2
+[TOTAL_GC_TIME], Time(ms), 21
+[TOTAL_GC_TIME_%], Time(%), 0.003387353557447097
+[UPDATE-FAILED], Operations, 19
+[UPDATE-FAILED], AverageLatency(us), 3.105889010526316E7
+[UPDATE-FAILED], MinLatency(us), 29999104
+[UPDATE-FAILED], MaxLatency(us), 50003967
+[UPDATE-FAILED], 99thPercentileLatency(us), 50003967
+[UPDATE-FAILED], 99.9PercentileLatency(us), 50003967
+[CLEANUP], Operations, 1
+[CLEANUP], AverageLatency(us), 1378.0
+[CLEANUP], MinLatency(us), 1378
+[CLEANUP], MaxLatency(us), 1378
+[CLEANUP], 99thPercentileLatency(us), 1378
+[CLEANUP], 99.9PercentileLatency(us), 1378
+[UPDATE], Operations, 315
+[UPDATE], AverageLatency(us), 93654.54920634921
+[UPDATE], MinLatency(us), 2300
+[UPDATE], MaxLatency(us), 12697599
+[UPDATE], 99thPercentileLatency(us), 596991
+[UPDATE], 99.9PercentileLatency(us), 12697599
+[UPDATE], Return=OK, 315
+[UPDATE], Return=ERROR, 19
