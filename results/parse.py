@@ -46,7 +46,7 @@ def calcforexp(expname, fpath, dbname):
             if(dbname=='tidb'):
                 res=parseycsb2(fp)
             else:
-            	res=parseycsb1(fp)
+                res=parseycsb1(fp)
             print(fp, res)
             for kk in totres.keys():
                 totres[kk]+=res[kk]
@@ -65,24 +65,22 @@ def compareres(expname, noslowpath, slowpath, dbname):
     res['max']=(slowres['max']-noslowres['max'])/noslowres['max']*100
     return(res)
 
-# fpath='G:\\My Drive\\20summer\\phd\\shuai_sbu\\gray-testing\\results\\1client_tmpfs\\mongodb\\mongodb_leader_swapoff_mem_results\\exp5_trial_3.txt'
-# parseycsb1(fpath)
-# tpath='G:\\My Drive\\20summer\\phd\\shuai_sbu\\gray-testing\\results\\1client_tmpfs\\tidb\\tidb_leaderlow_swapoff_mem_results\\exp1_trial_4.txt'
-# parseycsb2(tpath)
-# tt=calcforexp('exp2','./1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results')
-# print(tt)
+
+
+# define experiments here, like [ exp1/exp2/exp5/exp6, folder for noslow result, folder for experiment result ]
 
 tidb_explist=[
+    # leaderhigh slowness
     ['exp1','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
     ['exp2','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
     ['exp5','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
     ['exp6','./1client_tmpfs/tidb/tidb_noslow1_swapon_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapon_mem_results'],
-
+    # leaderlow slowness
     ['exp1','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
     ['exp2','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
     ['exp5','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
     ['exp6','./1client_tmpfs/tidb/tidb_noslow1_swapon_mem_results','./1client_tmpfs/tidb/tidb_leaderlow_swapon_mem_results'],
-
+    # follower slowness
     ['exp1','./1client_tmpfs/tidb/tidb_noslow2_swapoff_mem_results','./1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
     ['exp2','./1client_tmpfs/tidb/tidb_noslow2_swapoff_mem_results','./1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
     ['exp5','./1client_tmpfs/tidb/tidb_noslow2_swapoff_mem_results','./1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
@@ -90,19 +88,22 @@ tidb_explist=[
 ]
 
 mongodb_explist=[
+    # leader slowness
     ['exp1','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./1client_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
     ['exp2','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./1client_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
     ['exp5','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./1client_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
     ['exp6','./1client_tmpfs/mongodb/mongodb_noslow_swapon_mem_results','./1client_tmpfs/mongodb/mongodb_leader_swapon_mem_results'],
-
+    # follower slowness
     ['exp1','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
     ['exp2','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
     ['exp5','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
     ['exp6','./1client_tmpfs/mongodb/mongodb_noslow_swapon_mem_results','./1client_tmpfs/mongodb/mongodb_follower_swapon_mem_results'],
 ]
 
+# then get the result of each experiment
 
 for exp in mongodb_explist:
-	tt=compareres(exp[0], exp[1], exp[2], 'mongo')
-	print(tt)
-	print("")
+    tt=compareres(exp[0], exp[1], exp[2], 'mongo')
+    print("percentage: ", tt)
+    print("")
+
