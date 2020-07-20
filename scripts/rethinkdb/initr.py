@@ -1,9 +1,9 @@
 from rethinkdb import r
 import pdb
+import sys
 
-serverIP = "10.0.0.4"
-
-def init():
+def init(serverIP):
+    print("connecting to server ", serverIP)
     r.connect(serverIP, 28015).repl()
     # Connection established
     try:
@@ -56,9 +56,12 @@ def init():
     print("primaryip=", primaryip, sep='')
     print("secondaryip=", secondaryip, sep='')
 
-def main():
+def main(serverip):
     # Initialising RethinkDB
-    init()
+    init(serverip)
 
 if __name__== "__main__":
-    main()
+    if len(sys.argv) != 2:
+        print("Invalid number of args. Need to pass a rethinkdb server ip.")
+        sys.exit(1)
+    main(sys.argv[1])

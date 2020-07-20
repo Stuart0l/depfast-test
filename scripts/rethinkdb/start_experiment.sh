@@ -8,23 +8,13 @@ set -ex
 
 # Server specific configs
 ##########################
-# Internal IPs
-s1="10.0.0.4"
-s2="10.0.0.10"
-s3="10.0.0.11"
-
-s1name="rethinkdb1"
-s2name="rethinkdb2"
-s3name="rethinkdb3"
-servers=($s1name $s2name $s3name)
-serverRegex="rethinkdb[1-3]"
 # serverZone="us-central1-a"
 resource="DepFast"
 clusterPort="29015"
 partitionName="/dev/sdc"
 ###########################
 
-if [ "$#" -ne 8 ]; then
+if [ "$#" -ne 9 ]; then
     echo "Wrong number of parameters"
     echo "1st arg - number of iterations"
     echo "2nd arg - workload path"
@@ -34,6 +24,8 @@ if [ "$#" -ne 8 ]; then
     echo "6th arg - type of experiment(follower,leader,noslow)"
 	echo "7th arg - file system to use(disk,memory)"
 	echo "8th arg - vm swappiness parameter(swapoff,swapon)[swapon only for exp6+mem]"
+	echo "9th arg - no of servers(3/5)"
+	echo "10th arg - server Regex"
     exit 1
 fi
 
@@ -45,6 +37,10 @@ host=$5
 exptype=$6
 filesystem=$7
 swappiness=$8
+noOfServers=$9
+serverRegex=$10
+
+declare -A serverNameIPMap 
 
 # test_start is executed at the beginning
 function test_start {
@@ -55,25 +51,45 @@ function test_start {
 	mkdir -p $dirname
 }
 
+function set_ip {
+	for (( i=0; i<$iterations; i++ ))
+	do
+		servername=$(cat config.json  | jq .[$i].name)
+		servername=$(sed -e "s/^'//" -e "s/'$//" <<<"$servername")
+		serverip=$(cat config.json  | jq .[$i].privateip)
+		serverip=$(sed -e "s/^'//" -e "s/'$//" <<<"$serverip")
+		serverNameIPMap[$servername]=$serverip
+	done
+}
+
+function setup_ssh_client_servers {
+for key in "${!serverNameIPMap[@]}";
+do
+	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa "$username"@"$clientPublicIP" "ssh-keygen -R ${serverNameIPMap[$key]} ; ssh-keyscan -H ${serverNameIPMap[$key]} >> ~/.ssh/known_hosts"
+done
+}
+
 # data_cleanup is called just after servers start
 function data_cleanup {
-	ssh -i ~/.ssh/id_rsa "$s1" "sh -c 'rm -rf /data/*'"
-	ssh -i ~/.ssh/id_rsa "$s2" "sh -c 'rm -rf /data/*'"
-	ssh -i ~/.ssh/id_rsa "$s3" "sh -c 'rm -rf /data/*'"
+	for key in "${!serverNameIPMap[@]}";
+	do
+		ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'rm -rf /data/*'"
+	done
 }
 
 # start_servers is used to boot the servers up
 function start_servers {	
 	if [ "$host" == "gcp" ]; then
-		gcloud compute instances start "$s1name" "$s2name" "$s3name" --zone="$serverZone"
+		gcloud compute instances start ${!serverNameIPMap[@]}
+
 	elif [ "$host" == "azure" ]; then
 	        #for cur_s in "${servers[@]}";
 	        #do
                 #    az vm start --name "$cur_s" --resource-group "$resource"
 	        #done
 	        az vm start --ids $(
-			az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex
-		)
+				az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex
+			)
 
 	else
 		echo "Not implemented error"
@@ -84,26 +100,29 @@ function start_servers {
 
 # init_disk is called to create and mount directories on disk
 function init_disk {
-	 ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
-	 ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
-	 ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
+	for key in "${!serverNameIPMap[@]}";
+	do
+		ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
+	done
+	
 }
 
 function set_swap_config {
 	# swappiness config
 	if [ "$swappiness" == "swapoff" ] ; then
-		ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
-		ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
-		ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
+		for key in "${!serverNameIPMap[@]}";
+		do
+			ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
+		done
 	elif [ "$swappiness" == "swapon" ] ; then
 		# Disk needed for swapfile
 		init_disk
-		ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 41GB
-    	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && sudo swapon -a ; sudo swapon /data/swapfile'"
-		ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 41GB
-    	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && sudo swapon -a ; sudo swapon /data/swapfile'"
-		ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 41GB
-    	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && sudo swapon -a ; sudo swapon /data/swapfile'"
+		
+		for key in "${!serverNameIPMap[@]}";
+		do
+			ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 41GB
+			ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && sudo swapon -a ; sudo swapon /data/swapfile'"
+		done
 	else
 		echo "swappiness option not recognised. Exiting."
 		exit 1
@@ -113,22 +132,25 @@ function set_swap_config {
 # init_memory is called to create and mount memory based file system(tmpfs)
 function init_memory {
 	# Mount tmpfs
-	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"	
-	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"	
-	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"	
+	for key in "${!serverNameIPMap[@]}";
+	do
+		ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"	
+	done
 }
 
 # start_db starts the database instances on each of the server
 function start_db {
-	ssh  -i ~/.ssh/id_rsa "$s1" "sh -c 'taskset -ac 0 rethinkdb --directory /"$datadir"/rethinkdb_data1 --bind all --server-name "$s1name"  --cache-size 10480 --daemon'" 
-	ssh  -i ~/.ssh/id_rsa "$s2" "sh -c 'taskset -ac 0 rethinkdb --directory /"$datadir"/rethinkdb_data2 --join "$s1":"$clusterPort" --bind all --server-name "$s2name"  --cache-size 10480 --daemon'"
-	ssh  -i ~/.ssh/id_rsa "$s3" "sh -c 'taskset -ac 0 rethinkdb --directory /"$datadir"/rethinkdb_data3 --join "$s1":"$clusterPort" --bind all --server-name "$s3name"  --cache-size 10480 --daemon'"
+	for key in "${!serverNameIPMap[@]}";
+	do
+		ssh  -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'taskset -ac 0 rethinkdb --directory /"$datadir"/rethinkdb_data1 --bind all --server-name ${serverNameIPMap[$key]}  --cache-size 10480 --daemon'"
+	done
 	sleep 30
 }
 
 # db_init initialises the database
 function db_init {
-	source venv/bin/activate ;  python initr.py > tablesinfo ; deactivate
+	pyserver=${serverNameIPMap[\"rethinkdb"$namePrefix"-1\"]}
+	source venv/bin/activate ;  python initr.py $pyserver  > tablesinfo ; deactivate
 	sleep 5
 	primaryreplica=$(cat tablesinfo | grep -Eo 'primaryreplica=.{1,50}' | cut -d'=' -f2-)
 	echo $primaryreplica
@@ -148,6 +170,9 @@ function db_init {
 	secondaryip=$(cat tablesinfo | grep -Eo 'secondaryip=.{1,30}' | cut -d'=' -f2-)
 	echo $secondaryip
 
+	# TODO - Capture two followers here
+	# TODO - Slow down multiple nodes for 5 nodes
+
 	if [ "$exptype" == "follower" ]; then
 		slowdownpid=$secondarypid
 		slowdownip=$secondaryip
@@ -161,7 +186,7 @@ function db_init {
 
 # ycsb_load is used to run the ycsb load and wait until it completes.
 function ycsb_load {
-	./bin/ycsb load rethinkdb -s -P $workload -p rethinkdb.host=$primaryip -p rethinkdb.port=28015
+	./bin/ycsb load rethinkdb -s -P $workload -p rethinkdb.host=$primaryip -p rethinkdb.port=28015 -threads 10
 }
 
 # ycsb run exectues the given workload and waits for it to complete
@@ -171,10 +196,11 @@ function ycsb_run {
 
 # cleanup is called at the end of the given trial of an experiment
 function cleanup_disk {
-	source venv/bin/activate ;  python cleanup.py ; deactivate
-	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'pkill rethinkdb ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo umount $partitionName ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
-	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'pkill rethinkdb ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo umount $partitionName ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
-	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'pkill rethinkdb ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo umount $partitionName ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
+	source venv/bin/activate ; python cleanup.py $pyserver; deactivate
+	for key in "${!serverNameIPMap[@]}";
+	do
+		ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'pkill rethinkdb ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo umount $partitionName ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
+	done
 	# Remove the tc rule for exp 5
 	if [ "$expno" == 5 -a "$exptype" != "noslow" ]; then
 		ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev eth0 root ; true'"
@@ -186,20 +212,23 @@ function cleanup_disk {
 function cleanup_memory {
 	source venv/bin/activate ;  python cleanup.py ; deactivate
 
-	 if [ "$swappiness" == "swapon" ] ; then
-		 ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'pkill rethinkdb ; sudo swapoff -v /data/swapfile'"
-		 ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'pkill rethinkdb ; sudo swapoff -v /data/swapfile'"
-		 ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'pkill rethinkdb ; sudo swapoff -v /data/swapfile'"
-	 fi 
+	if [ "$swappiness" == "swapon" ] ; then
+		for key in "${!serverNameIPMap[@]}";
+		do
+			ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'pkill rethinkdb ; sudo swapoff -v /data/swapfile'"
+		done
+	fi 
 
-	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'pkill rethinkdb ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
-	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'pkill rethinkdb ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
-	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'pkill rethinkdb ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
+	for key in "${!serverNameIPMap[@]}";
+	do
+		ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'pkill rethinkdb ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
+	done
 	if [ "$expno" == 6 ]; then
-		ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo umount $partitionName'"
-		ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo umount $partitionName'"
-		ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo umount $partitionName'"
-	    fi
+		for key in "${!serverNameIPMap[@]}";
+		do
+			ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo umount $partitionName'"
+		done
+	fi
 	# Remove the tc rule for exp 5
 	if [ "$expno" == 5 -a "$exptype" != "noslow" ]; then
 		ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev eth0 root ; true'"
@@ -211,7 +240,7 @@ function cleanup_memory {
 # stop_servers turns off the VM instances
 function stop_servers {
 	if [ "$host" == "gcp" ]; then
-		gcloud compute instances stop "$s1name" "$s2name" "$s3name" --zone="$serverZone"
+		gcloud compute instances stop ${!serverNameIPMap[@]}
 	elif [ "$host" == "azure" ]; then
 	        #for cur_s in "${servers[@]}";
 	        #do
@@ -228,6 +257,7 @@ function stop_servers {
 
 # run_experiment executes the given experiment
 function run_experiment {
+	# TODO - If there are 5 VMs, multiple nodes need to be slowed down
 	./experiment$expno.sh "$slowdownip" "$slowdownpid"
 }
 
@@ -239,10 +269,16 @@ function test_run {
 		# 1. start servers
 		start_servers
 
-		# 2. Cleanup first
+		# 2. Set IP addresses
+		set_ip
+
+		# 3. Copy ssh keys
+		setup_ssh_client_servers
+
+		# 4. Cleanup first
 		data_cleanup	
 
-		# 3. Create data directories
+		# 5. Create data directories
 		datadir="data"
 		if [ "$filesystem" == "disk" ]; then
 			init_disk	
@@ -254,27 +290,27 @@ function test_run {
 			exit 1
 		fi
 
-		# 4. Set swappiness config
+		# 6. Set swappiness config
 		set_swap_config
 
-		# 5. SSH to all the machines and start db
+		# 7. SSH to all the machines and start db
 		start_db
 
-		# 6. Init
+		# 8. Init
 		db_init
 
-		# 7. ycsb load
+		# 9. ycsb load
 		ycsb_load
 
-		# 8. Run experiment if this is not a no slow
+		# 10. Run experiment if this is not a no slow
 		if [ "$exptype" != "noslow" ]; then
 			run_experiment
 		fi
 
-		# 9. ycsb run
+		# 11. ycsb run
 		ycsb_run
 
-		# 10. cleanup
+		# 12. cleanup
 		if [ "$filesystem" == "disk" ]; then
 			cleanup_disk
 		elif [ "$filesystem" == "memory" ]; then
@@ -284,7 +320,7 @@ function test_run {
 			exit 1
 		fi
 		
-		# 11. Power off all the VMs
+		# 13. Power off all the VMs
 		stop_servers
 	done
 }
