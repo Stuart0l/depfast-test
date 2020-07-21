@@ -1,4 +1,6 @@
 import os
+import csv
+
 
 def parseycsb1(fpath):
     ff=open(fpath,'r').read().split('\n')
@@ -36,8 +38,11 @@ def parseycsb2(fpath):
     return(res)
 
 def calcforexp(expname, fpath, dbname):
+    if('noslow' in expname):
+        expname=''
     flist=os.listdir(fpath)
     totres={'ops': 0.0, 'avg': 0.0, '99': 0.0, '999': 0.0, 'max': 0.0}
+    listres={}
     cnt=0
     for _fp in flist:
         if(expname in _fp):
@@ -47,16 +52,18 @@ def calcforexp(expname, fpath, dbname):
                 res=parseycsb2(fp)
             else:
                 res=parseycsb1(fp)
-            print(fp, res)
+            # print(fp, res)
+            listres[fp]=res
             for kk in totres.keys():
                 totres[kk]+=res[kk]
     for kk in totres.keys():
         totres[kk]/=cnt
-    return(totres)
+    # print(listres)
+    return(totres, listres)
 
 def compareres(expname, noslowpath, slowpath, dbname):
-    noslowres=calcforexp('', noslowpath, dbname)
-    slowres=calcforexp(expname, slowpath, dbname)
+    noslowres, _ =calcforexp('', noslowpath, dbname)
+    slowres, _ =calcforexp(expname, slowpath, dbname)
     res={'ops': 0.0, 'avg': 0.0, '99': 0.0, '999': 0.0, 'max': 0.0}
     res['ops']=(noslowres['ops']-slowres['ops'])/noslowres['ops']*100
     res['avg']=(slowres['avg']-noslowres['avg'])/noslowres['avg']*100
@@ -65,6 +72,36 @@ def compareres(expname, noslowpath, slowpath, dbname):
     res['max']=(slowres['max']-noslowres['max'])/noslowres['max']*100
     return(res)
 
+def exportcsv(_csv, dbtype):
+	for exp in _csv:
+	    csvdata={'ops': {}, 'avg': {}, '99': {}, '999': {}, 'max': {}}
+	    csvname=exp['name']
+	    fname=csvname+'.csv'
+	    f=open(fname, 'w', newline='')
+	    for it in exp['data']:
+	        for ck in csvdata.keys():
+	            csvdata[ck][it[0]]=[]
+	        _, reslist =calcforexp(it[0], it[1], dbtype)
+	        for testcase in sorted(reslist.keys()):
+	            testres=reslist[testcase]
+	            # print(testcase, testres)
+	            for tk in testres.keys():
+	                csvdata[tk][it[0]].append(testres[tk])
+	    for ck in csvdata.keys():
+	        f.write(ck+', \n')
+	        for header in csvdata[ck]:
+	            f.write(header+', ')
+	            for dat in csvdata[ck][header]:
+	                f.write(str(dat)+', ')
+	            f.write('\n')
+	    f.close()
+
+def getpercentage(_explist, dbtype):
+	for exp in _explist:
+	    tt=compareres(exp[0], exp[1], exp[2], dbtype)
+	    print(exp)
+	    print("percentage: ", tt)
+	    print("")
 
 
 # define experiments here, like [ exp1/exp2/exp5/exp6, folder for noslow result, folder for experiment result ]
@@ -100,10 +137,74 @@ mongodb_explist=[
     ['exp6','./1client_tmpfs/mongodb/mongodb_noslow_swapon_mem_results','./1client_tmpfs/mongodb/mongodb_follower_swapon_mem_results'],
 ]
 
+# define experiments in csv file here
+
+tidb_csv=[
+    {
+        'name': 'tidb_leaderhigh',
+        'data': [
+                    ['noslow1_swapoff', './1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results'],
+                    ['exp1', './1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
+                    ['exp2', './1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
+                    ['exp5', './1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
+                    ['exp6', './1client_tmpfs/tidb/tidb_leaderhigh_swapon_mem_results'],
+                    ['noslow1_swapon', './1client_tmpfs/tidb/tidb_noslow1_swapon_mem_results']
+                ]
+    },
+    {
+        'name': 'tidb_leaderlow',
+        'data': [
+                    ['noslow1_swapoff', './1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results'],
+                    ['exp1', './1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
+                    ['exp2', './1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
+                    ['exp5', './1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
+                    ['exp6', './1client_tmpfs/tidb/tidb_leaderlow_swapon_mem_results'],
+                    ['noslow1_swapon', './1client_tmpfs/tidb/tidb_noslow1_swapon_mem_results']
+                ]
+    },
+    {
+        'name': 'tidb_follower',
+        'data': [
+                    ['noslow2_swapoff', './1client_tmpfs/tidb/tidb_noslow2_swapoff_mem_results'],
+                    ['exp1', './1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
+                    ['exp2', './1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
+                    ['exp5', './1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
+                    ['exp6', './1client_tmpfs/tidb/tidb_follower_swapon_mem_results'],
+                    ['noslow2_swapon', './1client_tmpfs/tidb/tidb_noslow2_swapon_mem_results']
+                ]
+    },
+]
+
+mongo_csv=[
+    {
+        'name': 'mongodb_follower',
+        'data': [
+                    ['noslow_swapoff', './1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results'],
+                    ['exp1', './1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
+                    ['exp2', './1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
+                    ['exp5', './1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
+                    ['exp6', './1client_tmpfs/mongodb/mongodb_follower_swapon_mem_results'],
+                    ['noslow_swapon', './1client_tmpfs/mongodb/mongodb_noslow_swapon_mem_results']
+                ]
+    },
+    {
+        'name': 'mongodb_leader',
+        'data': [
+                    ['noslow_swapoff', './1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results'],
+                    ['exp1', './1client_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
+                    ['exp2', './1client_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
+                    ['exp5', './1client_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
+                    ['exp6', './1client_tmpfs/mongodb/mongodb_leader_swapon_mem_results'],
+                    ['noslow_swapon', './1client_tmpfs/mongodb/mongodb_noslow_swapon_mem_results']
+                ]
+    },
+]
+
+
 # then get the result of each experiment
 
-for exp in mongodb_explist:
-    tt=compareres(exp[0], exp[1], exp[2], 'mongo')
-    print("percentage: ", tt)
-    print("")
+getpercentage(mongodb_explist, 'mongodb')
+getpercentage(tidb_explist, 'tidb')
+exportcsv(mongo_csv, 'mongodb')
+exportcsv(tidb_csv, 'tidb')
 
