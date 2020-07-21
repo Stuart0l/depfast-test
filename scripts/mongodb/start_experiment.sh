@@ -244,7 +244,7 @@ function test_run {
     # 9. cleanup
     mongo_cleanup
     node_cleanup
-    data_cleanup
+    #data_cleanup
 
     # 10. Power off all the VMs
     stop_servers
