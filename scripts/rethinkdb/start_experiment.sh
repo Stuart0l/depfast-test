@@ -8,13 +8,12 @@ set -ex
 
 # Server specific configs
 ##########################
-# serverZone="us-central1-a"
 resource="DepFast"
 clusterPort="29015"
 partitionName="/dev/sdc"
 ###########################
 
-if [ "$#" -ne 9 ]; then
+if [ "$#" -ne 10 ]; then
     echo "Wrong number of parameters"
     echo "1st arg - number of iterations"
     echo "2nd arg - workload path"
@@ -38,7 +37,7 @@ exptype=$6
 filesystem=$7
 swappiness=$8
 noOfServers=$9
-serverRegex=$10
+serverRegex=${10}
 
 declare -A serverNameIPMap 
 
@@ -52,21 +51,26 @@ function test_start {
 }
 
 function set_ip {
-	for (( i=0; i<$iterations; i++ ))
+	for (( i=0; i<$noOfServers; i++ ))
 	do
 		servername=$(cat config.json  | jq .[$i].name)
 		servername=$(sed -e "s/^'//" -e "s/'$//" <<<"$servername")
+  		servername=$(sed -e 's/^"//' -e 's/"$//' <<<"$servername")
 		serverip=$(cat config.json  | jq .[$i].privateip)
 		serverip=$(sed -e "s/^'//" -e "s/'$//" <<<"$serverip")
+  		serverip=$(sed -e 's/^"//' -e 's/"$//' <<<"$serverip")
 		serverNameIPMap[$servername]=$serverip
+		pyserver=$serverip
 	done
 }
 
 function setup_ssh_client_servers {
-for key in "${!serverNameIPMap[@]}";
-do
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa "$username"@"$clientPublicIP" "ssh-keygen -R ${serverNameIPMap[$key]} ; ssh-keyscan -H ${serverNameIPMap[$key]} >> ~/.ssh/known_hosts"
-done
+	touch ~/.ssh/known_hosts
+	for key in "${!serverNameIPMap[@]}";
+	do
+		ssh-keygen -R ${serverNameIPMap[$key]}
+		ssh-keyscan -H ${serverNameIPMap[$key]} >> ~/.ssh/known_hosts
+	done
 }
 
 # data_cleanup is called just after servers start
@@ -83,14 +87,22 @@ function start_servers {
 		gcloud compute instances start ${!serverNameIPMap[@]}
 
 	elif [ "$host" == "azure" ]; then
-	        #for cur_s in "${servers[@]}";
-	        #do
-                #    az vm start --name "$cur_s" --resource-group "$resource"
-	        #done
-	        az vm start --ids $(
-				az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex
-			)
-
+			# For regex have the following check to save ourselves from malformed regex which can lead
+			# to starting of non-target VMs
+			ns=$(az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex | wc -l)
+			if [[ $ns -le 5 ]]
+			then
+				az vm start --ids $(
+					az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex
+				)
+			else
+				echo "Server regex malformed, performing linear start"
+				# Switching back to linear start
+				for key in "${!serverNameIPMap[@]}";
+				do
+					az vm start --name "$key" --resource-group "$resource"
+				done
+			fi
 	else
 		echo "Not implemented error"
 		exit 1
@@ -140,16 +152,23 @@ function init_memory {
 
 # start_db starts the database instances on each of the server
 function start_db {
+	COUNTER=0
 	for key in "${!serverNameIPMap[@]}";
 	do
-		ssh  -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'taskset -ac 0 rethinkdb --directory /"$datadir"/rethinkdb_data1 --bind all --server-name ${serverNameIPMap[$key]}  --cache-size 10480 --daemon'"
+		if [ $COUNTER -eq 0 ];
+		then
+			ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'taskset -ac 0 rethinkdb --directory /"$datadir"/rethinkdb_data1 --bind all --server-name $key --daemon'"
+			joinIP=$key
+		else
+			ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'taskset -ac 0 rethinkdb --directory /"$datadir"/rethinkdb_data1 --join "$joinIP":"$clusterPort" --bind all --server-name $key --daemon'"
+		fi
+		let COUNTER=COUNTER+1
 	done
 	sleep 30
 }
 
 # db_init initialises the database
 function db_init {
-	pyserver=${serverNameIPMap[\"rethinkdb"$namePrefix"-1\"]}
 	source venv/bin/activate ;  python initr.py $pyserver  > tablesinfo ; deactivate
 	sleep 5
 	primaryreplica=$(cat tablesinfo | grep -Eo 'primaryreplica=.{1,50}' | cut -d'=' -f2-)
@@ -242,13 +261,22 @@ function stop_servers {
 	if [ "$host" == "gcp" ]; then
 		gcloud compute instances stop ${!serverNameIPMap[@]}
 	elif [ "$host" == "azure" ]; then
-	        #for cur_s in "${servers[@]}";
-	        #do
-	        #    az vm deallocate --name "$cur_s" --resource-group "$resource"
-	        #done
-	        az vm deallocate --ids $(
-			az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex
-		)
+	    # For regex have the following check to save ourselves from malformed regex which can lead
+		# to stopping of non-target VMs
+		ns=$(az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex | wc -l)
+		if [[ $ns -le 5 ]]
+		then
+			az vm deallocate --ids $(
+				az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex
+			)
+		else
+			echo "Server regex malformed, performing linear stop"
+			# Switching back to linear stop
+			for key in "${!serverNameIPMap[@]}";
+			do
+				az vm deallocate --name "$key" --resource-group "$resource"
+			done
+		fi
 	else
 		echo "Not implemented error"
 		exit 1
@@ -327,6 +355,3 @@ function test_run {
 
 test_start rethinkdb
 test_run
-
-# Make sure either shutdown is executed after you run this script or uncomment the last line
-# sudo shutdown -h now
