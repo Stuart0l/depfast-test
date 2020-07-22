@@ -8,25 +8,15 @@ set -ex
 
 # Server specific configs
 ##########################
-s1="10.0.0.34"
-s2="10.0.0.35"
-s3="10.0.0.36"
-
-s1name="cockroachdbfourth-1"
-s2name="cockroachdbfourth-2"
-s3name="cockroachdbfourth-3"
 serverZone="us-central1-a"
 nic="eth0"
 partitionName="/dev/sdc"
 # Azure support
-servers=($s1name $s2name $s3name)
-# NOTE: Make sure no other servers on azure matches this regex
-serverRegex="cockroachdbfourth-[1-3]"
 resource="DepFast"
 tppattern="[max|min]throughput"
 ###########################
 
-if [ "$#" -ne 8 ]; then
+if [ "$#" -ne 10 ]; then
     echo "Wrong number of parameters"
     echo "1st arg - number of iterations"
     echo "2nd arg - workload path"
@@ -36,6 +26,8 @@ if [ "$#" -ne 8 ]; then
     echo "6th arg - type of experiment(follower/maxthroughput/minthroughput/noslowfolllower/noslowmaxthroughput/noslowminthroughput)"
 	echo "7th arg - file system to use(disk,memory)"
 	echo "8th arg - vm swappiness parameter(swapoff,swapon)[swapon only for exp6+mem]"
+	echo "9th arg - no of servers(3/5)"
+	echo "10th arg - server Regex"
     exit 1
 fi
 
@@ -47,6 +39,8 @@ host=$5
 exptype=$6
 filesystem=$7
 swappiness=$8
+noOfServers=$9
+serverRegex=${10}
 
 # test_start is executed at the beginning
 function test_start {
@@ -57,25 +51,58 @@ function test_start {
 	mkdir -p $dirname
 }
 
+function set_ip {
+	for (( j=0; j<$noOfServers; j++ ))
+	do
+		servername=$(cat config.json  | jq .[$j].name)
+		servername=$(sed -e "s/^'//" -e "s/'$//" <<<"$servername")
+		servername=$(sed -e 's/^"//' -e 's/"$//' <<<"$servername")
+		serverip=$(cat config.json  | jq .[$j].privateip)
+		serverip=$(sed -e "s/^'//" -e "s/'$//" <<<"$serverip")
+		serverip=$(sed -e 's/^"//' -e 's/"$//' <<<"$serverip")
+		serverNameIPMap[$servername]=$serverip
+		initserver=$serverip
+	done
+}
+
+function setup_ssh_client_servers {
+	touch ~/.ssh/known_hosts
+	for key in "${!serverNameIPMap[@]}";
+	do
+		ssh-keygen -R ${serverNameIPMap[$key]}
+		ssh-keyscan -H ${serverNameIPMap[$key]} >> ~/.ssh/known_hosts
+	done
+}
+
 # data_cleanup is called just after servers start
 function data_cleanup {
-	ssh -i ~/.ssh/id_rsa "$s1" "sh -c 'rm -rf /data/*'"
-	ssh -i ~/.ssh/id_rsa "$s2" "sh -c 'rm -rf /data/*'"
-	ssh -i ~/.ssh/id_rsa "$s3" "sh -c 'rm -rf /data/*'"
+	for key in "${!serverNameIPMap[@]}";
+	do
+		ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'rm -rf /data/*'"
+	done
 }
 
 # start_servers is used to boot the servers up
 function start_servers {	
 	if [ "$host" == "gcp" ]; then
-		gcloud compute instances start "$s1name" "$s2name" "$s3name" --zone="$serverZone"
+		gcloud compute instances start ${!serverNameIPMap[@]} --zone="$serverZone"
 	elif [ "$host" == "azure" ]; then
-		#for cur_s in "${servers[@]}";
-		#do
-		#    az vm start --name "$cur_s" --resource-group "$resource"
-		#done
-		az vm start --ids $(
-			az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex
-		)
+        # For regex have the following check to save ourselves from malformed regex which can lead
+        # to starting of non-target VMs
+        ns=$(az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex | wc -l)
+        if [[ $ns -le 5 ]]
+        then
+            az vm start --ids $(
+                az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex
+            )
+        else
+            echo "Server regex malformed, performing linear start"
+            # Switching back to linear start
+            for key in "${!serverNameIPMap[@]}";
+            do
+                az vm start --name "$key" --resource-group "$resource"
+            done
+        fi
 	else
 		echo "Not implemented error"
 		exit 1
@@ -85,61 +112,73 @@ function start_servers {
 
 # init_disk is called to create and mount directories on disk
 function init_disk {
-	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
-	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
-	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
+    for key in "${!serverNameIPMap[@]}";
+    do
+        ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
+    done
 }
 
 # init_memory is called to create and mount memory based file system(tmpfs)
 function init_memory {
-	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"	
-	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"	
-	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"	
+    for key in "${!serverNameIPMap[@]}";
+    do
+        ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"	
+    done
 }
 
 function set_swap_config {
 	# swappiness config
 	if [ "$swappiness" == "swapoff" ] ; then
-		ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
-		ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
-		ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
+        for key in "${!serverNameIPMap[@]}";
+        do
+            ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
+        done
 	elif [ "$swappiness" == "swapon" ] ; then
 		# Disk needed for swapfile		
 		init_disk
-		ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 41GB
-    	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && sudo swapon -a ; sudo swapon /data/swapfile'"
-		ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 41GB
-    	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && sudo swapon -a ; sudo swapon /data/swapfile'"
-		ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 41GB
-    	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && sudo swapon -a ; sudo swapon /data/swapfile'"
+        for key in "${!serverNameIPMap[@]}";
+        do
+            ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 41GB
+            ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && sudo swapon -a ; sudo swapon /data/swapfile'"
+        done
 	else
 		echo "swappiness option not recognised. Exiting."
 		exit 1
 	fi
 }
 
-# start_follower_db starts the database instances on each of the server with locality config set. s1 is set to house all the leaseholders.
+function join_by { local IFS="$1"; shift; echo "$*"; }
+
+# start_follower_db starts the database instances on each of the server with locality config set. first server is set to house all the leaseholders.
 function start_follower_db {
-	ssh  -i ~/.ssh/id_rsa "$s1" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s1" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/"$datadir"/node1/ --pid-file /"$datadir"/pid --locality=datacenter=us-1 > /dev/null 2>&1 &'"
-	ssh  -i ~/.ssh/id_rsa "$s2" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s2" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/"$datadir"/node1/ --pid-file /"$datadir"/pid --locality=datacenter=us-2 > /dev/null 2>&1 &'"
-	ssh  -i ~/.ssh/id_rsa "$s3" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s3" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/"$datadir"/node1/ --pid-file /"$datadir"/pid --locality=datacenter=us-3 > /dev/null 2>&1 &'"
+    cservers=$(join_by , ${!serverNameIPMap[@]})
+    COUNTER=0
+    for key in "${!serverNameIPMap[@]}";
+    do
+        ssh  -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr=${serverNameIPMap[$key]} --join=$cservers --cache=4GiB --max-sql-memory=4GiB --store=/"$datadir"/node1/ --pid-file /"$datadir"/pid --locality=datacenter=us-"$COUNTER" > /dev/null 2>&1 &'"
+
+        let COUNTER=COUNTER+1
+    done
 	sleep 30
 }
 
 # start_max_min_throughput_db starts cockroach instances without the locality config set
 function start_max_min_throughput_db {
-	ssh  -i ~/.ssh/id_rsa "$s1" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s1" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/"$datadir"/node1/ --pid-file /"$datadir"/pid > /dev/null 2>&1 &'"
-	ssh  -i ~/.ssh/id_rsa "$s2" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s2" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/"$datadir"/node1/ --pid-file /"$datadir"/pid > /dev/null 2>&1 &'"
-	ssh  -i ~/.ssh/id_rsa "$s3" "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr="$s3" --join="$s1","$s2","$s3" --cache=4GiB --max-sql-memory=4GiB --store=/"$datadir"/node1/ --pid-file /"$datadir"/pid > /dev/null 2>&1 &'"
+    cservers=$(join_by , ${!serverNameIPMap[@]})
+    for key in "${!serverNameIPMap[@]}";
+    do
+        ssh  -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr=${serverNameIPMap[$key]} --join=$cservers --cache=4GiB --max-sql-memory=4GiB --store=/"$datadir"/node1/ --pid-file /"$datadir"/pid > /dev/null 2>&1 &'"
+    done
 	sleep 30
 }
 
 # db_init initialises the database
 function db_init {
-	cockroach init --insecure --host="$s1":26257
+	cockroach init --insecure --host="$initserver":26257
 
 	# Wait for startup
-	sleep 60
+	sleep 45
+
 	if [ "$exptype" == "follower" -o "$exptype" == "noslowfollower" ]; then
 		# Set leaseholder config for follower tests
 		cockroach sql --execute="ALTER TABLE system.public.replication_stats CONFIGURE ZONE USING lease_preferences = '[[+datacenter=us-1]]';
@@ -152,16 +191,16 @@ function db_init {
 
 		ALTER DATABASE system CONFIGURE ZONE USING constraints= '{"+datacenter=us-1": 1}', lease_preferences = '[[+datacenter=us-1]]';
 
-		ALTER RANGE default CONFIGURE ZONE USING num_replicas = 3, lease_preferences = '[[+datacenter=us-1]]';" --insecure --host="$s1"
+		ALTER RANGE default CONFIGURE ZONE USING num_replicas = 3, lease_preferences = '[[+datacenter=us-1]]';" --insecure --host="$initserver"
 
 		# Create ycsb DB
-		cockroach sql --execute="CREATE DATABASE ycsb;" --insecure --host="$s1"
+		cockroach sql --execute="CREATE DATABASE ycsb;" --insecure --host="$initserver"
 
-		cockroach sql --execute="ALTER database ycsb CONFIGURE ZONE USING constraints= '{"+datacenter=us-1": 1}', lease_preferences = '[[+datacenter=us-1]]', num_replicas = 3;" --insecure --host="$s1"
+		cockroach sql --execute="ALTER database ycsb CONFIGURE ZONE USING constraints= '{"+datacenter=us-1": 1}', lease_preferences = '[[+datacenter=us-1]]', num_replicas = 3;" --insecure --host="$initserver"
 
 	elif [[ "$exptype" =~ $tppattern ]]; then
 		# Create ycsb DB
-		cockroach sql --execute="CREATE DATABASE ycsb;" --insecure --host="$s1"
+		cockroach sql --execute="CREATE DATABASE ycsb;" --insecure --host="$initserver"
 	else
 		# No Slow
 		# Create ycsb DB
@@ -194,7 +233,7 @@ function db_init {
 		FAMILY fam_8_field7 (field7),
 		FAMILY fam_9_field8 (field8),
 		FAMILY fam_10_field9 (field9)
-	);" --insecure --host="$s1"
+	);" --insecure --host="$initserver"
 
 	sleep 45s
 }
@@ -202,10 +241,10 @@ function db_init {
 # ycsb_load is used to run the ycsb load and wait until it completes.
 function ycsb_load {
 	# load on the first server
-	./bin/ycsb load jdbc -s -P $workload -p db.driver=org.postgresql.Driver -p db.user=root -p db.passwd=root -p db.url=jdbc:postgresql://"$s1":26257/ycsb?sslmode=disable -cp jdbc-binding/lib/postgresql-42.2.10.jar
+	./bin/ycsb load jdbc -s -P $workload -p db.driver=org.postgresql.Driver -p db.user=root -p db.passwd=root -p db.url=jdbc:postgresql://"$initserver":26257/ycsb?sslmode=disable -cp jdbc-binding/lib/postgresql-42.2.10.jar -threads 10
 
 	# Check the leaseholders
-	cockroach sql --execute="SELECT table_name,range_id,lease_holder FROM [show ranges from database system];SELECT table_name,range_id,lease_holder FROM [show ranges from database ycsb];" --insecure --host="$s1"
+	cockroach sql --execute="SELECT table_name,range_id,lease_holder FROM [show ranges from database system];SELECT table_name,range_id,lease_holder FROM [show ranges from database ycsb];" --insecure --host="$initserver"
 }
 
 # ycsb run exectues the given workload and waits for it to complete
@@ -213,23 +252,26 @@ function ycsb_run {
 	# Run ycsb always at primary
 	# For maxthroughput slowness, this is the node with max throughput
 	# For minthroughput slowness, this is the node with min throughput
-	# For follower slowness, we chose leader as s1, as it has the locality config set
+	# For follower slowness, we chose leader as first server, as it has the locality config set
 	taskset -ac 0 bin/ycsb run jdbc -s -P $workload -p maxexecutiontime=$ycsbruntime -cp jdbc-binding/lib/postgresql-42.2.10.jar -p db.driver=org.postgresql.Driver -p db.user=root -p db.passwd=root -p db.url=jdbc:postgresql://"$primaryip":26257/ycsb?sslmode=disable  > "$dirname"/exp"$expno"_trial_"$i".txt
 
 	# Verify that all the range leaseholders are on Node 1.
-	cockroach sql --execute="SELECT table_name,range_id,lease_holder FROM [show ranges from database system];SELECT table_name,range_id,lease_holder FROM [show ranges from database ycsb];" --insecure --host="$s1"
+	cockroach sql --execute="SELECT table_name,range_id,lease_holder FROM [show ranges from database system];SELECT table_name,range_id,lease_holder FROM [show ranges from database ycsb];" --insecure --host="$initserver"
 }
 
 # cleanup_disk is called at the end of the given trial of an experiment
 function cleanup_disk {
-	cockroach sql --execute="drop database ycsb CASCADE;" --insecure --host="$s1"
-	cockroach quit --insecure --host="$s1":26257
-	cockroach quit --insecure --host="$s2":26257
-	cockroach quit --insecure --host="$s3":26257
+	cockroach sql --execute="drop database ycsb CASCADE;" --insecure --host="$initserver"
+    for key in "${!serverNameIPMap[@]}";
+    do
+        cockroach quit --insecure --host="${serverNameIPMap[$key]}":26257
+    done
 
-	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/*; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db  ; true'"
-	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/* ; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
-	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/* ; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
+    for key in "${!serverNameIPMap[@]}";
+    do
+        ssh -i ~/.ssh/id_rsa "${serverNameIPMap[$key]}" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/*; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
+    done
+
 	# Remove the tc rule for exp 5
 	if [ "$expno" == 5 -a "$exptype" != "noslowfollower" ]; then
 		if [ "$exptype" != "noslowmaxthroughput" -a "$exptype" != "noslowminthroughput" ]; then
@@ -243,24 +285,28 @@ function cleanup_disk {
 }
 
 function cleanup_memory {
-	cockroach sql --execute="drop database ycsb CASCADE;" --insecure --host="$s1"
-	cockroach quit --insecure --host="$s1":26257
-	cockroach quit --insecure --host="$s2":26257
-	cockroach quit --insecure --host="$s3":26257
+	cockroach sql --execute="drop database ycsb CASCADE;" --insecure --host="$initserver"
+    for key in "${!serverNameIPMap[@]}";
+    do
+        cockroach quit --insecure --host="${serverNameIPMap[$key]}":26257
+    done
 
 	 if [ "$swappiness" == "swapon" ] ; then
-		ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'pkill cockroach ; sudo swapoff -v /data/swapfile'"
-		ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'pkill cockroach ; sudo swapoff -v /data/swapfile'"
-		ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'pkill cockroach ; sudo swapoff -v /data/swapfile'"
+        for key in "${!serverNameIPMap[@]}";
+        do
+            ssh -i ~/.ssh/id_rsa "${serverNameIPMap[$key]}" "sudo sh -c 'pkill cockroach ; sudo swapoff -v /data/swapfile'"
+        done
 	fi
 
-	ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
-	ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
-	ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
+    for key in "${!serverNameIPMap[@]}";
+    do
+        ssh -i ~/.ssh/id_rsa "${serverNameIPMap[$key]}" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
+    done
 	if [ "$expno" == 6 ]; then
-		ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo umount $partitionName'"
-		ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo umount $partitionName'"
-		ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo umount $partitionName'"
+        for key in "${!serverNameIPMap[@]}";
+        do
+            ssh -i ~/.ssh/id_rsa "${serverNameIPMap[$key]}" "sudo sh -c 'sudo umount $partitionName'"
+    done
 	fi
 	# Remove the tc rule for exp 5
 	if [ "$expno" == 5 -a "$exptype" != "noslowfollower" ]; then
@@ -277,15 +323,24 @@ function cleanup_memory {
 # stop_servers turns off the VM instances
 function stop_servers {
 	if [ "$host" == "gcp" ]; then
-		gcloud compute instances stop "$s1name" "$s2name" "$s3name" --zone="$serverZone"
+        gcloud compute instances stop ${!serverNameIPMap[@]}  --zone="$serverZone"
 	elif [ "$host" == "azure" ]; then
-		#for cur_s in "${servers[@]}";
-		#do
-			#    az vm deallocate --name "$cur_s" --resource-group "$resource"
-		#done
-		az vm deallocate --ids $(
-			az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex
-		)
+	    # For regex have the following check to save ourselves from malformed regex which can lead
+		# to stopping of non-target VMs
+		ns=$(az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex | wc -l)
+		if [[ $ns -le 5 ]]
+		then
+			az vm deallocate --ids $(
+				az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex
+			)
+		else
+			echo "Server regex malformed, performing linear stop"
+			# Switching back to linear stop
+			for key in "${!serverNameIPMap[@]}";
+			do
+				az vm deallocate --name "$key" --resource-group "$resource"
+			done
+		fi
 	else
 		echo "Not implemented error"
 		exit 1
@@ -297,35 +352,43 @@ function stop_servers {
 function find_node_to_slowdown {
 	if [  "$exptype" == "maxthroughput" -o "$exptype" == "noslowmaxthroughput" ]; then
 		# Download raft stats
-		wget http://"$s1":8080/_status/raft -O raft.json
+		wget http://"$initserver":8080/_status/raft -O raft.json
 		# Identify the node that needs to be slowed down here
 		# run the parser code to identify the node id of the MAX throughput node
 		echo "Picking max throughput node to slowdown"
 		nodeid=$(python3 throughputparser.py raft.json | grep -Eo 'maxnodeid=[0-9]' | cut -d'=' -f2-)
 		echo $nodeid
 
-		slowdownip=$(cockroach node status --host="$s1":26257 --insecure --format tsv | awk '{print $1, $2 }' | grep "$nodeid " | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}')
+		slowdownip=$(cockroach node status --host="$initserver":26257 --insecure --format tsv | awk '{print $1, $2 }' | grep "$nodeid " | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}')
 		slowdownpid=$(ssh -i ~/.ssh/id_rsa "$slowdownip" "sh -c 'cat /"$datadir"/pid'")
 		primaryip=$slowdownip
 	elif [  "$exptype" == "minthroughput" -o "$exptype" == "noslowminthroughput" ]; then
 		# Download raft stats
-		wget http://"$s1":8080/_status/raft -O raft.json
+		wget http://"$initserver":8080/_status/raft -O raft.json
 		# Identify the node that needs to be slowed down here
 		# run the parser code to identify the node id of the MIN throughput node
 		echo "Picking min throughput node to slowdown"
 		nodeid=$(python3 throughputparser.py raft.json | grep -Eo 'minnodeid=[0-9]' | cut -d'=' -f2-)
 		echo $nodeid
 
-		slowdownip=$(cockroach node status --host="$s1":26257 --insecure --format tsv | awk '{print $1, $2 }' | grep "$nodeid " | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}')
+		slowdownip=$(cockroach node status --host="$initserver":26257 --insecure --format tsv | awk '{print $1, $2 }' | grep "$nodeid " | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}')
 		slowdownpid=$(ssh -i ~/.ssh/id_rsa "$slowdownip" "sh -c 'cat /"$datadir"/pid'")
 		primaryip=$slowdownip
 	elif [  "$exptype" == "follower" -o "$exptype" == "noslowfollower" ]; then
-		# Since locality is set on s1, that is the primary and rest are secondary
-		# Choose s2 as secondary
-		primaryip=$s1
-		secondaryip=$s2
-		primarypid=$(ssh -i ~/.ssh/id_rsa "$s1" "sh -c 'cat /"$datadir"/pid'")
-		secondarypid=$(ssh -i ~/.ssh/id_rsa "$s2" "sh -c 'cat /"$datadir"/pid'")
+		# Since locality is set on first server, that is the primary and rest are secondary
+        COUNT=0
+        for key in "${!serverNameIPMap[@]}";
+        do  
+            if [ $COUNT -eq 0 ];
+            then
+                primaryip=${serverNameIPMap[$key]}
+            else
+                secondaryip=${serverNameIPMap[$key]}
+            fi  
+            let COUNT=COUNT+1
+        done
+		primarypid=$(ssh -i ~/.ssh/id_rsa "$primaryip" "sh -c 'cat /"$datadir"/pid'")
+		secondarypid=$(ssh -i ~/.ssh/id_rsa "$secondaryip" "sh -c 'cat /"$datadir"/pid'")
 		slowdownpid=$secondarypid
 		slowdownip=$secondaryip
 	else
@@ -346,10 +409,16 @@ function test_run {
 		# 1. start servers
 		start_servers
 
-		# 2. Cleanup first
+        # 2. Set IP addresses
+        set_ip
+
+        # 3. Copy ssh keys
+        setup_ssh_client_servers
+
+		# 4. Cleanup first
 		data_cleanup	
 
-		# 3. Create data directories
+		# 5. Create data directories
 		datadir="data"
 		if [ "$filesystem" == "disk" ]; then
 			init_disk
@@ -361,10 +430,10 @@ function test_run {
 			exit 1
 		fi
 
-		# 4. Set swappiness config
+		# 6. Set swappiness config
 		set_swap_config
 
-		# 5. SSH to all the machines and start db
+		# 7. SSH to all the machines and start db
 		if [ "$exptype" == "follower" -o "$exptype" == "noslowfollower" ]; then
 			# With locality config set
 			start_follower_db
@@ -375,24 +444,24 @@ function test_run {
 			echo ""
 		fi
 
-		# 6. Init
+		# 8. Init
 		db_init
 
-		# 7. ycsb load
+		# 9. ycsb load
 		ycsb_load
 
-		# 8. Find out node to slowdown
+		# 10. Find out node to slowdown
 		find_node_to_slowdown
 
-		# 9. Run experiment if this is not a no slow
+		# 11. Run experiment if this is not a no slow
 		if [ "$exptype" != "noslowmaxthroughput" -a "$exptype" != "noslowminthroughput" -a "$exptype" != "noslowfollower" ]; then
 			run_experiment
 		fi
 
-		# 10. ycsb run
+		# 12. ycsb run
 		ycsb_run
 
-		# 11. cleanup
+		# 13. cleanup
 		if [ "$filesystem" == "disk" ]; then
 			cleanup_disk
 		elif [ "$filesystem" == "memory" ]; then
@@ -402,7 +471,7 @@ function test_run {
 			exit 1
 		fi
 		
-		# 12. Power off all the VMs
+		# 14. Power off all the VMs
 		stop_servers
 	done
 }
