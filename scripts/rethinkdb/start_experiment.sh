@@ -51,12 +51,12 @@ function test_start {
 }
 
 function set_ip {
-	for (( i=0; i<$noOfServers; i++ ))
+	for (( j=0; j<$noOfServers; j++ ))
 	do
-		servername=$(cat config.json  | jq .[$i].name)
+		servername=$(cat config.json  | jq .[$j].name)
 		servername=$(sed -e "s/^'//" -e "s/'$//" <<<"$servername")
   		servername=$(sed -e 's/^"//' -e 's/"$//' <<<"$servername")
-		serverip=$(cat config.json  | jq .[$i].privateip)
+		serverip=$(cat config.json  | jq .[$j].privateip)
 		serverip=$(sed -e "s/^'//" -e "s/'$//" <<<"$serverip")
   		serverip=$(sed -e 's/^"//' -e 's/"$//' <<<"$serverip")
 		serverNameIPMap[$servername]=$serverip
@@ -158,7 +158,7 @@ function start_db {
 		if [ $COUNTER -eq 0 ];
 		then
 			ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'taskset -ac 0 rethinkdb --directory /"$datadir"/rethinkdb_data1 --bind all --server-name $key --daemon'"
-			joinIP=$key
+			joinIP=${serverNameIPMap[$key]}
 		else
 			ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'taskset -ac 0 rethinkdb --directory /"$datadir"/rethinkdb_data1 --join "$joinIP":"$clusterPort" --bind all --server-name $key --daemon'"
 		fi
@@ -229,7 +229,7 @@ function cleanup_disk {
 }
 
 function cleanup_memory {
-	source venv/bin/activate ;  python cleanup.py ; deactivate
+	source venv/bin/activate ;  python cleanup.py $pyserver; deactivate
 
 	if [ "$swappiness" == "swapon" ] ; then
 		for key in "${!serverNameIPMap[@]}";
