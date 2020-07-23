@@ -16,7 +16,7 @@ resource="DepFast"
 tppattern="[max|min]throughput"
 ###########################
 
-if [ "$#" -ne 10 ]; then
+if [ "$#" -ne 11 ]; then
     echo "Wrong number of parameters"
     echo "1st arg - number of iterations"
     echo "2nd arg - workload path"
@@ -28,6 +28,7 @@ if [ "$#" -ne 10 ]; then
 	echo "8th arg - vm swappiness parameter(swapoff,swapon)[swapon only for exp6+mem]"
 	echo "9th arg - no of servers(3/5)"
 	echo "10th arg - server Regex"
+	echo "11th arg - threads for ycsb run(for saturation exp)"
     exit 1
 fi
 
@@ -41,6 +42,9 @@ filesystem=$7
 swappiness=$8
 noOfServers=$9
 serverRegex=${10}
+ycsbthreads=${11}
+
+declare -A serverNameIPMap
 
 # test_start is executed at the beginning
 function test_start {
@@ -253,7 +257,7 @@ function ycsb_run {
 	# For maxthroughput slowness, this is the node with max throughput
 	# For minthroughput slowness, this is the node with min throughput
 	# For follower slowness, we chose leader as first server, as it has the locality config set
-	taskset -ac 0 bin/ycsb run jdbc -s -P $workload -p maxexecutiontime=$ycsbruntime -cp jdbc-binding/lib/postgresql-42.2.10.jar -p db.driver=org.postgresql.Driver -p db.user=root -p db.passwd=root -p db.url=jdbc:postgresql://"$primaryip":26257/ycsb?sslmode=disable  > "$dirname"/exp"$expno"_trial_"$i".txt
+	taskset -ac 0 bin/ycsb run jdbc -s -P $workload -p maxexecutiontime=$ycsbruntime -cp jdbc-binding/lib/postgresql-42.2.10.jar -p db.driver=org.postgresql.Driver -p db.user=root -p db.passwd=root -p db.url=jdbc:postgresql://"$primaryip":26257/ycsb?sslmode=disable -threads $ycsbthreads > "$dirname"/exp"$expno"_trial_"$i".txt
 
 	# Verify that all the range leaseholders are on Node 1.
 	cockroach sql --execute="SELECT table_name,range_id,lease_holder FROM [show ranges from database system];SELECT table_name,range_id,lease_holder FROM [show ranges from database ycsb];" --insecure --host="$initserver"

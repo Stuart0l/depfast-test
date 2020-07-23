@@ -161,6 +161,8 @@ function deallocate_vms {
 			az vm deallocate --name "$key" --resource-group "$resource"
 		done
 	fi
+	# Deallocate client VM as well
+	az vm deallocate --name "$clientName" --resource-group "$resource"
 }
 
 function main {

@@ -6,7 +6,7 @@ date=$(date +"%Y%m%d%s")
 
 set -ex
 
-if [ "$#" -ne 6 ]; then
+if [ "$#" -ne 7 ]; then
   echo "Wrong number of args"
   echo "1st arg - number of servers to create"
   echo "2nd arg - server prefix name(-1,-2,-3 added as suffix to this name)"
@@ -14,6 +14,7 @@ if [ "$#" -ne 6 ]; then
   echo "4th arg - workload name"
   echo "5th arg - seconds to run ycsb run"
   echo "6th arg - file system to use(disk,memory)"
+  echo "7th arg - ycsb run threads(for saturation exp)"
   exit 1
 fi
 
@@ -23,6 +24,7 @@ iterations=$3
 workload=$4
 ycsbruntime=$5
 filesystem=$6
+threadsycsb=$7
 
 username="riteshsinha"
 serverRegex="cockroachdb$namePrefix-[1-$noOfServers]"
@@ -88,16 +90,16 @@ function setup_servers {
 	ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'curl -O https://raw.githubusercontent.com/torvalds/linux/master/tools/hv/lsvmbus'"
 	devID=$(ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "python lsvmbus -vv | grep -w \"Time Synchronization\" -A 3 | grep Device_ID | grep -o '{.*}' | tr -d "{}"")
 	ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'echo "$devID" | sudo tee /sys/bus/vmbus/drivers/hv_util/unbind'"
-	ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo apt-get install ntp ; sudo service ntp stop ; sudo ntpd -b time.google.com'"
+	ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo apt-get install ntp ntpstat --assume-yes ; sudo service ntp stop ; sudo ntpd -b time.google.com'"
 	ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'echo -e \"server time1.google.com iburst\nserver time2.google.com iburst\nserver time3.google.com iburst\nserver time4.google.com iburst\" >> /etc/ntp.conf'"
-	ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo service ntp start ; ntpstat'"
+	ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo service ntp start ; ntpstat ; true'"
   done
 }
 
 function run_ssd_experiment {
 ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP << EOF_2
 	# Run all the experiments one by one
-	cd ~/YCSB
+	cd ~/ycsb-0.17.0
 	:
 	./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure noslow disk swapoff 3 $serverRegex
 
@@ -116,13 +118,13 @@ EOF_2
 }
 
 function run_memory_experiment {
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure follower memory swapoff 3 $serverRegex)"
+	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure follower memory swapoff 3 $serverRegex $threadsycsb)"
 }
 
 function run_memory_experiment2 {
 ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP << EOF_3
 	# Run all the experiments one by one
-	cd ~/YCSB
+	cd ~/ycsb-0.17.0
 	:
 	./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure noslow memory swapoff 3 $serverRegex
 
@@ -150,7 +152,7 @@ ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP << EOF_1
 	sudo apt install jq --assume-yes
 EOF_1
     # SCP the experiment files to the client. This should run from the script/cockroachdb path
-	scp -r ./* $clientPublicIP:~/YCSB/
+	scp -r ./* $clientPublicIP:~/ycsb-0.17.0/
 
 	# Create a service principal for azure login from the client VM
 	rm -f serviceprincipal.json
