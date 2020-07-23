@@ -65,7 +65,7 @@ def compareres(expname, noslowpath, slowpath, dbname):
     noslowres, _ =calcforexp('', noslowpath, dbname)
     slowres, _ =calcforexp(expname, slowpath, dbname)
     res={'ops': 0.0, 'avg': 0.0, '99': 0.0, '999': 0.0, 'max': 0.0}
-    res['ops']=(noslowres['ops']-slowres['ops'])/noslowres['ops']*100
+    res['ops']=(slowres['ops']-noslowres['ops'])/noslowres['ops']*100
     res['avg']=(slowres['avg']-noslowres['avg'])/noslowres['avg']*100
     res['99']=(slowres['99']-noslowres['99'])/noslowres['99']*100
     res['999']=(slowres['999']-noslowres['999'])/noslowres['999']*100
@@ -273,13 +273,13 @@ cockroachdb_csv = [
 
 # then get the result of each experiment
 
-#getpercentage(mongodb_explist, 'mongodb')
-#getpercentage(tidb_explist, 'tidb')
-#exportcsv(mongo_csv, 'mongodb')
-#exportcsv(tidb_csv, 'tidb')
+getpercentage(mongodb_explist, 'mongodb')
+getpercentage(tidb_explist, 'tidb')
+exportcsv(mongo_csv, 'mongodb')
+exportcsv(tidb_csv, 'tidb')
 
 #getpercentage(rethinkdb_explist, 'rethinkdb')
 #exportcsv(rethinkdb_csv, 'rethinkdb')
 
-getpercentage(rethinkdb_explist, 'cockroachdb')
-exportcsv(rethinkdb_csv, 'cockroachdb')
+# getpercentage(rethinkdb_explist, 'cockroachdb')
+# exportcsv(rethinkdb_csv, 'cockroachdb')
