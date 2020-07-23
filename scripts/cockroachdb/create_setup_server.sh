@@ -27,6 +27,7 @@ filesystem=$6
 threadsycsb=$7
 
 username="riteshsinha"
+resource="DepFast"
 serverRegex="cockroachdb$namePrefix-[1-$noOfServers]"
 declare -A serverNameIPMap
 
@@ -154,6 +155,7 @@ EOF_1
     # SCP the experiment files to the client. This should run from the script/cockroachdb path
 	scp -r ./* $clientPublicIP:~/ycsb-0.17.0/
 
+    ssh -i ~/.ssh/id_rsa $clientPublicIP "sudo sh -c 'wget -qO- https://binaries.cockroachdb.com/cockroach-v19.2.4.linux-amd64.tgz | tar  xvz ; sudo cp -i cockroach-v19.2.4.linux-amd64/cockroach /usr/local/bin/'"
 	# Create a service principal for azure login from the client VM
 	rm -f serviceprincipal.json
 	az ad sp create-for-rbac --name $namePrefix > serviceprincipal.json

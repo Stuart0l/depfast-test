@@ -25,6 +25,7 @@ ycsbruntime=$5
 filesystem=$6
 
 username="riteshsinha"
+resource="DepFast"
 serverRegex="rethinkdb$namePrefix-[1-$noOfServers]"
 declare -A serverNameIPMap
 

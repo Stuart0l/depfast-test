@@ -1,0 +1,29 @@
+Percentile values from hdrhistogram
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
+Percentile values from hdrhistogram
+[OVERALL], RunTime(ms), 306296
+[OVERALL], Throughput(ops/sec), 0.09467965628019955
+[TOTAL_GCS_G1_Young_Generation], Count, 1
+[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 12
+[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.003917778880559981
+[TOTAL_GCS_G1_Old_Generation], Count, 0
+[TOTAL_GC_TIME_G1_Old_Generation], Time(ms), 0
+[TOTAL_GC_TIME_%_G1_Old_Generation], Time(%), 0.0
+[TOTAL_GCs], Count, 1
+[TOTAL_GC_TIME], Time(ms), 12
+[TOTAL_GC_TIME_%], Time(%), 0.003917778880559981
+[CLEANUP], Operations, 1
+[CLEANUP], AverageLatency(us), 181.0
+[CLEANUP], MinLatency(us), 181
+[CLEANUP], MaxLatency(us), 181
+[CLEANUP], 99thPercentileLatency(us), 181
+[CLEANUP], 99.9PercentileLatency(us), 181
+[UPDATE], Operations, 29
+[UPDATE], AverageLatency(us), 1.0557369379310345E7
+[UPDATE], MinLatency(us), 10330112
+[UPDATE], MaxLatency(us), 15548415
+[UPDATE], 99thPercentileLatency(us), 15548415
+[UPDATE], 99.9PercentileLatency(us), 15548415
+[UPDATE], Return=OK, 29

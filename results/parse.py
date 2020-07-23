@@ -137,6 +137,31 @@ mongodb_explist=[
     ['exp6','./1client_tmpfs/mongodb/mongodb_noslow_swapon_mem_results','./1client_tmpfs/mongodb/mongodb_follower_swapon_mem_results'],
 ]
 
+rethinkdb_explist=[
+    # leader slowness
+    ['exp1','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
+    ['exp2','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
+    ['exp3','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
+    ['exp4','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
+    ['exp5','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
+    # follower slowness
+    ['exp1','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+    ['exp2','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+    ['exp3','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+    ['exp4','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+    ['exp5','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+]
+
+cockroachdb_explist=[
+    # maxthroughput slowness
+    ['exp6','./1client_tmpfs/cockroachdb/cockroachdb_noslowmaxthroughput_memory_swapon_results','./1client_tmpfs/cockroachdb/cockroachdb_maxthroughput_memory_swapon_results'],
+    # minthroughput slowness
+    ['exp1','./1client_tmpfs/cockroachdb/cockroachdb_noslowminthroughput_memory_swapoff_results','./1client_tmpfs/cockroachdb/cockroachdb_minthroughput_memory_swapoff_results'],
+    ['exp2','./1client_tmpfs/cockroachdb/cockroachdb_noslowminthroughput_memory_swapoff_results','./1client_tmpfs/cockroachdb/cockroachdb_minthroughput_memory_swapoff_results'],
+    ['exp5','./1client_tmpfs/cockroachdb/cockroachdb_noslowminthroughput_memory_swapoff_results','./1client_tmpfs/cockroachdb/cockroachdb_minthroughput_memory_swapoff_results'],
+    ['exp6','./1client_tmpfs/cockroachdb/cockroachdb_noslowminthroughput_memory_swapon_results','./1client_tmpfs/cockroachdb/cockroachdb_minthroughput_memory_swapon_results'],
+]
+
 # define experiments in csv file here
 
 tidb_csv=[
@@ -200,11 +225,61 @@ mongo_csv=[
     },
 ]
 
+rethinkdb_csv=[
+    {
+        'name': 'rethinkdb_follower',
+        'data': [
+                    ['noslow_swapoff', './1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results'],
+                    ['exp1', './1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+                    ['exp2', './1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+                    ['exp3', './1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+                    ['exp4', './1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+                    ['exp5', './1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results']
+                ]
+    },
+    {
+        'name': 'rethinkdb_leader',
+        'data': [
+                    ['noslow_swapoff', './1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results'],
+                    ['exp1', './1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
+                    ['exp2', './1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
+                    ['exp3', './1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
+                    ['exp4', './1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
+                    ['exp5', './1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results']
+                ]
+    },
+]
+
+cockroachdb_csv = [
+    {
+        'name': 'cockroachdb_maxthroughput',
+        'data': [
+                    ['noslow1_swapon', './1client_tmpfs/cockroachdb/cockroachdb_noslowmaxthroughput_memory_swapon_results'],
+                    ['exp6', './1client_tmpfs/cockroachdb/cockroachdb_maxthroughput_memory_swapon_results']
+                ]
+    },
+    {
+        'name': 'cockroachdb_minthroughput',
+        'data': [
+                    ['noslow1_swapoff', './1client_tmpfs/cockroachdb/cockroachdb_noslowminthroughput_memory_swapoff_results'],
+                    ['exp1', './1client_tmpfs/cockroachdb/cockroachdb_minthroughput_memory_swapoff_results'],
+                    ['exp2', './1client_tmpfs/cockroachdb/cockroachdb_minthroughput_memory_swapoff_results'],
+                    ['exp5', './1client_tmpfs/cockroachdb/cockroachdb_minthroughput_memory_swapoff_results'],
+                    ['exp6', './1client_tmpfs/cockroachdb/cockroachdb_minthroughput_memory_swapon_results'],
+                    ['noslow1_swapon', './1client_tmpfs/cockroachdb/cockroachdb_noslowminthroughput_memory_swapon_results']
+                ]
+    },
+]
 
 # then get the result of each experiment
 
-getpercentage(mongodb_explist, 'mongodb')
-getpercentage(tidb_explist, 'tidb')
-exportcsv(mongo_csv, 'mongodb')
-exportcsv(tidb_csv, 'tidb')
+#getpercentage(mongodb_explist, 'mongodb')
+#getpercentage(tidb_explist, 'tidb')
+#exportcsv(mongo_csv, 'mongodb')
+#exportcsv(tidb_csv, 'tidb')
 
+#getpercentage(rethinkdb_explist, 'rethinkdb')
+#exportcsv(rethinkdb_csv, 'rethinkdb')
+
+getpercentage(rethinkdb_explist, 'cockroachdb')
+exportcsv(rethinkdb_csv, 'cockroachdb')
