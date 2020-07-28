@@ -73,51 +73,57 @@ def compareres(expname, noslowpath, slowpath, dbname):
     return(res)
 
 def exportcsv(_csv, dbtype):
-	for exp in _csv:
-	    csvdata={'ops': {}, 'avg': {}, '99': {}, '999': {}, 'max': {}}
-	    csvname=exp['name']
-	    fname=csvname+'.csv'
-	    f=open(fname, 'w', newline='')
-	    for it in exp['data']:
-	        for ck in csvdata.keys():
-	            csvdata[ck][it[0]]=[]
-	        _, reslist =calcforexp(it[0], it[1], dbtype)
-	        for testcase in sorted(reslist.keys()):
-	            testres=reslist[testcase]
-	            # print(testcase, testres)
-	            for tk in testres.keys():
-	                csvdata[tk][it[0]].append(testres[tk])
-	    for ck in csvdata.keys():
-	        f.write(ck+', \n')
-	        for header in csvdata[ck]:
-	            f.write(header+', ')
-	            for dat in csvdata[ck][header]:
-	                f.write(str(dat)+', ')
-	            f.write('\n')
-	    f.close()
+    for exp in _csv:
+        csvdata={'ops': {}, 'avg': {}, '99': {}, '999': {}, 'max': {}}
+        csvname=exp['name']
+        fname=csvname+'.csv'
+        f=open(fname, 'w', newline='')
+        for it in exp['data']:
+            for ck in csvdata.keys():
+                csvdata[ck][it[0]]=[]
+            _, reslist =calcforexp(it[0], it[1], dbtype)
+            for testcase in sorted(reslist.keys()):
+                testres=reslist[testcase]
+                # print(testcase, testres)
+                for tk in testres.keys():
+                    csvdata[tk][it[0]].append(testres[tk])
+        for ck in csvdata.keys():
+            f.write(ck+', \n')
+            for header in csvdata[ck]:
+                f.write(header+', ')
+                for dat in csvdata[ck][header]:
+                    f.write(str(dat)+', ')
+                f.write('\n')
+        f.close()
 
 def getpercentage(_explist, dbtype):
-	for exp in _explist:
-	    tt=compareres(exp[0], exp[1], exp[2], dbtype)
-	    print(exp)
-	    print("percentage: ", tt)
-	    print("")
+    for exp in _explist:
+        if(exp[0]=='---'):
+            print('----------------------------------------------')
+        else:
+            tt=compareres(exp[0], exp[1], exp[2], dbtype)
+            print(exp)
+            print("percentage: ", tt)
+            print("")
 
 
 # define experiments here, like [ exp1/exp2/exp5/exp6, folder for noslow result, folder for experiment result ]
 
 tidb_explist=[
     # leaderhigh slowness
+    ['---'],
     ['exp1','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
     ['exp2','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
     ['exp5','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
     ['exp6','./1client_tmpfs/tidb/tidb_noslow1_swapon_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapon_mem_results'],
     # leaderlow slowness
+    ['---'],
     ['exp1','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
     ['exp2','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
     ['exp5','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
     ['exp6','./1client_tmpfs/tidb/tidb_noslow1_swapon_mem_results','./1client_tmpfs/tidb/tidb_leaderlow_swapon_mem_results'],
     # follower slowness
+    ['---'],
     ['exp1','./1client_tmpfs/tidb/tidb_noslow2_swapoff_mem_results','./1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
     ['exp2','./1client_tmpfs/tidb/tidb_noslow2_swapoff_mem_results','./1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
     ['exp5','./1client_tmpfs/tidb/tidb_noslow2_swapoff_mem_results','./1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
@@ -126,11 +132,13 @@ tidb_explist=[
 
 mongodb_explist=[
     # leader slowness
+    ['---'],
     ['exp1','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./1client_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
     ['exp2','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./1client_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
     ['exp5','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./1client_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
     ['exp6','./1client_tmpfs/mongodb/mongodb_noslow_swapon_mem_results','./1client_tmpfs/mongodb/mongodb_leader_swapon_mem_results'],
     # follower slowness
+    ['---'],
     ['exp1','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
     ['exp2','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
     ['exp5','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
