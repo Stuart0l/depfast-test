@@ -26,18 +26,18 @@ ycsbruntime=$5
 filesystem=$6
 threadsycsb=$7
 
-username="riteshsinha"
+username="tidb"
 resource="DepFast"
-serverRegex="cockroachdb$namePrefix-[1-$noOfServers]"
+serverRegex="tidb$namePrefix_[1-$noOfServers]"
 declare -A serverNameIPMap
 
 # Create the VM on Azure
 function az_vm_create {
   # Create client VM
-  az vm create --name cockroachdb"$namePrefix"-client --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 500 --storage-sku Premium_LRS --data-disk-sizes-gb 500 --size Standard_D4s_v3 --admin-username riteshsinha --ssh-key-values ~/.ssh/id_rsa.pub --accelerated-networking true
+  az vm create --name tidb"$namePrefix"_client --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 500 --storage-sku Premium_LRS --data-disk-sizes-gb 500 --size Standard_D4s_v3 --admin-username riteshsinha --ssh-key-values ~/.ssh/id_rsa.pub --accelerated-networking true
 
   # Setup Client IP and name
-  clientConfig=$(az vm list-ip-addresses --name cockroachdb"$namePrefix"-client --query '[0].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json)
+  clientConfig=$(az vm list-ip-addresses --name tidb"$namePrefix"_client --query '[0].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json)
   clientPrivateIP=$(echo $clientConfig | jq .privateip)
   clientPrivateIP=$(sed -e "s/^'//" -e "s/'$//" <<<"$clientPrivateIP")
   clientPrivateIP=$(sed -e 's/^"//' -e 's/"$//' <<<"$clientPrivateIP")
@@ -56,8 +56,9 @@ function az_vm_create {
   # Create servers with both local ssh key and client VM ssh key
   for (( i=1; i<=noOfServers; i++ ))
   do
-    az vm create --name cockroachdb"$namePrefix"-"$i" --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 500 --storage-sku Premium_LRS --data-disk-sizes-gb 500 --size Standard_D4s_v3 --admin-username riteshsinha --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub --accelerated-networking true
+    az vm create --name tidb"$namePrefix"_tikv"$i" --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 500 --storage-sku Premium_LRS --data-disk-sizes-gb 500 --size Standard_D4s_v3 --admin-username riteshsinha --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub --accelerated-networking true
   done
+  az vm create --name tidb"$namePrefix"_pd --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 500 --storage-sku Premium_LRS --data-disk-sizes-gb 500 --size Standard_D4s_v3 --admin-username riteshsinha --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub --accelerated-networking true
 }
 
 function write_config {
@@ -70,11 +71,11 @@ function find_ip {
   for (( i=0; i<$noOfServers; i++ ))
   do  
     servername=$(cat config.json  | jq .[$i].name)
-	servername="${servername%\"}"
-	servername="${servername#\"}"
+  	servername="${servername%\"}"
+  	servername="${servername#\"}"
     serverip=$(cat config.json  | jq .[$i].publicip)
-	serverip="${serverip%\"}"
-	serverip="${serverip#\"}"
+  	serverip="${serverip%\"}"
+  	serverip="${serverip#\"}"
     serverNameIPMap[$servername]=$serverip
   done
 }
@@ -84,51 +85,29 @@ function setup_servers {
   for key in "${!serverNameIPMap[@]}";
   do
     # Run the commands
-    ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo apt install tmux wget git --assume-yes ; sudo apt-get install cgroup-tools --assume-yes ; sudo apt-get install xfsprogs --assume-yes'"
+    ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo apt install tmux wget git --assume-yes ; sudo apt-get install cgroup-tools --assume-yes ; sudo apt-get install libc6 xfsprogs --assume-yes'"
     ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'wget -qO- https://binaries.cockroachdb.com/cockroach-v19.2.4.linux-amd64.tgz | tar  xvz ; sudo cp -i cockroach-v19.2.4.linux-amd64/cockroach /usr/local/bin/'"
     scp deadloop "${serverNameIPMap[$key]}":~/
-	# Sync clocks - https://www.cockroachlabs.com/docs/stable/deploy-cockroachdb-on-microsoft-azure-insecure.html
-	ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'curl -O https://raw.githubusercontent.com/torvalds/linux/master/tools/hv/lsvmbus'"
-	devID=$(ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "python lsvmbus -vv | grep -w \"Time Synchronization\" -A 3 | grep Device_ID | grep -o '{.*}' | tr -d "{}"")
-	ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'echo "$devID" | sudo tee /sys/bus/vmbus/drivers/hv_util/unbind'"
-	ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo apt-get install ntp ntpstat --assume-yes ; sudo service ntp stop ; sudo ntpd -b time.google.com'"
-	ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'echo -e \"server time1.google.com iburst\nserver time2.google.com iburst\nserver time3.google.com iburst\nserver time4.google.com iburst\" >> /etc/ntp.conf'"
-	ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo service ntp start ; ntpstat ; true'"
+	  # Sync clocks - https://www.cockroachlabs.com/docs/stable/deploy-cockroachdb-on-microsoft-azure-insecure.html
+	  ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'curl -O https://raw.githubusercontent.com/torvalds/linux/master/tools/hv/lsvmbus'"
+	  devID=$(ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "python lsvmbus -vv | grep -w \"Time Synchronization\" -A 3 | grep Device_ID | grep -o '{.*}' | tr -d "{}"")
+	  ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'echo "$devID" | sudo tee /sys/bus/vmbus/drivers/hv_util/unbind'"
+	  ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo apt-get install ntp ntpstat --assume-yes ; sudo service ntp stop ; sudo ntpd -b time.google.com'"
+  	ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'echo -e \"server time1.google.com iburst\nserver time2.google.com iburst\nserver time3.google.com iburst\nserver time4.google.com iburst\" >> /etc/ntp.conf'"
+  	ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo service ntp start ; ntpstat ; true'"
   done
 }
 
 function run_ssd_experiment {
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure noslowfollower disk swapoff 3 $serverRegex $threadsycsb)"
-
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure follower disk swapoff 3 $serverRegex $threadsycsb)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 2 azure follower disk swapoff 3 $serverRegex $threadsycsb)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 3 azure follower disk swapoff 3 $serverRegex $threadsycsb)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 4 azure follower disk swapoff 3 $serverRegex $threadsycsb)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 5 azure follower disk swapoff 3 $serverRegex $threadsycsb)"
-
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure noslowminthroughput disk swapoff 3 $serverRegex $threadsycsb)"
-
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure minthroughput disk swapoff 3 $serverRegex $threadsycsb)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 2 azure minthroughput disk swapoff 3 $serverRegex $threadsycsb)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 3 azure minthroughput disk swapoff 3 $serverRegex $threadsycsb)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 4 azure minthroughput disk swapoff 3 $serverRegex $threadsycsb)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 5 azure minthroughput disk swapoff 3 $serverRegex $threadsycsb)"
-
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure noslowmaxthroughput disk swapoff 3 $serverRegex $threadsycsb)"
-
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure maxthroughput disk swapoff 3 $serverRegex $threadsycsb)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 2 azure maxthroughput disk swapoff 3 $serverRegex $threadsycsb)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 3 azure maxthroughput disk swapoff 3 $serverRegex $threadsycsb)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 4 azure maxthroughput disk swapoff 3 $serverRegex $threadsycsb)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 5 azure maxthroughput disk swapoff 3 $serverRegex $threadsycsb)"
+#	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure noslowfollower disk swapoff 3 $serverRegex $threadsycsb)"
 }
 
 function run_memory_experiment {
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure follower memory swapoff 3 $serverRegex $threadsycsb)"
+#	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure follower memory swapoff 3 $serverRegex $threadsycsb)"
 }
 
 function setup_client {
-ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP << EOF_1
+  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP << EOF_1
 	sudo apt install git default-jre --assume-yes
 	sudo apt install maven --assume-yes
 	curl -O --location https://github.com/brianfrankcooper/YCSB/releases/download/0.17.0/ycsb-0.17.0.tar.gz ; tar xfvz ycsb-0.17.0.tar.gz
@@ -136,19 +115,19 @@ ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP << EOF_1
 	curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 	sudo apt install jq --assume-yes
 EOF_1
-    # SCP the experiment files to the client. This should run from the script/cockroachdb path
+  # SCP the experiment files to the client. This should run from the script/cockroachdb path
 	scp -r ./* $clientPublicIP:~/ycsb-0.17.0/
 
-    ssh -i ~/.ssh/id_rsa $clientPublicIP "sudo sh -c 'wget -qO- https://binaries.cockroachdb.com/cockroach-v19.2.4.linux-amd64.tgz | tar  xvz ; sudo cp -i cockroach-v19.2.4.linux-amd64/cockroach /usr/local/bin/'"
+  ssh -i ~/.ssh/id_rsa $clientPublicIP "sudo sh -c 'wget -qO- https://binaries.cockroachdb.com/cockroach-v19.2.4.linux-amd64.tgz | tar  xvz ; sudo cp -i cockroach-v19.2.4.linux-amd64/cockroach /usr/local/bin/'"
 	# Create a service principal for azure login from the client VM
 	rm -f serviceprincipal.json
 	az ad sp create-for-rbac --name $namePrefix > serviceprincipal.json
 	appID=$(cat serviceprincipal.json | jq .appId)
-    appID=$(sed -e "s/^'//" -e "s/'$//" <<<"$appID")
+  appID=$(sed -e "s/^'//" -e "s/'$//" <<<"$appID")
 	password=$(cat serviceprincipal.json | jq .password)
-    password=$(sed -e "s/^'//" -e "s/'$//" <<<"$password")
+  password=$(sed -e "s/^'//" -e "s/'$//" <<<"$password")
 	tenantID=$(cat serviceprincipal.json | jq .tenant)
-    tenantID=$(sed -e "s/^'//" -e "s/'$//" <<<"$tenantID")
+  tenantID=$(sed -e "s/^'//" -e "s/'$//" <<<"$tenantID")
 	sleep 30
 	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "az login --service-principal --username $appID --password $password --tenant $tenantID"
 }
@@ -182,14 +161,14 @@ function main {
 
   setup_client
 
-  if [ "$filesystem" == "disk" ]; then
-	run_ssd_experiment
-  elif [ "$filesystem" == "memory" ]; then
-	run_memory_experiment
-  else
-		echo "This option in filesystem is not supported.Exiting."
-		exit 1
-  fi
+#  if [ "$filesystem" == "disk" ]; then
+#	run_ssd_experiment
+#  elif [ "$filesystem" == "memory" ]; then
+#	run_memory_experiment
+#  else
+#		echo "This option in filesystem is not supported.Exiting."
+#		exit 1
+#  fi
 
   deallocate_vms
 }
