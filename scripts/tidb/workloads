@@ -23,7 +23,7 @@
 #   Request distribution: zipfian
 
 recordcount=1200000
-operationcount=1200000
+operationcount=1500000
 workload=core
 
 readallfields=true
