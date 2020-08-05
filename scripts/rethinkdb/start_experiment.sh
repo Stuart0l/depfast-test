@@ -13,7 +13,7 @@ clusterPort="29015"
 partitionName="/dev/sdc"
 ###########################
 
-if [ "$#" -ne 10 ]; then
+if [ "$#" -ne 11 ]; then
     echo "Wrong number of parameters"
     echo "1st arg - number of iterations"
     echo "2nd arg - workload path"
@@ -25,6 +25,7 @@ if [ "$#" -ne 10 ]; then
 	echo "8th arg - vm swappiness parameter(swapoff,swapon)[swapon only for exp6+mem]"
 	echo "9th arg - no of servers(3/5)"
 	echo "10th arg - server Regex"
+	echo "11th arg - threads for ycsb run(for saturation exp)"
     exit 1
 fi
 
@@ -38,6 +39,7 @@ filesystem=$7
 swappiness=$8
 noOfServers=$9
 serverRegex=${10}
+ycsbthreads=${11}
 
 declare -A serverNameIPMap 
 
@@ -210,7 +212,7 @@ function ycsb_load {
 
 # ycsb run exectues the given workload and waits for it to complete
 function ycsb_run {
-	./bin/ycsb run rethinkdb -s -P $workload -p maxexecutiontime=$ycsbruntime -p rethinkdb.host=$primaryip -p rethinkdb.port=28015 > "$dirname"/exp"$expno"_trial_"$i".txt
+	./bin/ycsb run rethinkdb -s -P $workload -p maxexecutiontime=$ycsbruntime -p rethinkdb.host=$primaryip -p rethinkdb.port=28015 -threads $ycsbthreads > "$dirname"/exp"$expno"_trial_"$i".txt
 }
 
 # cleanup is called at the end of the given trial of an experiment

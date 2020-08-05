@@ -1,8 +1,8 @@
 #!/usr/local/bin/bash
 
 date=$(date +"%Y%m%d%s")
-# exec > "$date"_setupserver.log
-# exec 2>&1
+exec > "$date"_setupserver.log
+exec 2>&1
 
 set -ex
 
@@ -105,22 +105,6 @@ function run_ssd_experiment {
 	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 3 azure follower disk swapoff 3 $serverRegex $threadsycsb)"
 	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 4 azure follower disk swapoff 3 $serverRegex $threadsycsb)"
 	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 5 azure follower disk swapoff 3 $serverRegex $threadsycsb)"
-
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure noslowminthroughput disk swapoff 3 $serverRegex $threadsycsb)"
-
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure minthroughput disk swapoff 3 $serverRegex $threadsycsb)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 2 azure minthroughput disk swapoff 3 $serverRegex $threadsycsb)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 3 azure minthroughput disk swapoff 3 $serverRegex $threadsycsb)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 4 azure minthroughput disk swapoff 3 $serverRegex $threadsycsb)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 5 azure minthroughput disk swapoff 3 $serverRegex $threadsycsb)"
-
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure noslowmaxthroughput disk swapoff 3 $serverRegex $threadsycsb)"
-
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure maxthroughput disk swapoff 3 $serverRegex $threadsycsb)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 2 azure maxthroughput disk swapoff 3 $serverRegex $threadsycsb)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 3 azure maxthroughput disk swapoff 3 $serverRegex $threadsycsb)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 4 azure maxthroughput disk swapoff 3 $serverRegex $threadsycsb)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 5 azure maxthroughput disk swapoff 3 $serverRegex $threadsycsb)"
 }
 
 function run_memory_experiment {
