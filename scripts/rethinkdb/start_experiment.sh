@@ -207,7 +207,7 @@ function db_init {
 
 # ycsb_load is used to run the ycsb load and wait until it completes.
 function ycsb_load {
-	./bin/ycsb load rethinkdb -s -P $workload -p rethinkdb.host=$primaryip -p rethinkdb.port=28015 -threads 10
+	./bin/ycsb load rethinkdb -s -P $workload -p rethinkdb.host=$primaryip -p rethinkdb.port=28015 -threads 20
 }
 
 # ycsb run exectues the given workload and waits for it to complete

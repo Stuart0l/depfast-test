@@ -245,7 +245,7 @@ function db_init {
 # ycsb_load is used to run the ycsb load and wait until it completes.
 function ycsb_load {
 	# load on the first server
-	./bin/ycsb load jdbc -s -P $workload -p db.driver=org.postgresql.Driver -p db.user=root -p db.passwd=root -p db.url=jdbc:postgresql://"$initserver":26257/ycsb?sslmode=disable -cp jdbc-binding/lib/postgresql-42.2.10.jar -threads 10
+	./bin/ycsb load jdbc -s -P $workload -p db.driver=org.postgresql.Driver -p db.user=root -p db.passwd=root -p db.url=jdbc:postgresql://"$initserver":26257/ycsb?sslmode=disable -cp jdbc-binding/lib/postgresql-42.2.10.jar -threads 20
 
 	# Check the leaseholders
 	cockroach sql --execute="SELECT table_name,range_id,lease_holder FROM [show ranges from database system];SELECT table_name,range_id,lease_holder FROM [show ranges from database ycsb];" --insecure --host="$initserver"
