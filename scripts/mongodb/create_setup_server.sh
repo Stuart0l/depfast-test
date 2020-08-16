@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/bin/bash
 
 date=$(date +"%Y%m%d%s")
 # exec > "$date"_setupserver.log
@@ -31,10 +31,17 @@ resource="DepFast"
 serverRegex="mongodb$namePrefix-[1-$noOfServers]"
 declare -A serverNameIPMap
 
+function setup_localvm {
+  clientPublicIP="192.168.1.19"
+  serverNameIPMap["s1"]="192.168.1.15"
+  serverNameIPMap["s2"]="192.168.1.16"
+  serverNameIPMap["s3"]="192.168.1.18"
+}
+
 # Create the VM on Azure
 function az_vm_create {
   # Create client VM
-  az vm create --name mongodb"$namePrefix"-client --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 500 --storage-sku Premium_LRS --data-disk-sizes-gb 500 --size Standard_D4s_v3 --admin-username riteshsinha --ssh-key-values ~/.ssh/id_rsa.pub --accelerated-networking true
+  az vm create --name mongodb"$namePrefix"-client --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 500 --storage-sku Premium_LRS --data-disk-sizes-gb 500 --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub --accelerated-networking true
 
   # Setup Client IP and name
   clientConfig=$(az vm list-ip-addresses --name mongodb"$namePrefix"-client --query '[0].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json)
@@ -56,7 +63,7 @@ function az_vm_create {
   # Create servers with both local ssh key and client VM ssh key
   for (( i=1; i<=noOfServers; i++ ))
   do
-    az vm create --name mongodb"$namePrefix"-"$i" --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 500 --storage-sku Premium_LRS --data-disk-sizes-gb 500 --size Standard_D4s_v3 --admin-username riteshsinha --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub --accelerated-networking true
+    az vm create --name mongodb"$namePrefix"-"$i" --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 500 --storage-sku Premium_LRS --data-disk-sizes-gb 500 --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub --accelerated-networking true
   done
 }
 
@@ -84,29 +91,29 @@ function setup_servers {
   for key in "${!serverNameIPMap[@]}";
   do
     #Run the commands
-    ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo apt install tmux wget git --assume-yes ; sudo apt-get install cgroup-tools --assume-yes ; sudo apt-get install xfsprogs --assume-yes'"
-    #ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'wget -qO- https://binaries.cockroachdb.com/cockroach-v19.2.4.linux-amd64.tgz | tar  xvz ; sudo cp -i cockroach-v19.2.4.linux-amd64/cockroach /usr/local/bin/'"
-    scp deadloop "${serverNameIPMap[$key]}":~/
+    ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'sudo apt install tmux wget git --assume-yes ; sudo apt-get install cgroup-tools --assume-yes ; sudo apt-get install xfsprogs libc6 python python3 --assume-yes ; ulimit -n 21000 ; ulimit -n 192276'"
+    ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'sudo parted -s -a optimal /dev/sdb mklabel gpt -- mkpart primary ext4 1 -1 '"
+    ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'rm -r mongodb ; wget -q https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1804-4.4.0.tgz ; tar -xf mongodb-linux-x86_64-ubuntu1804-4.4.0.tgz ; mv mongodb-linux-x86_64-ubuntu1804-4.4.0 mongodb'"
+    scp deadloop tidb@"${serverNameIPMap[$key]}":~/
 	  #Sync clocks - https://www.cockroachlabs.com/docs/stable/deploy-cockroachdb-on-microsoft-azure-insecure.html
-  	ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'curl -O https://raw.githubusercontent.com/torvalds/linux/master/tools/hv/lsvmbus'"
-  	devID=$(ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "python lsvmbus -vv | grep -w \"Time Synchronization\" -A 3 | grep Device_ID | grep -o '{.*}' | tr -d "{}"")
-	  ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'echo "$devID" | sudo tee /sys/bus/vmbus/drivers/hv_util/unbind'"
-  	ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo apt-get install ntp ntpstat --assume-yes ; sudo service ntp stop ; sudo ntpd -b time.google.com'"
-  	ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'echo -e \"server time1.google.com iburst\nserver time2.google.com iburst\nserver time3.google.com iburst\nserver time4.google.com iburst\" >> /etc/ntp.conf'"
-  	ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo service ntp start ; ntpstat ; true'"
+	  # TODO: specially for azure
+#  	ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'curl -O https://raw.githubusercontent.com/torvalds/linux/master/tools/hv/lsvmbus'"
+#  	devID=$(ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "python lsvmbus -vv | grep -w \"Time Synchronization\" -A 3 | grep Device_ID | grep -o '{.*}' | tr -d "{}"")
+#	  ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'echo "$devID" | sudo tee /sys/bus/vmbus/drivers/hv_util/unbind'"
+  	ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'sudo apt-get install ntp ntpstat --assume-yes ; sudo service ntp stop ; sudo ntpd -b time.google.com'"
+  	ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'echo -e \"server time1.google.com iburst\nserver time2.google.com iburst\nserver time3.google.com iburst\nserver time4.google.com iburst\" >> /etc/ntp.conf'"
+  	ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'sudo service ntp start ; ntpstat ; true'"
+    scp disableTHP tidb@"${serverNameIPMap[$key]}":~/
+    ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo cp disableTHP /etc/systemd/system/disable-transparent-huge-pages.service"
+    ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo systemctl daemon-reload ; sudo systemctl start disable-transparent-huge-pages ; cat /sys/kernel/mm/transparent_hugepage/enabled ; sudo systemctl enable disable-transparent-huge-pages"
+    # TODO: azure specific settings
+#    sudo sysctl -w net.ipv4.tcp_keepalive_time=120
+#    echo 'net.ipv4.tcp_keepalive_time = 120' | sudo tee /etc/sysctl.conf
   done
 }
 
-function run_ssd_experiment {
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure noslowfollower disk swapoff 3 $serverRegex $threadsycsb)"
-}
-
-function run_memory_experiment {
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure follower memory swapoff 3 $serverRegex $threadsycsb)"
-}
-
 function setup_client {
-ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP << EOF_1
+ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP << EOF_1
 	sudo apt install git default-jre --assume-yes
 	sudo apt install maven --assume-yes
 	curl -O --location https://github.com/brianfrankcooper/YCSB/releases/download/0.17.0/ycsb-0.17.0.tar.gz ; tar xfvz ycsb-0.17.0.tar.gz
@@ -115,20 +122,21 @@ ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP << EOF_1
 	sudo apt install jq --assume-yes
 EOF_1
     # SCP the experiment files to the client. This should run from the script/cockroachdb path
-	scp -r ./* $clientPublicIP:~/ycsb-0.17.0/
+	scp -r ./* tidb@$clientPublicIP:~/ycsb-0.17.0/
+}
 
-    ssh -i ~/.ssh/id_rsa $clientPublicIP "sudo sh -c 'wget -qO- https://binaries.cockroachdb.com/cockroach-v19.2.4.linux-amd64.tgz | tar  xvz ; sudo cp -i cockroach-v19.2.4.linux-amd64/cockroach /usr/local/bin/'"
+function setup_client_az {
 	# Create a service principal for azure login from the client VM
 	rm -f serviceprincipal.json
 	az ad sp create-for-rbac --name $namePrefix > serviceprincipal.json
 	appID=$(cat serviceprincipal.json | jq .appId)
-    appID=$(sed -e "s/^'//" -e "s/'$//" <<<"$appID")
+  appID=$(sed -e "s/^'//" -e "s/'$//" <<<"$appID")
 	password=$(cat serviceprincipal.json | jq .password)
-    password=$(sed -e "s/^'//" -e "s/'$//" <<<"$password")
+  password=$(sed -e "s/^'//" -e "s/'$//" <<<"$password")
 	tenantID=$(cat serviceprincipal.json | jq .tenant)
-    tenantID=$(sed -e "s/^'//" -e "s/'$//" <<<"$tenantID")
+  tenantID=$(sed -e "s/^'//" -e "s/'$//" <<<"$tenantID")
 	sleep 30
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "az login --service-principal --username $appID --password $password --tenant $tenantID"
+	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP "az login --service-principal --username $appID --password $password --tenant $tenantID"
 }
 
 function deallocate_vms {
@@ -149,16 +157,28 @@ function deallocate_vms {
 	az vm deallocate --name "$clientName" --resource-group "$resource"
 }
 
+#function run_ssd_experiment {
+#	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure noslowfollower disk swapoff 3 $serverRegex $threadsycsb)"
+#}
+#
+#function run_memory_experiment {
+#	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure follower memory swapoff 3 $serverRegex $threadsycsb)"
+#}
+
 function main {
-  az_vm_create
+  setup_localvm    # for debug only
 
-  write_config
-
-  find_ip
+#  az_vm_create
+#
+#  write_config
+#
+#  find_ip
 
   setup_servers
 
   setup_client
+
+  # setup_client_az
 
 #  if [ "$filesystem" == "disk" ]; then
 #	run_ssd_experiment
@@ -169,7 +189,7 @@ function main {
 #		exit 1
 #  fi
 
-  deallocate_vms
+#  deallocate_vms
 }
 
 main

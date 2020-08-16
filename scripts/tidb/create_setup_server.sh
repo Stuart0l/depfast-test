@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/bin/bash
 
 date=$(date +"%Y%m%d%s")
 # exec > "$date"_setupserver.log
@@ -26,15 +26,24 @@ ycsbruntime=$5
 filesystem=$6
 threadsycsb=$7
 
-username="tidb"
+# username="tidb"
 resource="DepFast"
-serverRegex="tidb$namePrefix_[1-$noOfServers]"
+serverRegex="tidb$namePrefix_"
 declare -A serverNameIPMap
+
+function setup_localvm {
+  clientPublicIP="192.168.1.19"
+  pdPublicIP="192.168.1.17"
+  serverNameIPMap["s1"]="192.168.1.15"
+  serverNameIPMap["s2"]="192.168.1.16"
+  serverNameIPMap["s3"]="192.168.1.18"
+  serverNameIPMap["pd"]=$pdPublicIP
+}
 
 # Create the VM on Azure
 function az_vm_create {
   # Create client VM
-  az vm create --name tidb"$namePrefix"_client --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 500 --storage-sku Premium_LRS --data-disk-sizes-gb 500 --size Standard_D4s_v3 --admin-username riteshsinha --ssh-key-values ~/.ssh/id_rsa.pub --accelerated-networking true
+  az vm create --name tidb"$namePrefix"_client --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 500 --storage-sku Premium_LRS --data-disk-sizes-gb 500 --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub --accelerated-networking true
 
   # Setup Client IP and name
   clientConfig=$(az vm list-ip-addresses --name tidb"$namePrefix"_client --query '[0].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json)
@@ -49,16 +58,28 @@ function az_vm_create {
   clientPublicIP=$(sed -e 's/^"//' -e 's/"$//' <<<"$clientPublicIP")
 
   # Run ssh-keygen on client VM
-  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP 'ssh-keygen -t rsa -f ~/.ssh/id_rsa -q -P "" <<<y 2>&1 >/dev/null '
+  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP 'ssh-keygen -t rsa -f ~/.ssh/id_rsa -q -P "" <<<y 2>&1 >/dev/null '
   # Scp the client id_rsa.pub to local directory
-  scp $clientPublicIP:~/.ssh/id_rsa.pub ./client_rsa.pub
+  scp tidb@$clientPublicIP:~/.ssh/id_rsa.pub ./client_rsa.pub
 
   # Create servers with both local ssh key and client VM ssh key
   for (( i=1; i<=noOfServers; i++ ))
   do
-    az vm create --name tidb"$namePrefix"_tikv"$i" --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 500 --storage-sku Premium_LRS --data-disk-sizes-gb 500 --size Standard_D4s_v3 --admin-username riteshsinha --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub --accelerated-networking true
+    az vm create --name tidb"$namePrefix"_tikv"$i" --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 500 --storage-sku Premium_LRS --data-disk-sizes-gb 500 --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub --accelerated-networking true
   done
-  az vm create --name tidb"$namePrefix"_pd --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 500 --storage-sku Premium_LRS --data-disk-sizes-gb 500 --size Standard_D4s_v3 --admin-username riteshsinha --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub --accelerated-networking true
+
+  az vm create --name tidb"$namePrefix"_pd --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 500 --storage-sku Premium_LRS --data-disk-sizes-gb 500 --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub --accelerated-networking true
+  # Setup pd IP and name
+  pdConfig=$(az vm list-ip-addresses --name tidb"$namePrefix"_pd --query '[0].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json)
+  pdPrivateIP=$(echo $pdConfig | jq .privateip)
+  pdPrivateIP=$(sed -e "s/^'//" -e "s/'$//" <<<"$pdPrivateIP")
+  pdPrivateIP=$(sed -e 's/^"//' -e 's/"$//' <<<"$pdPrivateIP")
+  pdName=$(echo $pdConfig | jq .name)
+  pdName=$(sed -e "s/^'//" -e "s/'$//" <<<"$pdName")
+  pdName=$(sed -e 's/^"//' -e 's/"$//' <<<"$pdName")
+  pdPublicIP=$(echo $pdConfig | jq .publicip)
+  pdPublicIP=$(sed -e "s/^'//" -e "s/'$//" <<<"$pdPublicIP")
+  pdPublicIP=$(sed -e 's/^"//' -e 's/"$//' <<<"$pdPublicIP")
 }
 
 function write_config {
@@ -78,6 +99,7 @@ function find_ip {
   	serverip="${serverip#\"}"
     serverNameIPMap[$servername]=$serverip
   done
+  serverNameIPMap["pd"]=$pdPublicIP
 }
 
 # Setup the servers to install tools and DB
@@ -85,40 +107,59 @@ function setup_servers {
   for key in "${!serverNameIPMap[@]}";
   do
     # Run the commands
-    ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo apt install tmux wget git --assume-yes ; sudo apt-get install cgroup-tools --assume-yes ; sudo apt-get install libc6 xfsprogs --assume-yes'"
-    ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'wget -qO- https://binaries.cockroachdb.com/cockroach-v19.2.4.linux-amd64.tgz | tar  xvz ; sudo cp -i cockroach-v19.2.4.linux-amd64/cockroach /usr/local/bin/'"
-    scp deadloop "${serverNameIPMap[$key]}":~/
-	  # Sync clocks - https://www.cockroachlabs.com/docs/stable/deploy-cockroachdb-on-microsoft-azure-insecure.html
-	  ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'curl -O https://raw.githubusercontent.com/torvalds/linux/master/tools/hv/lsvmbus'"
-	  devID=$(ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "python lsvmbus -vv | grep -w \"Time Synchronization\" -A 3 | grep Device_ID | grep -o '{.*}' | tr -d "{}"")
-	  ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'echo "$devID" | sudo tee /sys/bus/vmbus/drivers/hv_util/unbind'"
-	  ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo apt-get install ntp ntpstat --assume-yes ; sudo service ntp stop ; sudo ntpd -b time.google.com'"
-  	ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'echo -e \"server time1.google.com iburst\nserver time2.google.com iburst\nserver time3.google.com iburst\nserver time4.google.com iburst\" >> /etc/ntp.conf'"
-  	ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo service ntp start ; ntpstat ; true'"
+    ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'sudo apt install tmux wget git --assume-yes ; sudo apt-get install cgroup-tools --assume-yes ; sudo apt-get install libc6 xfsprogs --assume-yes'"
+    scp deadloop tidb@"${serverNameIPMap[$key]}":~/
+    ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "curl --proto '=https' --tlsv1.2 -sSf https://tiup-mirrors.pingcap.com/install.sh | sh"
+	  ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'sudo echo export PATH=\$PATH:/home/tidb/.tiup/bin >> /etc/profile'"
+    ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "source /etc/profile"
+    ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "./.tiup/bin/tiup cluster"
+    ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "./.tiup/bin/tiup --binary cluster"
+	  # TODO: specially for azure
+#  	ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'curl -O https://raw.githubusercontent.com/torvalds/linux/master/tools/hv/lsvmbus'"
+#  	devID=$(ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "python lsvmbus -vv | grep -w \"Time Synchronization\" -A 3 | grep Device_ID | grep -o '{.*}' | tr -d "{}"")
+#	  ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'echo "$devID" | sudo tee /sys/bus/vmbus/drivers/hv_util/unbind'"
+	  ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'sudo apt-get install ntp ntpstat --assume-yes ; sudo service ntp stop ; sudo ntpd -b time.google.com'"
+  	ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'echo -e \"server time1.google.com iburst\nserver time2.google.com iburst\nserver time3.google.com iburst\nserver time4.google.com iburst\" >> /etc/ntp.conf'"
+  	ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'sudo service ntp start ; ntpstat ; true'"
+    scp tidb_mem.yaml tidb@"${serverNameIPMap[$key]}":~/
+    scp tidb_restrict_mem.yaml tidb@"${serverNameIPMap[$key]}":~/
   done
 }
 
-function run_ssd_experiment {
-#	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure noslowfollower disk swapoff 3 $serverRegex $threadsycsb)"
-}
+# function run_ssd_experiment {
+# 	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure noslowfollower disk swapoff 3 $serverRegex $threadsycsb)"
+# }
 
-function run_memory_experiment {
-#	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure follower memory swapoff 3 $serverRegex $threadsycsb)"
-}
+# function run_memory_experiment {
+# 	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure follower memory swapoff 3 $serverRegex $threadsycsb)"
+# }
 
 function setup_client {
-  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP << EOF_1
-	sudo apt install git default-jre --assume-yes
-	sudo apt install maven --assume-yes
-	curl -O --location https://github.com/brianfrankcooper/YCSB/releases/download/0.17.0/ycsb-0.17.0.tar.gz ; tar xfvz ycsb-0.17.0.tar.gz
-	(cd ~/ycsb-0.17.0/jdbc-binding/lib/; wget https://jdbc.postgresql.org/download/postgresql-42.2.10.jar)
-	curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-	sudo apt install jq --assume-yes
+  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP << EOF_1
+	sudo apt install git --assume-yes
+  sudo apt install wget -y
+  wget -q https://dl.google.com/go/go1.12.2.linux-amd64.tar.gz
+  tar zxvf go1.12.2.linux-amd64.tar.gz
+  sudo mv go /usr/local/
 EOF_1
-  # SCP the experiment files to the client. This should run from the script/cockroachdb path
-	scp -r ./* $clientPublicIP:~/ycsb-0.17.0/
 
-  ssh -i ~/.ssh/id_rsa $clientPublicIP "sudo sh -c 'wget -qO- https://binaries.cockroachdb.com/cockroach-v19.2.4.linux-amd64.tgz | tar  xvz ; sudo cp -i cockroach-v19.2.4.linux-amd64/cockroach /usr/local/bin/'"
+  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP "sudo sh -c 'sudo echo export GOROOT=/usr/local/go >> /etc/profile'"
+#  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP "sudo sh -c 'sudo echo export GOPATH=\$HOME/go >> /etc/profile'"
+  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP "sudo sh -c 'sudo echo export GOBIN=/usr/local/go/bin >> /etc/profile'"
+  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP "sudo sh -c 'sudo echo export PATH=/usr/local/go:/usr/local/go/bin:\$PATH >> /etc/profile'"
+  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP "source /etc/profile"
+
+  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP << EOF_1
+  sudo apt install make gcc g++ -y
+  git clone https://github.com/pingcap/go-ycsb.git /home/tidb/go-ycsb
+  cd /home/tidb/go-ycsb
+  make
+EOF_1
+  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP "sudo sh -c 'sudo echo export PATH=/home/tidb/go-ycsb/bin:\$PATH >> /etc/profile'"
+  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP "source /etc/profile"
+}
+
+function setup_client_az {
 	# Create a service principal for azure login from the client VM
 	rm -f serviceprincipal.json
 	az ad sp create-for-rbac --name $namePrefix > serviceprincipal.json
@@ -129,7 +170,7 @@ EOF_1
 	tenantID=$(cat serviceprincipal.json | jq .tenant)
   tenantID=$(sed -e "s/^'//" -e "s/'$//" <<<"$tenantID")
 	sleep 30
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "az login --service-principal --username $appID --password $password --tenant $tenantID"
+	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP "az login --service-principal --username $appID --password $password --tenant $tenantID"
 }
 
 function deallocate_vms {
@@ -151,15 +192,14 @@ function deallocate_vms {
 }
 
 function main {
-  az_vm_create
-
-  write_config
-
-  find_ip
-
+  setup_localvm    # for debug only
+  # az_vm_create
+  # write_config
+  # find_ip
   setup_servers
-
   setup_client
+  # setup_client_az
+  # deallocate_vms
 
 #  if [ "$filesystem" == "disk" ]; then
 #	run_ssd_experiment
@@ -169,8 +209,6 @@ function main {
 #		echo "This option in filesystem is not supported.Exiting."
 #		exit 1
 #  fi
-
-  deallocate_vms
 }
 
 main
