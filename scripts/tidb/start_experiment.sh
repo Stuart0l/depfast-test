@@ -4,16 +4,16 @@ set -ex
 
 # Server specific configs
 ##########################
-pd="10.0.0.5"
-s1="10.0.0.6"
-s2="10.0.0.7"
-s3="10.0.0.8"
+pd="10.0.0.16"
+s1="10.0.0.13"
+s2="10.0.0.14"
+s3="10.0.0.15"
 
-pdname="tidb_pd"
-s1name="tikv1"
-s2name="tikv2"
-s3name="tikv3"
-serverZone="us-central1-a"
+pdname="tidbtidb_pd"
+s1name="tidbtidb_tikv1"
+s2name="tidbtidb_tikv2"
+s3name="tidbtidb_tikv3"
+serverZone="us-central1-a"    # for gcp only
 ###########################
 
 if [ "$#" -ne 8 ]; then
