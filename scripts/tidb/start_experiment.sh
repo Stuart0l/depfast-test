@@ -48,7 +48,8 @@ function test_start {
 
 # data_cleanup is called just after servers start
 function data_cleanup {
-  ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster destroy mytidb -y"
+  #ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster destroy mytidb -y"
+  tiup cluster destroy mytidb -y
 }
 
 # start_servers is used to boot the servers up
@@ -117,7 +118,8 @@ function start_db {
     ssh -i ~/.ssh/id_rsa tidb@"$s2" "sudo sed -i 's#bin/tikv-server#taskset -ac 0 bin/tikv-server#g' /data1/tidb-deploy/tikv-20160/scripts/run_tikv.sh "
     ssh -i ~/.ssh/id_rsa tidb@"$s3" "sudo sed -i 's#bin/tikv-server#taskset -ac 0 bin/tikv-server#g' /data1/tidb-deploy/tikv-20160/scripts/run_tikv.sh "
   fi
-  ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster start mytidb"
+  #ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster start mytidb"
+  tiup cluster start mytidb
   sleep 30
 }
 

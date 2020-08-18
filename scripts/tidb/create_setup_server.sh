@@ -132,6 +132,7 @@ function setup_servers {
     scp tidb_mem.yaml tidb@"${serverNameIPMap[$key]}":~/
     scp tidb_restrict_mem.yaml tidb@"${serverNameIPMap[$key]}":~/
   done
+  #az vm open-port --resource-group DepFast --name tidb"$namePrefix"_pd --port 3000
 }
 
 # function run_ssd_experiment {
