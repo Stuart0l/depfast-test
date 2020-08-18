@@ -154,9 +154,9 @@ function db_init {
 function ycsb_load {
 #  ./bin/ycsb load mongodb -s -P $workload -p mongodb.url=mongodb://$primaryip:27017/ycsb?w=majority&readConcernLevel=majority ; wait $!
   if [ "$ondisk" == "hdd" ]; then
-    /home/tidb/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=16 ; wait $!
+    /home/tidb/go-ycsb/bin/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=16 ; wait $!
   else
-    /home/tidb/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=16 ; wait $!
+    /home/tidb/go-ycsb/bin/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=16 ; wait $!
   fi
 }
 
@@ -165,7 +165,7 @@ function ycsb_run {
 # 16 threads for saturation
 
 #  ./bin/ycsb run mongodb -s -P $workload  -p maxexecutiontime=$ycsbruntime -p mongodb.url="mongodb://$primaryip:27017/ycsb?w=majority&readConcernLevel=majority" > "$dirname"/exp"$expno"_trial_"$i".txt ; wait $!
-  /home/tidb/go-ycsb run tikv -P $workload -p tikv.pd="$pd":2379 --threads=16 > "$dirname"/exp"$expno"_trial_"$i".txt & ppid=$! ; sleep $ycsbruntime ; kill -INT $ppid
+  /home/tidb/go-ycsb/bin/go-ycsb run tikv -P $workload -p tikv.pd="$pd":2379 --threads=16 > "$dirname"/exp"$expno"_trial_"$i".txt & ppid=$! ; sleep $ycsbruntime ; kill -INT $ppid
 }
 
 # cleanup is called at the end of the given trial of an experiment
