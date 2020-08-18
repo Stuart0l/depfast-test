@@ -42,6 +42,8 @@ function setup_localvm {
 
 # Create the VM on Azure
 function az_vm_create {
+  rm ~/.ssh/known_hosts
+
   # Create client VM
   az vm create --name tidb"$namePrefix"_client --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 128 --storage-sku Standard_LRS  --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub --accelerated-networking true
   # Setup Client IP and name
@@ -205,7 +207,7 @@ function main {
   find_ip
   setup_servers
   setup_client
-  setup_client_az
+#  setup_client_az
   # deallocate_vms
 
 #  if [ "$filesystem" == "disk" ]; then
