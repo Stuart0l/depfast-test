@@ -96,18 +96,22 @@ function init {
 function start_db {
   if [ "$ondisk" == "mem" ] ; then
     if [ "$exptype" == "follower" ] || [ "$exptype" == "noslow2" ] ; then
-      ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster deploy mytidb v4.0.0 ./tidb_restrict_mem.yaml --user tidb -y"
+      # ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster deploy mytidb v4.0.0 ./tidb_restrict_mem.yaml --user tidb -y"
+      tiup cluster deploy mytidb v4.0.0 ./tidb_restrict_mem.yaml --user tidb -y
     else
-      ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster deploy mytidb v4.0.0 ./tidb_mem.yaml --user tidb -y"
+      #ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster deploy mytidb v4.0.0 ./tidb_mem.yaml --user tidb -y"
+      tiup cluster deploy mytidb v4.0.0 ./tidb_mem.yaml --user tidb -y
     fi
     ssh -i ~/.ssh/id_rsa tidb@"$s1" "sudo sed -i 's#bin/tikv-server#taskset -ac 0 bin/tikv-server#g' /ramdisk/tidb-deploy/tikv-20160/scripts/run_tikv.sh "
     ssh -i ~/.ssh/id_rsa tidb@"$s2" "sudo sed -i 's#bin/tikv-server#taskset -ac 0 bin/tikv-server#g' /ramdisk/tidb-deploy/tikv-20160/scripts/run_tikv.sh "
     ssh -i ~/.ssh/id_rsa tidb@"$s3" "sudo sed -i 's#bin/tikv-server#taskset -ac 0 bin/tikv-server#g' /ramdisk/tidb-deploy/tikv-20160/scripts/run_tikv.sh "
   else
     if [ "$exptype" == "follower" ] || [ "$exptype" == "noslow2" ] ; then
-      ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster deploy mytidb v4.0.0 ./tidb_restrict_hdd.yaml --user tidb -y"
+      #ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster deploy mytidb v4.0.0 ./tidb_restrict_hdd.yaml --user tidb -y"
+      tiup cluster deploy mytidb v4.0.0 ./tidb_restrict_hdd.yaml --user tidb -y
     else
-      ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster deploy mytidb v4.0.0 ./tidb_hdd.yaml --user tidb -y"
+      #ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster deploy mytidb v4.0.0 ./tidb_hdd.yaml --user tidb -y"
+      tiup cluster deploy mytidb v4.0.0 ./tidb_hdd.yaml --user tidb -y
     fi
     ssh -i ~/.ssh/id_rsa tidb@"$s1" "sudo sed -i 's#bin/tikv-server#taskset -ac 0 bin/tikv-server#g' /data1/tidb-deploy/tikv-20160/scripts/run_tikv.sh "
     ssh -i ~/.ssh/id_rsa tidb@"$s2" "sudo sed -i 's#bin/tikv-server#taskset -ac 0 bin/tikv-server#g' /data1/tidb-deploy/tikv-20160/scripts/run_tikv.sh "
