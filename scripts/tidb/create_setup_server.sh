@@ -44,7 +44,6 @@ function setup_localvm {
 function az_vm_create {
   # Create client VM
   az vm create --name tidb"$namePrefix"_client --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 128 --storage-sku Standard_LRS  --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub --accelerated-networking true
-
   # Setup Client IP and name
   clientConfig=$(az vm list-ip-addresses --name tidb"$namePrefix"_client --query '[0].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json)
   clientPrivateIP=$(echo $clientConfig | jq .privateip)
@@ -62,12 +61,7 @@ function az_vm_create {
   # Scp the client id_rsa.pub to local directory
   scp tidb@$clientPublicIP:~/.ssh/id_rsa.pub ./client_rsa.pub
 
-  # Create servers with both local ssh key and client VM ssh key
-  for (( i=1; i<=noOfServers; i++ ))
-  do
-    az vm create --name tidb"$namePrefix"_tikv"$i" --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 64 --storage-sku Standard_LRS --data-disk-sizes-gb 128 --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub --accelerated-networking true
-  done
-
+  # Create pd VM
   az vm create --name tidb"$namePrefix"_pd --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 64 --storage-sku Standard_LRS --data-disk-sizes-gb 128 --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub --accelerated-networking true
   # Setup pd IP and name
   pdConfig=$(az vm list-ip-addresses --name tidb"$namePrefix"_pd --query '[0].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json)
@@ -80,6 +74,18 @@ function az_vm_create {
   pdPublicIP=$(echo $pdConfig | jq .publicip)
   pdPublicIP=$(sed -e "s/^'//" -e "s/'$//" <<<"$pdPublicIP")
   pdPublicIP=$(sed -e 's/^"//' -e 's/"$//' <<<"$pdPublicIP")
+
+  # Run ssh-keygen on pd VM
+  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$pdPublicIP 'ssh-keygen -t rsa -f ~/.ssh/id_rsa -q -P "" <<<y 2>&1 >/dev/null '
+  # Scp the pd id_rsa.pub to local directory
+  scp tidb@$pdPublicIP:~/.ssh/id_rsa.pub ./pd_rsa.pub
+
+  # Create servers with both local ssh key and client VM ssh key
+  for (( i=1; i<=noOfServers; i++ ))
+  do
+    az vm create --name tidb"$namePrefix"_tikv"$i" --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 64 --storage-sku Standard_LRS --data-disk-sizes-gb 128 --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub ./pd_rsa.pub --accelerated-networking true
+  done
+
 }
 
 function write_config {
@@ -157,6 +163,7 @@ EOF_1
 EOF_1
   ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP "sudo sh -c 'sudo echo export PATH=/home/tidb/go-ycsb/bin:\$PATH >> /etc/profile'"
   ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP "source /etc/profile"
+  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP "curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash"
 }
 
 function setup_client_az {
