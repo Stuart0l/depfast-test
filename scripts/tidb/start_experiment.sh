@@ -57,6 +57,7 @@ function start_servers {
   if [ "$host" == "gcp" ]; then
     gcloud compute instances start "$s1name" "$s2name" "$s3name" --zone="$serverZone"
   elif [ "$host" == "azure" ]; then
+    az vm start --resource-group DepFast --name "$pdname"
     az vm start --resource-group DepFast --name "$s1name"
     az vm start --resource-group DepFast --name "$s2name"
     az vm start --resource-group DepFast --name "$s3name"
@@ -195,6 +196,7 @@ function stop_servers {
     az vm deallocate --resource-group DepFast --name "$s1name"
     az vm deallocate --resource-group DepFast --name "$s2name"
     az vm deallocate --resource-group DepFast --name "$s3name"
+    az vm deallocate --resource-group DepFast --name "$pdname"
   else
     echo "Not implemented error"
     exit 1
