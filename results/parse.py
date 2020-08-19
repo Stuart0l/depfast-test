@@ -466,5 +466,5 @@ exportcsv(tidb_csv, 'tidb')
 #getpercentage(cockroachdb_ssd_explist, 'cockroachdb')
 #exportcsv(cockroachdb_ssd_csv, 'cockroachdb')
 
-getpercentage(rethinkdb_mem_follow_explist, 'rethinkdb')
-exportcsv(rethinkdb_mem_follow_csv, 'rethinkdb')
+# getpercentage(rethinkdb_mem_follow_explist, 'rethinkdb')
+# exportcsv(rethinkdb_mem_follow_csv, 'rethinkdb')
