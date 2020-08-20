@@ -108,28 +108,28 @@ def getpercentage(_explist, dbtype):
 
 # define experiments here, like [ exp1/exp2/exp5/exp6, folder for noslow result, folder for experiment result ]
 
-# tidb_explist=[
-#     # leaderhigh slowness
-#     ['---'],
-#     ['exp1','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
-#     ['exp2','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
-#     ['exp5','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
-#     ['exp6','./1client_tmpfs/tidb/tidb_noslow1_swapon_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapon_mem_results'],
-#     # leaderlow slowness
-#     ['---'],
-#     ['exp1','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
-#     ['exp2','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
-#     ['exp5','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
-#     ['exp6','./1client_tmpfs/tidb/tidb_noslow1_swapon_mem_results','./1client_tmpfs/tidb/tidb_leaderlow_swapon_mem_results'],
-#     # follower slowness
-#     ['---'],
-#     ['exp1','./1client_tmpfs/tidb/tidb_noslow2_swapoff_mem_results','./1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
-#     ['exp2','./1client_tmpfs/tidb/tidb_noslow2_swapoff_mem_results','./1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
-#     ['exp5','./1client_tmpfs/tidb/tidb_noslow2_swapoff_mem_results','./1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
-#     ['exp6','./1client_tmpfs/tidb/tidb_noslow2_swapon_mem_results','./1client_tmpfs/tidb/tidb_follower_swapon_mem_results'],
-# ]
-
 tidb_explist=[
+    # leaderhigh slowness
+    ['---'],
+    ['exp1','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
+    ['exp2','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
+    ['exp5','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
+    ['exp6','./1client_tmpfs/tidb/tidb_noslow1_swapon_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapon_mem_results'],
+    # leaderlow slowness
+    ['---'],
+    ['exp1','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
+    ['exp2','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
+    ['exp5','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
+    ['exp6','./1client_tmpfs/tidb/tidb_noslow1_swapon_mem_results','./1client_tmpfs/tidb/tidb_leaderlow_swapon_mem_results'],
+    # follower slowness
+    ['---'],
+    ['exp1','./1client_tmpfs/tidb/tidb_noslow2_swapoff_mem_results','./1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
+    ['exp2','./1client_tmpfs/tidb/tidb_noslow2_swapoff_mem_results','./1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
+    ['exp5','./1client_tmpfs/tidb/tidb_noslow2_swapoff_mem_results','./1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
+    ['exp6','./1client_tmpfs/tidb/tidb_noslow2_swapon_mem_results','./1client_tmpfs/tidb/tidb_follower_swapon_mem_results'],
+]
+
+tidb_s_explist=[
     # leaderhigh slowness
     ['---'],
     ['exp1','./saturate_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./saturate_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
@@ -137,11 +137,11 @@ tidb_explist=[
     ['exp5','./saturate_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./saturate_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
     ['exp6','./saturate_tmpfs/tidb/tidb_noslow1_swapon_mem_results','./saturate_tmpfs/tidb/tidb_leaderhigh_swapon_mem_results'],
     # leaderlow slowness
-    # ['---'],
-    # ['exp1','./saturate_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./saturate_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
-    # ['exp2','./saturate_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./saturate_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
-    # ['exp5','./saturate_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./saturate_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
-    # ['exp6','./saturate_tmpfs/tidb/tidb_noslow1_swapon_mem_results','./saturate_tmpfs/tidb/tidb_leaderlow_swapon_mem_results'],
+    ['---'],
+    ['exp1','./saturate_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./saturate_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
+    ['exp2','./saturate_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./saturate_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
+    ['exp5','./saturate_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./saturate_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
+    ['exp6','./saturate_tmpfs/tidb/tidb_noslow1_swapon_mem_results','./saturate_tmpfs/tidb/tidb_leaderlow_swapon_mem_results'],
     # follower slowness
     ['---'],
     ['exp1','./saturate_tmpfs/tidb/tidb_noslow2_swapoff_mem_results','./saturate_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
@@ -234,43 +234,43 @@ cockroachdb_ssd_explist=[
 ]
 # define experiments in csv file here
 
-# tidb_csv=[
-#     {
-#         'name': 'tidb_leaderhigh',
-#         'data': [
-#                     ['noslow1_swapoff', './1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results'],
-#                     ['exp1', './1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
-#                     ['exp2', './1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
-#                     ['exp5', './1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
-#                     ['exp6', './1client_tmpfs/tidb/tidb_leaderhigh_swapon_mem_results'],
-#                     ['noslow1_swapon', './1client_tmpfs/tidb/tidb_noslow1_swapon_mem_results']
-#                 ]
-#     },
-#     {
-#         'name': 'tidb_leaderlow',
-#         'data': [
-#                     ['noslow1_swapoff', './1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results'],
-#                     ['exp1', './1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
-#                     ['exp2', './1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
-#                     ['exp5', './1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
-#                     ['exp6', './1client_tmpfs/tidb/tidb_leaderlow_swapon_mem_results'],
-#                     ['noslow1_swapon', './1client_tmpfs/tidb/tidb_noslow1_swapon_mem_results']
-#                 ]
-#     },
-#     {
-#         'name': 'tidb_follower',
-#         'data': [
-#                     ['noslow2_swapoff', './1client_tmpfs/tidb/tidb_noslow2_swapoff_mem_results'],
-#                     ['exp1', './1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
-#                     ['exp2', './1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
-#                     ['exp5', './1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
-#                     ['exp6', './1client_tmpfs/tidb/tidb_follower_swapon_mem_results'],
-#                     ['noslow2_swapon', './1client_tmpfs/tidb/tidb_noslow2_swapon_mem_results']
-#                 ]
-#     },
-# ]
-
 tidb_csv=[
+    {
+        'name': 'tidb_leaderhigh',
+        'data': [
+                    ['noslow1_swapoff', './1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results'],
+                    ['exp1', './1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
+                    ['exp2', './1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
+                    ['exp5', './1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
+                    ['exp6', './1client_tmpfs/tidb/tidb_leaderhigh_swapon_mem_results'],
+                    ['noslow1_swapon', './1client_tmpfs/tidb/tidb_noslow1_swapon_mem_results']
+                ]
+    },
+    {
+        'name': 'tidb_leaderlow',
+        'data': [
+                    ['noslow1_swapoff', './1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results'],
+                    ['exp1', './1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
+                    ['exp2', './1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
+                    ['exp5', './1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
+                    ['exp6', './1client_tmpfs/tidb/tidb_leaderlow_swapon_mem_results'],
+                    ['noslow1_swapon', './1client_tmpfs/tidb/tidb_noslow1_swapon_mem_results']
+                ]
+    },
+    {
+        'name': 'tidb_follower',
+        'data': [
+                    ['noslow2_swapoff', './1client_tmpfs/tidb/tidb_noslow2_swapoff_mem_results'],
+                    ['exp1', './1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
+                    ['exp2', './1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
+                    ['exp5', './1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
+                    ['exp6', './1client_tmpfs/tidb/tidb_follower_swapon_mem_results'],
+                    ['noslow2_swapon', './1client_tmpfs/tidb/tidb_noslow2_swapon_mem_results']
+                ]
+    },
+]
+
+tidb_s_csv=[
     {
         'name': 'tidb_saturate_leaderhigh',
         'data': [
@@ -282,17 +282,17 @@ tidb_csv=[
                     ['noslow1_swapon', './saturate_tmpfs/tidb/tidb_noslow1_swapon_mem_results']
                 ]
     },
-    # {
-    #     'name': 'tidb_saturate_leaderlow',
-    #     'data': [
-    #                 ['noslow1_swapoff', './saturate_tmpfs/tidb/tidb_noslow1_swapoff_mem_results'],
-    #                 ['exp1', './saturate_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
-    #                 ['exp2', './saturate_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
-    #                 ['exp5', './saturate_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
-    #                 ['exp6', './saturate_tmpfs/tidb/tidb_leaderlow_swapon_mem_results'],
-    #                 ['noslow1_swapon', './saturate_tmpfs/tidb/tidb_noslow1_swapon_mem_results']
-    #             ]
-    # },
+    {
+        'name': 'tidb_saturate_leaderlow',
+        'data': [
+                    ['noslow1_swapoff', './saturate_tmpfs/tidb/tidb_noslow1_swapoff_mem_results'],
+                    ['exp1', './saturate_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
+                    ['exp2', './saturate_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
+                    ['exp5', './saturate_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
+                    ['exp6', './saturate_tmpfs/tidb/tidb_leaderlow_swapon_mem_results'],
+                    ['noslow1_swapon', './saturate_tmpfs/tidb/tidb_noslow1_swapon_mem_results']
+                ]
+    },
     {
         'name': 'tidb_saturate_follower',
         'data': [
@@ -456,6 +456,8 @@ cockroachdb_ssd_csv = [
 
 getpercentage(tidb_explist, 'tidb')
 exportcsv(tidb_csv, 'tidb')
+# getpercentage(tidb_s_explist, 'tidb')
+# exportcsv(tidb_s_csv, 'tidb')
 
 #getpercentage(rethinkdb_explist, 'rethinkdb')
 #exportcsv(rethinkdb_csv, 'rethinkdb')
