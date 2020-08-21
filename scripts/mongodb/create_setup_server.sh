@@ -26,7 +26,6 @@ ycsbruntime=$5
 filesystem=$6
 threadsycsb=$7
 
-username="mongodb"
 resource="DepFast"
 serverRegex="mongodb$namePrefix-[1-$noOfServers]"
 declare -A serverNameIPMap
@@ -40,9 +39,10 @@ function setup_localvm {
 
 # Create the VM on Azure
 function az_vm_create {
-  # Create client VM
-  az vm create --name mongodb"$namePrefix"-client --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 500 --storage-sku Premium_LRS --data-disk-sizes-gb 500 --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub --accelerated-networking true
+  rm -f ~/.ssh/known_hosts
 
+  # Create client VM
+  az vm create --name mongodb"$namePrefix"-client --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 64 --storage-sku Standard_LRS --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub --accelerated-networking true
   # Setup Client IP and name
   clientConfig=$(az vm list-ip-addresses --name mongodb"$namePrefix"-client --query '[0].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json)
   clientPrivateIP=$(echo $clientConfig | jq .privateip)
@@ -56,14 +56,14 @@ function az_vm_create {
   clientPublicIP=$(sed -e 's/^"//' -e 's/"$//' <<<"$clientPublicIP")
 
   # Run ssh-keygen on client VM
-  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP 'ssh-keygen -t rsa -f ~/.ssh/id_rsa -q -P "" <<<y 2>&1 >/dev/null '
+  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP 'ssh-keygen -t rsa -f ~/.ssh/id_rsa -q -P "" <<<y 2>&1 >/dev/null '
   # Scp the client id_rsa.pub to local directory
-  scp $clientPublicIP:~/.ssh/id_rsa.pub ./client_rsa.pub
+  scp tidb@$clientPublicIP:~/.ssh/id_rsa.pub ./client_rsa.pub
 
   # Create servers with both local ssh key and client VM ssh key
   for (( i=1; i<=noOfServers; i++ ))
   do
-    az vm create --name mongodb"$namePrefix"-"$i" --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 500 --storage-sku Premium_LRS --data-disk-sizes-gb 500 --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub --accelerated-networking true
+    az vm create --name mongodb"$namePrefix"-"$i" --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 64 --storage-sku Standard_LRS --data-disk-sizes-gb 128 --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub --accelerated-networking true
   done
 }
 
@@ -92,14 +92,14 @@ function setup_servers {
   do
     #Run the commands
     ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'sudo apt install tmux wget git --assume-yes ; sudo apt-get install cgroup-tools --assume-yes ; sudo apt-get install xfsprogs libc6 python python3 --assume-yes ; ulimit -n 21000 ; ulimit -n 192276'"
-    ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'sudo parted -s -a optimal /dev/sdb mklabel gpt -- mkpart primary ext4 1 -1 '"
+    ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'sudo parted -s -a optimal /dev/sdc mklabel gpt -- mkpart primary ext4 1 -1 '"
     ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'rm -r mongodb ; wget -q https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1804-4.4.0.tgz ; tar -xf mongodb-linux-x86_64-ubuntu1804-4.4.0.tgz ; mv mongodb-linux-x86_64-ubuntu1804-4.4.0 mongodb'"
     scp deadloop tidb@"${serverNameIPMap[$key]}":~/
 	  #Sync clocks - https://www.cockroachlabs.com/docs/stable/deploy-cockroachdb-on-microsoft-azure-insecure.html
 	  # TODO: specially for azure
-#  	ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'curl -O https://raw.githubusercontent.com/torvalds/linux/master/tools/hv/lsvmbus'"
-#  	devID=$(ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "python lsvmbus -vv | grep -w \"Time Synchronization\" -A 3 | grep Device_ID | grep -o '{.*}' | tr -d "{}"")
-#	  ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'echo "$devID" | sudo tee /sys/bus/vmbus/drivers/hv_util/unbind'"
+  	ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'curl -O https://raw.githubusercontent.com/torvalds/linux/master/tools/hv/lsvmbus'"
+  	devID=$(ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "python lsvmbus -vv | grep -w \"Time Synchronization\" -A 3 | grep Device_ID | grep -o '{.*}' | tr -d "{}"")
+	  ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'echo "$devID" | sudo tee /sys/bus/vmbus/drivers/hv_util/unbind'"
   	ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'sudo apt-get install ntp ntpstat --assume-yes ; sudo service ntp stop ; sudo ntpd -b time.google.com'"
   	ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'echo -e \"server time1.google.com iburst\nserver time2.google.com iburst\nserver time3.google.com iburst\nserver time4.google.com iburst\" >> /etc/ntp.conf'"
   	ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'sudo service ntp start ; ntpstat ; true'"
@@ -107,8 +107,8 @@ function setup_servers {
     ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo cp disableTHP /etc/systemd/system/disable-transparent-huge-pages.service"
     ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo systemctl daemon-reload ; sudo systemctl start disable-transparent-huge-pages ; cat /sys/kernel/mm/transparent_hugepage/enabled ; sudo systemctl enable disable-transparent-huge-pages"
     # TODO: azure specific settings
-#    sudo sysctl -w net.ipv4.tcp_keepalive_time=120
-#    echo 'net.ipv4.tcp_keepalive_time = 120' | sudo tee /etc/sysctl.conf
+    ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sysctl -w net.ipv4.tcp_keepalive_time=120"
+    ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo echo 'net.ipv4.tcp_keepalive_time = 120' | sudo tee /etc/sysctl.conf"
   done
 }
 
@@ -121,8 +121,8 @@ ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP << EOF_1
 	curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 	sudo apt install jq --assume-yes
 EOF_1
-    # SCP the experiment files to the client. This should run from the script/cockroachdb path
-	scp -r ./* tidb@$clientPublicIP:~/ycsb-0.17.0/
+  # SCP the experiment files to the client. This should run from the script/cockroachdb path
+	#scp -r ./* tidb@$clientPublicIP:~/ycsb-0.17.0/
 }
 
 function setup_client_az {
@@ -166,13 +166,13 @@ function deallocate_vms {
 #}
 
 function main {
-  setup_localvm    # for debug only
+#  setup_localvm    # for debug only
 
-#  az_vm_create
-#
-#  write_config
-#
-#  find_ip
+  az_vm_create
+
+  write_config
+
+  find_ip
 
   setup_servers
 

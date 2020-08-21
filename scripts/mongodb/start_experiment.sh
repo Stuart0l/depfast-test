@@ -12,9 +12,9 @@ s1="10.0.0.13"
 s2="10.0.0.14"
 s3="10.0.0.15"
 
-s1name="mongodb1"
-s2name="mongodb2"
-s3name="mongodb3"
+s1name="mongodb0-1"
+s2name="mongodb0-2"
+s3name="mongodb0-3"
 serverZone="us-central1-a"
 ###########################
 
@@ -151,15 +151,15 @@ function db_init {
 
 # ycsb_load is used to run the ycsb load and wait until it completes.
 function ycsb_load {
-  cd /home/tidb/YCSB
-  /home/tidb/YCSB/bin/ycsb load mongodb -s -P ./workloads/workloada_more -p mongodb.url=mongodb://$primaryip:27017/ycsb?w=majority&readConcernLevel=majority ; wait $!
+  cd /home/tidb/ycsb-0.17.0/bin
+  /home/tidb/ycsb-0.17.0/bin/ycsb load mongodb -s -P /home/tidb/gray-testing/scripts/mongodb/workloada -p mongodb.url=mongodb://$primaryip:27017/ycsb?w=majority&readConcernLevel=majority ; wait $!
   cd /home/tidb/gray-testing/scripts/mongodb
 }
 
 # ycsb run exectues the given workload and waits for it to complete
 function ycsb_run {
-  cd /home/tidb/YCSB
-  /home/tidb/YCSB/bin/ycsb run mongodb -s -P ./workloads/workloada_more -p maxexecutiontime=$ycsbruntime -p mongodb.url="mongodb://$primaryip:27017/ycsb?w=majority&readConcernLevel=majority" > /home/tidb/gray-testing/scripts/mongodb/"$dirname"/exp"$expno"_trial_"$i".txt ; wait $!
+  cd /home/tidb/ycsb-0.17.0/bin
+  /home/tidb/ycsb-0.17.0/bin/ycsb run mongodb -s -P /home/tidb/gray-testing/scripts/mongodb/workloada -p maxexecutiontime=$ycsbruntime -p mongodb.url="mongodb://$primaryip:27017/ycsb?w=majority&readConcernLevel=majority" > /home/tidb/gray-testing/scripts/mongodb/"$dirname"/exp"$expno"_trial_"$i".txt ; wait $!
   cd /home/tidb/gray-testing/scripts/mongodb
 }
 
