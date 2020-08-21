@@ -121,7 +121,7 @@ ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP << EOF_1
 	curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 	sudo apt install jq --assume-yes
 	rm -r mongodb ; wget -q https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1804-4.4.0.tgz ; tar -xf mongodb-linux-x86_64-ubuntu1804-4.4.0.tgz ; mv mongodb-linux-x86_64-ubuntu1804-4.4.0 mongodb
-	git clone https://github.com/WolfDOS/gray-testing.git
+#	git clone https://github.com/WolfDOS/gray-testing.git
 EOF_1
   # SCP the experiment files to the client. This should run from the script/cockroachdb path
 	#scp -r ./* tidb@$clientPublicIP:~/ycsb-0.17.0/
