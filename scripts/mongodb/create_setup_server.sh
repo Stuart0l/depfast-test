@@ -91,7 +91,7 @@ function setup_servers {
   for key in "${!serverNameIPMap[@]}";
   do
     #Run the commands
-    ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'sudo apt install tmux wget git --assume-yes ; sudo apt-get install cgroup-tools --assume-yes ; sudo apt-get install xfsprogs libc6 python python3 --assume-yes ; ulimit -n 21000 ; ulimit -n 192276'"
+    ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'sudo apt install tmux wget git --assume-yes ; sudo apt-get install cgroup-tools --assume-yes ; sudo apt-get install xfsprogs libc6 python python3 numactl --assume-yes ; ulimit -n 21000 ; ulimit -n 192276'"
     ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'sudo parted -s -a optimal /dev/sdc mklabel gpt -- mkpart primary ext4 1 -1 '"
     ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'rm -r mongodb ; wget -q https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1804-4.4.0.tgz ; tar -xf mongodb-linux-x86_64-ubuntu1804-4.4.0.tgz ; mv mongodb-linux-x86_64-ubuntu1804-4.4.0 mongodb'"
     scp deadloop tidb@"${serverNameIPMap[$key]}":~/
@@ -120,6 +120,8 @@ ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa tidb@$clientPublicIP << EOF_1
 	(cd ~/ycsb-0.17.0/jdbc-binding/lib/; wget https://jdbc.postgresql.org/download/postgresql-42.2.10.jar)
 	curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 	sudo apt install jq --assume-yes
+	rm -r mongodb ; wget -q https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1804-4.4.0.tgz ; tar -xf mongodb-linux-x86_64-ubuntu1804-4.4.0.tgz ; mv mongodb-linux-x86_64-ubuntu1804-4.4.0 mongodb
+	git clone https://github.com/WolfDOS/gray-testing.git
 EOF_1
   # SCP the experiment files to the client. This should run from the script/cockroachdb path
 	#scp -r ./* tidb@$clientPublicIP:~/ycsb-0.17.0/

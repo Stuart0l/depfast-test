@@ -72,7 +72,7 @@ function start_servers {
     echo "Not implemented error"
     exit 1
   fi
-  sleep 60
+  sleep 30
 }
 
 # init is called to initialise the db servers

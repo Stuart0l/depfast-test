@@ -1,9 +1,9 @@
 import json
 
 serverMapping = {
-        "mongodb1:27017": "10.0.0.13",
-        "mongodb2:27017": "10.0.0.14",
-        "mongodb3:27017": "10.0.0.15",
+        "mongodb0-1:27017": "10.0.0.13",
+        "mongodb0-2:27017": "10.0.0.14",
+        "mongodb0-3:27017": "10.0.0.15",
     }
 
 def main():
