@@ -152,7 +152,7 @@ function db_init {
 # ycsb_load is used to run the ycsb load and wait until it completes.
 function ycsb_load {
   cd /home/tidb/ycsb-0.17.0/bin
-  /home/tidb/ycsb-0.17.0/bin/ycsb load mongodb -s -P /home/tidb/gray-testing/scripts/mongodb/$workload -p mongodb -threads 16.url=mongodb://$primaryip:27017/ycsb?w=majority&readConcernLevel=majority ; wait $!
+  /home/tidb/ycsb-0.17.0/bin/ycsb load mongodb -s -P /home/tidb/gray-testing/scripts/mongodb/$workload  -threads 16 -p mongodb.url=mongodb://$primaryip:27017/ycsb?w=majority&readConcernLevel=majority ; wait $!
   cd /home/tidb/gray-testing/scripts/mongodb
 }
 
