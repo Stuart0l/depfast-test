@@ -35,5 +35,5 @@ insertproportion=0
 
 hdrhistogram.percentiles=99,99.9
 
-requestdistribution=uniform
+requestdistribution=zipfian
 
