@@ -1,0 +1,42 @@
+mongo client connection created with mongodb://10.0.0.13:27017/ycsb?w=majority&readConcernLevel=majority
+Still waiting for thread Thread-13 to complete. Workload status: true
+Still waiting for thread Thread-13 to complete. Workload status: true
+Still waiting for thread Thread-13 to complete. Workload status: true
+Still waiting for thread Thread-13 to complete. Workload status: true
+Still waiting for thread Thread-13 to complete. Workload status: true
+Still waiting for thread Thread-13 to complete. Workload status: true
+Still waiting for thread Thread-13 to complete. Workload status: true
+Still waiting for thread Thread-13 to complete. Workload status: true
+Still waiting for thread Thread-13 to complete. Workload status: true
+Still waiting for thread Thread-13 to complete. Workload status: true
+[OVERALL], RunTime(ms), 321770
+[OVERALL], Throughput(ops/sec), 390.93762625477825
+[TOTAL_GCS_G1_Young_Generation], Count, 17
+[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 220
+[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.0683718183795879
+[TOTAL_GCS_G1_Old_Generation], Count, 0
+[TOTAL_GC_TIME_G1_Old_Generation], Time(ms), 0
+[TOTAL_GC_TIME_%_G1_Old_Generation], Time(%), 0.0
+[TOTAL_GCs], Count, 17
+[TOTAL_GC_TIME], Time(ms), 220
+[TOTAL_GC_TIME_%], Time(%), 0.0683718183795879
+[UPDATE-FAILED], Operations, 96
+[UPDATE-FAILED], AverageLatency(us), 2.2049398E7
+[UPDATE-FAILED], MinLatency(us), 246272
+[UPDATE-FAILED], MaxLatency(us), 30523391
+[UPDATE-FAILED], 99thPercentileLatency(us), 30507007
+[UPDATE-FAILED], 99.9PercentileLatency(us), 30523391
+[CLEANUP], Operations, 32
+[CLEANUP], AverageLatency(us), 2065.9375
+[CLEANUP], MinLatency(us), 0
+[CLEANUP], MaxLatency(us), 66111
+[CLEANUP], 99thPercentileLatency(us), 66111
+[CLEANUP], 99.9PercentileLatency(us), 66111
+[UPDATE], Operations, 125696
+[UPDATE], AverageLatency(us), 64807.663768139
+[UPDATE], MinLatency(us), 1538
+[UPDATE], MaxLatency(us), 13508607
+[UPDATE], 99thPercentileLatency(us), 843263
+[UPDATE], 99.9PercentileLatency(us), 4681727
+[UPDATE], Return=OK, 125696
+[UPDATE], Return=ERROR, 96
