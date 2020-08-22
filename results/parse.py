@@ -166,6 +166,21 @@ mongodb_explist=[
     ['exp6','./1client_tmpfs/mongodb/mongodb_noslow_swapon_mem_results','./1client_tmpfs/mongodb/mongodb_follower_swapon_mem_results'],
 ]
 
+mongodb_s_explist=[
+    # leader slowness
+    ['---'],
+    ['exp1','./saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./saturate_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
+    ['exp2','./saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./saturate_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
+    ['exp5','./saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./saturate_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
+    ['exp6','./saturate_tmpfs/mongodb/mongodb_noslow_swapon_mem_results','./saturate_tmpfs/mongodb/mongodb_leader_swapon_mem_results'],
+    # follower slowness
+    ['---'],
+    ['exp1','./saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
+    ['exp2','./saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
+    ['exp5','./saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
+    ['exp6','./saturate_tmpfs/mongodb/mongodb_noslow_swapon_mem_results','./saturate_tmpfs/mongodb/mongodb_follower_swapon_mem_results'],
+]
+
 rethinkdb_explist=[
     # leader slowness
     ['exp1','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
@@ -331,6 +346,31 @@ mongo_csv=[
     },
 ]
 
+mongo_s_csv=[
+    {
+        'name': 'mongodb_saturate_follower',
+        'data': [
+                    ['noslow_swapoff', './saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results'],
+                    ['exp1', './saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
+                    ['exp2', './saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
+                    ['exp5', './saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
+                    ['exp6', './saturate_tmpfs/mongodb/mongodb_follower_swapon_mem_results'],
+                    ['noslow_swapon', './saturate_tmpfs/mongodb/mongodb_noslow_swapon_mem_results']
+                ]
+    },
+    {
+        'name': 'mongodb_saturate_leader',
+        'data': [
+                    ['noslow_swapoff', './saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results'],
+                    ['exp1', './saturate_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
+                    ['exp2', './saturate_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
+                    ['exp5', './saturate_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
+                    ['exp6', './saturate_tmpfs/mongodb/mongodb_leader_swapon_mem_results'],
+                    ['noslow_swapon', './saturate_tmpfs/mongodb/mongodb_noslow_swapon_mem_results']
+                ]
+    },
+]
+
 rethinkdb_csv=[
     {
         'name': 'rethinkdb_follower',
@@ -453,9 +493,11 @@ cockroachdb_ssd_csv = [
 
 # getpercentage(mongodb_explist, 'mongodb')
 # exportcsv(mongo_csv, 'mongodb')
+getpercentage(mongodb_s_explist, 'mongodb')
+exportcsv(mongo_s_csv, 'mongodb')
 
-getpercentage(tidb_explist, 'tidb')
-exportcsv(tidb_csv, 'tidb')
+# getpercentage(tidb_explist, 'tidb')
+# exportcsv(tidb_csv, 'tidb')
 # getpercentage(tidb_s_explist, 'tidb')
 # exportcsv(tidb_s_csv, 'tidb')
 
