@@ -29,12 +29,13 @@ threadsycsb=$7
 username="riteshsinha"
 resource="DepFast"
 serverRegex="rethinkdb$namePrefix-[1-$noOfServers]"
+subscriptionName="Azure for Students"
 declare -A serverNameIPMap
 
 # Create the VM on Azure
 function az_vm_create {
   # Create client VM
-  az vm create --name rethinkdb"$namePrefix"-client --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 128 --storage-sku Standard_LRS --size Standard_D4s_v3 --admin-username riteshsinha --ssh-key-values ~/.ssh/id_rsa.pub --accelerated-networking true
+  az vm create --name rethinkdb"$namePrefix"-client --resource-group DepFast --subscription '$subscriptionName' --zone 1 --image debian --os-disk-size-gb 128 --storage-sku Standard_LRS --size Standard_D4s_v3 --admin-username riteshsinha --ssh-key-values ~/.ssh/id_rsa.pub --accelerated-networking true
 
   # Setup Client IP and name
   clientConfig=$(az vm list-ip-addresses --name rethinkdb"$namePrefix"-client --query '[0].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json)
@@ -56,7 +57,7 @@ function az_vm_create {
   # Create servers with both local ssh key and client VM ssh key
   for (( i=1; i<=noOfServers; i++ ))
   do
-    az vm create --name rethinkdb"$namePrefix"-"$i" --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 64 --storage-sku Standard_LRS --data-disk-sizes-gb 128 --size Standard_D4s_v3 --admin-username riteshsinha --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub --accelerated-networking true
+    az vm create --name rethinkdb"$namePrefix"-"$i" --resource-group DepFast --subscription '$subscriptionName' --zone 1 --image debian --os-disk-size-gb 64 --storage-sku Standard_LRS --data-disk-sizes-gb 128 --size Standard_D4s_v3 --admin-username riteshsinha --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub --accelerated-networking true
   done
 }
 

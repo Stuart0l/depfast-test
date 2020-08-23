@@ -111,7 +111,7 @@ function start_servers {
 		echo "Not implemented error"
 		exit 1
 	fi
-	sleep 60
+	sleep 30
 }
 
 # init_disk is called to create and mount directories on disk
@@ -142,7 +142,7 @@ function set_swap_config {
 		init_disk
         for key in "${!serverNameIPMap[@]}";
         do
-            ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 41GB
+            ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=25165824 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 24GB
             ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && sudo swapon -a ; sudo swapon /data/swapfile'"
         done
 	else
@@ -163,7 +163,7 @@ function start_follower_db {
 
         let COUNTER=COUNTER+1
     done
-	sleep 30
+	sleep 20
 }
 
 # start_max_min_throughput_db starts cockroach instances without the locality config set
@@ -173,7 +173,7 @@ function start_max_min_throughput_db {
     do
         ssh  -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr=${serverNameIPMap[$key]} --join=$cservers --cache=4GiB --max-sql-memory=4GiB --store=/"$datadir"/node1/ --pid-file /"$datadir"/pid > /dev/null 2>&1 &'"
     done
-	sleep 30
+	sleep 20
 }
 
 # db_init initialises the database

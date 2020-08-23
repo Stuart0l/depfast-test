@@ -109,7 +109,7 @@ function start_servers {
 		echo "Not implemented error"
 		exit 1
 	fi
-	sleep 60
+	sleep 30
 }
 
 # init_disk is called to create and mount directories on disk
@@ -134,7 +134,7 @@ function set_swap_config {
 		
 		for key in "${!serverNameIPMap[@]}";
 		do
-			ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=41485760 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 41GB
+			ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=25165824 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 24 GB
 			ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && sudo swapon -a ; sudo swapon /data/swapfile'"
 		done
 	else
@@ -166,7 +166,7 @@ function start_db {
 		fi
 		let COUNTER=COUNTER+1
 	done
-	sleep 30
+	sleep 20
 }
 
 # db_init initialises the database
