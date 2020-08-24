@@ -433,6 +433,22 @@ rethinkdb_mem_follow_csv=[
     },
 ]
 
+rethinkdb_mem_follow_exp6_csv=[
+    {
+    'name': 'rethinkdb_follower',
+    'data': [
+                ['exp6', './1client_tmpfs/rethinkdb/rethinkdb_follower_memory_swapon_results'],
+                ['noslow_swapon', './1client_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapon_results']
+            ]
+    },
+]
+
+rethinkdb_mem_follow_exp6=[
+    # follower slowness
+    ['exp6','./1client_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapon_results','./1client_tmpfs/rethinkdb/rethinkdb_follower_memory_swapon_results'],
+]
+
+
 cockroachdb_csv = [
     {
         'name': 'cockroachdb_maxthroughput',
@@ -495,6 +511,10 @@ getpercentage(mongodb_explist, 'mongodb')
 exportcsv(mongo_csv, 'mongodb')
 getpercentage(mongodb_s_explist, 'mongodb')
 exportcsv(mongo_s_csv, 'mongodb')
+# getpercentage(mongodb_explist, 'mongodb')
+# exportcsv(mongo_csv, 'mongodb')
+# getpercentage(mongodb_s_explist, 'mongodb')
+# exportcsv(mongo_s_csv, 'mongodb')
 
 # getpercentage(tidb_explist, 'tidb')
 # exportcsv(tidb_csv, 'tidb')
@@ -512,3 +532,6 @@ exportcsv(mongo_s_csv, 'mongodb')
 
 # getpercentage(rethinkdb_mem_follow_explist, 'rethinkdb')
 # exportcsv(rethinkdb_mem_follow_csv, 'rethinkdb')
+
+getpercentage(rethinkdb_mem_follow_exp6, 'rethinkdb')
+exportcsv(rethinkdb_mem_follow_exp6_csv, 'rethinkdb')
