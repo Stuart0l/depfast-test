@@ -491,8 +491,8 @@ cockroachdb_ssd_csv = [
 
 # then get the result of each experiment
 
-# getpercentage(mongodb_explist, 'mongodb')
-# exportcsv(mongo_csv, 'mongodb')
+getpercentage(mongodb_explist, 'mongodb')
+exportcsv(mongo_csv, 'mongodb')
 getpercentage(mongodb_s_explist, 'mongodb')
 exportcsv(mongo_s_csv, 'mongodb')
 
