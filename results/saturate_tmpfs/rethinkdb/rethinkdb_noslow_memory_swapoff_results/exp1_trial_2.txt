@@ -1,0 +1,71 @@
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+[OVERALL], RunTime(ms), 300091
+[OVERALL], Throughput(ops/sec), 947.2393374009883
+[TOTAL_GCS_G1_Young_Generation], Count, 117
+[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 278
+[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.09263856630155519
+[TOTAL_GCS_G1_Old_Generation], Count, 0
+[TOTAL_GC_TIME_G1_Old_Generation], Time(ms), 0
+[TOTAL_GC_TIME_%_G1_Old_Generation], Time(%), 0.0
+[TOTAL_GCs], Count, 117
+[TOTAL_GC_TIME], Time(ms), 278
+[TOTAL_GC_TIME_%], Time(%), 0.09263856630155519
+[CLEANUP], Operations, 35
+[CLEANUP], AverageLatency(us), 288.65714285714284
+[CLEANUP], MinLatency(us), 42
+[CLEANUP], MaxLatency(us), 2809
+[CLEANUP], 99thPercentileLatency(us), 2809
+[CLEANUP], 99.9PercentileLatency(us), 2809
+[UPDATE], Operations, 284258
+[UPDATE], AverageLatency(us), 36896.53192170493
+[UPDATE], MinLatency(us), 3878
+[UPDATE], MaxLatency(us), 178815
+[UPDATE], 99thPercentileLatency(us), 86015
+[UPDATE], 99.9PercentileLatency(us), 121855
+[UPDATE], Return=OK, 284258
