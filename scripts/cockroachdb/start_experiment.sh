@@ -44,7 +44,10 @@ noOfServers=$9
 serverRegex=${10}
 ycsbthreads=${11}
 
+# Map to keep track of server names to ip address
 declare -A serverNameIPMap
+# Map to keep track of server names to the datacenter names
+declare -A serverNameDCname
 
 # test_start is executed at the beginning
 function test_start {
@@ -56,6 +59,7 @@ function test_start {
 }
 
 function set_ip {
+	NAME_COUNTER=1
 	for (( j=0; j<$noOfServers; j++ ))
 	do
 		servername=$(cat config.json  | jq .[$j].name)
@@ -64,8 +68,12 @@ function set_ip {
 		serverip=$(cat config.json  | jq .[$j].privateip)
 		serverip=$(sed -e "s/^'//" -e "s/'$//" <<<"$serverip")
 		serverip=$(sed -e 's/^"//' -e 's/"$//' <<<"$serverip")
+
 		serverNameIPMap[$servername]=$serverip
+		# Set serverNameDCname map
+		serverNameDCname[$servername]="us-$NAME_COUNTER"
 		initserver=$serverip
+		let NAME_COUNTER=NAME_COUNTER+1
 	done
 }
 
@@ -156,12 +164,10 @@ function join_by { local IFS="$1"; shift; echo "$*"; }
 # start_follower_db starts the database instances on each of the server with locality config set. first server is set to house all the leaseholders.
 function start_follower_db {
     cservers=$(join_by , ${!serverNameIPMap[@]})
-    COUNTER=0
     for key in "${!serverNameIPMap[@]}";
     do
-        ssh  -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr=${serverNameIPMap[$key]} --join=$cservers --cache=4GiB --max-sql-memory=4GiB --store=/"$datadir"/node1/ --pid-file /"$datadir"/pid --locality=datacenter=us-"$COUNTER" > /dev/null 2>&1 &'"
+        ssh  -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr=${serverNameIPMap[$key]} --join=$cservers --cache=4GiB --max-sql-memory=4GiB --store=/"$datadir"/node1/ --pid-file /"$datadir"/pid --locality=datacenter="${serverNameDCname[$key]}" > /dev/null 2>&1 &'"
 
-        let COUNTER=COUNTER+1
     done
 	sleep 20
 }
@@ -184,23 +190,37 @@ function db_init {
 	sleep 45
 
 	if [ "$exptype" == "follower" -o "$exptype" == "noslowfollower" ]; then
+        DC_COUNT=0
+		dcname="us-1"
+        for key in "${!serverNameDCname[@]}";
+        do  
+            if [ $DC_COUNT -eq 0 ];
+            then
+				# Set dcname to the first server dc value
+                dcname=${serverNameDCname[$key]}
+            else
+				break
+            fi  
+            let DC_COUNT=DC_COUNT+1
+        done
+		
 		# Set leaseholder config for follower tests
-		cockroach sql --execute="ALTER TABLE system.public.replication_stats CONFIGURE ZONE USING lease_preferences = '[[+datacenter=us-1]]';
+		cockroach sql --execute="ALTER TABLE system.public.replication_stats CONFIGURE ZONE USING lease_preferences = '[[+datacenter=$dcname]]';
 
-		ALTER  TABLE system.public.replication_constraint_stats CONFIGURE ZONE USING lease_preferences = '[[+datacenter=us-1]]';
+		ALTER  TABLE system.public.replication_constraint_stats CONFIGURE ZONE USING lease_preferences = '[[+datacenter=$dcname]]';
 
-		ALTER  TABLE system.public.jobs CONFIGURE ZONE USING constraints= '{"+datacenter=us-1": 1}', lease_preferences = '[[+datacenter=us-1]]';
+		ALTER  TABLE system.public.jobs CONFIGURE ZONE USING constraints= '{"+datacenter=$dcname": 1}', lease_preferences = '[[+datacenter=$dcname]]';
 
-		ALTER RANGE system CONFIGURE ZONE USING constraints= '{"+datacenter=us-1": 1}', lease_preferences = '[[+datacenter=us-1]]';
+		ALTER RANGE system CONFIGURE ZONE USING constraints= '{"+datacenter=$dcname": 1}', lease_preferences = '[[+datacenter=$dcname]]';
 
-		ALTER DATABASE system CONFIGURE ZONE USING constraints= '{"+datacenter=us-1": 1}', lease_preferences = '[[+datacenter=us-1]]';
+		ALTER DATABASE system CONFIGURE ZONE USING constraints= '{"+datacenter=$dcname": 1}', lease_preferences = '[[+datacenter=$dcname]]';
 
-		ALTER RANGE default CONFIGURE ZONE USING num_replicas = 3, lease_preferences = '[[+datacenter=us-1]]';" --insecure --host="$initserver"
+		ALTER RANGE default CONFIGURE ZONE USING num_replicas = 3, lease_preferences = '[[+datacenter=$dcname]]';" --insecure --host="$initserver"
 
 		# Create ycsb DB
 		cockroach sql --execute="CREATE DATABASE ycsb;" --insecure --host="$initserver"
 
-		cockroach sql --execute="ALTER database ycsb CONFIGURE ZONE USING constraints= '{"+datacenter=us-1": 1}', lease_preferences = '[[+datacenter=us-1]]', num_replicas = 3;" --insecure --host="$initserver"
+		cockroach sql --execute="ALTER database ycsb CONFIGURE ZONE USING constraints= '{"+datacenter=$dcname": 1}', lease_preferences = '[[+datacenter=$dcname]]', num_replicas = 3;" --insecure --host="$initserver"
 
 	elif [[ "$exptype" =~ $tppattern ]]; then
 		# Create ycsb DB
@@ -273,7 +293,7 @@ function cleanup_disk {
 
     for key in "${!serverNameIPMap[@]}";
     do
-        ssh -i ~/.ssh/id_rsa "${serverNameIPMap[$key]}" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/*; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
+        ssh -i ~/.ssh/id_rsa "${serverNameIPMap[$key]}" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/*; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db memory:db; true'"
     done
 
 	# Remove the tc rule for exp 5
@@ -304,7 +324,7 @@ function cleanup_memory {
 
     for key in "${!serverNameIPMap[@]}";
     do
-        ssh -i ~/.ssh/id_rsa "${serverNameIPMap[$key]}" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db ; true'"
+        ssh -i ~/.ssh/id_rsa "${serverNameIPMap[$key]}" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db memory:db; true'"
     done
 	if [ "$expno" == 6 ]; then
         for key in "${!serverNameIPMap[@]}";
@@ -393,6 +413,7 @@ function find_node_to_slowdown {
         done
 		primarypid=$(ssh -i ~/.ssh/id_rsa "$primaryip" "sh -c 'cat /"$datadir"/pid'")
 		secondarypid=$(ssh -i ~/.ssh/id_rsa "$secondaryip" "sh -c 'cat /"$datadir"/pid'")
+		# The follower node is slowed down
 		slowdownpid=$secondarypid
 		slowdownip=$secondaryip
 	else
