@@ -326,7 +326,7 @@ function cleanup_memory {
     do
         ssh -i ~/.ssh/id_rsa "${serverNameIPMap[$key]}" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/* ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db memory:db; true'"
     done
-	if [ "$expno" == 6 ]; then
+	if [ "$swappiness" == "swapon" ]; then
         for key in "${!serverNameIPMap[@]}";
         do
             ssh -i ~/.ssh/id_rsa "${serverNameIPMap[$key]}" "sudo sh -c 'sudo umount $partitionName'"

@@ -108,11 +108,11 @@ function run_ssd_experiment {
 }
 
 function run_memory_experiment {
-  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure noslowfollower memory swapoff 3 $serverRegex $threadsycsb)"
+  #ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure noslowfollower memory swapoff 3 $serverRegex $threadsycsb)"
 
-  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure follower memory swapoff 3 $serverRegex $threadsycsb)"
-  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 2 azure follower memory swapoff 3 $serverRegex $threadsycsb)"
-  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 5 azure follower memory swapoff 3 $serverRegex $threadsycsb)"
+  #ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure follower memory swapoff 3 $serverRegex $threadsycsb)"
+  #ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 2 azure follower memory swapoff 3 $serverRegex $threadsycsb)"
+  #ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 5 azure follower memory swapoff 3 $serverRegex $threadsycsb)"
 
   ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure noslowfollower memory swapon 3 $serverRegex $threadsycsb)"
   ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/ycsb-0.17.0/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 6 azure follower memory swapon 3 $serverRegex $threadsycsb)"
@@ -132,8 +132,9 @@ EOF_1
 
     ssh -i ~/.ssh/id_rsa $clientPublicIP "sudo sh -c 'wget -qO- https://binaries.cockroachdb.com/cockroach-v19.2.4.linux-amd64.tgz | tar  xvz ; sudo cp -i cockroach-v19.2.4.linux-amd64/cockroach /usr/local/bin/'"
 	# Create a service principal for azure login from the client VM
-	rm -f serviceprincipal.json
-	az ad sp create-for-rbac --name $namePrefix > serviceprincipal.json
+	#rm -f serviceprincipal.json
+	#  NOTE - commented out. Creating service principal works only for the subscription administrator. If not the admin, ask the admin to created one and use it here.
+	#az ad sp create-for-rbac --name $namePrefix > serviceprincipal.json
 	appID=$(cat serviceprincipal.json | jq .appId)
     appID=$(sed -e "s/^'//" -e "s/'$//" <<<"$appID")
 	password=$(cat serviceprincipal.json | jq .password)
