@@ -1,0 +1,78 @@
+Adding shard node URL: jdbc:postgresql://10.0.0.32:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.32:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.32:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.32:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.32:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.32:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.32:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.32:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.32:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.32:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.32:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.32:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.32:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.32:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.32:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.32:26257/ycsb?sslmode=disable
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-13 to complete. Workload status: true
+Still waiting for thread Thread-13 to complete. Workload status: true
+Still waiting for thread Thread-13 to complete. Workload status: true
+Still waiting for thread Thread-13 to complete. Workload status: true
+Still waiting for thread Thread-13 to complete. Workload status: true
+Still waiting for thread Thread-13 to complete. Workload status: true
+Still waiting for thread Thread-13 to complete. Workload status: true
+Still waiting for thread Thread-13 to complete. Workload status: true
+Still waiting for thread Thread-13 to complete. Workload status: true
+[OVERALL], RunTime(ms), 346824
+[OVERALL], Throughput(ops/sec), 183.59456093003945
+[TOTAL_GCS_Copy], Count, 2
+[TOTAL_GC_TIME_Copy], Time(ms), 15
+[TOTAL_GC_TIME_%_Copy], Time(%), 0.004324960210366064
+[TOTAL_GCS_MarkSweepCompact], Count, 0
+[TOTAL_GC_TIME_MarkSweepCompact], Time(ms), 0
+[TOTAL_GC_TIME_%_MarkSweepCompact], Time(%), 0.0
+[TOTAL_GCs], Count, 2
+[TOTAL_GC_TIME], Time(ms), 15
+[TOTAL_GC_TIME_%], Time(%), 0.004324960210366064
+[CLEANUP], Operations, 16
+[CLEANUP], AverageLatency(us), 93.4375
+[CLEANUP], MinLatency(us), 32
+[CLEANUP], MaxLatency(us), 436
+[CLEANUP], 99thPercentileLatency(us), 436
+[CLEANUP], 99.9PercentileLatency(us), 436
+[UPDATE], Operations, 63675
+[UPDATE], AverageLatency(us), 83170.1141735375
+[UPDATE], MinLatency(us), 884
+[UPDATE], MaxLatency(us), 57081855
+[UPDATE], 99thPercentileLatency(us), 626687
+[UPDATE], 99.9PercentileLatency(us), 19283967
+[UPDATE], Return=OK, 63675

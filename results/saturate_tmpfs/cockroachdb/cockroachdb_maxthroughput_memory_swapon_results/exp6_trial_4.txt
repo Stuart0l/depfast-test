@@ -1,0 +1,58 @@
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+[OVERALL], RunTime(ms), 306322
+[OVERALL], Throughput(ops/sec), 72.91347013926521
+[TOTAL_GCS_Copy], Count, 1
+[TOTAL_GC_TIME_Copy], Time(ms), 10
+[TOTAL_GC_TIME_%_Copy], Time(%), 0.0032645386227564462
+[TOTAL_GCS_MarkSweepCompact], Count, 0
+[TOTAL_GC_TIME_MarkSweepCompact], Time(ms), 0
+[TOTAL_GC_TIME_%_MarkSweepCompact], Time(%), 0.0
+[TOTAL_GCs], Count, 1
+[TOTAL_GC_TIME], Time(ms), 10
+[TOTAL_GC_TIME_%], Time(%), 0.0032645386227564462
+[CLEANUP], Operations, 16
+[CLEANUP], AverageLatency(us), 102.6875
+[CLEANUP], MinLatency(us), 43
+[CLEANUP], MaxLatency(us), 258
+[CLEANUP], 99thPercentileLatency(us), 258
+[CLEANUP], 99.9PercentileLatency(us), 258
+[UPDATE], Operations, 22335
+[UPDATE], AverageLatency(us), 218315.09903738528
+[UPDATE], MinLatency(us), 1087
+[UPDATE], MaxLatency(us), 80805887
+[UPDATE], 99thPercentileLatency(us), 4964351
+[UPDATE], 99.9PercentileLatency(us), 12402687
+[UPDATE], Return=OK, 22335

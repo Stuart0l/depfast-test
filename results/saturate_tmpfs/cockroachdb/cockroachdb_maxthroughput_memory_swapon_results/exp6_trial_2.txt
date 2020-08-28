@@ -1,0 +1,177 @@
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-4 to complete. Workload status: true
+Still waiting for thread Thread-6 to complete. Workload status: true
+Still waiting for thread Thread-6 to complete. Workload status: true
+Still waiting for thread Thread-6 to complete. Workload status: true
+Still waiting for thread Thread-6 to complete. Workload status: true
+Still waiting for thread Thread-6 to complete. Workload status: true
+Still waiting for thread Thread-6 to complete. Workload status: true
+Still waiting for thread Thread-6 to complete. Workload status: true
+Still waiting for thread Thread-6 to complete. Workload status: true
+Still waiting for thread Thread-6 to complete. Workload status: true
+Still waiting for thread Thread-6 to complete. Workload status: true
+Still waiting for thread Thread-6 to complete. Workload status: true
+Still waiting for thread Thread-6 to complete. Workload status: true
+Still waiting for thread Thread-6 to complete. Workload status: true
+Still waiting for thread Thread-6 to complete. Workload status: true
+Still waiting for thread Thread-6 to complete. Workload status: true
+Still waiting for thread Thread-6 to complete. Workload status: true
+Still waiting for thread Thread-6 to complete. Workload status: true
+Still waiting for thread Thread-6 to complete. Workload status: true
+[OVERALL], RunTime(ms), 544465
+[OVERALL], Throughput(ops/sec), 46.456613372760415
+[TOTAL_GCS_Copy], Count, 1
+[TOTAL_GC_TIME_Copy], Time(ms), 10
+[TOTAL_GC_TIME_%_Copy], Time(%), 0.001836665350389832
+[TOTAL_GCS_MarkSweepCompact], Count, 0
+[TOTAL_GC_TIME_MarkSweepCompact], Time(ms), 0
+[TOTAL_GC_TIME_%_MarkSweepCompact], Time(%), 0.0
+[TOTAL_GCs], Count, 1
+[TOTAL_GC_TIME], Time(ms), 10
+[TOTAL_GC_TIME_%], Time(%), 0.001836665350389832
+[CLEANUP], Operations, 16
+[CLEANUP], AverageLatency(us), 116.0625
+[CLEANUP], MinLatency(us), 44
+[CLEANUP], MaxLatency(us), 359
+[CLEANUP], 99thPercentileLatency(us), 359
+[CLEANUP], 99.9PercentileLatency(us), 359
+[UPDATE], Operations, 25294
+[UPDATE], AverageLatency(us), 324076.9782952479
+[UPDATE], MinLatency(us), 1086
+[UPDATE], MaxLatency(us), 336068607
+[UPDATE], 99thPercentileLatency(us), 1549311
+[UPDATE], 99.9PercentileLatency(us), 50593791
+[UPDATE], Return=OK, 25294

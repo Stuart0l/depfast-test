@@ -1,0 +1,56 @@
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.34:26257/ycsb?sslmode=disable
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+[OVERALL], RunTime(ms), 300138
+[OVERALL], Throughput(ops/sec), 938.2750601390027
+[TOTAL_GCS_Copy], Count, 7
+[TOTAL_GC_TIME_Copy], Time(ms), 22
+[TOTAL_GC_TIME_%_Copy], Time(%), 0.007329961551019864
+[TOTAL_GCS_MarkSweepCompact], Count, 0
+[TOTAL_GC_TIME_MarkSweepCompact], Time(ms), 0
+[TOTAL_GC_TIME_%_MarkSweepCompact], Time(%), 0.0
+[TOTAL_GCs], Count, 7
+[TOTAL_GC_TIME], Time(ms), 22
+[TOTAL_GC_TIME_%], Time(%), 0.007329961551019864
+[CLEANUP], Operations, 16
+[CLEANUP], AverageLatency(us), 66.5625
+[CLEANUP], MinLatency(us), 31
+[CLEANUP], MaxLatency(us), 233
+[CLEANUP], 99thPercentileLatency(us), 233
+[CLEANUP], 99.9PercentileLatency(us), 233
+[UPDATE], Operations, 281612
+[UPDATE], AverageLatency(us), 17031.51186384103
+[UPDATE], MinLatency(us), 1291
+[UPDATE], MaxLatency(us), 406015
+[UPDATE], 99thPercentileLatency(us), 60639
+[UPDATE], 99.9PercentileLatency(us), 146303
+[UPDATE], Return=OK, 281612
