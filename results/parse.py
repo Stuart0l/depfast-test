@@ -533,5 +533,5 @@ exportcsv(mongo_s_csv, 'mongodb')
 # getpercentage(rethinkdb_mem_follow_explist, 'rethinkdb')
 # exportcsv(rethinkdb_mem_follow_csv, 'rethinkdb')
 
-getpercentage(rethinkdb_mem_follow_exp6, 'rethinkdb')
-exportcsv(rethinkdb_mem_follow_exp6_csv, 'rethinkdb')
+# getpercentage(rethinkdb_mem_follow_exp6, 'rethinkdb')
+# exportcsv(rethinkdb_mem_follow_exp6_csv, 'rethinkdb')
