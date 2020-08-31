@@ -16,7 +16,7 @@ s3name="tidbtidb_tikv3"
 serverZone="us-central1-a"    # for gcp only
 ###########################
 
-if [ "$#" -ne 8 ]; then
+if [ "$#" -ne 9 ]; then
     echo "Wrong number of parameters"
     echo "1st arg - number of iterations"
     echo "2nd arg - workload path"
@@ -26,6 +26,7 @@ if [ "$#" -ne 8 ]; then
     echo "6th arg - type of experiment(follower/leaderlow/leaderhigh/noslow1/noslow2)"
     echo "7th arg - turn on swap (swapon/swapoff) [swapon only for exp6+mem] "
     echo "8th arg - in disk or in memory (hdd/mem)"
+	echo "9th arg - threads for ycsb run(for saturation exp)"
     exit 1
 fi
 
