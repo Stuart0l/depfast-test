@@ -41,6 +41,7 @@ def calcforexp(expname, fpath, dbname):
     if('noslow' in expname):
         expname=''
     flist=os.listdir(fpath)
+    tmpres={'ops': [], 'avg': [], '99': [], '999': [], 'max': []}
     totres={'ops': 0.0, 'avg': 0.0, '99': 0.0, '999': 0.0, 'max': 0.0}
     listres={}
     cnt=0
@@ -55,10 +56,15 @@ def calcforexp(expname, fpath, dbname):
             # print(fp, res)
             listres[fp]=res
             for kk in totres.keys():
-                totres[kk]+=res[kk]
+                tmpres[kk].append(res[kk])
+                #totres[kk]+=res[kk]
     for kk in totres.keys():
-        totres[kk]/=cnt
-    # print(listres)
+        #totres[kk]/=cnt
+        import statistics
+        if kk in ['99', '999', 'max']:
+            totres[kk]=statistics.median(tmpres[kk])
+        else:
+            totres[kk]=sum(tmpres[kk]) / len(tmpres[kk]) 
     return(totres, listres)
 
 def compareres(expname, noslowpath, slowpath, dbname):
@@ -111,10 +117,10 @@ def getpercentage(_explist, dbtype):
 tidb_explist=[
     # leaderhigh slowness
     ['---'],
-    ['exp1','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
-    ['exp2','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
-    ['exp5','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
-    ['exp6','./1client_tmpfs/tidb/tidb_noslow1_swapon_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapon_mem_results'],
+    ['exp1','./1client_tmpfs/tidb/old/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
+    ['exp2','./1client_tmpfs/tidb/old/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
+    ['exp5','./1client_tmpfs/tidb/old/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
+    ['exp6','./1client_tmpfs/tidb/old/tidb_noslow1_swapon_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapon_mem_results'],
     # leaderlow slowness
     ['---'],
     ['exp1','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
@@ -507,15 +513,15 @@ cockroachdb_ssd_csv = [
 
 # then get the result of each experiment
 
-# getpercentage(mongodb_explist, 'mongodb')
-# exportcsv(mongo_csv, 'mongodb')
-# getpercentage(mongodb_s_explist, 'mongodb')
-# exportcsv(mongo_s_csv, 'mongodb')
+getpercentage(mongodb_explist, 'mongodb')
+exportcsv(mongo_csv, 'mongodb')
+getpercentage(mongodb_s_explist, 'mongodb')
+exportcsv(mongo_s_csv, 'mongodb')
 
-getpercentage(tidb_explist, 'tidb')
-exportcsv(tidb_csv, 'tidb')
-getpercentage(tidb_s_explist, 'tidb')
-exportcsv(tidb_s_csv, 'tidb')
+# getpercentage(tidb_explist, 'tidb')
+# exportcsv(tidb_csv, 'tidb')
+# getpercentage(tidb_s_explist, 'tidb')
+# exportcsv(tidb_s_csv, 'tidb')
 
 
 
