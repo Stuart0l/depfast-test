@@ -39,6 +39,7 @@ host=$5
 exptype=$6
 swapness=$7
 ondisk=$8
+ycsbthreads=$9
 
 # test_start is executed at the beginning
 function test_start {
@@ -162,7 +163,7 @@ function ycsb_load {
 # ycsb run exectues the given workload and waits for it to complete
 function ycsb_run {
   cd /home/tidb/ycsb-0.17.0/bin
-  /home/tidb/ycsb-0.17.0/bin/ycsb run mongodb -s -P /home/tidb/gray-testing/scripts/mongodb/$workload -threads 32  -p maxexecutiontime=$ycsbruntime -p mongodb.url="mongodb://$primaryip:27017/ycsb?w=majority&readConcernLevel=majority" > /home/tidb/gray-testing/scripts/mongodb/"$dirname"/exp"$expno"_trial_"$i".txt ; wait $!
+  /home/tidb/ycsb-0.17.0/bin/ycsb run mongodb -s -P /home/tidb/gray-testing/scripts/mongodb/$workload -threads $ycsbthreads  -p maxexecutiontime=$ycsbruntime -p mongodb.url="mongodb://$primaryip:27017/ycsb?w=majority&readConcernLevel=majority" > /home/tidb/gray-testing/scripts/mongodb/"$dirname"/exp"$expno"_trial_"$i".txt ; wait $!
   #  -threads 32  for saturation
   cd /home/tidb/gray-testing/scripts/mongodb
 }
