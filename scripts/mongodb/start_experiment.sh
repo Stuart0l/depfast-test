@@ -147,6 +147,9 @@ function db_init {
 
   # Disable chaining allowed
   /home/tidb/mongodb/bin/mongo --host $primaryip --eval "cfg = rs.config(); cfg.settings.chainingAllowed = false; rs.reconfig(cfg);"
+  #/home/tidb/mongodb/bin/mongo --host $s1 --eval "db.adminCommand( { replSetSyncFrom: '$primaryip' })"
+  /home/tidb/mongodb/bin/mongo --host mongodb0-2 --eval "db.adminCommand( { replSetSyncFrom: 'mongodb0-1:27017' })"
+  /home/tidb/mongodb/bin/mongo --host mongodb0-3 --eval "db.adminCommand( { replSetSyncFrom: 'mongodb0-1:27017' })"
 }
 
 # ycsb_load is used to run the ycsb load and wait until it completes.
