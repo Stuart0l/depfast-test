@@ -46,7 +46,7 @@ ycsbthreads=$9
 function test_start {
   name=$1
   echo "Running $exptype experiment $expno $swapness $ondisk for $name"
-  dirname="$name"_"$exptype"_"$swapness"_"$ondisk"_results 
+  dirname="$name"_"$exptype"_"$swapness"_"$ondisk"_"$ycsbthreads"_results
   mkdir -p $dirname
 }
 
