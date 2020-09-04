@@ -8,7 +8,7 @@ set -ex
 
 # Server specific configs
 ##########################
-resource="DepFast"
+resource="DepFast3"
 clusterPort="29015"
 partitionName="/dev/sdc"
 ###########################
@@ -91,11 +91,11 @@ function start_servers {
 	elif [ "$host" == "azure" ]; then
 			# For regex have the following check to save ourselves from malformed regex which can lead
 			# to starting of non-target VMs
-			ns=$(az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex | wc -l)
+			ns=$(az vm list --query "[].id" --resource-group DepFast3 -o tsv | grep $serverRegex | wc -l)
 			if [[ $ns -le 5 ]]
 			then
 				az vm start --ids $(
-					az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex
+					az vm list --query "[].id" --resource-group DepFast3 -o tsv | grep $serverRegex
 				)
 			else
 				echo "Server regex malformed, performing linear start"
@@ -265,11 +265,11 @@ function stop_servers {
 	elif [ "$host" == "azure" ]; then
 	    # For regex have the following check to save ourselves from malformed regex which can lead
 		# to stopping of non-target VMs
-		ns=$(az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex | wc -l)
+		ns=$(az vm list --query "[].id" --resource-group DepFast3 -o tsv | grep $serverRegex | wc -l)
 		if [[ $ns -le 5 ]]
 		then
 			az vm deallocate --ids $(
-				az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex
+				az vm list --query "[].id" --resource-group DepFast3 -o tsv | grep $serverRegex
 			)
 		else
 			echo "Server regex malformed, performing linear stop"

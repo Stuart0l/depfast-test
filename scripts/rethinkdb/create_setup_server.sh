@@ -27,17 +27,17 @@ filesystem=$6
 threadsycsb=$7
 
 username="riteshsinha"
-resource="DepFast"
+resource="DepFast3"
 serverRegex="rethinkdb$namePrefix-[1-$noOfServers]"
 declare -A serverNameIPMap
 
 # Create the VM on Azure
 function az_vm_create {
   # Create client VM
-  az vm create --name rethinkdb"$namePrefix"-client --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 64 --storage-sku Premium_LRS --size Standard_D4s_v3 --admin-username riteshsinha --ssh-key-values ~/.ssh/id_rsa.pub --accelerated-networking true
+  #az vm create --name rethinkdb"$namePrefix"-client --resource-group DepFast3 --subscription 'Last Chance' --zone 1 --image debian --os-disk-size-gb 64 --storage-sku Premium_LRS --size Standard_D4s_v3 --admin-username riteshsinha --ssh-key-values ~/.ssh/id_rsa.pub --accelerated-networking true
 
   # Setup Client IP and name
-  clientConfig=$(az vm list-ip-addresses --name rethinkdb"$namePrefix"-client --query '[0].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json)
+  clientConfig=$(az vm list-ip-addresses --resource-group DepFast3 --name rethinkdb"$namePrefix"-client --query '[0].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json)
   clientPrivateIP=$(echo $clientConfig | jq .privateip)
   clientPrivateIP=$(sed -e "s/^'//" -e "s/'$//" <<<"$clientPrivateIP")
   clientPrivateIP=$(sed -e 's/^"//' -e 's/"$//' <<<"$clientPrivateIP")
@@ -56,13 +56,13 @@ function az_vm_create {
   # Create servers with both local ssh key and client VM ssh key
   for (( i=1; i<=noOfServers; i++ ))
   do
-    az vm create --name rethinkdb"$namePrefix"-"$i" --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 64 --storage-sku Premium_LRS --data-disk-sizes-gb 64 --size Standard_D4s_v3 --admin-username riteshsinha --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub --accelerated-networking true
+    az vm create --name rethinkdb"$namePrefix"-"$i" --resource-group DepFast3 --subscription 'Last Chance' --zone 1 --image debian --os-disk-size-gb 64 --storage-sku Premium_LRS --data-disk-sizes-gb 64 --size Standard_D4s_v3 --admin-username riteshsinha --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub --accelerated-networking true
   done
 }
 
 function write_config {
 	rm -f config.json
-	az vm list-ip-addresses --ids $(az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex) --query '[].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json > config.json
+	az vm list-ip-addresses --ids $(az vm list --query "[].id" --resource-group DepFast3 -o tsv | grep $serverRegex) --query '[].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json > config.json
 }
 
 # Set the IPs of the given VM
@@ -105,7 +105,8 @@ function run_ssd_experiment {
 	# ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 4 azure leader disk swapoff 3 $serverRegex)"
 	# ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 5 azure leader disk swapoff 3 $serverRegex)"
 	# Run the all_ssd.sh scropt
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./all_ssd.sh 5 300 rethinkdbssd-[1-3] 1)"
+	#ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./all_ssd.sh 5 300 rethinkdbssd-[1-3] 1)"
+	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure noslow disk swapoff 3 $serverRegex)"
 }
 
 function run_memory_experiment {
@@ -153,11 +154,11 @@ EOF_1
 }
 
 function deallocate_vms {
-	ns=$(az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex | wc -l)
+	ns=$(az vm list --query "[].id" --resource-group DepFast3 -o tsv | grep $serverRegex | wc -l)
 	if [[ $ns -le 5 ]]
 	then
 		az vm deallocate --ids $(
-			az vm list --query "[].id" --resource-group DepFast -o tsv | grep $serverRegex
+			az vm list --query "[].id" --resource-group DepFast3 -o tsv | grep $serverRegex
 		)
 	else
 		echo "Server regex malformed, performing linear stop"
