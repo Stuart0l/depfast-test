@@ -152,6 +152,9 @@ function db_init {
   #/home/tidb/mongodb/bin/mongo --host $s1 --eval "db.adminCommand( { replSetSyncFrom: '$primaryip' })"
   /home/tidb/mongodb/bin/mongo --host mongodb0-2 --eval "db.adminCommand( { replSetSyncFrom: 'mongodb0-1:27017' })"
   /home/tidb/mongodb/bin/mongo --host mongodb0-3 --eval "db.adminCommand( { replSetSyncFrom: 'mongodb0-1:27017' })"
+
+  # Set WriteConcern==majority    in order to make it consistent between all DBs
+  /home/tidb/mongodb/bin/mongo --host $primaryip --eval "cfg = rs.config(); cfg.settings.getLastErrorDefaults = { j:true, w:'majority', wtimeout:10000 }; rs.reconfig(cfg);"
 }
 
 # ycsb_load is used to run the ycsb load and wait until it completes.
