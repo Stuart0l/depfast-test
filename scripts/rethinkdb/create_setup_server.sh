@@ -91,19 +91,21 @@ function setup_servers {
 }
 
 function run_ssd_experiment {
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure noslow disk swapoff 3 $serverRegex)"
+	# ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure noslow disk swapoff 3 $serverRegex)"
 	
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure follower disk swapoff 3 $serverRegex)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 2 azure follower disk swapoff 3 $serverRegex)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 3 azure follower disk swapoff 3 $serverRegex)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 4 azure follower disk swapoff 3 $serverRegex)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 5 azure follower disk swapoff 3 $serverRegex)"
+	# ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure follower disk swapoff 3 $serverRegex)"
+	# ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 2 azure follower disk swapoff 3 $serverRegex)"
+	# ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 3 azure follower disk swapoff 3 $serverRegex)"
+	# ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 4 azure follower disk swapoff 3 $serverRegex)"
+	# ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 5 azure follower disk swapoff 3 $serverRegex)"
 
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure leader disk swapoff 3 $serverRegex)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 2 azure leader disk swapoff 3 $serverRegex)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 3 azure leader disk swapoff 3 $serverRegex)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 4 azure leader disk swapoff 3 $serverRegex)"
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 5 azure leader disk swapoff 3 $serverRegex)"
+	# ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 1 azure leader disk swapoff 3 $serverRegex)"
+	# ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 2 azure leader disk swapoff 3 $serverRegex)"
+	# ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 3 azure leader disk swapoff 3 $serverRegex)"
+	# ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 4 azure leader disk swapoff 3 $serverRegex)"
+	# ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./start_experiment.sh $iterations workloads/$workload $ycsbruntime 5 azure leader disk swapoff 3 $serverRegex)"
+	# Run the all_ssd.sh scropt
+	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "(cd ~/YCSB/ ; ./all_ssd.sh 5 300 rethinkdbssd-[1-3] 1)"
 }
 
 function run_memory_experiment {
