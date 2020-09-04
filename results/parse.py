@@ -259,12 +259,12 @@ tidb_csv=[
     {
         'name': 'tidb_leaderhigh',
         'data': [
-                    ['noslow1_swapoff', './1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results'],
+                    ['noslow1_swapoff', './1client_tmpfs/tidb/old/tidb_noslow1_swapoff_mem_results'],
                     ['exp1', './1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
                     ['exp2', './1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
                     ['exp5', './1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
                     ['exp6', './1client_tmpfs/tidb/tidb_leaderhigh_swapon_mem_results'],
-                    ['noslow1_swapon', './1client_tmpfs/tidb/tidb_noslow1_swapon_mem_results']
+                    ['noslow1_swapon', './1client_tmpfs/tidb/old/tidb_noslow1_swapon_mem_results']
                 ]
     },
     {
@@ -278,17 +278,6 @@ tidb_csv=[
                     ['noslow1_swapon', './1client_tmpfs/tidb/tidb_noslow1_swapon_mem_results']
                 ]
     },
-    # {
-    #     'name': 'tidb_follower',
-    #     'data': [
-    #                 ['noslow2_swapoff', './1client_tmpfs/tidb/tidb_noslow2_swapoff_mem_results'],
-    #                 ['exp1', './1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
-    #                 ['exp2', './1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
-    #                 ['exp5', './1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
-    #                 ['exp6', './1client_tmpfs/tidb/tidb_follower_swapon_mem_results'],
-    #                 ['noslow2_swapon', './1client_tmpfs/tidb/tidb_noslow2_swapon_mem_results']
-    #             ]
-    # },
 ]
 
 tidb_s_csv=[
@@ -314,31 +303,9 @@ tidb_s_csv=[
                     ['noslow1_swapon', './saturate_tmpfs/tidb/tidb_noslow1_swapon_mem_results']
                 ]
     },
-    # {
-    #     'name': 'tidb_saturate_follower',
-    #     'data': [
-    #                 ['noslow2_swapoff', './saturate_tmpfs/tidb/tidb_noslow2_swapoff_mem_results'],
-    #                 ['exp1', './saturate_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
-    #                 ['exp2', './saturate_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
-    #                 ['exp5', './saturate_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
-    #                 ['exp6', './saturate_tmpfs/tidb/tidb_follower_swapon_mem_results'],
-    #                 ['noslow2_swapon', './saturate_tmpfs/tidb/tidb_noslow2_swapon_mem_results']
-    #             ]
-    # },
 ]
 
 mongo_csv=[
-    {
-        'name': 'mongodb_follower',
-        'data': [
-                    ['noslow_swapoff', './1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results'],
-                    ['exp1', './1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
-                    ['exp2', './1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
-                    ['exp5', './1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
-                    ['exp6', './1client_tmpfs/mongodb/mongodb_follower_swapon_mem_results'],
-                    ['noslow_swapon', './1client_tmpfs/mongodb/mongodb_noslow_swapon_mem_results']
-                ]
-    },
     {
         'name': 'mongodb_leader',
         'data': [
@@ -350,20 +317,20 @@ mongo_csv=[
                     ['noslow_swapon', './1client_tmpfs/mongodb/mongodb_noslow_swapon_mem_results']
                 ]
     },
+    {
+        'name': 'mongodb_follower',
+        'data': [
+                    ['noslow_swapoff', './1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results'],
+                    ['exp1', './1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
+                    ['exp2', './1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
+                    ['exp5', './1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
+                    ['exp6', './1client_tmpfs/mongodb/mongodb_follower_swapon_mem_results'],
+                    ['noslow_swapon', './1client_tmpfs/mongodb/mongodb_noslow_swapon_mem_results']
+                ]
+    },
 ]
 
 mongo_s_csv=[
-    {
-        'name': 'mongodb_saturate_follower',
-        'data': [
-                    ['noslow_swapoff', './saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results'],
-                    ['exp1', './saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
-                    ['exp2', './saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
-                    ['exp5', './saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
-                    ['exp6', './saturate_tmpfs/mongodb/mongodb_follower_swapon_mem_results'],
-                    ['noslow_swapon', './saturate_tmpfs/mongodb/mongodb_noslow_swapon_mem_results']
-                ]
-    },
     {
         'name': 'mongodb_saturate_leader',
         'data': [
@@ -372,6 +339,17 @@ mongo_s_csv=[
                     ['exp2', './saturate_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
                     ['exp5', './saturate_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
                     ['exp6', './saturate_tmpfs/mongodb/mongodb_leader_swapon_mem_results'],
+                    ['noslow_swapon', './saturate_tmpfs/mongodb/mongodb_noslow_swapon_mem_results']
+                ]
+    },
+    {
+        'name': 'mongodb_saturate_follower',
+        'data': [
+                    ['noslow_swapoff', './saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results'],
+                    ['exp1', './saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
+                    ['exp2', './saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
+                    ['exp5', './saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
+                    ['exp6', './saturate_tmpfs/mongodb/mongodb_follower_swapon_mem_results'],
                     ['noslow_swapon', './saturate_tmpfs/mongodb/mongodb_noslow_swapon_mem_results']
                 ]
     },
@@ -513,10 +491,10 @@ cockroachdb_ssd_csv = [
 
 # then get the result of each experiment
 
-# getpercentage(mongodb_explist, 'mongodb')
-# exportcsv(mongo_csv, 'mongodb')
-# getpercentage(mongodb_s_explist, 'mongodb')
-# exportcsv(mongo_s_csv, 'mongodb')
+getpercentage(mongodb_explist, 'mongodb')
+exportcsv(mongo_csv, 'mongodb')
+getpercentage(mongodb_s_explist, 'mongodb')
+exportcsv(mongo_s_csv, 'mongodb')
 
 getpercentage(tidb_explist, 'tidb')
 exportcsv(tidb_csv, 'tidb')
@@ -541,3 +519,58 @@ exportcsv(tidb_s_csv, 'tidb')
 
 # getpercentage(rethinkdb_mem_follow_exp6, 'rethinkdb')
 # exportcsv(rethinkdb_mem_follow_exp6_csv, 'rethinkdb')
+
+
+def getabsolute(_explist, dbtype):
+    import numpy as np
+    np.set_printoptions(suppress=True)
+    y=np.zeros((5, 6, 2))    #5metrics, 6exps, one+saturate
+    for _o, one in enumerate(_explist):
+        for _e, exp in enumerate(one['data']):
+            res, _=calcforexp(exp[0], exp[1], dbtype)
+            for _i,val in enumerate(res.keys()):
+                y[_i][_e][_o]=res[val]
+    return(y)
+
+def draw(_absolute, dbname, fname):
+    y=getabsolute(_absolute, dbname)
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    plt.rc('pgf', texsystem='pdflatex')  # or luatex, xelatex...
+
+    plt.figure(figsize=(12,3), dpi=100)
+    T=['Throughput', 'Average Latency', 'P99 Latency', 'P99.9 Latency']
+    L=['No Slow swapoff', 'Slow CPU', 'CPU contention', 'Network Slowness', 'Memory Slowness', 'No Slow Swapon']
+    tick_label=['Leader\nSlowness','Follower\nSlowness']
+    # tick_label=['One Client', 'Saturate']
+    color=['red','orange','green','blue','salmon', 'yellow']
+    hh=['////','----','...','xxxx','||||', '\\\\\\\\']
+
+    x=np.arange(2)
+
+    for it in range(4):
+        plt.subplot(141+it)
+
+        bar_width=0.15
+
+        for i in range(6):
+            print(x+bar_width*i,y[it][i])
+            plt.bar(x+bar_width*i,y[it][i],bar_width,color=color[i],hatch=hh[i],label=L[i], edgecolor='black')
+            #for _i, _x in enumerate(x):
+            #    plt.text(_x+bar_width*i-bar_width*0.8, y[it][i][_i], str(int(y[it][i][_i]*100)))
+
+        plt.title(T[it])
+        plt.legend()
+        plt.yscale('log')
+        plt.xticks(x+bar_width*2,tick_label)
+
+
+    plt.tight_layout()
+    #plt.show()
+    plt.savefig(fname+'.pdf')
+
+draw(mongo_csv, 'mongodb', 'mongodb_oneclient')
+draw(mongo_s_csv, 'mongodb', 'mongodb_saturate')
+draw(tidb_csv, 'tidb', 'tidb_oneclient')
+draw(tidb_s_csv, 'tidb', 'tidb_saturate')
