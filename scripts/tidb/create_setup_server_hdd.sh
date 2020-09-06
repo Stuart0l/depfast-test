@@ -130,6 +130,7 @@ function setup_servers {
   	ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'echo -e \"server time1.google.com iburst\nserver time2.google.com iburst\nserver time3.google.com iburst\nserver time4.google.com iburst\" >> /etc/ntp.conf'"
   	ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'sudo service ntp start ; ntpstat ; true'"
     scp tidb_mem.yaml tidb@"${serverNameIPMap[$key]}":~/
+    scp tidb_hdd.yaml tidb@"${serverNameIPMap[$key]}":~/
 #    scp tidb_restrict_mem.yaml tidb@"${serverNameIPMap[$key]}":~/
   done
   az vm open-port --subscription "Last Chance" --resource-group DepFast3 --name tidb"$namePrefix"_pd --port 3000 --priority 901
