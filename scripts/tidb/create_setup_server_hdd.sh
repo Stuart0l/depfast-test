@@ -132,8 +132,8 @@ function setup_servers {
     scp tidb_mem.yaml tidb@"${serverNameIPMap[$key]}":~/
 #    scp tidb_restrict_mem.yaml tidb@"${serverNameIPMap[$key]}":~/
   done
-  az vm open-port --subscription "Last Chance" --resource-group DepFast3 --name tidb"$namePrefix"_pd --port 3000
-  az vm open-port --subscription "Last Chance" --resource-group DepFast3 --name tidb"$namePrefix"_pd --port 9090
+  az vm open-port --subscription "Last Chance" --resource-group DepFast3 --name tidb"$namePrefix"_pd --port 3000 --priority 901
+  az vm open-port --subscription "Last Chance" --resource-group DepFast3 --name tidb"$namePrefix"_pd --port 9090 --priority 902
 }
 
 # function run_ssd_experiment {

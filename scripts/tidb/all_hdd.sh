@@ -1,18 +1,13 @@
-#./start_experiment.sh 5 ./workloada 600 1 azure leaderhigh swapoff hdd
-#./start_experiment.sh 5 ./workloada 600 2 azure leaderhigh swapoff hdd
-#./start_experiment.sh 5 ./workloada 600 3 azure leaderhigh swapoff hdd
+#./start_experiment_hdd.sh 5 ./workloada 300 1 azure leaderhigh swapoff hdd
+#./start_experiment_hdd.sh 5 ./workloada 300 2 azure leaderhigh swapoff hdd
+#./start_experiment_hdd.sh 5 ./workloada 300 3 azure leaderhigh swapoff hdd
+./start_experiment_hdd.sh 5 ./workloada 300 4 azure leaderhigh swapoff hdd
+./start_experiment_hdd.sh 5 ./workloada 300 5 azure leaderhigh swapoff hdd
 
-#./start_experiment.sh 5 ./workloada 600 4 azure leaderhigh swapoff hdd
-#./start_experiment.sh 5 ./workloada 600 5 azure leaderhigh swapoff hdd
+#./start_experiment_hdd.sh 5 ./workloada 300 1 azure leaderlow swapoff hdd
+#./start_experiment_hdd.sh 5 ./workloada 300 2 azure leaderlow swapoff hdd
+#./start_experiment_hdd.sh 5 ./workloada 300 3 azure leaderlow swapoff hdd
+./start_experiment_hdd.sh 5 ./workloada 300 4 azure leaderlow swapoff hdd
+./start_experiment_hdd.sh 5 ./workloada 300 5 azure leaderlow swapoff hdd
 
-#./start_experiment.sh 5 ./workloada 600 1 azure noslow1 swapoff hdd
-#./start_experiment.sh 5 ./workloada 600 1 azure noslow2 swapoff hdd
-
-./start_experiment.sh 5 ./workloada 600 1 azure follower swapoff hdd
-./start_experiment.sh 5 ./workloada 600 2 azure follower swapoff hdd
-#./start_experiment.sh 5 ./workloada 600 3 azure follower swapoff hdd
-#./start_experiment.sh 5 ./workloada 600 4 azure follower swapoff hdd
-./start_experiment.sh 5 ./workloada 600 5 azure follower swapoff hdd
-
-
-
+./start_experiment_hdd.sh 5 ./workloada 300 1 azure noslow1 swapoff hdd
