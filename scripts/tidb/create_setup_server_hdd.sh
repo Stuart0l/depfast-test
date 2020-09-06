@@ -47,7 +47,7 @@ function az_vm_create {
   # Create client VM
   az vm create --name tidb"$namePrefix"_client --resource-group DepFast3 --subscription 'Last Chance' --zone 1 --image debian --os-disk-size-gb 64 --storage-sku Standard_LRS  --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub --accelerated-networking true
   # Setup Client IP and name
-  clientConfig=$(az vm list-ip-addresses --name tidb"$namePrefix"_client --query '[0].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json)
+  clientConfig=$(az vm list-ip-addresses --subscription "Last Chance" --name tidb"$namePrefix"_client --query '[0].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json)
   clientPrivateIP=$(echo $clientConfig | jq .privateip)
   clientPrivateIP=$(sed -e "s/^'//" -e "s/'$//" <<<"$clientPrivateIP")
   clientPrivateIP=$(sed -e 's/^"//' -e 's/"$//' <<<"$clientPrivateIP")
@@ -66,7 +66,7 @@ function az_vm_create {
   # Create pd VM
   az vm create --name tidb"$namePrefix"_pd --resource-group DepFast3 --subscription 'Last Chance' --zone 1 --image debian --os-disk-size-gb 64 --storage-sku Premium_LRS --data-disk-sizes-gb 64 --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub --accelerated-networking true
   # Setup pd IP and name
-  pdConfig=$(az vm list-ip-addresses --name tidb"$namePrefix"_pd --query '[0].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json)
+  pdConfig=$(az vm list-ip-addresses --subscription "Last Chance" --name tidb"$namePrefix"_pd --query '[0].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json)
   pdPrivateIP=$(echo $pdConfig | jq .privateip)
   pdPrivateIP=$(sed -e "s/^'//" -e "s/'$//" <<<"$pdPrivateIP")
   pdPrivateIP=$(sed -e 's/^"//' -e 's/"$//' <<<"$pdPrivateIP")
@@ -92,7 +92,7 @@ function az_vm_create {
 
 function write_config {
 	rm -f config.json
-	az vm list-ip-addresses --ids $(az vm list --query "[].id" --resource-group DepFast3 -o tsv | grep $serverRegex) --query '[].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json > config.json
+	az vm list-ip-addresses --subscription "Last Chance" --ids $(az vm list --query "[].id" --subscription "Last Chance" --resource-group DepFast3 -o tsv | grep $serverRegex) --query '[].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json > config.json
 }
 
 # Set the IPs of the given VM
@@ -132,7 +132,8 @@ function setup_servers {
     scp tidb_mem.yaml tidb@"${serverNameIPMap[$key]}":~/
 #    scp tidb_restrict_mem.yaml tidb@"${serverNameIPMap[$key]}":~/
   done
-  az vm open-port --resource-group DepFast3 --name tidb"$namePrefix"_pd --port 3000
+  az vm open-port --subscription "Last Chance" --resource-group DepFast3 --name tidb"$namePrefix"_pd --port 3000
+  az vm open-port --subscription "Last Chance" --resource-group DepFast3 --name tidb"$namePrefix"_pd --port 9090
 }
 
 # function run_ssd_experiment {
@@ -184,21 +185,21 @@ function setup_client_az {
 }
 
 function deallocate_vms {
-	ns=$(az vm list --query "[].id" --resource-group DepFast3 -o tsv | grep $serverRegex | wc -l)
+	ns=$(az vm list --query "[].id" --subscription "Last Chance" --resource-group DepFast3 -o tsv | grep $serverRegex | wc -l)
 	if [[ $ns -le 5 ]]
 	then
-		az vm deallocate --ids $(
-			az vm list --query "[].id" --resource-group DepFast3 -o tsv | grep $serverRegex
+		az vm deallocate --subscription "Last Chance" --ids $(
+			az vm list --query "[].id" --subscription "Last Chance" --resource-group DepFast3 -o tsv | grep $serverRegex
 		)
 	else
 		echo "Server regex malformed, performing linear stop"
 		# Switching back to linear stop
 		for key in "${!serverNameIPMap[@]}";
 		do
-			az vm deallocate --name "$key" --resource-group "$resource"
+			az vm deallocate --name "$key" --resource-group "$resource" --subscription "Last Chance"
 		done
 	fi
-	az vm deallocate --name "$clientName" --resource-group "$resource"
+	az vm deallocate --name "$clientName" --resource-group "$resource" --subscription "Last Chance"
 }
 
 function main {
