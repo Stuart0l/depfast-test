@@ -45,7 +45,7 @@ function az_vm_create {
   rm ~/.ssh/known_hosts
 
   # Create client VM
-  az vm create --name tidb"$namePrefix"_client --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 128 --storage-sku Standard_LRS  --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub --accelerated-networking true
+  az vm create --name tidb"$namePrefix"_client --resource-group DepFast --subscription 'Last Chance' --zone 1 --image debian --os-disk-size-gb 64 --storage-sku Standard_LRS  --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub --accelerated-networking true
   # Setup Client IP and name
   clientConfig=$(az vm list-ip-addresses --name tidb"$namePrefix"_client --query '[0].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json)
   clientPrivateIP=$(echo $clientConfig | jq .privateip)
@@ -64,7 +64,7 @@ function az_vm_create {
   scp tidb@$clientPublicIP:~/.ssh/id_rsa.pub ./client_rsa.pub
 
   # Create pd VM
-  az vm create --name tidb"$namePrefix"_pd --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 64 --storage-sku Standard_LRS --data-disk-sizes-gb 128 --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub --accelerated-networking true
+  az vm create --name tidb"$namePrefix"_pd --resource-group DepFast --subscription 'Last Chance' --zone 1 --image debian --os-disk-size-gb 64 --storage-sku Premium_LRS --data-disk-sizes-gb 64 --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub --accelerated-networking true
   # Setup pd IP and name
   pdConfig=$(az vm list-ip-addresses --name tidb"$namePrefix"_pd --query '[0].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json)
   pdPrivateIP=$(echo $pdConfig | jq .privateip)
@@ -85,7 +85,7 @@ function az_vm_create {
   # Create servers with both local ssh key and client VM ssh key
   for (( i=1; i<=noOfServers; i++ ))
   do
-    az vm create --name tidb"$namePrefix"_tikv"$i" --resource-group DepFast --subscription 'Microsoft Azure Sponsorship 2' --zone 1 --image debian --os-disk-size-gb 64 --storage-sku Standard_LRS --data-disk-sizes-gb 128 --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub ./pd_rsa.pub --accelerated-networking true
+    az vm create --name tidb"$namePrefix"_tikv"$i" --resource-group DepFast --subscription 'Last Chance' --zone 1 --image debian --os-disk-size-gb 64 --storage-sku Premium_LRS --data-disk-sizes-gb 64 --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub ./pd_rsa.pub --accelerated-networking true
   done
 
 }
