@@ -160,31 +160,31 @@ tidb_s_explist=[
 mongodb_explist=[
     # leader slowness
     ['---'],
-    ['exp1','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./1client_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
-    ['exp2','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./1client_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
-    ['exp5','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./1client_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
-    ['exp6','./1client_tmpfs/mongodb/mongodb_noslow_swapon_mem_results','./1client_tmpfs/mongodb/mongodb_leader_swapon_mem_results'],
+    ['exp1','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_1_results','./1client_tmpfs/mongodb/mongodb_leader_swapoff_mem_1_results'],
+    ['exp2','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_1_results','./1client_tmpfs/mongodb/mongodb_leader_swapoff_mem_1_results'],
+    ['exp5','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_1_results','./1client_tmpfs/mongodb/mongodb_leader_swapoff_mem_1_results'],
+    ['exp6','./1client_tmpfs/mongodb/mongodb_noslow_swapon_mem_1_results','./1client_tmpfs/mongodb/mongodb_leader_swapon_mem_1_results'],
     # follower slowness
     ['---'],
-    ['exp1','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
-    ['exp2','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
-    ['exp5','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
-    ['exp6','./1client_tmpfs/mongodb/mongodb_noslow_swapon_mem_results','./1client_tmpfs/mongodb/mongodb_follower_swapon_mem_results'],
+    ['exp1','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_1_results','./1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_1_results'],
+    ['exp2','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_1_results','./1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_1_results'],
+    ['exp5','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_1_results','./1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_1_results'],
+    ['exp6','./1client_tmpfs/mongodb/mongodb_noslow_swapon_mem_1_results','./1client_tmpfs/mongodb/mongodb_follower_swapon_mem_1_results'],
 ]
 
 mongodb_s_explist=[
     # leader slowness
     ['---'],
-    ['exp1','./saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./saturate_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
-    ['exp2','./saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./saturate_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
-    ['exp5','./saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./saturate_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
-    ['exp6','./saturate_tmpfs/mongodb/mongodb_noslow_swapon_mem_results','./saturate_tmpfs/mongodb/mongodb_leader_swapon_mem_results'],
+    ['exp1','./saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_32_results','./saturate_tmpfs/mongodb/mongodb_leader_swapoff_mem_32_results'],
+    ['exp2','./saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_32_results','./saturate_tmpfs/mongodb/mongodb_leader_swapoff_mem_32_results'],
+    ['exp5','./saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_32_results','./saturate_tmpfs/mongodb/mongodb_leader_swapoff_mem_32_results'],
+    ['exp6','./saturate_tmpfs/mongodb/mongodb_noslow_swapon_mem_32_results','./saturate_tmpfs/mongodb/mongodb_leader_swapon_mem_32_results'],
     # follower slowness
     ['---'],
-    ['exp1','./saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
-    ['exp2','./saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
-    ['exp5','./saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results','./saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
-    ['exp6','./saturate_tmpfs/mongodb/mongodb_noslow_swapon_mem_results','./saturate_tmpfs/mongodb/mongodb_follower_swapon_mem_results'],
+    ['exp1','./saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_32_results','./saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_32_results'],
+    ['exp2','./saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_32_results','./saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_32_results'],
+    ['exp5','./saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_32_results','./saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_32_results'],
+    ['exp6','./saturate_tmpfs/mongodb/mongodb_noslow_swapon_mem_32_results','./saturate_tmpfs/mongodb/mongodb_follower_swapon_mem_32_results'],
 ]
 
 rethinkdb_explist=[
@@ -309,23 +309,23 @@ mongo_csv=[
     {
         'name': 'mongodb_leader',
         'data': [
-                    ['noslow_swapoff', './1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results'],
-                    ['exp1', './1client_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
-                    ['exp2', './1client_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
-                    ['exp5', './1client_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
-                    ['exp6', './1client_tmpfs/mongodb/mongodb_leader_swapon_mem_results'],
-                    ['noslow_swapon', './1client_tmpfs/mongodb/mongodb_noslow_swapon_mem_results']
+                    ['noslow_swapoff', './1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_1_results'],
+                    ['exp1', './1client_tmpfs/mongodb/mongodb_leader_swapoff_mem_1_results'],
+                    ['exp2', './1client_tmpfs/mongodb/mongodb_leader_swapoff_mem_1_results'],
+                    ['exp5', './1client_tmpfs/mongodb/mongodb_leader_swapoff_mem_1_results'],
+                    ['exp6', './1client_tmpfs/mongodb/mongodb_leader_swapon_mem_1_results'],
+                    ['noslow_swapon', './1client_tmpfs/mongodb/mongodb_noslow_swapon_mem_1_results']
                 ]
     },
     {
         'name': 'mongodb_follower',
         'data': [
-                    ['noslow_swapoff', './1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results'],
-                    ['exp1', './1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
-                    ['exp2', './1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
-                    ['exp5', './1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
-                    ['exp6', './1client_tmpfs/mongodb/mongodb_follower_swapon_mem_results'],
-                    ['noslow_swapon', './1client_tmpfs/mongodb/mongodb_noslow_swapon_mem_results']
+                    ['noslow_swapoff', './1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_1_results'],
+                    ['exp1', './1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_1_results'],
+                    ['exp2', './1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_1_results'],
+                    ['exp5', './1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_1_results'],
+                    ['exp6', './1client_tmpfs/mongodb/mongodb_follower_swapon_mem_1_results'],
+                    ['noslow_swapon', './1client_tmpfs/mongodb/mongodb_noslow_swapon_mem_1_results']
                 ]
     },
 ]
@@ -334,23 +334,23 @@ mongo_s_csv=[
     {
         'name': 'mongodb_saturate_leader',
         'data': [
-                    ['noslow_swapoff', './saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results'],
-                    ['exp1', './saturate_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
-                    ['exp2', './saturate_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
-                    ['exp5', './saturate_tmpfs/mongodb/mongodb_leader_swapoff_mem_results'],
-                    ['exp6', './saturate_tmpfs/mongodb/mongodb_leader_swapon_mem_results'],
-                    ['noslow_swapon', './saturate_tmpfs/mongodb/mongodb_noslow_swapon_mem_results']
+                    ['noslow_swapoff', './saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_32_results'],
+                    ['exp1', './saturate_tmpfs/mongodb/mongodb_leader_swapoff_mem_32_results'],
+                    ['exp2', './saturate_tmpfs/mongodb/mongodb_leader_swapoff_mem_32_results'],
+                    ['exp5', './saturate_tmpfs/mongodb/mongodb_leader_swapoff_mem_32_results'],
+                    ['exp6', './saturate_tmpfs/mongodb/mongodb_leader_swapon_mem_32_results'],
+                    ['noslow_swapon', './saturate_tmpfs/mongodb/mongodb_noslow_swapon_mem_32_results']
                 ]
     },
     {
         'name': 'mongodb_saturate_follower',
         'data': [
-                    ['noslow_swapoff', './saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_results'],
-                    ['exp1', './saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
-                    ['exp2', './saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
-                    ['exp5', './saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_results'],
-                    ['exp6', './saturate_tmpfs/mongodb/mongodb_follower_swapon_mem_results'],
-                    ['noslow_swapon', './saturate_tmpfs/mongodb/mongodb_noslow_swapon_mem_results']
+                    ['noslow_swapoff', './saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_32_results'],
+                    ['exp1', './saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_32_results'],
+                    ['exp2', './saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_32_results'],
+                    ['exp5', './saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_32_results'],
+                    ['exp6', './saturate_tmpfs/mongodb/mongodb_follower_swapon_mem_32_results'],
+                    ['noslow_swapon', './saturate_tmpfs/mongodb/mongodb_noslow_swapon_mem_32_results']
                 ]
     },
 ]
@@ -496,10 +496,10 @@ exportcsv(mongo_csv, 'mongodb')
 getpercentage(mongodb_s_explist, 'mongodb')
 exportcsv(mongo_s_csv, 'mongodb')
 
-getpercentage(tidb_explist, 'tidb')
-exportcsv(tidb_csv, 'tidb')
-getpercentage(tidb_s_explist, 'tidb')
-exportcsv(tidb_s_csv, 'tidb')
+# getpercentage(tidb_explist, 'tidb')
+# exportcsv(tidb_csv, 'tidb')
+# getpercentage(tidb_s_explist, 'tidb')
+# exportcsv(tidb_s_csv, 'tidb')
 
 
 
@@ -572,5 +572,5 @@ def draw(_absolute, dbname, fname):
 
 draw(mongo_csv, 'mongodb', 'mongodb_oneclient')
 draw(mongo_s_csv, 'mongodb', 'mongodb_saturate')
-draw(tidb_csv, 'tidb', 'tidb_oneclient')
-draw(tidb_s_csv, 'tidb', 'tidb_saturate')
+# draw(tidb_csv, 'tidb', 'tidb_oneclient')
+# draw(tidb_s_csv, 'tidb', 'tidb_saturate')
