@@ -180,17 +180,17 @@ function ycsb_run {
 function cleanup {
     ssh -i ~/.ssh/id_rsa tidb@"$s1" "sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db memory:db ; true"
     ssh -i ~/.ssh/id_rsa tidb@"$s1" "sudo /sbin/tc qdisc del dev eth0 root ; true"
-#    ssh -i ~/.ssh/id_rsa tidb@"$s1" "sudo pkill dd ; rm /data1/tmp.txt -f"
+    ssh -i ~/.ssh/id_rsa tidb@"$s1" "sudo pkill dd ; rm /data1/tmp.txt -f"
     #ssh -i ~/.ssh/id_rsa tidb@"$s1" "sudo pkill deadloop"
     sleep 5
     ssh -i ~/.ssh/id_rsa tidb@"$s2" "sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db memory:db ; true"
     ssh -i ~/.ssh/id_rsa tidb@"$s2" "sudo /sbin/tc qdisc del dev eth0 root ; true"
-#    ssh -i ~/.ssh/id_rsa tidb@"$s2" "sudo pkill dd ; rm /data1/tmp.txt -f"
+    ssh -i ~/.ssh/id_rsa tidb@"$s2" "sudo pkill dd ; rm /data1/tmp.txt -f"
     #ssh -i ~/.ssh/id_rsa tidb@"$s2" "sudo pkill deadloop"
     sleep 5
     ssh -i ~/.ssh/id_rsa tidb@"$s3" "sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db memory:db ; true"
     ssh -i ~/.ssh/id_rsa tidb@"$s3" "sudo /sbin/tc qdisc del dev eth0 root ; true"
-#    ssh -i ~/.ssh/id_rsa tidb@"$s3" "sudo pkill dd ; rm /data1/tmp.txt -f"
+    ssh -i ~/.ssh/id_rsa tidb@"$s3" "sudo pkill dd ; rm /data1/tmp.txt -f"
     #ssh -i ~/.ssh/id_rsa tidb@"$s3" "sudo pkill deadloop"
     sleep 5
 }
