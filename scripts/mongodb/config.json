@@ -1,0 +1,17 @@
+[
+  {
+    "name": "mongodb0-3",
+    "privateip": "10.0.0.15",
+    "publicip": "20.57.184.102"
+  },
+  {
+    "name": "mongodb0-2",
+    "privateip": "10.0.0.14",
+    "publicip": "20.57.184.96"
+  },
+  {
+    "name": "mongodb0-1",
+    "privateip": "10.0.0.13",
+    "publicip": "20.57.184.95"
+  }
+]
