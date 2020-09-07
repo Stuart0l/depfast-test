@@ -8,13 +8,13 @@ set -ex
 
 # Server specific configs
 ##########################
-s1="10.0.0.13"
-s2="10.0.0.14"
-s3="10.0.0.15"
+s1="10.0.0.14"
+s2="10.0.0.15"
+s3="10.0.0.16"
 
-s1name="mongodb0-1"
-s2name="mongodb0-2"
-s3name="mongodb0-3"
+s1name="mongodbssd-1"
+s2name="mongodbssd-2"
+s3name="mongodbssd-3"
 serverZone="us-central1-a"
 ###########################
 
