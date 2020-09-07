@@ -64,7 +64,7 @@ function az_vm_create {
   scp tidb@$clientPublicIP:~/.ssh/id_rsa.pub ./client_rsa.pub
 
   # Create pd VM
-  az vm create --name tidb"$namePrefix"_pd --resource-group DepFast3 --subscription 'Last Chance' --zone 1 --image debian --os-disk-size-gb 64 --storage-sku Premium_LRS --data-disk-sizes-gb 64 --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub --accelerated-networking true
+  az vm create --name tidb"$namePrefix"_pd --resource-group DepFast3 --subscription 'Last Chance' --zone 1 --image debian --os-disk-size-gb 64 --storage-sku Premium_LRS  --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub ./client_rsa.pub --accelerated-networking true
   # Setup pd IP and name
   pdConfig=$(az vm list-ip-addresses --subscription "Last Chance" --name tidb"$namePrefix"_pd --query '[0].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json)
   pdPrivateIP=$(echo $pdConfig | jq .privateip)
