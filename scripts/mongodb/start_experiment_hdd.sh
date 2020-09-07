@@ -119,7 +119,7 @@ function start_db {
 
 # db_init initialises the database
 function db_init {
-  /home/tidb/mongodb/bin/mongo --host "$s1name" < init_script.js
+  /home/tidb/mongodb/bin/mongo --host "$s1name" < init_script_hdd.js
 
   # Wait for startup
   sleep 60
@@ -127,8 +127,8 @@ function db_init {
   /home/tidb/mongodb/bin/mongo --host "$s1name" < fetchprimary.js  | tail -n +5 | head -n -1  > result.json
   cat result.json
 
-  primaryip=$(python parse.py | grep primary | cut -d" " -f2-)
-  secondaryip=$(python parse.py | grep secondary | cut -d" " -f2-)
+  primaryip=$(python parse_hdd.py | grep primary | cut -d" " -f2-)
+  secondaryip=$(python parse_hdd.py | grep secondary | cut -d" " -f2-)
 
   primarypid=$(ssh -i ~/.ssh/id_rsa "$primaryip" "sh -c 'pgrep mongo'")
   echo $primarypid
