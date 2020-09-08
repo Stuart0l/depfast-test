@@ -42,12 +42,12 @@ function setup_localvm {
 
 # Create the VM on Azure
 function az_vm_create {
-  rm ~/.ssh/known_hosts
+  rm -f ~/.ssh/known_hosts
 
   # Create client VM
   az vm create --name tidb"$namePrefix"_client --resource-group DepFast3 --subscription 'Last Chance' --zone 1 --image debian --os-disk-size-gb 128 --storage-sku Standard_LRS  --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub --accelerated-networking true
   # Setup Client IP and name
-  clientConfig=$(az vm list-ip-addresses --resource-group DepFast3 --subscription 'Last Chance'--name tidb"$namePrefix"_client --query '[0].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json)
+  clientConfig=$(az vm list-ip-addresses --resource-group DepFast3 --subscription 'Last Chance' --name tidb"$namePrefix"_client --query '[0].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json)
   clientPrivateIP=$(echo $clientConfig | jq .privateip)
   clientPrivateIP=$(sed -e "s/^'//" -e "s/'$//" <<<"$clientPrivateIP")
   clientPrivateIP=$(sed -e 's/^"//' -e 's/"$//' <<<"$clientPrivateIP")
