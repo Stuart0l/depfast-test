@@ -1,0 +1,65 @@
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+[OVERALL], RunTime(ms), 300762
+[OVERALL], Throughput(ops/sec), 843.7901064629175
+[TOTAL_GCS_G1_Young_Generation], Count, 78
+[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 342
+[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.1137111736190077
+[TOTAL_GCS_G1_Old_Generation], Count, 0
+[TOTAL_GC_TIME_G1_Old_Generation], Time(ms), 0
+[TOTAL_GC_TIME_%_G1_Old_Generation], Time(%), 0.0
+[TOTAL_GCs], Count, 78
+[TOTAL_GC_TIME], Time(ms), 342
+[TOTAL_GC_TIME_%], Time(%), 0.1137111736190077
+[CLEANUP], Operations, 200
+[CLEANUP], AverageLatency(us), 57.19
+[CLEANUP], MinLatency(us), 18
+[CLEANUP], MaxLatency(us), 535
+[CLEANUP], 99thPercentileLatency(us), 322
+[CLEANUP], 99.9PercentileLatency(us), 535
+[UPDATE], Operations, 253780
+[UPDATE], AverageLatency(us), 236339.261123808
+[UPDATE], MinLatency(us), 23792
+[UPDATE], MaxLatency(us), 1789951
+[UPDATE], 99thPercentileLatency(us), 924671
+[UPDATE], 99.9PercentileLatency(us), 1345535
+[UPDATE], Return=OK, 253780

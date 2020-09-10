@@ -1,26 +1,28 @@
 Percentile values from hdrhistogram
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
 Percentile values from hdrhistogram
-[OVERALL], RunTime(ms), 300007
-[OVERALL], Throughput(ops/sec), 168.19607542490675
-[TOTAL_GCS_G1_Young_Generation], Count, 21
-[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 195
-[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.0649984833687214
+[OVERALL], RunTime(ms), 304422
+[OVERALL], Throughput(ops/sec), 4.316376608786487
+[TOTAL_GCS_G1_Young_Generation], Count, 1
+[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 11
+[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.0036134050758486577
 [TOTAL_GCS_G1_Old_Generation], Count, 0
 [TOTAL_GC_TIME_G1_Old_Generation], Time(ms), 0
 [TOTAL_GC_TIME_%_G1_Old_Generation], Time(%), 0.0
-[TOTAL_GCs], Count, 21
-[TOTAL_GC_TIME], Time(ms), 195
-[TOTAL_GC_TIME_%], Time(%), 0.0649984833687214
+[TOTAL_GCs], Count, 1
+[TOTAL_GC_TIME], Time(ms), 11
+[TOTAL_GC_TIME_%], Time(%), 0.0036134050758486577
 [CLEANUP], Operations, 1
-[CLEANUP], AverageLatency(us), 314.0
-[CLEANUP], MinLatency(us), 314
-[CLEANUP], MaxLatency(us), 314
-[CLEANUP], 99thPercentileLatency(us), 314
-[CLEANUP], 99.9PercentileLatency(us), 314
-[UPDATE], Operations, 50460
-[UPDATE], AverageLatency(us), 5931.745303210464
-[UPDATE], MinLatency(us), 4184
-[UPDATE], MaxLatency(us), 318463
-[UPDATE], 99thPercentileLatency(us), 27583
-[UPDATE], 99.9PercentileLatency(us), 62911
-[UPDATE], Return=OK, 50460
+[CLEANUP], AverageLatency(us), 357.0
+[CLEANUP], MinLatency(us), 357
+[CLEANUP], MaxLatency(us), 357
+[CLEANUP], 99thPercentileLatency(us), 357
+[CLEANUP], 99.9PercentileLatency(us), 357
+[UPDATE], Operations, 1314
+[UPDATE], AverageLatency(us), 231507.06392694064
+[UPDATE], MinLatency(us), 7160
+[UPDATE], MaxLatency(us), 7532543
+[UPDATE], 99thPercentileLatency(us), 4020223
+[UPDATE], 99.9PercentileLatency(us), 7421951
+[UPDATE], Return=OK, 1314
