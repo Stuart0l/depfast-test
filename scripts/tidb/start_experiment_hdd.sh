@@ -164,7 +164,7 @@ function ycsb_load {
   if [ "$ycsbthreads" == "1" ]; then
     /home/tidb/go-ycsb/bin/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=16 ; wait $!
   else
-    /home/tidb/go-ycsb/bin/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=1200 
+    /home/tidb/go-ycsb/bin/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=512 
   fi
 }
 
