@@ -1,0 +1,159 @@
+mongo client connection created with mongodb://10.0.0.14:27017/ycsb?w=majority&readConcernLevel=majority
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-256 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+Still waiting for thread Thread-32 to complete. Workload status: true
+[OVERALL], RunTime(ms), 555841
+[OVERALL], Throughput(ops/sec), 1.7343089120809727
+[TOTAL_GCS_G1_Young_Generation], Count, 1
+[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 9
+[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.0016191680714448917
+[TOTAL_GCS_G1_Old_Generation], Count, 0
+[TOTAL_GC_TIME_G1_Old_Generation], Time(ms), 0
+[TOTAL_GC_TIME_%_G1_Old_Generation], Time(%), 0.0
+[TOTAL_GCs], Count, 1
+[TOTAL_GC_TIME], Time(ms), 9
+[TOTAL_GC_TIME_%], Time(%), 0.0016191680714448917
+[UPDATE-FAILED], Operations, 464
+[UPDATE-FAILED], AverageLatency(us), 1.2004613296551724E8
+[UPDATE-FAILED], MinLatency(us), 119996416
+[UPDATE-FAILED], MaxLatency(us), 120193023
+[UPDATE-FAILED], 99thPercentileLatency(us), 120127487
+[UPDATE-FAILED], 99.9PercentileLatency(us), 120193023
+[CLEANUP], Operations, 320
+[CLEANUP], AverageLatency(us), 47.053125
+[CLEANUP], MinLatency(us), 0
+[CLEANUP], MaxLatency(us), 14951
+[CLEANUP], 99thPercentileLatency(us), 2
+[CLEANUP], 99.9PercentileLatency(us), 14951
+[UPDATE], Operations, 500
+[UPDATE], AverageLatency(us), 1.69612093184E8
+[UPDATE], MinLatency(us), 230272
+[UPDATE], MaxLatency(us), 258473983
+[UPDATE], 99thPercentileLatency(us), 258473983
+[UPDATE], 99.9PercentileLatency(us), 258473983
+[UPDATE], Return=OK, 500
+[UPDATE], Return=ERROR, 464

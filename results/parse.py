@@ -117,22 +117,30 @@ def getpercentage(_explist, dbtype):
 tidb_explist=[
     # leaderhigh slowness
     ['---'],
-    ['exp1','./1client_tmpfs/tidb/old/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
-    ['exp2','./1client_tmpfs/tidb/old/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
-    ['exp5','./1client_tmpfs/tidb/old/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
-    ['exp6','./1client_tmpfs/tidb/old/tidb_noslow1_swapon_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapon_mem_results'],
+    ['exp1','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_1_results'],
+    ['exp2','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_1_results'],
+    ['exp5','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_1_results'],
+    ['exp6','./1client_tmpfs/tidb/tidb_noslow1_swapon_mem_results','./1client_tmpfs/tidb/tidb_leaderhigh_swapon_mem_1_results'],
     # leaderlow slowness
     ['---'],
     ['exp1','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
     ['exp2','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
     ['exp5','./1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
     ['exp6','./1client_tmpfs/tidb/tidb_noslow1_swapon_mem_results','./1client_tmpfs/tidb/tidb_leaderlow_swapon_mem_results'],
-    # follower slowness
-    # ['---'],
-    # ['exp1','./1client_tmpfs/tidb/tidb_noslow2_swapoff_mem_results','./1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
-    # ['exp2','./1client_tmpfs/tidb/tidb_noslow2_swapoff_mem_results','./1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
-    # ['exp5','./1client_tmpfs/tidb/tidb_noslow2_swapoff_mem_results','./1client_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
-    # ['exp6','./1client_tmpfs/tidb/tidb_noslow2_swapon_mem_results','./1client_tmpfs/tidb/tidb_follower_swapon_mem_results'],
+    # leaderhigh slowness ssd
+    ['---'],
+    ['exp1','./1client_ssd/tidb/tidb_noslow1_swapoff_hdd_1_results','./1client_ssd/tidb/tidb_leaderhigh_swapoff_hdd_1_results'],
+    ['exp2','./1client_ssd/tidb/tidb_noslow1_swapoff_hdd_1_results','./1client_ssd/tidb/tidb_leaderhigh_swapoff_hdd_1_results'],
+    ['exp3','./1client_ssd/tidb/tidb_noslow1_swapoff_hdd_1_results','./1client_ssd/tidb/tidb_leaderhigh_swapoff_hdd_1_results'],
+    ['exp4','./1client_ssd/tidb/tidb_noslow1_swapoff_hdd_1_results','./1client_ssd/tidb/tidb_leaderhigh_swapoff_hdd_1_results'],
+    ['exp5','./1client_ssd/tidb/tidb_noslow1_swapoff_hdd_1_results','./1client_ssd/tidb/tidb_leaderhigh_swapoff_hdd_1_results'],
+    # leaderlow slowness ssd
+    ['---'],
+    ['exp1','./1client_ssd/tidb/tidb_noslow1_swapoff_hdd_1_results','./1client_ssd/tidb/tidb_leaderlow_swapoff_hdd_1_results'],
+    ['exp2','./1client_ssd/tidb/tidb_noslow1_swapoff_hdd_1_results','./1client_ssd/tidb/tidb_leaderlow_swapoff_hdd_1_results'],
+    ['exp3','./1client_ssd/tidb/tidb_noslow1_swapoff_hdd_1_results','./1client_ssd/tidb/tidb_leaderlow_swapoff_hdd_1_results'],
+    ['exp4','./1client_ssd/tidb/tidb_noslow1_swapoff_hdd_1_results','./1client_ssd/tidb/tidb_leaderlow_swapoff_hdd_1_results'],
+    ['exp5','./1client_ssd/tidb/tidb_noslow1_swapoff_hdd_1_results','./1client_ssd/tidb/tidb_leaderlow_swapoff_hdd_1_results'],
 ]
 
 tidb_s_explist=[
@@ -148,12 +156,20 @@ tidb_s_explist=[
     ['exp2','./saturate_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./saturate_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
     ['exp5','./saturate_tmpfs/tidb/tidb_noslow1_swapoff_mem_results','./saturate_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
     ['exp6','./saturate_tmpfs/tidb/tidb_noslow1_swapon_mem_results','./saturate_tmpfs/tidb/tidb_leaderlow_swapon_mem_results'],
-    # follower slowness
-    # ['---'],
-    # ['exp1','./saturate_tmpfs/tidb/tidb_noslow2_swapoff_mem_results','./saturate_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
-    # ['exp2','./saturate_tmpfs/tidb/tidb_noslow2_swapoff_mem_results','./saturate_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
-    # ['exp5','./saturate_tmpfs/tidb/tidb_noslow2_swapoff_mem_results','./saturate_tmpfs/tidb/tidb_follower_swapoff_mem_results'],
-    # ['exp6','./saturate_tmpfs/tidb/tidb_noslow2_swapon_mem_results','./saturate_tmpfs/tidb/tidb_follower_swapon_mem_results'],
+    # leaderhigh slowness ssd
+    ['---'],
+    ['exp1','./saturate_ssd/tidb/tidb_noslow1_swapoff_hdd_512_results','./saturate_ssd/tidb/tidb_leaderhigh_swapoff_hdd_512_results'],
+    ['exp2','./saturate_ssd/tidb/tidb_noslow1_swapoff_hdd_512_results','./saturate_ssd/tidb/tidb_leaderhigh_swapoff_hdd_512_results'],
+    ['exp3','./saturate_ssd/tidb/tidb_noslow1_swapoff_hdd_512_results','./saturate_ssd/tidb/tidb_leaderhigh_swapoff_hdd_512_results'],
+    ['exp4','./saturate_ssd/tidb/tidb_noslow1_swapoff_hdd_512_results','./saturate_ssd/tidb/tidb_leaderhigh_swapoff_hdd_512_results'],
+    ['exp5','./saturate_ssd/tidb/tidb_noslow1_swapoff_hdd_512_results','./saturate_ssd/tidb/tidb_leaderhigh_swapoff_hdd_512_results'],
+    # leaderlow slowness ssd
+    ['---'],
+    ['exp1','./saturate_ssd/tidb/tidb_noslow1_swapoff_hdd_512_results','./saturate_ssd/tidb/tidb_leaderlow_swapoff_hdd_512_results'],
+    ['exp2','./saturate_ssd/tidb/tidb_noslow1_swapoff_hdd_512_results','./saturate_ssd/tidb/tidb_leaderlow_swapoff_hdd_512_results'],
+    ['exp3','./saturate_ssd/tidb/tidb_noslow1_swapoff_hdd_512_results','./saturate_ssd/tidb/tidb_leaderlow_swapoff_hdd_512_results'],
+    ['exp4','./saturate_ssd/tidb/tidb_noslow1_swapoff_hdd_512_results','./saturate_ssd/tidb/tidb_leaderlow_swapoff_hdd_512_results'],
+    ['exp5','./saturate_ssd/tidb/tidb_noslow1_swapoff_hdd_512_results','./saturate_ssd/tidb/tidb_leaderlow_swapoff_hdd_512_results'],
 ]
 
 
@@ -170,6 +186,20 @@ mongodb_explist=[
     ['exp2','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_1_results','./1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_1_results'],
     ['exp5','./1client_tmpfs/mongodb/mongodb_noslow_swapoff_mem_1_results','./1client_tmpfs/mongodb/mongodb_follower_swapoff_mem_1_results'],
     ['exp6','./1client_tmpfs/mongodb/mongodb_noslow_swapon_mem_1_results','./1client_tmpfs/mongodb/mongodb_follower_swapon_mem_1_results'],
+    # leader slowness hdd
+    ['---'],
+    ['exp1','./1client_ssd/mongodb/mongodb_noslow_swapoff_hdd_1_results','./1client_ssd/mongodb/mongodb_leader_swapoff_hdd_1_results'],
+    ['exp2','./1client_ssd/mongodb/mongodb_noslow_swapoff_hdd_1_results','./1client_ssd/mongodb/mongodb_leader_swapoff_hdd_1_results'],
+    ['exp3','./1client_ssd/mongodb/mongodb_noslow_swapoff_hdd_1_results','./1client_ssd/mongodb/mongodb_leader_swapoff_hdd_1_results'],
+    ['exp4','./1client_ssd/mongodb/mongodb_noslow_swapoff_hdd_1_results','./1client_ssd/mongodb/mongodb_leader_swapoff_hdd_1_results'],
+    ['exp5','./1client_ssd/mongodb/mongodb_noslow_swapoff_hdd_1_results','./1client_ssd/mongodb/mongodb_leader_swapoff_hdd_1_results'],
+    # follower slowness hdd
+    ['---'],
+    ['exp1','./1client_ssd/mongodb/mongodb_noslow_swapoff_hdd_1_results','./1client_ssd/mongodb/mongodb_follower_swapoff_hdd_1_results'],
+    ['exp2','./1client_ssd/mongodb/mongodb_noslow_swapoff_hdd_1_results','./1client_ssd/mongodb/mongodb_follower_swapoff_hdd_1_results'],
+    ['exp3','./1client_ssd/mongodb/mongodb_noslow_swapoff_hdd_1_results','./1client_ssd/mongodb/mongodb_follower_swapoff_hdd_1_results'],
+    ['exp4','./1client_ssd/mongodb/mongodb_noslow_swapoff_hdd_1_results','./1client_ssd/mongodb/mongodb_follower_swapoff_hdd_1_results'],
+    ['exp5','./1client_ssd/mongodb/mongodb_noslow_swapoff_hdd_1_results','./1client_ssd/mongodb/mongodb_follower_swapoff_hdd_1_results'],
 ]
 
 mongodb_s_explist=[
@@ -185,6 +215,20 @@ mongodb_s_explist=[
     ['exp2','./saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_32_results','./saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_32_results'],
     ['exp5','./saturate_tmpfs/mongodb/mongodb_noslow_swapoff_mem_32_results','./saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_32_results'],
     ['exp6','./saturate_tmpfs/mongodb/mongodb_noslow_swapon_mem_32_results','./saturate_tmpfs/mongodb/mongodb_follower_swapon_mem_32_results'],
+    # leader slowness hdd
+    ['---'],
+    ['exp1','./saturate_ssd/mongodb/mongodb_noslow_swapoff_hdd_320_results','./saturate_ssd/mongodb/mongodb_leader_swapoff_hdd_320_results'],
+    ['exp2','./saturate_ssd/mongodb/mongodb_noslow_swapoff_hdd_320_results','./saturate_ssd/mongodb/mongodb_leader_swapoff_hdd_320_results'],
+    ['exp3','./saturate_ssd/mongodb/mongodb_noslow_swapoff_hdd_320_results','./saturate_ssd/mongodb/mongodb_leader_swapoff_hdd_320_results'],
+    ['exp4','./saturate_ssd/mongodb/mongodb_noslow_swapoff_hdd_320_results','./saturate_ssd/mongodb/mongodb_leader_swapoff_hdd_320_results'],
+    ['exp5','./saturate_ssd/mongodb/mongodb_noslow_swapoff_hdd_320_results','./saturate_ssd/mongodb/mongodb_leader_swapoff_hdd_320_results'],
+    # follower slowness hdd
+    ['---'],
+    ['exp1','./saturate_ssd/mongodb/mongodb_noslow_swapoff_hdd_320_results','./saturate_ssd/mongodb/mongodb_follower_swapoff_hdd_320_results'],
+    ['exp2','./saturate_ssd/mongodb/mongodb_noslow_swapoff_hdd_320_results','./saturate_ssd/mongodb/mongodb_follower_swapoff_hdd_320_results'],
+    ['exp3','./saturate_ssd/mongodb/mongodb_noslow_swapoff_hdd_320_results','./saturate_ssd/mongodb/mongodb_follower_swapoff_hdd_320_results'],
+    ['exp4','./saturate_ssd/mongodb/mongodb_noslow_swapoff_hdd_320_results','./saturate_ssd/mongodb/mongodb_follower_swapoff_hdd_320_results'],
+    ['exp5','./saturate_ssd/mongodb/mongodb_noslow_swapoff_hdd_320_results','./saturate_ssd/mongodb/mongodb_follower_swapoff_hdd_320_results'],
 ]
 
 rethinkdb_explist=[
@@ -259,12 +303,12 @@ tidb_csv=[
     {
         'name': 'tidb_leaderhigh',
         'data': [
-                    ['noslow1_swapoff', './1client_tmpfs/tidb/old/tidb_noslow1_swapoff_mem_results'],
-                    ['exp1', './1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
-                    ['exp2', './1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
-                    ['exp5', './1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_results'],
-                    ['exp6', './1client_tmpfs/tidb/tidb_leaderhigh_swapon_mem_results'],
-                    ['noslow1_swapon', './1client_tmpfs/tidb/old/tidb_noslow1_swapon_mem_results']
+                    ['noslow1_swapoff', './1client_tmpfs/tidb/tidb_noslow1_swapoff_mem_results'],
+                    ['exp1', './1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_1_results'],
+                    ['exp2', './1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_1_results'],
+                    ['exp5', './1client_tmpfs/tidb/tidb_leaderhigh_swapoff_mem_1_results'],
+                    ['exp6', './1client_tmpfs/tidb/tidb_leaderhigh_swapon_mem_1_results'],
+                    ['noslow1_swapon', './1client_tmpfs/tidb/tidb_noslow1_swapon_mem_results']
                 ]
     },
     {
@@ -276,6 +320,28 @@ tidb_csv=[
                     ['exp5', './1client_tmpfs/tidb/tidb_leaderlow_swapoff_mem_results'],
                     ['exp6', './1client_tmpfs/tidb/tidb_leaderlow_swapon_mem_results'],
                     ['noslow1_swapon', './1client_tmpfs/tidb/tidb_noslow1_swapon_mem_results']
+                ]
+    },
+    {
+        'name': 'tidb_leaderhigh_ssd',
+        'data': [
+                    ['noslow1_swapoff', './1client_ssd/tidb/tidb_noslow1_swapoff_hdd_1_results'],
+                    ['exp1', './1client_ssd/tidb/tidb_leaderhigh_swapoff_hdd_1_results'],
+                    ['exp2', './1client_ssd/tidb/tidb_leaderhigh_swapoff_hdd_1_results'],
+                    ['exp3', './1client_ssd/tidb/tidb_leaderhigh_swapoff_hdd_1_results'],
+                    ['exp4', './1client_ssd/tidb/tidb_leaderhigh_swapoff_hdd_1_results'],
+                    ['exp5', './1client_ssd/tidb/tidb_leaderhigh_swapoff_hdd_1_results'],
+                ]
+    },
+    {
+        'name': 'tidb_leaderlow_ssd',
+        'data': [
+                    ['noslow1_swapoff', './1client_ssd/tidb/tidb_noslow1_swapoff_hdd_1_results'],
+                    ['exp1', './1client_ssd/tidb/tidb_leaderlow_swapoff_hdd_1_results'],
+                    ['exp2', './1client_ssd/tidb/tidb_leaderlow_swapoff_hdd_1_results'],
+                    ['exp3', './1client_ssd/tidb/tidb_leaderlow_swapoff_hdd_1_results'],
+                    ['exp4', './1client_ssd/tidb/tidb_leaderlow_swapoff_hdd_1_results'],
+                    ['exp5', './1client_ssd/tidb/tidb_leaderlow_swapoff_hdd_1_results'],
                 ]
     },
 ]
@@ -303,6 +369,28 @@ tidb_s_csv=[
                     ['noslow1_swapon', './saturate_tmpfs/tidb/tidb_noslow1_swapon_mem_results']
                 ]
     },
+    {
+        'name': 'tidb_saturate_leaderhigh_ssd',
+        'data': [
+                    ['noslow1_swapoff', './saturate_ssd/tidb/tidb_noslow1_swapoff_hdd_512_results'],
+                    ['exp1', './saturate_ssd/tidb/tidb_leaderhigh_swapoff_hdd_512_results'],
+                    ['exp2', './saturate_ssd/tidb/tidb_leaderhigh_swapoff_hdd_512_results'],
+                    ['exp3', './saturate_ssd/tidb/tidb_leaderhigh_swapoff_hdd_512_results'],
+                    ['exp4', './saturate_ssd/tidb/tidb_leaderhigh_swapoff_hdd_512_results'],
+                    ['exp5', './saturate_ssd/tidb/tidb_leaderhigh_swapoff_hdd_512_results'],
+                ]
+    },
+    {
+        'name': 'tidb_saturate_leaderlow_ssd',
+        'data': [
+                    ['noslow1_swapoff', './saturate_ssd/tidb/tidb_noslow1_swapoff_hdd_512_results'],
+                    ['exp1', './saturate_ssd/tidb/tidb_leaderlow_swapoff_hdd_512_results'],
+                    ['exp2', './saturate_ssd/tidb/tidb_leaderlow_swapoff_hdd_512_results'],
+                    ['exp3', './saturate_ssd/tidb/tidb_leaderlow_swapoff_hdd_512_results'],
+                    ['exp4', './saturate_ssd/tidb/tidb_leaderlow_swapoff_hdd_512_results'],
+                    ['exp5', './saturate_ssd/tidb/tidb_leaderlow_swapoff_hdd_512_results'],
+                ]
+    },
 ]
 
 mongo_csv=[
@@ -328,6 +416,28 @@ mongo_csv=[
                     ['noslow_swapon', './1client_tmpfs/mongodb/mongodb_noslow_swapon_mem_1_results']
                 ]
     },
+    {
+        'name': 'mongodb_leader_ssd',
+        'data': [
+                    ['noslow_swapoff', './1client_ssd/mongodb/mongodb_noslow_swapoff_hdd_1_results'],
+                    ['exp1', './1client_ssd/mongodb/mongodb_leader_swapoff_hdd_1_results'],
+                    ['exp2', './1client_ssd/mongodb/mongodb_leader_swapoff_hdd_1_results'],
+                    ['exp3', './1client_ssd/mongodb/mongodb_leader_swapoff_hdd_1_results'],
+                    ['exp4', './1client_ssd/mongodb/mongodb_leader_swapoff_hdd_1_results'],
+                    ['exp5', './1client_ssd/mongodb/mongodb_leader_swapoff_hdd_1_results'],
+                ]
+    },
+    {
+        'name': 'mongodb_follower_ssd',
+        'data': [
+                    ['noslow_swapoff', './1client_ssd/mongodb/mongodb_noslow_swapoff_hdd_1_results'],
+                    ['exp1', './1client_ssd/mongodb/mongodb_follower_swapoff_hdd_1_results'],
+                    ['exp2', './1client_ssd/mongodb/mongodb_follower_swapoff_hdd_1_results'],
+                    ['exp3', './1client_ssd/mongodb/mongodb_follower_swapoff_hdd_1_results'],
+                    ['exp4', './1client_ssd/mongodb/mongodb_follower_swapoff_hdd_1_results'],
+                    ['exp5', './1client_ssd/mongodb/mongodb_follower_swapoff_hdd_1_results'],
+                ]
+    },
 ]
 
 mongo_s_csv=[
@@ -351,6 +461,28 @@ mongo_s_csv=[
                     ['exp5', './saturate_tmpfs/mongodb/mongodb_follower_swapoff_mem_32_results'],
                     ['exp6', './saturate_tmpfs/mongodb/mongodb_follower_swapon_mem_32_results'],
                     ['noslow_swapon', './saturate_tmpfs/mongodb/mongodb_noslow_swapon_mem_32_results']
+                ]
+    },
+    {
+        'name': 'mongodb_saturate_leader_ssd',
+        'data': [
+                    ['noslow_swapoff', './saturate_ssd/mongodb/mongodb_noslow_swapoff_hdd_320_results'],
+                    ['exp1', './saturate_ssd/mongodb/mongodb_leader_swapoff_hdd_320_results'],
+                    ['exp2', './saturate_ssd/mongodb/mongodb_leader_swapoff_hdd_320_results'],
+                    ['exp3', './saturate_ssd/mongodb/mongodb_leader_swapoff_hdd_320_results'],
+                    ['exp4', './saturate_ssd/mongodb/mongodb_leader_swapoff_hdd_320_results'],
+                    ['exp5', './saturate_ssd/mongodb/mongodb_leader_swapoff_hdd_320_results'],
+                ]
+    },
+    {
+        'name': 'mongodb_saturate_follower_ssd',
+        'data': [
+                    ['noslow_swapoff', './saturate_ssd/mongodb/mongodb_noslow_swapoff_hdd_320_results'],
+                    ['exp1', './saturate_ssd/mongodb/mongodb_follower_swapoff_hdd_320_results'],
+                    ['exp2', './saturate_ssd/mongodb/mongodb_follower_swapoff_hdd_320_results'],
+                    ['exp3', './saturate_ssd/mongodb/mongodb_follower_swapoff_hdd_320_results'],
+                    ['exp4', './saturate_ssd/mongodb/mongodb_follower_swapoff_hdd_320_results'],
+                    ['exp5', './saturate_ssd/mongodb/mongodb_follower_swapoff_hdd_320_results'],
                 ]
     },
 ]
@@ -521,56 +653,17 @@ exportcsv(mongo_s_csv, 'mongodb')
 # exportcsv(rethinkdb_mem_follow_exp6_csv, 'rethinkdb')
 
 
-def getabsolute(_explist, dbtype):
-    import numpy as np
-    np.set_printoptions(suppress=True)
-    y=np.zeros((5, 6, 2))    #5metrics, 6exps, one+saturate
-    for _o, one in enumerate(_explist):
-        for _e, exp in enumerate(one['data']):
-            res, _=calcforexp(exp[0], exp[1], dbtype)
-            for _i,val in enumerate(res.keys()):
-                y[_i][_e][_o]=res[val]
-    return(y)
-
-def draw(_absolute, dbname, fname):
-    y=getabsolute(_absolute, dbname)
-    import matplotlib.pyplot as plt
-    import numpy as np
-
-    plt.rc('pgf', texsystem='pdflatex')  # or luatex, xelatex...
-
-    plt.figure(figsize=(12,3), dpi=100)
-    T=['Throughput', 'Average Latency', 'P99 Latency', 'P99.9 Latency']
-    L=['No Slow swapoff', 'Slow CPU', 'CPU contention', 'Network Slowness', 'Memory Slowness', 'No Slow Swapon']
-    tick_label=['Leader\nSlowness','Follower\nSlowness']
-    # tick_label=['One Client', 'Saturate']
-    color=['red','orange','green','blue','salmon', 'yellow']
-    hh=['////','----','...','xxxx','||||', '\\\\\\\\']
-
-    x=np.arange(2)
-
-    for it in range(4):
-        plt.subplot(141+it)
-
-        bar_width=0.15
-
-        for i in range(6):
-            print(x+bar_width*i,y[it][i])
-            plt.bar(x+bar_width*i,y[it][i],bar_width,color=color[i],hatch=hh[i],label=L[i], edgecolor='black')
-            #for _i, _x in enumerate(x):
-            #    plt.text(_x+bar_width*i-bar_width*0.8, y[it][i][_i], str(int(y[it][i][_i]*100)))
-
-        plt.title(T[it])
-        plt.legend()
-        plt.yscale('log')
-        plt.xticks(x+bar_width*2,tick_label)
+def getcluster(dbname, metric, _exp):    # tidb_s ops leader
+    expname=_exp
+    if(dbname=='tidb'):
+        if (_exp=='leader'):
+            expname='leaderhigh'
+        else:
+            expname='follower'
 
 
-    plt.tight_layout()
-    #plt.show()
-    plt.savefig(fname+'.pdf')
 
-draw(mongo_csv, 'mongodb', 'mongodb_oneclient')
-draw(mongo_s_csv, 'mongodb', 'mongodb_saturate')
+# draw(mongo_csv, 'mongodb', 'mongodb_oneclient')
+# draw(mongo_s_csv, 'mongodb', 'mongodb_saturate')
 # draw(tidb_csv, 'tidb', 'tidb_oneclient')
 # draw(tidb_s_csv, 'tidb', 'tidb_saturate')

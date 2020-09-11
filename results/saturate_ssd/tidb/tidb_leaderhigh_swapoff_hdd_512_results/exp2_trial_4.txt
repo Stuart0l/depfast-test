@@ -1,0 +1,47 @@
+***************** properties *****************
+"threadcount"="512"
+"operationcount"="5000000"
+"requestdistribution"="zipfian"
+"updateproportion"="1"
+"scanproportion"="0"
+"insertproportion"="0"
+"workload"="core"
+"recordcount"="1200000"
+"dotransactions"="true"
+"readallfields"="true"
+"readproportion"="0"
+"tikv.pd"="10.0.0.9:2379"
+**********************************************
+UPDATE - Takes(s): 7.7, Count: 2856, OPS: 371.5, Avg(us): 1685180, Min(us): 360615, Max(us): 4458749, 99th(us): 3370000, 99.9th(us): 3713000, 99.99th(us): 4459000
+UPDATE - Takes(s): 17.7, Count: 5735, OPS: 324.2, Avg(us): 1687724, Min(us): 313442, Max(us): 4458749, 99th(us): 3414000, 99.9th(us): 3796000, 99.99th(us): 4092000
+UPDATE - Takes(s): 27.7, Count: 8506, OPS: 307.2, Avg(us): 1732406, Min(us): 237725, Max(us): 5674122, 99th(us): 3820000, 99.9th(us): 5120000, 99.99th(us): 5675000
+UPDATE - Takes(s): 37.7, Count: 11321, OPS: 300.4, Avg(us): 1754270, Min(us): 177086, Max(us): 6253052, 99th(us): 4272000, 99.9th(us): 5364000, 99.99th(us): 5724000
+UPDATE - Takes(s): 47.7, Count: 14157, OPS: 296.9, Avg(us): 1767946, Min(us): 177086, Max(us): 6253052, 99th(us): 4307000, 99.9th(us): 5364000, 99.99th(us): 5724000
+UPDATE - Takes(s): 57.7, Count: 17189, OPS: 298.0, Avg(us): 1756601, Min(us): 177086, Max(us): 6253052, 99th(us): 4272000, 99.9th(us): 5355000, 99.99th(us): 5724000
+UPDATE - Takes(s): 67.7, Count: 20229, OPS: 298.9, Avg(us): 1740325, Min(us): 171969, Max(us): 6253052, 99th(us): 4201000, 99.9th(us): 5312000, 99.99th(us): 5711000
+UPDATE - Takes(s): 77.7, Count: 23250, OPS: 299.3, Avg(us): 1737478, Min(us): 171969, Max(us): 6253052, 99th(us): 4214000, 99.9th(us): 5266000, 99.99th(us): 5724000
+UPDATE - Takes(s): 87.7, Count: 26212, OPS: 298.9, Avg(us): 1739537, Min(us): 171969, Max(us): 6253052, 99th(us): 4211000, 99.9th(us): 5141000, 99.99th(us): 5724000
+UPDATE - Takes(s): 97.7, Count: 29231, OPS: 299.2, Avg(us): 1734838, Min(us): 171969, Max(us): 6253052, 99th(us): 4212000, 99.9th(us): 5141000, 99.99th(us): 5724000
+UPDATE - Takes(s): 107.7, Count: 32196, OPS: 299.0, Avg(us): 1731642, Min(us): 133626, Max(us): 6253052, 99th(us): 4229000, 99.9th(us): 5120000, 99.99th(us): 5711000
+UPDATE - Takes(s): 117.7, Count: 35194, OPS: 299.0, Avg(us): 1729900, Min(us): 133626, Max(us): 6400000, 99th(us): 4228000, 99.9th(us): 5141000, 99.99th(us): 5823000
+UPDATE - Takes(s): 127.7, Count: 38058, OPS: 298.1, Avg(us): 1726450, Min(us): 16839, Max(us): 6400000, 99th(us): 4233000, 99.9th(us): 5201000, 99.99th(us): 5823000
+UPDATE - Takes(s): 137.7, Count: 41467, OPS: 301.2, Avg(us): 1714122, Min(us): 6268, Max(us): 6400000, 99th(us): 4222000, 99.9th(us): 5186000, 99.99th(us): 5821000
+UPDATE - Takes(s): 147.7, Count: 44797, OPS: 303.3, Avg(us): 1703347, Min(us): 6268, Max(us): 6400000, 99th(us): 4211000, 99.9th(us): 5141000, 99.99th(us): 5821000
+UPDATE - Takes(s): 157.7, Count: 48158, OPS: 305.4, Avg(us): 1691597, Min(us): 6268, Max(us): 6400000, 99th(us): 4186000, 99.9th(us): 5110000, 99.99th(us): 5821000
+UPDATE - Takes(s): 167.7, Count: 51298, OPS: 305.9, Avg(us): 1685589, Min(us): 6268, Max(us): 6400000, 99th(us): 4179000, 99.9th(us): 5104000, 99.99th(us): 5757000
+UPDATE - Takes(s): 177.7, Count: 54568, OPS: 307.1, Avg(us): 1679076, Min(us): 6268, Max(us): 6400000, 99th(us): 4165000, 99.9th(us): 5074000, 99.99th(us): 5757000
+UPDATE - Takes(s): 187.7, Count: 58126, OPS: 309.7, Avg(us): 1666223, Min(us): 5914, Max(us): 6400000, 99th(us): 4168000, 99.9th(us): 5065000, 99.99th(us): 5816000
+UPDATE - Takes(s): 197.7, Count: 61454, OPS: 310.9, Avg(us): 1658116, Min(us): 5914, Max(us): 6403590, 99th(us): 4165000, 99.9th(us): 4991000, 99.99th(us): 5355000
+UPDATE - Takes(s): 207.7, Count: 64555, OPS: 310.8, Avg(us): 1655873, Min(us): 5914, Max(us): 6491489, 99th(us): 4201000, 99.9th(us): 5163000, 99.99th(us): 5926000
+UPDATE - Takes(s): 217.7, Count: 67803, OPS: 311.5, Avg(us): 1653470, Min(us): 5914, Max(us): 6491489, 99th(us): 4196000, 99.9th(us): 5145000, 99.99th(us): 5926000
+UPDATE - Takes(s): 227.7, Count: 70886, OPS: 311.3, Avg(us): 1653535, Min(us): 5914, Max(us): 6491489, 99th(us): 4190000, 99.9th(us): 5129000, 99.99th(us): 5823000
+UPDATE - Takes(s): 237.7, Count: 74096, OPS: 311.7, Avg(us): 1651109, Min(us): 5914, Max(us): 6491489, 99th(us): 4176000, 99.9th(us): 5036000, 99.99th(us): 5528000
+UPDATE - Takes(s): 247.7, Count: 77536, OPS: 313.0, Avg(us): 1643394, Min(us): 5914, Max(us): 6491489, 99th(us): 4181000, 99.9th(us): 5113000, 99.99th(us): 5823000
+UPDATE - Takes(s): 257.7, Count: 80540, OPS: 312.5, Avg(us): 1642097, Min(us): 5914, Max(us): 6491489, 99th(us): 4160000, 99.9th(us): 5109000, 99.99th(us): 5821000
+UPDATE - Takes(s): 267.7, Count: 84262, OPS: 314.8, Avg(us): 1634798, Min(us): 5914, Max(us): 6491489, 99th(us): 4152000, 99.9th(us): 5102000, 99.99th(us): 5821000
+UPDATE - Takes(s): 277.7, Count: 88290, OPS: 317.9, Avg(us): 1618534, Min(us): 5914, Max(us): 6491489, 99th(us): 4127000, 99.9th(us): 5065000, 99.99th(us): 5821000
+UPDATE - Takes(s): 287.7, Count: 91855, OPS: 319.3, Avg(us): 1611532, Min(us): 5914, Max(us): 6491489, 99th(us): 4113000, 99.9th(us): 5053000, 99.99th(us): 5816000
+
+Got signal [interrupt] to exit.
+Run finished, takes 5m1.199913185s
+UPDATE - Takes(s): 298.9, Count: 95992, OPS: 321.2, Avg(us): 1602515, Min(us): 5914, Max(us): 6491489, 99th(us): 4093000, 99.9th(us): 5031000, 99.99th(us): 5816000
