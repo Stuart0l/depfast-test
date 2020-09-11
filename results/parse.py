@@ -1,6 +1,8 @@
 import os
 import csv
-
+import statistics
+import matplotlib.pyplot as plt
+import numpy as np
 
 def parseycsb1(fpath):
     ff=open(fpath,'r').read().split('\n')
@@ -60,7 +62,6 @@ def calcforexp(expname, fpath, dbname):
                 #totres[kk]+=res[kk]
     for kk in totres.keys():
         #totres[kk]/=cnt
-        import statistics
         if kk in ['99', '999', 'max']:
             totres[kk]=statistics.median(tmpres[kk])
         else:
@@ -623,10 +624,10 @@ cockroachdb_ssd_csv = [
 
 # then get the result of each experiment
 
-getpercentage(mongodb_explist, 'mongodb')
-exportcsv(mongo_csv, 'mongodb')
-getpercentage(mongodb_s_explist, 'mongodb')
-exportcsv(mongo_s_csv, 'mongodb')
+# getpercentage(mongodb_explist, 'mongodb')
+# exportcsv(mongo_csv, 'mongodb')
+# getpercentage(mongodb_s_explist, 'mongodb')
+# exportcsv(mongo_s_csv, 'mongodb')
 
 # getpercentage(tidb_explist, 'tidb')
 # exportcsv(tidb_csv, 'tidb')
@@ -653,17 +654,52 @@ exportcsv(mongo_s_csv, 'mongodb')
 # exportcsv(rethinkdb_mem_follow_exp6_csv, 'rethinkdb')
 
 
-def getcluster(dbname, metric, _exp):    # tidb_s ops leader
-    expname=_exp
-    if(dbname=='tidb'):
-        if (_exp=='leader'):
-            expname='leaderhigh'
-        else:
-            expname='follower'
+def getcluster(_csv, dbtype, metric, expname):    # tidb_s_csv, ops, tidb_saturate_leaderhigh_ssd
+    explist=None
+    for _x in _csv:
+        if(_x['name']==expname):
+            explist=_x['data']
+    res={}
+    for it in explist:
+        slowres, _ =calcforexp(it[0], it[1], dbtype)
+        # print(slowres)
+        res[it[0]]=slowres[metric]
+    return(res)
+
+
+def draw(metric, _list):
+    bar_width=0.1
+    plt.figure(figsize=(12,3), dpi=100)
+    color=['red','orange','green','blue','salmon', 'yellow']
+    hh=['////','----','...','xxxx','||||', '\\\\\\\\']
+    tick_label=[x[1].replace('_','\n') for x in _list]
+    idx_tick_label=np.arange(len(tick_label))
+
+    for _l, x in enumerate(_list):
+        explist=getcluster(x[0], x[2], metric, x[1])
+        print(explist)
+        for _d, dat in enumerate(explist):
+            print(_d, dat, idx_tick_label[_l]+bar_width*_d, explist[dat])
+            plt.bar(idx_tick_label[_l]+bar_width*_d, explist[dat], bar_width, color=color[_d], hatch=hh[_d], edgecolor='black')
+    
+    plt.xticks(idx_tick_label+bar_width*2,tick_label)
+    # plt.yscale('log')
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
+drawlist=[
+          [tidb_csv, 'tidb_leaderhigh_ssd', 'tidb'],
+          [tidb_csv, 'tidb_leaderlow_ssd', 'tidb'],
+          [mongo_csv, 'mongodb_leader_ssd', 'mongodb'],
+          [mongo_csv, 'mongodb_follower_ssd', 'mongodb'],
+          # [tidb_s_csv, 'tidb_saturate_leaderhigh_ssd', 'tidb'],
+          # [tidb_s_csv, 'tidb_saturate_leaderlow_ssd', 'tidb'],
+          # [mongo_s_csv, 'mongodb_saturate_leader_ssd', 'mongodb'],
+          # [mongo_s_csv, 'mongodb_saturate_follower_ssd', 'mongodb'],
+         ]
 
 
 
-# draw(mongo_csv, 'mongodb', 'mongodb_oneclient')
-# draw(mongo_s_csv, 'mongodb', 'mongodb_saturate')
-# draw(tidb_csv, 'tidb', 'tidb_oneclient')
-# draw(tidb_s_csv, 'tidb', 'tidb_saturate')
+draw('ops',drawlist)
+
