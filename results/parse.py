@@ -3,6 +3,7 @@ import csv
 import statistics
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
 
 def parseycsb1(fpath):
     ff=open(fpath,'r').read().split('\n')
@@ -103,15 +104,20 @@ def exportcsv(_csv, dbtype):
                 f.write('\n')
         f.close()
 
-def getpercentage(_explist, dbtype):
+def getpercentage(_explist, dbtype, _spectype=None):
+    resdict={}
     for exp in _explist:
         if(exp[0]=='---'):
             print('----------------------------------------------')
         else:
             tt=compareres(exp[0], exp[1], exp[2], dbtype)
-            print(exp)
-            print("percentage: ", tt)
-            print("")
+            if(_spectype!=None and _spectype in exp[2]):
+                resdict[exp[0]]=tt
+            if(_spectype==None):
+                print(exp)
+                print("percentage: ", tt)
+                print("")
+    return(resdict)
 
 # define experiments here, like [ exp1/exp2/exp5/exp6, folder for noslow result, folder for experiment result ]
 
@@ -734,6 +740,7 @@ cockroachdb_s_csv=[
     },
 ]
 
+
 def getcluster(_csv, dbtype, metric, expname):    # tidb_s_csv, ops, tidb_saturate_leaderhigh_ssd
     explist=None
     for _x in _csv:
@@ -742,65 +749,129 @@ def getcluster(_csv, dbtype, metric, expname):    # tidb_s_csv, ops, tidb_satura
     res={}
     for it in explist:
         slowres, _ =calcforexp(it[0], it[1], dbtype)
-        # print(slowres)
+        print(slowres)
         res[it[0]]=slowres[metric]
     return(res)
 
 
-def draw(metric, _list):
-    bar_width=0.1
-    plt.figure(figsize=(12,3), dpi=100)
+def draw(metric, _list, _lim, _legend=False):
+    bar_width=0.15
     color=['red','orange','green','blue','salmon', 'yellow']
+    graycolor=sns.color_palette('Greys', 6)
     hh=['////','----','...','xxxx','||||', '\\\\\\\\']
-    tick_label=[x[1].replace('_','\n') for x in _list]
+    exp_label=[
+               ['No Slow', 'noslow'],
+               ['Slow CPU', 'exp1'],
+               ['CPU Contention', 'exp2'],
+               ['Slow Disk', 'exp3'],
+               ['Disk Contention', 'exp4'],
+               ['Slow Network', 'exp5'],
+              ]
+    metric_label={'ops': 'Throughput (ops/sec)', 'avg': 'Average Latency (us)', '99': '99th Percentile Latency (us)'}
+    tick_label=[x[3] for x in _list]
     idx_tick_label=np.arange(len(tick_label))
 
     for _l, x in enumerate(_list):
-        explist=getcluster(x[0], x[2], metric, x[1])
-        print(explist)
-        for _d, dat in enumerate(explist):
-            print(_d, dat, idx_tick_label[_l]+bar_width*_d, explist[dat])
-            plt.bar(idx_tick_label[_l]+bar_width*_d, explist[dat], bar_width, color=color[_d], hatch=hh[_d], edgecolor='black')
+        explist=getpercentage(x[0], x[1], x[2])
+        explist['noslow']={'ops': 0, 'avg': 0, '99': 0, '999': 0, 'max': 0}
+        # print(explist)
+        for i, _e in enumerate(exp_label):
+            dat=_e[1]
+            normval=explist[dat][metric]/100+1
+            print(i, dat, idx_tick_label[_l]+bar_width*i, explist[dat][metric], normval, exp_label[i][0])
+            if(normval>=_lim[1]):
+                plt.bar(idx_tick_label[_l]+bar_width*i, _lim[2], bar_width, color=graycolor[i], edgecolor='k')
+                plt.text(idx_tick_label[_l]+bar_width*(i-1), _lim[2], str(int(explist[dat][metric]/100))+'x')
+            else:
+                plt.bar(idx_tick_label[_l]+bar_width*i, normval, bar_width, color=graycolor[i], edgecolor='k')
+
+        # for _d, dat in enumerate(explist):
+        #     normval=(100-explist[dat][metric])/100
+        #     print(_d, dat, idx_tick_label[_l]+bar_width*_d, explist[dat][metric])
+        #     plt.bar(idx_tick_label[_l]+bar_width*_d, normval, bar_width, color=color[_d], hatch=hh[_d], edgecolor='black')
     
-    plt.xticks(idx_tick_label+bar_width*2,tick_label)
+    plt.xticks(idx_tick_label+bar_width*2, tick_label)
+    plt.ylabel(metric_label[metric])
     # plt.yscale('log')
-    plt.legend()
+    plt.ylim(_lim[0], _lim[1])
+    if(_legend):
+        plt.legend([x[0] for x in exp_label], loc='upper left', ncol=2)
     plt.tight_layout()
-    plt.show()
 
-drawlist=[
-          #[tidb_csv, 'tidb_leaderhigh_ssd', 'tidb'],
-          #[tidb_csv, 'tidb_leaderlow_ssd', 'tidb'],
-          #[mongo_csv, 'mongodb_leader_ssd', 'mongodb'],
-          #[mongo_csv, 'mongodb_follower_ssd', 'mongodb'],
 
-          # [tidb_s_csv, 'tidb_saturate_leaderhigh_ssd', 'tidb'],
-          # [tidb_s_csv, 'tidb_saturate_leaderlow_ssd', 'tidb'],
-          # [mongo_s_csv, 'mongodb_saturate_leader_ssd', 'mongodb'],
-          # [mongo_s_csv, 'mongodb_saturate_follower_ssd', 'mongodb'],
+drawlist_L=[
+          [tidb_explist, 'tidb', '/1client_ssd/tidb/tidb_leaderhigh_swapoff_hdd', 'TiDB\n 1 HT'],
+          [tidb_s_explist, 'tidb', '/saturate_ssd/tidb/tidb_leaderhigh_swapoff_hdd', 'TiDB\n S HT'],
+          [mongodb_explist, 'mongodb', '/1client_ssd/mongodb/mongodb_leader_swapoff_hdd', 'MongoDB\n 1 LD'],
+          [mongodb_s_explist, 'mongodb', '/saturate_ssd/mongodb/mongodb_leader_swapoff_hdd', 'MongoDB\n S LD'],
+          [rethinkdb_explist, 'rethinkdb', '/1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results', 'RethinkDB\n 1 LD'],
+          [rethinkdb_s_explist, 'rethinkdb', '/saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results', 'RethinkDB\n S LD'],
+          [cockroachdb_explist, 'cockroachdb', '/1client_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results', 'CRDB\n 1 HT'],
+          [cockroachdb_s_explist, 'cockroachdb', '/saturate_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results', 'CRDB\n S HT'],
+         ]
 
-        # RethinkDB - SSD
-        #   [rethinkdb_csv, 'rethinkdb_leader_ssd', 'rethinkdb'],
-        #   [rethinkdb_csv, 'rethinkdb_follower_ssd', 'rethinkdb'],
-        #   [rethinkdb_s_csv, 'rethinkdb_saturate_leader_ssd', 'rethinkdb'],
-        #   [rethinkdb_s_csv, 'rethinkdb_saturate_follower_ssd', 'rethinkdb'],
-        # RethinkDB - memory
-        #   [rethinkdb_csv, 'rethinkdb_leader', 'rethinkdb'],
-        #   [rethinkdb_csv, 'rethinkdb_follower', 'rethinkdb'],
-        #   [rethinkdb_s_csv, 'rethinkdb_saturate_leader', 'rethinkdb'],
-        #   [rethinkdb_s_csv, 'rethinkdb_saturate_follower', 'rethinkdb'],
-
-        # CockroachDB - SSD
-        #   [cockroachdb_csv, 'cockroachdb_leaderhigh_ssd', 'rethinkdb'],
-        #   [cockroachdb_csv, 'cockroachdb_leaderlow_ssd', 'rethinkdb'],
-        #   [cockroachdb_s_csv, 'cockroachdb_saturate_leaderhigh_ssd', 'rethinkdb'],
-        #   [cockroachdb_s_csv, 'cockroachdb_saturate_leaderlow_ssd', 'rethinkdb'],
-        # CockroachDB - memory
-        #   [cockroachdb_csv, 'cockroachdb_leaderhigh', 'rethinkdb'],
-        #   [cockroachdb_csv, 'cockroachdb_leaderlow', 'rethinkdb'],
-        #   [cockroachdb_s_csv, 'cockroachdb_saturate_leaderhigh', 'rethinkdb'],
-        #   [cockroachdb_s_csv, 'cockroachdb_saturate_leaderlow', 'rethinkdb'],
+drawlist_F=[
+          [tidb_explist, 'tidb', '/1client_ssd/tidb/tidb_leaderlow_swapoff_hdd', 'TiDB\n 1 LT'],
+          [tidb_s_explist, 'tidb', '/saturate_ssd/tidb/tidb_leaderlow_swapoff_hdd', 'TiDB\n S LT'],
+          [mongodb_explist, 'mongodb', '/1client_ssd/mongodb/mongodb_follower_swapoff_hdd', 'MongoDB\n 1 FL'],
+          [mongodb_s_explist, 'mongodb', '/saturate_ssd/mongodb/mongodb_follower_swapoff_hdd', 'MongoDB\n S FL'],
+          [rethinkdb_explist, 'rethinkdb', '/1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results', 'RethinkDB\n 1 FL'],
+          [rethinkdb_s_explist, 'rethinkdb', '/saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results', 'RethinkDB\n S FL'],
+          [cockroachdb_explist, 'cockroachdb', '/1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results', 'CRDB\n 1 LT'],
+          [cockroachdb_s_explist, 'cockroachdb', '/saturate_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results', 'CRDB\n S LT'],
          ]
 
 
-draw('ops',drawlist)
+# getpercentage(mongodb_explist, 'mongodb')
+# exportcsv(mongo_csv, 'mongodb')
+# getpercentage(mongodb_s_explist, 'mongodb')
+# exportcsv(mongo_s_csv, 'mongodb')
+
+# getpercentage(tidb_explist, 'tidb')
+# exportcsv(tidb_csv, 'tidb')
+# getpercentage(tidb_s_explist, 'tidb')
+# exportcsv(tidb_s_csv, 'tidb')
+
+sizex=12
+sizey=4
+
+# plt.figure(figsize=(12,12), dpi=100)
+plt.rc('pgf', texsystem='pdflatex')
+font = {'family' : 'serif',
+        'size'   : 16}
+plt.rc('font', **font)
+
+
+
+# plt.figure(figsize=(sizex,sizey), dpi=100)
+# draw('avg',drawlist_F, [0,5.6,5], _legend=True)
+# plt.show()
+
+
+# plt.subplot(321)
+plt.figure(figsize=(sizex,sizey), dpi=100)
+draw('ops',drawlist_L, [0,1.15,1])
+plt.savefig('Lops.pdf')
+# plt.subplot(323)
+plt.figure(figsize=(sizex,sizey), dpi=100)
+draw('avg',drawlist_L, [0,43,40])
+plt.savefig('Lavg.pdf')
+# plt.subplot(325)
+plt.figure(figsize=(sizex,sizey), dpi=100)
+draw('99',drawlist_L, [0,43,40])
+plt.savefig('L99.pdf')
+# plt.subplot(322)
+plt.figure(figsize=(sizex,sizey), dpi=100)
+draw('ops',drawlist_F, [0,1.15,1])
+plt.savefig('Fops.pdf')
+# plt.subplot(324)
+plt.figure(figsize=(sizex,sizey), dpi=100)
+draw('avg',drawlist_F, [0,5.6,5], _legend=True)
+plt.savefig('Favg.pdf')
+# plt.subplot(326)
+plt.figure(figsize=(sizex,sizey), dpi=100)
+draw('99',drawlist_F, [0,5.6,5])
+plt.savefig('F99.pdf')
+
+# plt.savefig('plt.pdf')
+# plt.show()
