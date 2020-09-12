@@ -756,8 +756,8 @@ def getcluster(_csv, dbtype, metric, expname):    # tidb_s_csv, ops, tidb_satura
 
 def draw(metric, _list, _lim, _legend=False):
     bar_width=0.15
-    color=['red','orange','green','blue','salmon', 'yellow']
-    graycolor=sns.color_palette('Greys', 6)
+    _c=sns.color_palette("bright")
+    color=[_c[7], _c[3], _c[8], _c[2], _c[9], _c[4]]
     hh=['////','----','...','xxxx','||||', '\\\\\\\\']
     exp_label=[
                ['No Slow', 'noslow'],
@@ -767,7 +767,7 @@ def draw(metric, _list, _lim, _legend=False):
                ['Disk Contention', 'exp4'],
                ['Slow Network', 'exp5'],
               ]
-    metric_label={'ops': 'Throughput (ops/sec)', 'avg': 'Average Latency (us)', '99': '99th Percentile Latency (us)'}
+    metric_label={'ops': 'Throughput (ops/sec)\n(Normalized to No Slow)', 'avg': 'Average Latency (us)\n(Normalized to No Slow)', '99': '99th Percentile Latency (us)\n(Normalized to No Slow)'}
     tick_label=[x[3] for x in _list]
     idx_tick_label=np.arange(len(tick_label))
 
@@ -778,12 +778,14 @@ def draw(metric, _list, _lim, _legend=False):
         for i, _e in enumerate(exp_label):
             dat=_e[1]
             normval=explist[dat][metric]/100+1
+            barlabel=str(int(explist[dat][metric]/100))+'x'
             print(i, dat, idx_tick_label[_l]+bar_width*i, explist[dat][metric], normval, exp_label[i][0])
             if(normval>=_lim[1]):
-                plt.bar(idx_tick_label[_l]+bar_width*i, _lim[2], bar_width, color=graycolor[i], edgecolor='k')
-                plt.text(idx_tick_label[_l]+bar_width*(i-1), _lim[2], str(int(explist[dat][metric]/100))+'x')
+                plt.bar(idx_tick_label[_l]+bar_width*i, _lim[2], bar_width, color=color[i], edgecolor='k')
+                plt.text(idx_tick_label[_l]+bar_width*i, _lim[2]+_lim[3], barlabel, ha='center', fontsize=28, fontweight='bold')
+                print(barlabel)
             else:
-                plt.bar(idx_tick_label[_l]+bar_width*i, normval, bar_width, color=graycolor[i], edgecolor='k')
+                plt.bar(idx_tick_label[_l]+bar_width*i, normval, bar_width, color=color[i], edgecolor='k')
 
         # for _d, dat in enumerate(explist):
         #     normval=(100-explist[dat][metric])/100
@@ -795,31 +797,38 @@ def draw(metric, _list, _lim, _legend=False):
     # plt.yscale('log')
     plt.ylim(_lim[0], _lim[1])
     if(_legend):
-        plt.legend([x[0] for x in exp_label], loc='upper left', ncol=2)
+        plt.legend([x[0] for x in exp_label], loc='lower left', ncol=3, bbox_to_anchor=(0,1.05))
     plt.tight_layout()
 
 
-drawlist_L=[
+drawlist_L1=[
           [tidb_explist, 'tidb', '/1client_ssd/tidb/tidb_leaderhigh_swapoff_hdd', 'TiDB\n 1 HT'],
-          [tidb_s_explist, 'tidb', '/saturate_ssd/tidb/tidb_leaderhigh_swapoff_hdd', 'TiDB\n S HT'],
           [mongodb_explist, 'mongodb', '/1client_ssd/mongodb/mongodb_leader_swapoff_hdd', 'MongoDB\n 1 LD'],
-          [mongodb_s_explist, 'mongodb', '/saturate_ssd/mongodb/mongodb_leader_swapoff_hdd', 'MongoDB\n S LD'],
           [rethinkdb_explist, 'rethinkdb', '/1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results', 'RethinkDB\n 1 LD'],
-          [rethinkdb_s_explist, 'rethinkdb', '/saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results', 'RethinkDB\n S LD'],
           [cockroachdb_explist, 'cockroachdb', '/1client_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results', 'CRDB\n 1 HT'],
+         ]
+
+drawlist_F1=[
+          [tidb_explist, 'tidb', '/1client_ssd/tidb/tidb_leaderlow_swapoff_hdd', 'TiDB\n 1 LT'],
+          [mongodb_explist, 'mongodb', '/1client_ssd/mongodb/mongodb_follower_swapoff_hdd', 'MongoDB\n 1 FL'],
+          [rethinkdb_explist, 'rethinkdb', '/1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results', 'RethinkDB\n 1 FL'],
+          [cockroachdb_explist, 'cockroachdb', '/1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results', 'CRDB\n 1 LT'],
+         ]
+
+drawlist_LS=[
+          [tidb_s_explist, 'tidb', '/saturate_ssd/tidb/tidb_leaderhigh_swapoff_hdd', 'TiDB\n S HT'],
+          [mongodb_s_explist, 'mongodb', '/saturate_ssd/mongodb/mongodb_leader_swapoff_hdd', 'MongoDB\n S LD'],
+          [rethinkdb_s_explist, 'rethinkdb', '/saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results', 'RethinkDB\n S LD'],
           [cockroachdb_s_explist, 'cockroachdb', '/saturate_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results', 'CRDB\n S HT'],
          ]
 
-drawlist_F=[
-          [tidb_explist, 'tidb', '/1client_ssd/tidb/tidb_leaderlow_swapoff_hdd', 'TiDB\n 1 LT'],
+drawlist_FS=[
           [tidb_s_explist, 'tidb', '/saturate_ssd/tidb/tidb_leaderlow_swapoff_hdd', 'TiDB\n S LT'],
-          [mongodb_explist, 'mongodb', '/1client_ssd/mongodb/mongodb_follower_swapoff_hdd', 'MongoDB\n 1 FL'],
           [mongodb_s_explist, 'mongodb', '/saturate_ssd/mongodb/mongodb_follower_swapoff_hdd', 'MongoDB\n S FL'],
-          [rethinkdb_explist, 'rethinkdb', '/1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results', 'RethinkDB\n 1 FL'],
           [rethinkdb_s_explist, 'rethinkdb', '/saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results', 'RethinkDB\n S FL'],
-          [cockroachdb_explist, 'cockroachdb', '/1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results', 'CRDB\n 1 LT'],
           [cockroachdb_s_explist, 'cockroachdb', '/saturate_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results', 'CRDB\n S LT'],
          ]
+
 
 
 # getpercentage(mongodb_explist, 'mongodb')
@@ -832,13 +841,14 @@ drawlist_F=[
 # getpercentage(tidb_s_explist, 'tidb')
 # exportcsv(tidb_s_csv, 'tidb')
 
-sizex=12
-sizey=4
+sizex=24
+sizey=8
+sizei=120
 
 # plt.figure(figsize=(12,12), dpi=100)
 plt.rc('pgf', texsystem='pdflatex')
 font = {'family' : 'serif',
-        'size'   : 16}
+        'size'   : 38}
 plt.rc('font', **font)
 
 
@@ -848,30 +858,60 @@ plt.rc('font', **font)
 # plt.show()
 
 
-# plt.subplot(321)
-plt.figure(figsize=(sizex,sizey), dpi=100)
-draw('ops',drawlist_L, [0,1.15,1])
-plt.savefig('Lops.pdf')
-# plt.subplot(323)
-plt.figure(figsize=(sizex,sizey), dpi=100)
-draw('avg',drawlist_L, [0,43,40])
-plt.savefig('Lavg.pdf')
-# plt.subplot(325)
-plt.figure(figsize=(sizex,sizey), dpi=100)
-draw('99',drawlist_L, [0,43,40])
-plt.savefig('L99.pdf')
-# plt.subplot(322)
-plt.figure(figsize=(sizex,sizey), dpi=100)
-draw('ops',drawlist_F, [0,1.15,1])
-plt.savefig('Fops.pdf')
-# plt.subplot(324)
-plt.figure(figsize=(sizex,sizey), dpi=100)
-draw('avg',drawlist_F, [0,5.6,5], _legend=True)
-plt.savefig('Favg.pdf')
-# plt.subplot(326)
-plt.figure(figsize=(sizex,sizey), dpi=100)
-draw('99',drawlist_F, [0,5.6,5])
-plt.savefig('F99.pdf')
+plt.figure(figsize=(sizex,sizey*1.1), dpi=sizei)
+draw('ops',drawlist_L1, [0,1.15,1, 0], _legend=True)
+plt.savefig('L1ops.pdf')
+
+plt.figure(figsize=(sizex,sizey), dpi=sizei)
+draw('avg',drawlist_L1, [0,46,40, 0.3])
+plt.savefig('L1avg.pdf')
+
+plt.figure(figsize=(sizex,sizey), dpi=sizei)
+draw('99',drawlist_L1, [0,46,40, 0.3])
+plt.savefig('L199.pdf')
+
+
+
+plt.figure(figsize=(sizex,sizey*1.1), dpi=sizei)
+draw('ops',drawlist_F1, [0,1.15,1, 0], _legend=True)
+plt.savefig('F1ops.pdf')
+
+plt.figure(figsize=(sizex,sizey), dpi=sizei)
+draw('avg',drawlist_F1, [0,5.6,5, 0.1])
+plt.savefig('F1avg.pdf')
+
+plt.figure(figsize=(sizex,sizey), dpi=sizei)
+draw('99',drawlist_F1, [0,5.6,5, 0.1])
+plt.savefig('F199.pdf')
+
+
+
+plt.figure(figsize=(sizex,sizey*1.1), dpi=sizei)
+draw('ops',drawlist_LS, [0,1.15,1,0], _legend=True)
+plt.savefig('LSops.pdf')
+
+plt.figure(figsize=(sizex,sizey), dpi=sizei)
+draw('avg',drawlist_LS, [0,46,40, 0.3])
+plt.savefig('LSavg.pdf')
+
+plt.figure(figsize=(sizex,sizey), dpi=sizei)
+draw('99',drawlist_LS, [0,46,40, 0.3])
+plt.savefig('LS99.pdf')
+
+
+
+plt.figure(figsize=(sizex,sizey*1.1), dpi=sizei)
+draw('ops',drawlist_FS, [0,1.15,1,0], _legend=True)
+plt.savefig('FSops.pdf')
+
+plt.figure(figsize=(sizex,sizey), dpi=sizei)
+draw('avg',drawlist_FS, [0,5.6,5, 0.1])
+plt.savefig('FSavg.pdf')
+
+plt.figure(figsize=(sizex,sizey), dpi=sizei)
+draw('99',drawlist_FS, [0,5.6,5, 0.1])
+plt.savefig('FS99.pdf')
+
 
 # plt.savefig('plt.pdf')
 # plt.show()
