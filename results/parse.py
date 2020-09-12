@@ -232,14 +232,31 @@ mongodb_s_explist=[
     ['exp5','./saturate_ssd/mongodb/mongodb_noslow_swapoff_hdd_320_results','./saturate_ssd/mongodb/mongodb_follower_swapoff_hdd_320_results'],
 ]
 
+
 rethinkdb_explist=[
+    # leader slowness
+    ['---'],
+    ['exp1','./1client_tmpfs/rethinkdb/noslow_swapoff','./1client_tmpfs/rethinkdb/leader'],
+    ['exp2','./1client_tmpfs/rethinkdb/noslow_swapoff','./1client_tmpfs/rethinkdb/leader'],
+    ['exp5','./1client_tmpfs/rethinkdb/noslow_swapoff','./1client_tmpfs/rethinkdb/leader'],
+    ['exp6','./1client_tmpfs/rethinkdb/noslow_swapon','./1client_tmpfs/rethinkdb/rethinkdb_leader_memory_swapon_results'],
+
+    # follower slowness
+    ['---'],
+    ['exp5','./1client_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapoff_results','./1client_tmpfs/rethinkdb/rethinkdb_follower_memory_swapoff_results'],
+    ['exp6','./1client_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapon_results','./1client_tmpfs/rethinkdb/rethinkdb_follower_memory_swapon_results'],
+
+    # leader slowness ssd
+    ['---'],
     # leader slowness
     ['exp1','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
     ['exp2','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
     ['exp3','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
     ['exp4','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
     ['exp5','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
-    # follower slowness
+
+    # follower slowness ssd
+    ['---'],
     ['exp1','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
     ['exp2','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
     ['exp3','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
@@ -247,57 +264,102 @@ rethinkdb_explist=[
     ['exp5','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
 ]
 
-
-rethinkdb_mem_explist=[
+rethinkdb_s_explist=[
     # leader slowness
-    ['exp1','./1client_tmpfs/rethinkdb/noslow_swapoff','./1client_tmpfs/rethinkdb/leader'],
-    ['exp2','./1client_tmpfs/rethinkdb/noslow_swapoff','./1client_tmpfs/rethinkdb/leader'],
-    ['exp5','./1client_tmpfs/rethinkdb/noslow_swapoff','./1client_tmpfs/rethinkdb/leader'],
-    ['exp6','./1client_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapon_results','./1client_tmpfs/rethinkdb/rethinkdb_leader_memory_swapon_results'],
+    ['---'],
+    ['exp1','./saturate_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapoff_results','./saturate_tmpfs/rethinkdb/rethinkdb_leader_memory_swapoff_results'],
+    ['exp2','./saturate_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapoff_results','./saturate_tmpfs/rethinkdb/rethinkdb_leader_memory_swapoff_results'],
+    ['exp5','./saturate_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapoff_results','./saturate_tmpfs/rethinkdb/rethinkdb_leader_memory_swapoff_results'],
+    ['exp6','./saturate_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapon_results','./saturate_tmpfs/rethinkdb/rethinkdb_leader_memory_swapon_results'],
+
     # follower slowness
-    #['exp5','./1client_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapoff_results','./1client_tmpfs/rethinkdb/rethinkdb_follower_memory_swapoff_results'],
-    #['exp6','./1client_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapon_results','./1client_tmpfs/rethinkdb/rethinkdb_follower_memory_swapon_results'],
+    ['---'],
+    ['exp5','./saturate_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapoff_results','./saturate_tmpfs/rethinkdb/rethinkdb_follower_memory_swapoff_results'],
+    ['exp6','./saturate_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapon_results','./saturate_tmpfs/rethinkdb/rethinkdb_follower_memory_swapon_results'],
+
+    # leader slowness ssd
+    ['---'],
+    ['exp1','./saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
+    ['exp2','./saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
+    ['exp3','./saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
+    ['exp4','./saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
+    ['exp5','./saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
+
+    # follower slowness ssd
+    ['---'],
+    ['exp1','./saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+    ['exp2','./saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+    ['exp3','./saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+    ['exp4','./saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+    ['exp5','./saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
 ]
 
-
-rethinkdb_mem_follow_explist=[
-    # follower slowness
-    ['exp5','./1client_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapoff_results','./1client_tmpfs/rethinkdb/rethinkdb_follower_memory_swapoff_results'],
-    ['exp6','./1client_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapon_results','./1client_tmpfs/rethinkdb/rethinkdb_follower_memory_swapon_results'],
-]
-
+# Final CRDB 1 client list
 cockroachdb_explist=[
-    # maxthroughput slowness
+    # leaderhigh slowness
+    ['---'],
+    ['exp1','./1client_tmpfs/cockroachdb/noslow_maxthroughput','./1client_tmpfs/cockroachdb/maxthroughput'],
+    ['exp2','./1client_tmpfs/cockroachdb/noslow_maxthroughput','./1client_tmpfs/cockroachdb/maxthroughput'],
+    ['exp5','./1client_tmpfs/cockroachdb/noslow_maxthroughput','./1client_tmpfs/cockroachdb/maxthroughput'],
     ['exp6','./1client_tmpfs/cockroachdb/cockroachdb_noslowmaxthroughput_memory_swapon_results','./1client_tmpfs/cockroachdb/cockroachdb_maxthroughput_memory_swapon_results'],
-    # minthroughput slowness
+   
+    # leaderlow slowness
+    ['---'],
     ['exp1','./1client_tmpfs/cockroachdb/cockroachdb_noslowminthroughput_memory_swapoff_results','./1client_tmpfs/cockroachdb/cockroachdb_minthroughput_memory_swapoff_results'],
     ['exp2','./1client_tmpfs/cockroachdb/cockroachdb_noslowminthroughput_memory_swapoff_results','./1client_tmpfs/cockroachdb/cockroachdb_minthroughput_memory_swapoff_results'],
     ['exp5','./1client_tmpfs/cockroachdb/cockroachdb_noslowminthroughput_memory_swapoff_results','./1client_tmpfs/cockroachdb/cockroachdb_minthroughput_memory_swapoff_results'],
     ['exp6','./1client_tmpfs/cockroachdb/cockroachdb_noslowminthroughput_memory_swapon_results','./1client_tmpfs/cockroachdb/cockroachdb_minthroughput_memory_swapon_results'],
-]
-
-cockroachdb_ssd_explist=[
-    # follower slowness
-    ['exp1','./1client_ssd/cockroachdb/cockroachdb_noslowfollower_disk_swapoff_results','./1client_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
-    ['exp2','./1client_ssd/cockroachdb/cockroachdb_noslowfollower_disk_swapoff_results','./1client_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
-    ['exp3','./1client_ssd/cockroachdb/cockroachdb_noslowfollower_disk_swapoff_results','./1client_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
-    ['exp4','./1client_ssd/cockroachdb/cockroachdb_noslowfollower_disk_swapoff_results','./1client_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
-    #['exp5','./1client_ssd/cockroachdb/cockroachdb_noslowfollower_disk_swapoff_results','./1client_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
-
-    # maxthroughput slowness
+    
+    # leaderhigh slowness ssd
+    ['---'],
     ['exp1','./1client_ssd/cockroachdb/cockroachdb_noslowmaxthroughput_disk_swapoff_results','./1client_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results'],
     ['exp2','./1client_ssd/cockroachdb/cockroachdb_noslowmaxthroughput_disk_swapoff_results','./1client_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results'],
     ['exp3','./1client_ssd/cockroachdb/cockroachdb_noslowmaxthroughput_disk_swapoff_results','./1client_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results'],
     ['exp4','./1client_ssd/cockroachdb/cockroachdb_noslowmaxthroughput_disk_swapoff_results','./1client_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results'],
     ['exp5','./1client_ssd/cockroachdb/cockroachdb_noslowmaxthroughput_disk_swapoff_results','./1client_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results'],
-
-    # minthroughput slowness
+    
+    # leaderlow slowness ssd
+    ['---'],
     ['exp1','./1client_ssd/cockroachdb/cockroachdb_noslowminthroughput_disk_swapoff_results','./1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
     ['exp2','./1client_ssd/cockroachdb/cockroachdb_noslowminthroughput_disk_swapoff_results','./1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
     ['exp3','./1client_ssd/cockroachdb/cockroachdb_noslowminthroughput_disk_swapoff_results','./1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
     ['exp4','./1client_ssd/cockroachdb/cockroachdb_noslowminthroughput_disk_swapoff_results','./1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
     ['exp5','./1client_ssd/cockroachdb/cockroachdb_noslowminthroughput_disk_swapoff_results','./1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
 ]
+
+# Final CRDB Saturate results
+cockroachdb_s_explist=[
+    # leaderhigh slowness
+    ['---'],
+    ['exp1','./saturate_tmpfs/cockroachdb/cockroachdb_noslowmaxthroughput_memory_swapoff_results','./saturate_tmpfs/cockroachdb/cockroachdb_maxthroughput_memory_swapoff_results'],
+    ['exp2','./saturate_tmpfs/cockroachdb/cockroachdb_noslowmaxthroughput_memory_swapoff_results','./saturate_tmpfs/cockroachdb/cockroachdb_maxthroughput_memory_swapoff_results'],
+    ['exp5','./saturate_tmpfs/cockroachdb/cockroachdb_noslowmaxthroughput_memory_swapoff_results','./saturate_tmpfs/cockroachdb/cockroachdb_maxthroughput_memory_swapoff_results'],
+    ['exp6','./saturate_tmpfs/cockroachdb/cockroachdb_noslowmaxthroughput_memory_swapon_results','./saturate_tmpfs/cockroachdb/cockroachdb_maxthroughput_memory_swapon_results'],
+
+    # leaderlow slowness
+    ['---'],
+    ['exp1','./saturate_tmpfs/cockroachdb/cockroachdb_noslowminthroughput_memory_swapoff_results','./saturate_tmpfs/cockroachdb/cockroachdb_minthroughput_memory_swapoff_results'],
+    ['exp2','./saturate_tmpfs/cockroachdb/cockroachdb_noslowminthroughput_memory_swapoff_results','./saturate_tmpfs/cockroachdb/cockroachdb_minthroughput_memory_swapoff_results'],
+    ['exp5','./saturate_tmpfs/cockroachdb/cockroachdb_noslowminthroughput_memory_swapoff_results','./saturate_tmpfs/cockroachdb/cockroachdb_minthroughput_memory_swapoff_results'],
+    ['exp6','./saturate_tmpfs/cockroachdb/cockroachdb_noslowminthroughput_memory_swapon_results','./saturate_tmpfs/cockroachdb/cockroachdb_minthroughput_memory_swapon_results'],
+
+    # leaderhigh slowness ssd
+    ['---'],
+    ['exp1','./saturate_ssd/cockroachdb/cockroachdb_noslowmaxthroughput_disk_swapoff_results','./saturate_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results'],
+    ['exp2','./saturate_ssd/cockroachdb/cockroachdb_noslowmaxthroughput_disk_swapoff_results','./saturate_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results'],
+    ['exp3','./saturate_ssd/cockroachdb/cockroachdb_noslowmaxthroughput_disk_swapoff_results','./saturate_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results'],
+    ['exp4','./saturate_ssd/cockroachdb/cockroachdb_noslowmaxthroughput_disk_swapoff_results','./saturate_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results'],
+    ['exp5','./saturate_ssd/cockroachdb/cockroachdb_noslowmaxthroughput_disk_swapoff_results','./saturate_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results'],
+    
+    # leaderlow slowness ssd
+    ['---'],
+    ['exp1','./saturate_ssd/cockroachdb/cockroachdb_noslowminthroughput_disk_swapoff_results','./saturate_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
+    ['exp2','./saturate_ssd/cockroachdb/cockroachdb_noslowminthroughput_disk_swapoff_results','./saturate_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
+    ['exp3','./saturate_ssd/cockroachdb/cockroachdb_noslowminthroughput_disk_swapoff_results','./saturate_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
+    ['exp4','./saturate_ssd/cockroachdb/cockroachdb_noslowminthroughput_disk_swapoff_results','./saturate_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
+    ['exp5','./saturate_ssd/cockroachdb/cockroachdb_noslowminthroughput_disk_swapoff_results','./saturate_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
+]
+
 # define experiments in csv file here
 
 tidb_csv=[
@@ -490,18 +552,27 @@ mongo_s_csv=[
 
 rethinkdb_csv=[
     {
-        'name': 'rethinkdb_follower',
+        'name': 'rethinkdb_leader',
         'data': [
-                    ['noslow_swapoff', './1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results'],
-                    ['exp1', './1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
-                    ['exp2', './1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
-                    ['exp3', './1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
-                    ['exp4', './1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
-                    ['exp5', './1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results']
+                    ['noslow_swapoff', './1client_tmpfs/rethinkdb/noslow_swapoff'],
+                    ['exp1', './1client_tmpfs/rethinkdb/leader'],
+                    ['exp2', './1client_tmpfs/rethinkdb/leader'],
+                    ['exp5', './1client_tmpfs/rethinkdb/leader'],
+                    ['exp6', './1client_tmpfs/rethinkdb/rethinkdb_leader_memory_swapon_results'],
+                    ['noslow_swapon', './1client_tmpfs/rethinkdb/noslow_swapon']
                 ]
     },
     {
-        'name': 'rethinkdb_leader',
+    'name': 'rethinkdb_follower',
+    'data': [
+                ['noslow_swapoff', './1client_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapoff_results'],
+                ['exp5', './1client_tmpfs/rethinkdb/rethinkdb_follower_memory_swapoff_results'],
+                ['exp6', './1client_tmpfs/rethinkdb/rethinkdb_follower_memory_swapon_results'],
+                ['noslow_swapon', './1client_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapon_results']
+            ]
+    },
+    {
+        'name': 'rethinkdb_leader_ssd',
         'data': [
                     ['noslow_swapoff', './1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results'],
                     ['exp1', './1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
@@ -511,71 +582,78 @@ rethinkdb_csv=[
                     ['exp5', './1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results']
                 ]
     },
-]
-
-"""
-{
-    'name': 'rethinkdb_follower',
-    'data': [
-                ['noslow_swapoff', './1client_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapoff_results'],
-                ['exp5', './1client_tmpfs/rethinkdb/rethinkdb_follower_memory_swapoff_results'],
-                ['exp6', './1client_tmpfs/rethinkdb/rethinkdb_follower_memory_swapon_results'],
-                ['noswlow_swapon', './1client_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapon_results']
-            ]
-},
-"""
-rethinkdb_mem_csv=[
     {
-        'name': 'rethinkdb_leader',
+        'name': 'rethinkdb_follower_ssd',
         'data': [
-                    ['noslow_swapoff', './1client_tmpfs/rethinkdb/noslow_swapoff'],
-                    ['exp1', './1client_tmpfs/rethinkdb/leader'],
-                    ['exp2', './1client_tmpfs/rethinkdb/leader'],
-                    ['exp5', './1client_tmpfs/rethinkdb/leader'],
-                    ['exp6', './1client_tmpfs/rethinkdb/rethinkdb_leader_memory_swapon_results'],
-                    ['noslow_swapon', './1client_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapon_results']
+                    ['noslow_swapoff', './1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results'],
+                    ['exp1', './1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+                    ['exp2', './1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+                    ['exp3', './1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+                    ['exp4', './1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+                    ['exp5', './1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results']
                 ]
     },
 ]
 
-rethinkdb_mem_follow_csv=[
+rethinkdb_s_csv=[
     {
-    'name': 'rethinkdb_follower',
-    'data': [
-                ['noslow_swapoff', './1client_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapoff_results'],
-                ['exp5', './1client_tmpfs/rethinkdb/rethinkdb_follower_memory_swapoff_results'],
-                ['exp6', './1client_tmpfs/rethinkdb/rethinkdb_follower_memory_swapon_results'],
-                ['noslow_swapon', './1client_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapon_results']
-            ]
-    },
-]
-
-rethinkdb_mem_follow_exp6_csv=[
-    {
-    'name': 'rethinkdb_follower',
-    'data': [
-                ['exp6', './1client_tmpfs/rethinkdb/rethinkdb_follower_memory_swapon_results'],
-                ['noslow_swapon', './1client_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapon_results']
-            ]
-    },
-]
-
-rethinkdb_mem_follow_exp6=[
-    # follower slowness
-    ['exp6','./1client_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapon_results','./1client_tmpfs/rethinkdb/rethinkdb_follower_memory_swapon_results'],
-]
-
-
-cockroachdb_csv = [
-    {
-        'name': 'cockroachdb_maxthroughput',
+        'name': 'rethinkdb_saturate_leader',
         'data': [
-                    ['noslow1_swapon', './1client_tmpfs/cockroachdb/cockroachdb_noslowmaxthroughput_memory_swapon_results'],
-                    ['exp6', './1client_tmpfs/cockroachdb/cockroachdb_maxthroughput_memory_swapon_results']
+                    ['noslow_swapoff', './saturate_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapoff_results'],
+                    ['exp1', './saturate_tmpfs/rethinkdb/rethinkdb_leader_memory_swapoff_results'],
+                    ['exp2', './saturate_tmpfs/rethinkdb/rethinkdb_leader_memory_swapoff_results'],
+                    ['exp5', './saturate_tmpfs/rethinkdb/rethinkdb_leader_memory_swapoff_results'],
+                    ['exp6', './saturate_tmpfs/rethinkdb/rethinkdb_leader_memory_swapon_results'], 
+                    ['noslow_swapon', './saturate_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapon_results']
                 ]
     },
     {
-        'name': 'cockroachdb_minthroughput',
+        'name': 'rethinkdb_saturate_follower',
+        'data': [
+                    ['noslow_swapoff', './saturate_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapoff_results'],
+                    ['exp5', './saturate_tmpfs/rethinkdb/rethinkdb_follower_memory_swapoff_results'],
+                    ['exp6', './saturate_tmpfs/rethinkdb/rethinkdb_follower_memory_swapon_results'],
+                    ['noslow_swapon', './saturate_tmpfs/rethinkdb/rethinkdb_noslow_memory_swapon_results']
+                ]
+    },
+    {
+        'name': 'rethinkdb_saturate_follower_ssd',
+        'data': [
+                    ['noslow_swapoff', './saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results'],
+                    ['exp1', './saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+                    ['exp2', './saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+                    ['exp3', './saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+                    ['exp4', './saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+                    ['exp5', './saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results']
+                ]
+    },
+    {
+        'name': 'rethinkdb_saturate_leader_ssd',
+        'data': [
+                    ['noslow_swapoff', './saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results'],
+                    ['exp1', './saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
+                    ['exp2', './saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
+                    ['exp3', './saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
+                    ['exp4', './saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
+                    ['exp5', './saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results']
+                ]
+    },
+]
+
+cockroachdb_csv=[
+    {
+        'name': 'cockroachdb_leaderhigh',
+        'data': [
+                    ['noslow1_swapoff', './1client_tmpfs/cockroachdb/noslow_maxthroughput'],
+                    ['exp1', './1client_tmpfs/cockroachdb/maxthroughput'],
+                    ['exp2', './1client_tmpfs/cockroachdb/maxthroughput'],
+                    ['exp5', './1client_tmpfs/cockroachdb/maxthroughput'],
+                    ['exp6', './1client_tmpfs/cockroachdb/cockroachdb_maxthroughput_memory_swapon_results'],
+                    ['noslow1_swapon', './1client_tmpfs/cockroachdb/cockroachdb_noslowmaxthroughput_memory_swapon_results']
+                ]
+    },
+    {
+        'name': 'cockroachdb_leaderlow',
         'data': [
                     ['noslow1_swapoff', './1client_tmpfs/cockroachdb/cockroachdb_noslowminthroughput_memory_swapoff_results'],
                     ['exp1', './1client_tmpfs/cockroachdb/cockroachdb_minthroughput_memory_swapoff_results'],
@@ -585,74 +663,76 @@ cockroachdb_csv = [
                     ['noslow1_swapon', './1client_tmpfs/cockroachdb/cockroachdb_noslowminthroughput_memory_swapon_results']
                 ]
     },
-]
-
-cockroachdb_ssd_csv = [
     {
-        'name': 'cockroachdb_minthroughput',
+        'name': 'cockroachdb_leaderhigh_ssd',
         'data': [
-                    ['noslow', './1client_ssd/cockroachdb/cockroachdb_noslowminthroughput_disk_swapoff_results'],
-                    ['exp1', './1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
-                    ['exp2', './1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
-                    ['exp3', './1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
-                    ['exp4', './1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
-                    ['exp5', './1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results']
-                ]
-    },
-    {
-        'name': 'cockroachdb_maxthroughput',
-        'data': [
-                    ['noslow', './1client_ssd/cockroachdb/cockroachdb_noslowmaxthroughput_disk_swapoff_results'],
+                    ['noslow1_swapoff', './1client_ssd/cockroachdb/cockroachdb_noslowmaxthroughput_disk_swapoff_results'],
                     ['exp1', './1client_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results'],
                     ['exp2', './1client_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results'],
                     ['exp3', './1client_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results'],
                     ['exp4', './1client_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results'],
-                    ['exp5', './1client_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results']
+                    ['exp5', './1client_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results'],
                 ]
     },
     {
-        'name': 'cockroachdb_follower',
+        'name': 'cockroachdb_leaderlow_ssd',
         'data': [
-                    ['noslow', './1client_ssd/cockroachdb/cockroachdb_noslowfollower_disk_swapoff_results'],
-                    ['exp1', './1client_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
-                    ['exp2', './1client_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
-                    ['exp3', './1client_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
-                    ['exp4', './1client_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results']
+                    ['noslow1_swapoff', './1client_ssd/cockroachdb/cockroachdb_noslowminthroughput_disk_swapoff_results'],
+                    ['exp1', './1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
+                    ['exp2', './1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
+                    ['exp3', './1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
+                    ['exp4', './1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
+                    ['exp5', './1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
                 ]
     },
 ]
 
-# then get the result of each experiment
-
-# getpercentage(mongodb_explist, 'mongodb')
-# exportcsv(mongo_csv, 'mongodb')
-# getpercentage(mongodb_s_explist, 'mongodb')
-# exportcsv(mongo_s_csv, 'mongodb')
-
-# getpercentage(tidb_explist, 'tidb')
-# exportcsv(tidb_csv, 'tidb')
-# getpercentage(tidb_s_explist, 'tidb')
-# exportcsv(tidb_s_csv, 'tidb')
-
-
-
-
-
-#getpercentage(rethinkdb_explist, 'rethinkdb')
-#exportcsv(rethinkdb_csv, 'rethinkdb')
-
-# getpercentage(rethinkdb_explist, 'cockroachdb')
-# exportcsv(rethinkdb_csv, 'cockroachdb')
-
-#getpercentage(cockroachdb_ssd_explist, 'cockroachdb')
-#exportcsv(cockroachdb_ssd_csv, 'cockroachdb')
-
-# getpercentage(rethinkdb_mem_follow_explist, 'rethinkdb')
-# exportcsv(rethinkdb_mem_follow_csv, 'rethinkdb')
-
-# getpercentage(rethinkdb_mem_follow_exp6, 'rethinkdb')
-# exportcsv(rethinkdb_mem_follow_exp6_csv, 'rethinkdb')
-
+cockroachdb_s_csv=[
+    {
+        'name': 'cockroachdb_saturate_leaderhigh',
+        'data': [
+                    ['noslow', './saturate_tmpfs/cockroachdb/cockroachdb_noslowmaxthroughput_memory_swapoff_results'],
+                    ['exp1', './saturate_tmpfs/cockroachdb/cockroachdb_maxthroughput_memory_swapoff_results'],
+                    ['exp2', './saturate_tmpfs/cockroachdb/cockroachdb_maxthroughput_memory_swapoff_results'],
+                    ['exp5', './saturate_tmpfs/cockroachdb/cockroachdb_maxthroughput_memory_swapoff_results'],
+                    ['exp6', './saturate_tmpfs/cockroachdb/cockroachdb_maxthroughput_memory_swapon_results'],
+                    ['noslow1_swapon', './saturate_tmpfs/cockroachdb/cockroachdb_noslowmaxthroughput_memory_swapon_results']
+                ]
+    },
+    {
+        'name': 'cockroachdb_saturate_leaderlow',
+         'data': [
+                    ['noslow', './saturate_tmpfs/cockroachdb/cockroachdb_noslowminthroughput_memory_swapoff_results'],
+                    ['exp1', './saturate_tmpfs/cockroachdb/cockroachdb_minthroughput_memory_swapoff_results'],
+                    ['exp2', './saturate_tmpfs/cockroachdb/cockroachdb_minthroughput_memory_swapoff_results'],
+                    ['exp5', './saturate_tmpfs/cockroachdb/cockroachdb_minthroughput_memory_swapoff_results'],
+                    ['exp6', './saturate_tmpfs/cockroachdb/cockroachdb_minthroughput_memory_swapon_results'],
+                    ['noslow1_swapon', './saturate_tmpfs/cockroachdb/cockroachdb_noslowminthroughput_memory_swapon_results']
+                ]
+    },
+    {
+        'name': 'cockroachdb_saturate_leaderhigh_ssd',
+        'data': [
+                    ['noslow', './saturate_ssd/cockroachdb/cockroachdb_noslowmaxthroughput_disk_swapoff_results'],
+                    ['exp1', './saturate_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results'],
+                    ['exp2', './saturate_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results'],
+                    ['exp3', './saturate_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results'],
+                    ['exp4', './saturate_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results'],
+                    ['exp5', './saturate_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results']
+                ]
+    },
+    {
+        'name': 'cockroachdb_saturate_leaderlow_ssd',
+        'data': [
+                    ['noslow', './saturate_ssd/cockroachdb/cockroachdb_noslowminthroughput_disk_swapoff_results'],
+                    ['exp1', './saturate_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
+                    ['exp2', './saturate_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
+                    ['exp3', './saturate_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
+                    ['exp4', './saturate_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
+                    ['exp5', './saturate_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results']
+                ]
+    },
+]
 
 def getcluster(_csv, dbtype, metric, expname):    # tidb_s_csv, ops, tidb_saturate_leaderhigh_ssd
     explist=None
@@ -689,17 +769,38 @@ def draw(metric, _list):
     plt.show()
 
 drawlist=[
-          [tidb_csv, 'tidb_leaderhigh_ssd', 'tidb'],
-          [tidb_csv, 'tidb_leaderlow_ssd', 'tidb'],
-          [mongo_csv, 'mongodb_leader_ssd', 'mongodb'],
-          [mongo_csv, 'mongodb_follower_ssd', 'mongodb'],
+          #[tidb_csv, 'tidb_leaderhigh_ssd', 'tidb'],
+          #[tidb_csv, 'tidb_leaderlow_ssd', 'tidb'],
+          #[mongo_csv, 'mongodb_leader_ssd', 'mongodb'],
+          #[mongo_csv, 'mongodb_follower_ssd', 'mongodb'],
+
           # [tidb_s_csv, 'tidb_saturate_leaderhigh_ssd', 'tidb'],
           # [tidb_s_csv, 'tidb_saturate_leaderlow_ssd', 'tidb'],
           # [mongo_s_csv, 'mongodb_saturate_leader_ssd', 'mongodb'],
           # [mongo_s_csv, 'mongodb_saturate_follower_ssd', 'mongodb'],
+
+        # RethinkDB - SSD
+        #   [rethinkdb_csv, 'rethinkdb_leader_ssd', 'rethinkdb'],
+        #   [rethinkdb_csv, 'rethinkdb_follower_ssd', 'rethinkdb'],
+        #   [rethinkdb_s_csv, 'rethinkdb_saturate_leader_ssd', 'rethinkdb'],
+        #   [rethinkdb_s_csv, 'rethinkdb_saturate_follower_ssd', 'rethinkdb'],
+        # RethinkDB - memory
+        #   [rethinkdb_csv, 'rethinkdb_leader', 'rethinkdb'],
+        #   [rethinkdb_csv, 'rethinkdb_follower', 'rethinkdb'],
+        #   [rethinkdb_s_csv, 'rethinkdb_saturate_leader', 'rethinkdb'],
+        #   [rethinkdb_s_csv, 'rethinkdb_saturate_follower', 'rethinkdb'],
+
+        # CockroachDB - SSD
+        #   [cockroachdb_csv, 'cockroachdb_leaderhigh_ssd', 'rethinkdb'],
+        #   [cockroachdb_csv, 'cockroachdb_leaderlow_ssd', 'rethinkdb'],
+        #   [cockroachdb_s_csv, 'cockroachdb_saturate_leaderhigh_ssd', 'rethinkdb'],
+        #   [cockroachdb_s_csv, 'cockroachdb_saturate_leaderlow_ssd', 'rethinkdb'],
+        # CockroachDB - memory
+        #   [cockroachdb_csv, 'cockroachdb_leaderhigh', 'rethinkdb'],
+        #   [cockroachdb_csv, 'cockroachdb_leaderlow', 'rethinkdb'],
+        #   [cockroachdb_s_csv, 'cockroachdb_saturate_leaderhigh', 'rethinkdb'],
+        #   [cockroachdb_s_csv, 'cockroachdb_saturate_leaderlow', 'rethinkdb'],
          ]
 
 
-
 draw('ops',drawlist)
-
