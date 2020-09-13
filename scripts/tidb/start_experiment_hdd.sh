@@ -249,6 +249,9 @@ function test_run {
 
     # 9. cleanup
     cleanup
+
+    sleep 120
+
     data_cleanup
     
     # 10. Power off all the VMs
