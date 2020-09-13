@@ -14,8 +14,8 @@ server_configs:
 pd_servers:
   - host: 10.0.0.9
 
-tidb_servers:
-  - host: 10.0.0.9
+#tidb_servers:
+#  - host: 10.0.0.9
 
 tikv_servers:
   - host: 10.0.0.10
