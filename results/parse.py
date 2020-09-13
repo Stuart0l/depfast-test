@@ -756,8 +756,8 @@ def getcluster(_csv, dbtype, metric, expname):    # tidb_s_csv, ops, tidb_satura
 
 def draw(metric, _list, _lim, _legend=False):
     bar_width=0.15
-    _c=sns.color_palette("bright")
-    color=[_c[7], _c[3], _c[8], _c[2], _c[9], _c[4]]
+    _c=sns.color_palette("pastel")
+    color=['black', _c[3], _c[8], _c[2], _c[9], _c[4]]
     hh=['////','----','...','xxxx','||||', '\\\\\\\\']
     exp_label=[
                ['No Slow', 'noslow'],
@@ -767,7 +767,7 @@ def draw(metric, _list, _lim, _legend=False):
                ['Disk Contention', 'exp4'],
                ['Slow Network', 'exp5'],
               ]
-    metric_label={'ops': 'Throughput (ops/sec)\n(Normalized to No Slow)', 'avg': 'Average Latency (us)\n(Normalized to No Slow)', '99': '99th Percentile Latency (us)\n(Normalized to No Slow)'}
+    metric_label={'ops': 'Throughput', 'avg': 'Average Latency', '99': '99th Percentile Latency'}
     tick_label=[x[3] for x in _list]
     idx_tick_label=np.arange(len(tick_label))
 
@@ -778,8 +778,11 @@ def draw(metric, _list, _lim, _legend=False):
         for i, _e in enumerate(exp_label):
             dat=_e[1]
             normval=explist[dat][metric]/100+1
-            barlabel=str(int(explist[dat][metric]/100))+'x'
-            print(i, dat, idx_tick_label[_l]+bar_width*i, explist[dat][metric], normval, exp_label[i][0])
+            barlabel=str(round(normval))
+            if(round(normval)>1000):
+                barlabel=str(round(normval/1000,1))+'k'
+            # barlabel=str(max(round(explist[dat][metric]/100), _lim[2]))+'x'
+            print(i, dat, explist[dat][metric], normval)
             if(normval>=_lim[1]):
                 plt.bar(idx_tick_label[_l]+bar_width*i, _lim[2], bar_width, color=color[i], edgecolor='k')
                 plt.text(idx_tick_label[_l]+bar_width*i, _lim[2]+_lim[3], barlabel, ha='center', fontsize=28, fontweight='bold')
@@ -797,36 +800,36 @@ def draw(metric, _list, _lim, _legend=False):
     # plt.yscale('log')
     plt.ylim(_lim[0], _lim[1])
     if(_legend):
-        plt.legend([x[0] for x in exp_label], loc='lower left', ncol=3, bbox_to_anchor=(0,1.05))
+        plt.legend([x[0] for x in exp_label], loc='lower left', ncol=3, bbox_to_anchor=(0,1.05), frameon=False)
     plt.tight_layout()
 
 
 drawlist_L1=[
-          [tidb_explist, 'tidb', '/1client_ssd/tidb/tidb_leaderhigh_swapoff_hdd', 'TiDB\n 1 HT'],
-          [mongodb_explist, 'mongodb', '/1client_ssd/mongodb/mongodb_leader_swapoff_hdd', 'MongoDB\n 1 LD'],
-          [rethinkdb_explist, 'rethinkdb', '/1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results', 'RethinkDB\n 1 LD'],
-          [cockroachdb_explist, 'cockroachdb', '/1client_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results', 'CRDB\n 1 HT'],
+          [mongodb_explist, 'mongodb', '/1client_ssd/mongodb/mongodb_leader_swapoff_hdd', 'MongoDB'],
+          [rethinkdb_explist, 'rethinkdb', '/1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results', 'RethinkDB'],
+          [tidb_explist, 'tidb', '/1client_ssd/tidb/tidb_leaderhigh_swapoff_hdd', 'TiDB'],
+          [cockroachdb_explist, 'cockroachdb', '/1client_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results', 'CRDB'],
          ]
 
 drawlist_F1=[
-          [tidb_explist, 'tidb', '/1client_ssd/tidb/tidb_leaderlow_swapoff_hdd', 'TiDB\n 1 LT'],
-          [mongodb_explist, 'mongodb', '/1client_ssd/mongodb/mongodb_follower_swapoff_hdd', 'MongoDB\n 1 FL'],
-          [rethinkdb_explist, 'rethinkdb', '/1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results', 'RethinkDB\n 1 FL'],
-          [cockroachdb_explist, 'cockroachdb', '/1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results', 'CRDB\n 1 LT'],
+          [mongodb_explist, 'mongodb', '/1client_ssd/mongodb/mongodb_follower_swapoff_hdd', 'MongoDB'],
+          [rethinkdb_explist, 'rethinkdb', '/1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results', 'RethinkDB'],
+          [tidb_explist, 'tidb', '/1client_ssd/tidb/tidb_leaderlow_swapoff_hdd', 'TiDB'],
+          [cockroachdb_explist, 'cockroachdb', '/1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results', 'CRDB'],
          ]
 
 drawlist_LS=[
-          [tidb_s_explist, 'tidb', '/saturate_ssd/tidb/tidb_leaderhigh_swapoff_hdd', 'TiDB\n S HT'],
-          [mongodb_s_explist, 'mongodb', '/saturate_ssd/mongodb/mongodb_leader_swapoff_hdd', 'MongoDB\n S LD'],
-          [rethinkdb_s_explist, 'rethinkdb', '/saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results', 'RethinkDB\n S LD'],
-          [cockroachdb_s_explist, 'cockroachdb', '/saturate_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results', 'CRDB\n S HT'],
+          [mongodb_s_explist, 'mongodb', '/saturate_ssd/mongodb/mongodb_leader_swapoff_hdd', 'MongoDB'],
+          [rethinkdb_s_explist, 'rethinkdb', '/saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results', 'RethinkDB'],
+          [tidb_s_explist, 'tidb', '/saturate_ssd/tidb/tidb_leaderhigh_swapoff_hdd', 'TiDB'],
+          [cockroachdb_s_explist, 'cockroachdb', '/saturate_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results', 'CRDB'],
          ]
 
 drawlist_FS=[
-          [tidb_s_explist, 'tidb', '/saturate_ssd/tidb/tidb_leaderlow_swapoff_hdd', 'TiDB\n S LT'],
-          [mongodb_s_explist, 'mongodb', '/saturate_ssd/mongodb/mongodb_follower_swapoff_hdd', 'MongoDB\n S FL'],
-          [rethinkdb_s_explist, 'rethinkdb', '/saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results', 'RethinkDB\n S FL'],
-          [cockroachdb_s_explist, 'cockroachdb', '/saturate_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results', 'CRDB\n S LT'],
+          [mongodb_s_explist, 'mongodb', '/saturate_ssd/mongodb/mongodb_follower_swapoff_hdd', 'MongoDB'],
+          [rethinkdb_s_explist, 'rethinkdb', '/saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results', 'RethinkDB'],
+          [tidb_s_explist, 'tidb', '/saturate_ssd/tidb/tidb_leaderlow_swapoff_hdd', 'TiDB'],
+          [cockroachdb_s_explist, 'cockroachdb', '/saturate_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results', 'CRDB'],
          ]
 
 
@@ -851,6 +854,8 @@ font = {'family' : 'serif',
         'size'   : 38}
 plt.rc('font', **font)
 
+DX=1.15
+DY=0.91
 
 
 # plt.figure(figsize=(sizex,sizey), dpi=100)
@@ -858,58 +863,58 @@ plt.rc('font', **font)
 # plt.show()
 
 
-plt.figure(figsize=(sizex,sizey*1.1), dpi=sizei)
+plt.figure(figsize=(sizex,sizey*DX), dpi=sizei)
 draw('ops',drawlist_L1, [0,1.15,1, 0], _legend=True)
 plt.savefig('L1ops.pdf')
 
-plt.figure(figsize=(sizex,sizey), dpi=sizei)
-draw('avg',drawlist_L1, [0,46,40, 0.3])
+plt.figure(figsize=(sizex,sizey*DY), dpi=sizei)
+draw('avg',drawlist_L1, [0,46,40, 0.5])
 plt.savefig('L1avg.pdf')
 
-plt.figure(figsize=(sizex,sizey), dpi=sizei)
-draw('99',drawlist_L1, [0,46,40, 0.3])
+plt.figure(figsize=(sizex,sizey*DY), dpi=sizei)
+draw('99',drawlist_L1, [0,46,40, 0.5])
 plt.savefig('L199.pdf')
 
 
 
-plt.figure(figsize=(sizex,sizey*1.1), dpi=sizei)
+plt.figure(figsize=(sizex,sizey*DX), dpi=sizei)
 draw('ops',drawlist_F1, [0,1.15,1, 0], _legend=True)
 plt.savefig('F1ops.pdf')
 
-plt.figure(figsize=(sizex,sizey), dpi=sizei)
-draw('avg',drawlist_F1, [0,5.6,5, 0.1])
+plt.figure(figsize=(sizex,sizey*DY), dpi=sizei)
+draw('avg',drawlist_F1, [0,3.3,3, 0.02])
 plt.savefig('F1avg.pdf')
 
-plt.figure(figsize=(sizex,sizey), dpi=sizei)
-draw('99',drawlist_F1, [0,5.6,5, 0.1])
+plt.figure(figsize=(sizex,sizey*DY), dpi=sizei)
+draw('99',drawlist_F1, [0,3.3,3, 0.02])
 plt.savefig('F199.pdf')
 
 
 
-plt.figure(figsize=(sizex,sizey*1.1), dpi=sizei)
+plt.figure(figsize=(sizex,sizey*DX), dpi=sizei)
 draw('ops',drawlist_LS, [0,1.15,1,0], _legend=True)
 plt.savefig('LSops.pdf')
 
-plt.figure(figsize=(sizex,sizey), dpi=sizei)
-draw('avg',drawlist_LS, [0,46,40, 0.3])
+plt.figure(figsize=(sizex,sizey*DY), dpi=sizei)
+draw('avg',drawlist_LS, [0,46,40, 0.5])
 plt.savefig('LSavg.pdf')
 
-plt.figure(figsize=(sizex,sizey), dpi=sizei)
-draw('99',drawlist_LS, [0,46,40, 0.3])
+plt.figure(figsize=(sizex,sizey*DY), dpi=sizei)
+draw('99',drawlist_LS, [0,46,40, 0.5])
 plt.savefig('LS99.pdf')
 
 
 
-plt.figure(figsize=(sizex,sizey*1.1), dpi=sizei)
+plt.figure(figsize=(sizex,sizey*DX), dpi=sizei)
 draw('ops',drawlist_FS, [0,1.15,1,0], _legend=True)
 plt.savefig('FSops.pdf')
 
-plt.figure(figsize=(sizex,sizey), dpi=sizei)
-draw('avg',drawlist_FS, [0,5.6,5, 0.1])
+plt.figure(figsize=(sizex,sizey*DY), dpi=sizei)
+draw('avg',drawlist_FS, [0,3.3,3, 0.02])
 plt.savefig('FSavg.pdf')
 
-plt.figure(figsize=(sizex,sizey), dpi=sizei)
-draw('99',drawlist_FS, [0,5.6,5, 0.1])
+plt.figure(figsize=(sizex,sizey*DY), dpi=sizei)
+draw('99',drawlist_FS, [0,3.3,3, 0.02])
 plt.savefig('FS99.pdf')
 
 
