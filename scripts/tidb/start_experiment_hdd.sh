@@ -133,6 +133,7 @@ function start_db {
 function db_init {
   if  [ "$exptype" == "follower" ] || [ "$exptype" == "noslow2" ] ; then
     tiup ctl pd config set label-property reject-leader dc 1 -u http://"$pd":2379     # leader is restricted to s3
+    sleep 120
   fi
   if [ "$exptype" == "follower" ]; then
     followerip=$s1
