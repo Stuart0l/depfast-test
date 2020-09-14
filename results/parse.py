@@ -148,6 +148,13 @@ tidb_explist=[
     ['exp3','./1client_ssd/tidb/tidb_noslow1_swapoff_hdd_1_results','./1client_ssd/tidb/tidb_leaderlow_swapoff_hdd_1_results'],
     ['exp4','./1client_ssd/tidb/tidb_noslow1_swapoff_hdd_1_results','./1client_ssd/tidb/tidb_leaderlow_swapoff_hdd_1_results'],
     ['exp5','./1client_ssd/tidb/tidb_noslow1_swapoff_hdd_1_results','./1client_ssd/tidb/tidb_leaderlow_swapoff_hdd_1_results'],
+    # follower slowness ssd
+    ['---'],
+    ['exp1','./1client_ssd/tidb/tidb_noslow2_swapoff_hdd_1_results','./1client_ssd/tidb/tidb_follower_swapoff_hdd_1_results'],
+    ['exp2','./1client_ssd/tidb/tidb_noslow2_swapoff_hdd_1_results','./1client_ssd/tidb/tidb_follower_swapoff_hdd_1_results'],
+    ['exp3','./1client_ssd/tidb/tidb_noslow2_swapoff_hdd_1_results','./1client_ssd/tidb/tidb_follower_swapoff_hdd_1_results'],
+    ['exp4','./1client_ssd/tidb/tidb_noslow2_swapoff_hdd_1_results','./1client_ssd/tidb/tidb_follower_swapoff_hdd_1_results'],
+    ['exp5','./1client_ssd/tidb/tidb_noslow2_swapoff_hdd_1_results','./1client_ssd/tidb/tidb_follower_swapoff_hdd_1_results'],
 ]
 
 tidb_s_explist=[
@@ -411,6 +418,17 @@ tidb_csv=[
                     ['exp3', './1client_ssd/tidb/tidb_leaderlow_swapoff_hdd_1_results'],
                     ['exp4', './1client_ssd/tidb/tidb_leaderlow_swapoff_hdd_1_results'],
                     ['exp5', './1client_ssd/tidb/tidb_leaderlow_swapoff_hdd_1_results'],
+                ]
+    },
+    {
+        'name': 'tidb_follower_ssd',
+        'data': [
+                    ['noslow1_swapoff', './1client_ssd/tidb/tidb_noslow2_swapoff_hdd_1_results'],
+                    ['exp1', './1client_ssd/tidb/tidb_follower_swapoff_hdd_1_results'],
+                    ['exp2', './1client_ssd/tidb/tidb_follower_swapoff_hdd_1_results'],
+                    ['exp3', './1client_ssd/tidb/tidb_follower_swapoff_hdd_1_results'],
+                    ['exp4', './1client_ssd/tidb/tidb_follower_swapoff_hdd_1_results'],
+                    ['exp5', './1client_ssd/tidb/tidb_follower_swapoff_hdd_1_results'],
                 ]
     },
 ]
@@ -814,7 +832,7 @@ drawlist_L1=[
 drawlist_F1=[
           [mongodb_explist, 'mongodb', '/1client_ssd/mongodb/mongodb_follower_swapoff_hdd', 'MongoDB'],
           [rethinkdb_explist, 'rethinkdb', '/1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results', 'RethinkDB'],
-          [tidb_explist, 'tidb', '/1client_ssd/tidb/tidb_leaderlow_swapoff_hdd', 'TiDB'],
+          [tidb_explist, 'tidb', '/1client_ssd/tidb/tidb_follower_swapoff_hdd', 'TiDB'],
           [cockroachdb_explist, 'cockroachdb', '/1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results', 'CRDB'],
          ]
 
@@ -834,15 +852,15 @@ drawlist_FS=[
 
 
 
-# getpercentage(mongodb_explist, 'mongodb')
-# exportcsv(mongo_csv, 'mongodb')
-# getpercentage(mongodb_s_explist, 'mongodb')
-# exportcsv(mongo_s_csv, 'mongodb')
+getpercentage(mongodb_explist, 'mongodb')
+exportcsv(mongo_csv, 'mongodb')
+getpercentage(mongodb_s_explist, 'mongodb')
+exportcsv(mongo_s_csv, 'mongodb')
 
-# getpercentage(tidb_explist, 'tidb')
-# exportcsv(tidb_csv, 'tidb')
-# getpercentage(tidb_s_explist, 'tidb')
-# exportcsv(tidb_s_csv, 'tidb')
+getpercentage(tidb_explist, 'tidb')
+exportcsv(tidb_csv, 'tidb')
+getpercentage(tidb_s_explist, 'tidb')
+exportcsv(tidb_s_csv, 'tidb')
 
 sizex=24
 sizey=8
