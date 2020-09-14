@@ -850,13 +850,8 @@ drawlist_L1=[
 drawlist_F1=[
           [mongodb_explist, 'mongodb', '/1client_ssd/mongodb/mongodb_follower_swapoff_hdd', 'MongoDB'],
           [rethinkdb_explist, 'rethinkdb', '/1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results', 'RethinkDB'],
-<<<<<<< HEAD
           [tidb_explist, 'tidb', '/1client_ssd/tidb/tidb_follower_swapoff_hdd', 'TiDB'],
-          [cockroachdb_explist, 'cockroachdb', '/1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results', 'CRDB'],
-=======
-          [tidb_explist, 'tidb', '/1client_ssd/tidb/tidb_leaderlow_swapoff_hdd', 'TiDB'],
           [cockroachdb_explist, 'cockroachdb', '/1client_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results', 'CRDB'],
->>>>>>> 36552abdda55ffe3a99595a88019ccb034cd4616
          ]
 
 drawlist_LS=[
