@@ -238,7 +238,6 @@ mongodb_s_explist=[
     ['exp5','./saturate_ssd/mongodb/mongodb_noslow_swapoff_hdd_320_results','./saturate_ssd/mongodb/mongodb_follower_swapoff_hdd_320_results'],
 ]
 
-
 rethinkdb_explist=[
     # leader slowness
     ['---'],
@@ -331,6 +330,14 @@ cockroachdb_explist=[
     ['exp3','./1client_ssd/cockroachdb/cockroachdb_noslowminthroughput_disk_swapoff_results','./1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
     ['exp4','./1client_ssd/cockroachdb/cockroachdb_noslowminthroughput_disk_swapoff_results','./1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
     ['exp5','./1client_ssd/cockroachdb/cockroachdb_noslowminthroughput_disk_swapoff_results','./1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
+
+    # follower ssd
+    ['---'],
+    ['exp1','./1client_ssd/cockroachdb/cockroachdb_noslowfollower_disk_swapoff_results','./1client_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
+    ['exp2','./1client_ssd/cockroachdb/cockroachdb_noslowfollower_disk_swapoff_results','./1client_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
+    ['exp3','./1client_ssd/cockroachdb/cockroachdb_noslowfollower_disk_swapoff_results','./1client_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
+    ['exp4','./1client_ssd/cockroachdb/cockroachdb_noslowfollower_disk_swapoff_results','./1client_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
+    ['exp5','./1client_ssd/cockroachdb/cockroachdb_noslowfollower_disk_swapoff_results','./1client_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
 ]
 
 # Final CRDB Saturate results
@@ -691,6 +698,17 @@ cockroachdb_csv=[
                     ['exp5', './1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
                 ]
     },
+    {
+        'name': 'cockroachdb_follower_ssd',
+        'data': [
+                    ['noslow1_swapoff', './1client_ssd/cockroachdb/cockroachdb_noslowfollower_disk_swapoff_results'],
+                    ['exp1', './1client_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
+                    ['exp2', './1client_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
+                    ['exp3', './1client_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
+                    ['exp4', './1client_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
+                    ['exp5', './1client_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
+                ]
+    },
 ]
 
 cockroachdb_s_csv=[
@@ -815,7 +833,7 @@ drawlist_F1=[
           [mongodb_explist, 'mongodb', '/1client_ssd/mongodb/mongodb_follower_swapoff_hdd', 'MongoDB'],
           [rethinkdb_explist, 'rethinkdb', '/1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results', 'RethinkDB'],
           [tidb_explist, 'tidb', '/1client_ssd/tidb/tidb_leaderlow_swapoff_hdd', 'TiDB'],
-          [cockroachdb_explist, 'cockroachdb', '/1client_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results', 'CRDB'],
+          [cockroachdb_explist, 'cockroachdb', '/1client_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results', 'CRDB'],
          ]
 
 drawlist_LS=[
