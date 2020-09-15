@@ -63,10 +63,11 @@ def calcforexp(expname, fpath, dbname):
                 #totres[kk]+=res[kk]
     for kk in totres.keys():
         #totres[kk]/=cnt
-        if kk in ['99', '999', 'max']:
-            totres[kk]=statistics.median(tmpres[kk])
-        else:
-            totres[kk]=sum(tmpres[kk]) / len(tmpres[kk]) 
+        totres[kk]=statistics.median(tmpres[kk])
+        # if kk in ['99', '999', 'max']:
+            
+        # else:
+        #     totres[kk]=sum(tmpres[kk]) / len(tmpres[kk]) 
     return(totres, listres)
 
 def compareres(expname, noslowpath, slowpath, dbname):
