@@ -378,6 +378,14 @@ cockroachdb_s_explist=[
     ['exp3','./saturate_ssd/cockroachdb/cockroachdb_noslowminthroughput_disk_swapoff_results','./saturate_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
     ['exp4','./saturate_ssd/cockroachdb/cockroachdb_noslowminthroughput_disk_swapoff_results','./saturate_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
     ['exp5','./saturate_ssd/cockroachdb/cockroachdb_noslowminthroughput_disk_swapoff_results','./saturate_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results'],
+
+    # follower ssd
+    ['---'],
+    ['exp1','./saturate_ssd/cockroachdb/cockroachdb_noslowfollower_disk_swapoff_results','./saturate_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
+    ['exp2','./saturate_ssd/cockroachdb/cockroachdb_noslowfollower_disk_swapoff_results','./saturate_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
+    ['exp3','./saturate_ssd/cockroachdb/cockroachdb_noslowfollower_disk_swapoff_results','./saturate_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
+    ['exp4','./saturate_ssd/cockroachdb/cockroachdb_noslowfollower_disk_swapoff_results','./saturate_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
+    ['exp5','./saturate_ssd/cockroachdb/cockroachdb_noslowfollower_disk_swapoff_results','./saturate_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
 ]
 
 # define experiments in csv file here
@@ -774,6 +782,17 @@ cockroachdb_s_csv=[
                     ['exp5', './saturate_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results']
                 ]
     },
+    {
+        'name': 'cockroachdb_saturate_follower_ssd',
+        'data': [
+                    ['noslow', './saturate_ssd/cockroachdb/cockroachdb_noslowfollower_disk_swapoff_results'],
+                    ['exp1', './saturate_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
+                    ['exp2', './saturate_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
+                    ['exp3', './saturate_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
+                    ['exp4', './saturate_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results'],
+                    ['exp5', './saturate_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results']
+                ]
+    },
 ]
 
 
@@ -865,7 +884,7 @@ drawlist_FS=[
           [mongodb_s_explist, 'mongodb', '/saturate_ssd/mongodb/mongodb_follower_swapoff_hdd', 'MongoDB'],
           [rethinkdb_s_explist, 'rethinkdb', '/saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results', 'RethinkDB'],
           [tidb_s_explist, 'tidb', '/saturate_ssd/tidb/tidb_leaderlow_swapoff_hdd', 'TiDB'],
-          [cockroachdb_s_explist, 'cockroachdb', '/saturate_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results', 'CRDB'],
+          [cockroachdb_s_explist, 'cockroachdb', '/saturate_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results', 'CRDB'],
          ]
 
 
@@ -879,6 +898,12 @@ getpercentage(tidb_explist, 'tidb')
 exportcsv(tidb_csv, 'tidb')
 getpercentage(tidb_s_explist, 'tidb')
 exportcsv(tidb_s_csv, 'tidb')
+
+getpercentage(cockroachdb_s_explist, 'cockroachdb')
+exportcsv(cockroachdb_s_csv, 'cockroachdb')
+
+getpercentage(cockroachdb_explist, 'cockroachdb')
+exportcsv(cockroachdb_csv, 'cockroachdb')
 
 sizex=24
 sizey=8
