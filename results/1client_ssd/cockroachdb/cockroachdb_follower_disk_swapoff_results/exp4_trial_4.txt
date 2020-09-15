@@ -1,26 +1,38 @@
-Adding shard node URL: jdbc:postgresql://10.0.0.28:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.31:26257/ycsb?sslmode=disable
 Using shards: 1, batchSize:-1, fetchSize: -1
-[OVERALL], RunTime(ms), 300049
-[OVERALL], Throughput(ops/sec), 272.0822265696603
-[TOTAL_GCS_Copy], Count, 2
-[TOTAL_GC_TIME_Copy], Time(ms), 15
-[TOTAL_GC_TIME_%_Copy], Time(%), 0.004999183466700439
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
+Still waiting for thread Thread-2 to complete. Workload status: true
+[OVERALL], RunTime(ms), 324101
+[OVERALL], Throughput(ops/sec), 5.245278478005313
+[TOTAL_GCS_Copy], Count, 0
+[TOTAL_GC_TIME_Copy], Time(ms), 0
+[TOTAL_GC_TIME_%_Copy], Time(%), 0.0
 [TOTAL_GCS_MarkSweepCompact], Count, 0
 [TOTAL_GC_TIME_MarkSweepCompact], Time(ms), 0
 [TOTAL_GC_TIME_%_MarkSweepCompact], Time(%), 0.0
-[TOTAL_GCs], Count, 2
-[TOTAL_GC_TIME], Time(ms), 15
-[TOTAL_GC_TIME_%], Time(%), 0.004999183466700439
+[TOTAL_GCs], Count, 0
+[TOTAL_GC_TIME], Time(ms), 0
+[TOTAL_GC_TIME_%], Time(%), 0.0
 [CLEANUP], Operations, 1
-[CLEANUP], AverageLatency(us), 324.0
-[CLEANUP], MinLatency(us), 324
-[CLEANUP], MaxLatency(us), 324
-[CLEANUP], 99thPercentileLatency(us), 324
-[CLEANUP], 99.9PercentileLatency(us), 324
-[UPDATE], Operations, 81638
-[UPDATE], AverageLatency(us), 3658.5748793454027
-[UPDATE], MinLatency(us), 2484
-[UPDATE], MaxLatency(us), 294143
-[UPDATE], 99thPercentileLatency(us), 7463
-[UPDATE], 99.9PercentileLatency(us), 22079
-[UPDATE], Return=OK, 81638
+[CLEANUP], AverageLatency(us), 567.0
+[CLEANUP], MinLatency(us), 567
+[CLEANUP], MaxLatency(us), 567
+[CLEANUP], 99thPercentileLatency(us), 567
+[CLEANUP], 99.9PercentileLatency(us), 567
+[UPDATE], Operations, 1700
+[UPDATE], AverageLatency(us), 190442.09352941177
+[UPDATE], MinLatency(us), 2668
+[UPDATE], MaxLatency(us), 313524223
+[UPDATE], 99thPercentileLatency(us), 66559
+[UPDATE], 99.9PercentileLatency(us), 116479
+[UPDATE], Return=OK, 1700
