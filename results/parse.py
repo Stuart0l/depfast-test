@@ -184,6 +184,13 @@ tidb_s_explist=[
     ['exp3','./saturate_ssd/tidb/tidb_noslow1_swapoff_hdd_512_results','./saturate_ssd/tidb/tidb_leaderlow_swapoff_hdd_512_results'],
     ['exp4','./saturate_ssd/tidb/tidb_noslow1_swapoff_hdd_512_results','./saturate_ssd/tidb/tidb_leaderlow_swapoff_hdd_512_results'],
     ['exp5','./saturate_ssd/tidb/tidb_noslow1_swapoff_hdd_512_results','./saturate_ssd/tidb/tidb_leaderlow_swapoff_hdd_512_results'],
+    # follower slowness ssd
+    ['---'],
+    ['exp1','./saturate_ssd/tidb/tidb_noslow2_swapoff_hdd_512_results','./saturate_ssd/tidb/tidb_follower_swapoff_hdd_512_results'],
+    ['exp2','./saturate_ssd/tidb/tidb_noslow2_swapoff_hdd_512_results','./saturate_ssd/tidb/tidb_follower_swapoff_hdd_512_results'],
+    ['exp3','./saturate_ssd/tidb/tidb_noslow2_swapoff_hdd_512_results','./saturate_ssd/tidb/tidb_follower_swapoff_hdd_512_results'],
+    ['exp4','./saturate_ssd/tidb/tidb_noslow2_swapoff_hdd_512_results','./saturate_ssd/tidb/tidb_follower_swapoff_hdd_512_results'],
+    ['exp5','./saturate_ssd/tidb/tidb_noslow2_swapoff_hdd_512_results','./saturate_ssd/tidb/tidb_follower_swapoff_hdd_512_results'],
 ]
 
 
@@ -483,6 +490,17 @@ tidb_s_csv=[
                     ['exp3', './saturate_ssd/tidb/tidb_leaderlow_swapoff_hdd_512_results'],
                     ['exp4', './saturate_ssd/tidb/tidb_leaderlow_swapoff_hdd_512_results'],
                     ['exp5', './saturate_ssd/tidb/tidb_leaderlow_swapoff_hdd_512_results'],
+                ]
+    },
+    {
+        'name': 'tidb_saturate_follower_ssd',
+        'data': [
+                    ['noslow1_swapoff', './saturate_ssd/tidb/tidb_noslow2_swapoff_hdd_512_results'],
+                    ['exp1', './saturate_ssd/tidb/tidb_follower_swapoff_hdd_512_results'],
+                    ['exp2', './saturate_ssd/tidb/tidb_follower_swapoff_hdd_512_results'],
+                    ['exp3', './saturate_ssd/tidb/tidb_follower_swapoff_hdd_512_results'],
+                    ['exp4', './saturate_ssd/tidb/tidb_follower_swapoff_hdd_512_results'],
+                    ['exp5', './saturate_ssd/tidb/tidb_follower_swapoff_hdd_512_results'],
                 ]
     },
 ]
@@ -803,7 +821,7 @@ def draw(metric, _list, _lim, _legend=False):
                ['Disk Contention', 'exp4'],
                ['Slow Network', 'exp5'],
               ]
-    metric_label={'ops': 'Throughput', 'avg': 'Average Latency', '99': '99th Percentile Latency'}
+    metric_label={'ops': 'Throughput', 'avg': 'Average Latency', '99': 'P99 Latency'}
     tick_label=[x[3] for x in _list]
     idx_tick_label=np.arange(len(tick_label))
 
@@ -864,7 +882,7 @@ drawlist_LS=[
 drawlist_FS=[
           [mongodb_s_explist, 'mongodb', '/saturate_ssd/mongodb/mongodb_follower_swapoff_hdd', 'MongoDB'],
           [rethinkdb_s_explist, 'rethinkdb', '/saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results', 'RethinkDB'],
-          [tidb_s_explist, 'tidb', '/saturate_ssd/tidb/tidb_leaderlow_swapoff_hdd', 'TiDB'],
+          [tidb_s_explist, 'tidb', '/saturate_ssd/tidb/tidb_follower_swapoff_hdd', 'TiDB'],
           [cockroachdb_s_explist, 'cockroachdb', '/saturate_ssd/cockroachdb/cockroachdb_minthroughput_disk_swapoff_results', 'CRDB'],
          ]
 
@@ -918,11 +936,11 @@ draw('ops',drawlist_F1, [0,1.15,1, 0], _legend=True)
 plt.savefig('F1ops.pdf')
 
 plt.figure(figsize=(sizex,sizey*DY), dpi=sizei)
-draw('avg',drawlist_F1, [0,3.3,3, 0.02])
+draw('avg',drawlist_F1, [0,2.3,2, 0.02])
 plt.savefig('F1avg.pdf')
 
 plt.figure(figsize=(sizex,sizey*DY), dpi=sizei)
-draw('99',drawlist_F1, [0,3.3,3, 0.02])
+draw('99',drawlist_F1, [0,2.3,2, 0.02])
 plt.savefig('F199.pdf')
 
 
@@ -953,6 +971,3 @@ plt.figure(figsize=(sizex,sizey*DY), dpi=sizei)
 draw('99',drawlist_FS, [0,3.3,3, 0.02])
 plt.savefig('FS99.pdf')
 
-
-# plt.savefig('plt.pdf')
-# plt.show()
