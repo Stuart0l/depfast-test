@@ -1,26 +1,26 @@
-Adding shard node URL: jdbc:postgresql://10.0.0.28:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.31:26257/ycsb?sslmode=disable
 Using shards: 1, batchSize:-1, fetchSize: -1
-[OVERALL], RunTime(ms), 300066
-[OVERALL], Throughput(ops/sec), 273.09658541787473
+[OVERALL], RunTime(ms), 300064
+[OVERALL], Throughput(ops/sec), 284.8325690519356
 [TOTAL_GCS_Copy], Count, 2
-[TOTAL_GC_TIME_Copy], Time(ms), 17
-[TOTAL_GC_TIME_%_Copy], Time(%), 0.005665420274206341
+[TOTAL_GC_TIME_Copy], Time(ms), 15
+[TOTAL_GC_TIME_%_Copy], Time(%), 0.004998933560840354
 [TOTAL_GCS_MarkSweepCompact], Count, 0
 [TOTAL_GC_TIME_MarkSweepCompact], Time(ms), 0
 [TOTAL_GC_TIME_%_MarkSweepCompact], Time(%), 0.0
 [TOTAL_GCs], Count, 2
-[TOTAL_GC_TIME], Time(ms), 17
-[TOTAL_GC_TIME_%], Time(%), 0.005665420274206341
+[TOTAL_GC_TIME], Time(ms), 15
+[TOTAL_GC_TIME_%], Time(%), 0.004998933560840354
 [CLEANUP], Operations, 1
-[CLEANUP], AverageLatency(us), 372.0
-[CLEANUP], MinLatency(us), 372
-[CLEANUP], MaxLatency(us), 372
-[CLEANUP], 99thPercentileLatency(us), 372
-[CLEANUP], 99.9PercentileLatency(us), 372
-[UPDATE], Operations, 81947
-[UPDATE], AverageLatency(us), 3646.0263951090337
-[UPDATE], MinLatency(us), 2528
-[UPDATE], MaxLatency(us), 106943
-[UPDATE], 99thPercentileLatency(us), 7583
-[UPDATE], 99.9PercentileLatency(us), 23343
-[UPDATE], Return=OK, 81947
+[CLEANUP], AverageLatency(us), 350.0
+[CLEANUP], MinLatency(us), 350
+[CLEANUP], MaxLatency(us), 350
+[CLEANUP], 99thPercentileLatency(us), 350
+[CLEANUP], 99.9PercentileLatency(us), 350
+[UPDATE], Operations, 85468
+[UPDATE], AverageLatency(us), 3499.44425983994
+[UPDATE], MinLatency(us), 2442
+[UPDATE], MaxLatency(us), 139263
+[UPDATE], 99thPercentileLatency(us), 8415
+[UPDATE], 99.9PercentileLatency(us), 34399
+[UPDATE], Return=OK, 85468
