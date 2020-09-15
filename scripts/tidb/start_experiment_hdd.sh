@@ -133,7 +133,7 @@ function start_db {
 function db_init {
   if  [ "$exptype" == "follower" ] || [ "$exptype" == "noslow2" ] ; then
     tiup ctl pd config set label-property reject-leader dc 1 -u http://"$pd":2379     # leader is restricted to s3
-    sleep 120
+    sleep 10
   fi
   if [ "$exptype" == "follower" ]; then
     followerip=$s1
@@ -239,6 +239,8 @@ function test_run {
 
     # 6. Init
     db_init
+
+    #ycsb_load
 
     # 7. Run experiment if this is not a no slow
     if [ "$exptype" != "noslow1" ] && [ "$exptype" != "noslow2" ] ; then
