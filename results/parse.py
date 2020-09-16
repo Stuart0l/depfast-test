@@ -264,12 +264,12 @@ rethinkdb_explist=[
 
     # leader slowness ssd
     ['---'],
-    # leader slowness
     ['exp1','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
     ['exp2','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
     ['exp3','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
     ['exp4','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
     ['exp5','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
+    ['exp6','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapon_results','./1client_ssd/rethinkdb/rethinkdb_leader_disk_swapon_results'],
 
     # follower slowness ssd
     ['---'],
@@ -278,6 +278,7 @@ rethinkdb_explist=[
     ['exp3','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
     ['exp4','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
     ['exp5','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+    ['exp6','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapon_results','./1client_ssd/rethinkdb/rethinkdb_follower_disk_swapon_results'],
 ]
 
 rethinkdb_s_explist=[
@@ -300,6 +301,7 @@ rethinkdb_s_explist=[
     ['exp3','./saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
     ['exp4','./saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
     ['exp5','./saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
+    ['exp6','./saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapon_results','./saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapon_results'],
 
     # follower slowness ssd
     ['---'],
@@ -308,6 +310,7 @@ rethinkdb_s_explist=[
     ['exp3','./saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
     ['exp4','./saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
     ['exp5','./saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results','./saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+    ['exp6','./saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapon_results','./saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapon_results'],
 ]
 
 # Final CRDB 1 client list
@@ -633,7 +636,9 @@ rethinkdb_csv=[
                     ['exp2', './1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
                     ['exp3', './1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
                     ['exp4', './1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
-                    ['exp5', './1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results']
+                    ['exp5', './1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
+                    ['exp6', './1client_ssd/rethinkdb/rethinkdb_leader_disk_swapon_results'],
+                    ['noslow_swapon','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapon_results']
                 ]
     },
     {
@@ -644,7 +649,9 @@ rethinkdb_csv=[
                     ['exp2', './1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
                     ['exp3', './1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
                     ['exp4', './1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
-                    ['exp5', './1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results']
+                    ['exp5', './1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+                    ['exp6', './1client_ssd/rethinkdb/rethinkdb_follower_disk_swapon_results'],
+                    ['noslow_swapon','./1client_ssd/rethinkdb/rethinkdb_noslow_disk_swapon_results']
                 ]
     },
 ]
@@ -671,17 +678,6 @@ rethinkdb_s_csv=[
                 ]
     },
     {
-        'name': 'rethinkdb_saturate_follower_ssd',
-        'data': [
-                    ['noslow_swapoff', './saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results'],
-                    ['exp1', './saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
-                    ['exp2', './saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
-                    ['exp3', './saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
-                    ['exp4', './saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
-                    ['exp5', './saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results']
-                ]
-    },
-    {
         'name': 'rethinkdb_saturate_leader_ssd',
         'data': [
                     ['noslow_swapoff', './saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results'],
@@ -689,7 +685,22 @@ rethinkdb_s_csv=[
                     ['exp2', './saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
                     ['exp3', './saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
                     ['exp4', './saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
-                    ['exp5', './saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results']
+                    ['exp5', './saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results'],
+                    ['exp6', './saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapon_results'],
+                    ['noslow_swapon','./saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapon_results']
+                ]
+    },
+    {
+        'name': 'rethinkdb_saturate_follower_ssd',
+        'data': [
+                    ['noslow_swapoff', './saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapoff_results'],
+                    ['exp1', './saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+                    ['exp2', './saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+                    ['exp3', './saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+                    ['exp4', './saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+                    ['exp5', './saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results'],
+                    ['exp6', './saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapon_results'],
+                    ['noslow_swapon','./saturate_ssd/rethinkdb/rethinkdb_noslow_disk_swapon_results']
                 ]
     },
 ]
@@ -825,12 +836,12 @@ def getcluster(_csv, dbtype, metric, expname):    # tidb_s_csv, ops, tidb_satura
 
 
 def draw(metric, _list, _lim, _legend=False):
-    bar_width=0.15
+    bar_width=0.12
     _c=sns.color_palette("pastel")
-    color=['black', '#DDDDDD', '#BBBBBB', '#999999', '#777777', '#555555']
+    color=['black', '#DDDDDD', '#BBBBBB', '#999999', '#777777', '#555555', '#333333']
     #color=['black', _c[3], _c[8], _c[2], _c[9], _c[4]]
     #No slowness = 'black', CPU Slowness = '#DDDDDD', CPU Contention = '#BBBBBB', Disk Slowness='#999999', Disk Contention='#777777', Network Slowness='#555555'
-    hh=['////','----','...','xxxx','||||', '\\\\\\\\']
+    #hh=['////','----','...','xxxx','||||', '\\\\\\\\']
     exp_label=[
                ['No Slow', 'noslow'],
                ['Slow CPU', 'exp1'],
@@ -838,15 +849,20 @@ def draw(metric, _list, _lim, _legend=False):
                ['Slow Disk', 'exp3'],
                ['Disk Contention', 'exp4'],
                ['Slow Network', 'exp5'],
-              ]
+               ['Memory Slowness', 'exp6'],
+    ]
     metric_label={'ops': 'Throughput', 'avg': 'Average Latency', '99': 'P99 Latency'}
     tick_label=[x[3] for x in _list]
     idx_tick_label=np.arange(len(tick_label))
-
+    print("Tick label", tick_label)
+    
     for _l, x in enumerate(_list):
         explist=getpercentage(x[0], x[1], x[2])
         explist['noslow']={'ops': 0, 'avg': 0, '99': 0, '999': 0, 'max': 0}
-        # print(explist)
+        # TODO - Remove this line once all DB have exp 6 results
+        if x[1] is not "rethinkdb":
+            explist['exp6']={'ops': 0, 'avg': 0, '99': 0, '999': 0, 'max': 0}
+        
         for i, _e in enumerate(exp_label):
             dat=_e[1]
             normval=explist[dat][metric]/100+1
@@ -881,28 +897,28 @@ def draw(metric, _list, _lim, _legend=False):
 
 drawlist_L1=[
           [mongodb_explist, 'mongodb', '/1client_ssd/mongodb/mongodb_leader_swapoff_hdd', 'MongoDB'],
-          [rethinkdb_explist, 'rethinkdb', '/1client_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results', 'RethinkDB'],
+          [rethinkdb_explist, 'rethinkdb', '/1client_ssd/rethinkdb/rethinkdb_leader_disk_swap', 'RethinkDB'],
           [tidb_explist, 'tidb', '/1client_ssd/tidb/tidb_leaderhigh_swapoff_hdd', 'TiDB'],
           [cockroachdb_explist, 'cockroachdb', '/1client_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results', 'CRDB'],
          ]
 
 drawlist_F1=[
           [mongodb_explist, 'mongodb', '/1client_ssd/mongodb/mongodb_follower_swapoff_hdd', 'MongoDB'],
-          [rethinkdb_explist, 'rethinkdb', '/1client_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results', 'RethinkDB'],
+          [rethinkdb_explist, 'rethinkdb', '/1client_ssd/rethinkdb/rethinkdb_follower_disk_swap', 'RethinkDB'],
           [tidb_explist, 'tidb', '/1client_ssd/tidb/tidb_follower_swapoff_hdd', 'TiDB'],
           [cockroachdb_explist, 'cockroachdb', '/1client_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results', 'CRDB'],
          ]
 
 drawlist_LS=[
           [mongodb_s_explist, 'mongodb', '/saturate_ssd/mongodb/mongodb_leader_swapoff_hdd', 'MongoDB'],
-          [rethinkdb_s_explist, 'rethinkdb', '/saturate_ssd/rethinkdb/rethinkdb_leader_disk_swapoff_results', 'RethinkDB'],
+          [rethinkdb_s_explist, 'rethinkdb', '/saturate_ssd/rethinkdb/rethinkdb_leader_disk_swap', 'RethinkDB'],
           [tidb_s_explist, 'tidb', '/saturate_ssd/tidb/tidb_leaderhigh_swapoff_hdd', 'TiDB'],
           [cockroachdb_s_explist, 'cockroachdb', '/saturate_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swapoff_results', 'CRDB'],
          ]
 
 drawlist_FS=[
           [mongodb_s_explist, 'mongodb', '/saturate_ssd/mongodb/mongodb_follower_swapoff_hdd', 'MongoDB'],
-          [rethinkdb_s_explist, 'rethinkdb', '/saturate_ssd/rethinkdb/rethinkdb_follower_disk_swapoff_results', 'RethinkDB'],
+          [rethinkdb_s_explist, 'rethinkdb', '/saturate_ssd/rethinkdb/rethinkdb_follower_disk_swap', 'RethinkDB'],
           [tidb_s_explist, 'tidb', '/saturate_ssd/tidb/tidb_follower_swapoff_hdd', 'TiDB'],
           [cockroachdb_s_explist, 'cockroachdb', '/saturate_ssd/cockroachdb/cockroachdb_follower_disk_swapoff_results', 'CRDB'],
          ]
