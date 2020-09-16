@@ -231,6 +231,10 @@ function test_run {
     # 3. Create data directories
     init
 
+    ssh -i ~/.ssh/id_rsa tidb@"$s1" "dd if=/dev/zero of=/data1/placeholder bs=1000 count=40000000"
+    ssh -i ~/.ssh/id_rsa tidb@"$s2" "dd if=/dev/zero of=/data1/placeholder bs=1000 count=40000000"
+    ssh -i ~/.ssh/id_rsa tidb@"$s3" "dd if=/dev/zero of=/data1/placeholder bs=1000 count=40000000"
+
     # 4. SSH to all the machines and start db
     start_db
 
