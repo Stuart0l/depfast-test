@@ -827,7 +827,9 @@ def getcluster(_csv, dbtype, metric, expname):    # tidb_s_csv, ops, tidb_satura
 def draw(metric, _list, _lim, _legend=False):
     bar_width=0.15
     _c=sns.color_palette("pastel")
-    color=['black', _c[3], _c[8], _c[2], _c[9], _c[4]]
+    color=['black', '#DDDDDD', '#BBBBBB', '#999999', '#777777', '#555555']
+    #color=['black', _c[3], _c[8], _c[2], _c[9], _c[4]]
+    #No slowness = 'black', CPU Slowness = '#DDDDDD', CPU Contention = '#BBBBBB', Disk Slowness='#999999', Disk Contention='#777777', Network Slowness='#555555'
     hh=['////','----','...','xxxx','||||', '\\\\\\\\']
     exp_label=[
                ['No Slow', 'noslow'],
@@ -853,12 +855,15 @@ def draw(metric, _list, _lim, _legend=False):
                 barlabel=str(round(normval/1000,1))+'k'
             # barlabel=str(max(round(explist[dat][metric]/100), _lim[2]))+'x'
             print(i, dat, explist[dat][metric], normval)
-            if(normval>=_lim[1]):
-                plt.bar(idx_tick_label[_l]+bar_width*i, _lim[2], bar_width, color=color[i], edgecolor='k')
-                plt.text(idx_tick_label[_l]+bar_width*i, _lim[2]+_lim[3], barlabel, ha='center', fontsize=28, fontweight='bold')
-                print(barlabel)
+            if(x[1]=='rethinkdb' and (dat=='exp1' or dat=='exp2')):
+                plt.text(idx_tick_label[_l]+bar_width*i, 0.05, 'Crash', ha='center', fontsize=28, fontweight='bold', rotation=90)
             else:
-                plt.bar(idx_tick_label[_l]+bar_width*i, normval, bar_width, color=color[i], edgecolor='k')
+                if(normval>=_lim[1]):
+                    plt.bar(idx_tick_label[_l]+bar_width*i, _lim[2], bar_width, color=color[i], edgecolor='k')
+                    plt.text(idx_tick_label[_l]+bar_width*i, _lim[2]+_lim[3], barlabel, ha='center', fontsize=28, fontweight='bold')
+                    print(barlabel)
+                else:
+                    plt.bar(idx_tick_label[_l]+bar_width*i, normval, bar_width, color=color[i], edgecolor='k')
 
         # for _d, dat in enumerate(explist):
         #     normval=(100-explist[dat][metric])/100
