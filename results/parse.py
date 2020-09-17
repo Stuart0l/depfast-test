@@ -974,7 +974,7 @@ DY=0.91
 # plt.show()
 
 
-plt.figure(figsize=(sizex,sizey*DX), dpi=sizei)
+plt.figure(figsize=(28,9*DX), dpi=sizei)
 draw('ops',drawlist_L1, [0,1.15,1, 0], _legend=True)
 plt.savefig('L1ops.pdf')
 
@@ -988,7 +988,7 @@ plt.savefig('L199.pdf')
 
 
 
-plt.figure(figsize=(sizex,sizey*DX), dpi=sizei)
+plt.figure(figsize=(28,9*DX), dpi=sizei)
 draw('ops',drawlist_F1, [0,1.15,1, 0], _legend=True)
 plt.savefig('F1ops.pdf')
 
@@ -1016,12 +1016,12 @@ plt.savefig('LS99.pdf')
 
 
 
-plt.figure(figsize=(sizex,sizey*DX), dpi=sizei)
+plt.figure(figsize=(28,9*DX), dpi=sizei)
 draw('ops',drawlist_FS, [0,1.15,1,0], _legend=True)
 plt.savefig('FSops.pdf')
 
 plt.figure(figsize=(sizex,sizey*DY), dpi=sizei)
-draw('avg',drawlist_FS, [0,3.3,3, 0.02])
+draw('avg',drawlist_FS, [0, 2.3, 2, 0.02])
 plt.savefig('FSavg.pdf')
 
 plt.figure(figsize=(sizex,sizey*DY), dpi=sizei)
