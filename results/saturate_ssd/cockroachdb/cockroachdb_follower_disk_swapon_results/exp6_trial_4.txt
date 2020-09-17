@@ -1,0 +1,536 @@
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+[OVERALL], RunTime(ms), 301466
+[OVERALL], Throughput(ops/sec), 330.43527296610563
+[TOTAL_GCS_Copy], Count, 14
+[TOTAL_GC_TIME_Copy], Time(ms), 115
+[TOTAL_GC_TIME_%_Copy], Time(%), 0.038146922040959846
+[TOTAL_GCS_MarkSweepCompact], Count, 0
+[TOTAL_GC_TIME_MarkSweepCompact], Time(ms), 0
+[TOTAL_GC_TIME_%_MarkSweepCompact], Time(%), 0.0
+[TOTAL_GCs], Count, 14
+[TOTAL_GC_TIME], Time(ms), 115
+[TOTAL_GC_TIME_%], Time(%), 0.038146922040959846
+[CLEANUP], Operations, 256
+[CLEANUP], AverageLatency(us), 57.34375
+[CLEANUP], MinLatency(us), 25
+[CLEANUP], MaxLatency(us), 296
+[CLEANUP], 99thPercentileLatency(us), 139
+[CLEANUP], 99.9PercentileLatency(us), 296
+[UPDATE], Operations, 99615
+[UPDATE], AverageLatency(us), 769567.8539577373
+[UPDATE], MinLatency(us), 15584
+[UPDATE], MaxLatency(us), 142606335
+[UPDATE], 99thPercentileLatency(us), 15114239
+[UPDATE], 99.9PercentileLatency(us), 55279615
+[UPDATE], Return=OK, 99615
