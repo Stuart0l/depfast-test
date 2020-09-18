@@ -248,7 +248,7 @@ mongodb_s_explist=[
     ['exp3','./saturate_ssd/mongodb/mongodb_noslow_swapoff_hdd_320_results','./saturate_ssd/mongodb/mongodb_leader_swapoff_hdd_320_results'],
     ['exp4','./saturate_ssd/mongodb/mongodb_noslow_swapoff_hdd_320_results','./saturate_ssd/mongodb/mongodb_leader_swapoff_hdd_320_results'],
     ['exp5','./saturate_ssd/mongodb/mongodb_noslow_swapoff_hdd_320_results','./saturate_ssd/mongodb/mongodb_leader_swapoff_hdd_320_results'],
-    ['exp6','./saturate_ssd/mongodb/mongodb_noslow_swapon_hdd_320_results','./saturate_ssd/mongodb/mongodb_leader_swapon_hdd_320_results'],
+    ['exp6','./saturate_ssd/mongodb/mongodb_noslow_swapall_hdd_320_results','./saturate_ssd/mongodb/mongodb_leader_swapon_hdd_320_results'],
     # follower slowness hdd
     ['---'],
     ['exp1','./saturate_ssd/mongodb/mongodb_noslow_swapoff_hdd_320_results','./saturate_ssd/mongodb/mongodb_follower_swapoff_hdd_320_results'],
@@ -606,6 +606,7 @@ mongo_s_csv=[
                     ['exp3', './saturate_ssd/mongodb/mongodb_leader_swapoff_hdd_320_results'],
                     ['exp4', './saturate_ssd/mongodb/mongodb_leader_swapoff_hdd_320_results'],
                     ['exp5', './saturate_ssd/mongodb/mongodb_leader_swapoff_hdd_320_results'],
+                    ['exp6', './saturate_ssd/mongodb/mongodb_leader_swapon_hdd_320_results'],
                 ]
     },
     {
@@ -884,8 +885,8 @@ def draw(metric, _list, _lim, _legend=False):
         explist['noslow']={'ops': 0, 'avg': 0, '99': 0, '999': 0, 'max': 0}
         #print(explist)
         # TODO - Remove this line once all DB have exp 6 results
-        if (x[1] =="mongodb"):
-            explist['exp6']={'ops': 0, 'avg': 0, '99': 0, '999': 0, 'max': 0}
+        # if (x[1] =="mongodb"):
+        #     explist['exp6']={'ops': 0, 'avg': 0, '99': 0, '999': 0, 'max': 0}
         
         for i, _e in enumerate(exp_label):
             dat=_e[1]
