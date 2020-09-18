@@ -510,28 +510,27 @@ Using shards: 1, batchSize:-1, fetchSize: -1
 Using shards: 1, batchSize:-1, fetchSize: -1
 Using shards: 1, batchSize:-1, fetchSize: -1
 Using shards: 1, batchSize:-1, fetchSize: -1
-Still waiting for thread Thread-156 to complete. Workload status: true
-[OVERALL], RunTime(ms), 304398
-[OVERALL], Throughput(ops/sec), 336.6086505167577
-[TOTAL_GCS_Copy], Count, 14
-[TOTAL_GC_TIME_Copy], Time(ms), 88
-[TOTAL_GC_TIME_%_Copy], Time(%), 0.02890951977345449
+[OVERALL], RunTime(ms), 301601
+[OVERALL], Throughput(ops/sec), 288.63631088756335
+[TOTAL_GCS_Copy], Count, 13
+[TOTAL_GC_TIME_Copy], Time(ms), 90
+[TOTAL_GC_TIME_%_Copy], Time(%), 0.029840749864887717
 [TOTAL_GCS_MarkSweepCompact], Count, 0
 [TOTAL_GC_TIME_MarkSweepCompact], Time(ms), 0
 [TOTAL_GC_TIME_%_MarkSweepCompact], Time(%), 0.0
-[TOTAL_GCs], Count, 14
-[TOTAL_GC_TIME], Time(ms), 88
-[TOTAL_GC_TIME_%], Time(%), 0.02890951977345449
+[TOTAL_GCs], Count, 13
+[TOTAL_GC_TIME], Time(ms), 90
+[TOTAL_GC_TIME_%], Time(%), 0.029840749864887717
 [CLEANUP], Operations, 256
-[CLEANUP], AverageLatency(us), 64.9140625
-[CLEANUP], MinLatency(us), 33
-[CLEANUP], MaxLatency(us), 268
-[CLEANUP], 99thPercentileLatency(us), 176
-[CLEANUP], 99.9PercentileLatency(us), 268
-[UPDATE], Operations, 102463
-[UPDATE], AverageLatency(us), 750781.6908737788
-[UPDATE], MinLatency(us), 6204
-[UPDATE], MaxLatency(us), 136314879
-[UPDATE], 99thPercentileLatency(us), 14499839
-[UPDATE], 99.9PercentileLatency(us), 55508991
-[UPDATE], Return=OK, 102463
+[CLEANUP], AverageLatency(us), 60.09765625
+[CLEANUP], MinLatency(us), 32
+[CLEANUP], MaxLatency(us), 401
+[CLEANUP], 99thPercentileLatency(us), 193
+[CLEANUP], 99.9PercentileLatency(us), 401
+[UPDATE], Operations, 87053
+[UPDATE], AverageLatency(us), 881619.302356036
+[UPDATE], MinLatency(us), 21680
+[UPDATE], MaxLatency(us), 217055231
+[UPDATE], 99thPercentileLatency(us), 17055743
+[UPDATE], 99.9PercentileLatency(us), 64454655
+[UPDATE], Return=OK, 87053
