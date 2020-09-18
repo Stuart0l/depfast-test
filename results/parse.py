@@ -897,11 +897,11 @@ def draw(metric, _list, _lim, _legend=False):
                 barlabel=str(round(normval/1000,1))+'k'
             # barlabel=str(max(round(explist[dat][metric]/100), _lim[2]))+'x'
             if(x[1]=='rethinkdb' and (dat=='exp1' or dat=='exp2') and ('follower' in x[2])):
-                plt.text(idx_tick_label[_l]+bar_width*i, 0.05, 'Crash', ha='center', fontsize=28, fontweight='bold', rotation=90)
+                plt.text(idx_tick_label[_l]+bar_width*i, 0.05, 'Crash', ha='center', fontsize=40, fontweight='bold', rotation=90)
             else:
                 if(normval>=_lim[1]):
                     plt.bar(idx_tick_label[_l]+bar_width*i, _lim[2], bar_width, color=color[i], edgecolor='k')
-                    plt.text(idx_tick_label[_l]+bar_width*i, _lim[2]+_lim[3], barlabel, ha='center', fontsize=28, fontweight='bold')
+                    plt.text(idx_tick_label[_l]+bar_width*i, _lim[2]+_lim[3], barlabel, ha='center', fontsize=40, fontweight='bold', rotation=90)
                     print(barlabel)
                 else:
                     plt.bar(idx_tick_label[_l]+bar_width*i, normval, bar_width, color=color[i], edgecolor='k')
@@ -967,13 +967,13 @@ drawlist_FS=[
 # exportcsv(cockroachdb_csv, 'cockroachdb')
 
 sizex=24
-sizey=8
+sizey=18
 sizei=120
 
 # plt.figure(figsize=(12,12), dpi=100)
 plt.rc('pgf', texsystem='pdflatex')
 font = {'family' : 'serif',
-        'size'   : 38}
+        'size'   : 50}
 plt.rc('font', **font)
 
 DX=1.15
@@ -1013,7 +1013,7 @@ DY=0.91
 
 
 
-plt.figure(figsize=(28,9*DX), dpi=sizei)
+plt.figure(figsize=(38,14*DX), dpi=sizei)
 draw('ops',drawlist_LS, [0,1.15,1,0], _legend=True)
 plt.savefig('LSops.pdf')
 
@@ -1027,7 +1027,7 @@ plt.savefig('LS99.pdf')
 
 
 
-plt.figure(figsize=(28,9*DX), dpi=sizei)
+plt.figure(figsize=(38,14*DX), dpi=sizei)
 draw('ops',drawlist_FS, [0,1.15,1,0], _legend=True)
 plt.savefig('FSops.pdf')
 
@@ -1036,6 +1036,6 @@ draw('avg',drawlist_FS, [0, 2.3, 2, 0.02])
 plt.savefig('FSavg.pdf')
 
 plt.figure(figsize=(sizex,sizey*DY), dpi=sizei)
-draw('99',drawlist_FS, [0,3.3,3, 0.02])
+draw('99',drawlist_FS, [0,3.3,3, 0.06])
 plt.savefig('FS99.pdf')
 
