@@ -868,7 +868,7 @@ def draw(metric, _list, _lim, _legend=False):
                ['No Slow', 'noslow'],
                ['Slow CPU', 'exp1'],
                ['CPU Contention', 'exp2'],
-               ['Memory Slowness', 'exp6'],
+               ['Memory Contention', 'exp6'],
                ['Slow Disk', 'exp3'],
                ['Disk Contention', 'exp4'],
                ['Slow Network', 'exp5'],
@@ -890,12 +890,12 @@ def draw(metric, _list, _lim, _legend=False):
         for i, _e in enumerate(exp_label):
             dat=_e[1]
             normval=explist[dat][metric]/100+1
-            print(i, dat, explist[dat][metric], normval, x[1])
+            print(i, dat, explist[dat][metric], normval, x[1], x[2])
             barlabel=str(round(normval))
             if(round(normval)>1000):
                 barlabel=str(round(normval/1000,1))+'k'
             # barlabel=str(max(round(explist[dat][metric]/100), _lim[2]))+'x'
-            if(x[1]=='rethinkdb' and (dat=='exp1' or dat=='exp2')):
+            if(x[1]=='rethinkdb' and (dat=='exp1' or dat=='exp2') and ('follower' in x[2])):
                 plt.text(idx_tick_label[_l]+bar_width*i, 0.05, 'Crash', ha='center', fontsize=28, fontweight='bold', rotation=90)
             else:
                 if(normval>=_lim[1]):
