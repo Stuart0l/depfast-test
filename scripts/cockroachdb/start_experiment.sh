@@ -49,6 +49,10 @@ declare -A serverNameIPMap
 # Map to keep track of server names to the datacenter names
 declare -A serverNameDCname
 
+declare -a servernames
+declare -a serverips
+declare -a serverdcnames
+
 # test_start is executed at the beginning
 function test_start {
 	name=$1
@@ -72,7 +76,14 @@ function set_ip {
 		serverNameIPMap[$servername]=$serverip
 		# Set serverNameDCname map
 		serverNameDCname[$servername]="us-$NAME_COUNTER"
-		initserver=$serverip
+		if [ $j -eq 0 ];then
+			initserver=$serverip
+		fi
+		echo "$servername", $serverip
+		servernames[$j]=$servername
+		serverips[$j]=$serverip
+		serverdcnames[$j]="us-$NAME_COUNTER"
+
 		let NAME_COUNTER=NAME_COUNTER+1
 	done
 }
@@ -147,12 +158,14 @@ function set_swap_config {
         done
 	elif [ "$swappiness" == "swapon" ] ; then
 		# Disk needed for swapfile		
-		init_disk
-        for key in "${!serverNameIPMap[@]}";
-        do
-            ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=25165824 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 24GB
-            ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && sudo swapon -a ; sudo swapon /data/swapfile'"
-        done
+		if [ "$filesystem" == "memory" ]; then
+			init_disk
+		fi
+		for key in "${!serverNameIPMap[@]}";
+		do
+		    ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=25165824 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 24GB
+		    ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && sudo swapon -a ; sudo swapon /data/swapfile'"
+		done
 	else
 		echo "swappiness option not recognised. Exiting."
 		exit 1
@@ -163,10 +176,10 @@ function join_by { local IFS="$1"; shift; echo "$*"; }
 
 # start_follower_db starts the database instances on each of the server with locality config set. first server is set to house all the leaseholders.
 function start_follower_db {
-    cservers=$(join_by , ${!serverNameIPMap[@]})
-    for key in "${!serverNameIPMap[@]}";
+    cservers=$(join_by , ${servernames[@]})
+    for (( r=0; r<$noOfServers;r++ ));
     do
-        ssh  -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr=${serverNameIPMap[$key]} --join=$cservers --cache=4GiB --max-sql-memory=4GiB --store=/"$datadir"/node1/ --pid-file /"$datadir"/pid --locality=datacenter="${serverNameDCname[$key]}" > /dev/null 2>&1 &'"
+        ssh  -i ~/.ssh/id_rsa ${serverips[$r]} "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr=${serverips[$r]} --join=$cservers --cache=4GiB --max-sql-memory=4GiB --store=/"$datadir"/node"$r"/ --pid-file /"$datadir"/pid --locality=datacenter="${serverdcnames[$r]}" > /dev/null 2>&1 &'"
 
     done
 	sleep 20
@@ -190,19 +203,7 @@ function db_init {
 	sleep 45
 
 	if [ "$exptype" == "follower" -o "$exptype" == "noslowfollower" ]; then
-        DC_COUNT=0
-		dcname="us-1"
-        for key in "${!serverNameDCname[@]}";
-        do  
-            if [ $DC_COUNT -eq 0 ];
-            then
-				# Set dcname to the first server dc value
-                dcname=${serverNameDCname[$key]}
-            else
-				break
-            fi  
-            let DC_COUNT=DC_COUNT+1
-        done
+		dcname=${serverdcnames[0]}
 		
 		# Set leaseholder config for follower tests
 		cockroach sql --execute="ALTER TABLE system.public.replication_stats CONFIGURE ZONE USING lease_preferences = '[[+datacenter=$dcname]]';
@@ -265,7 +266,7 @@ function db_init {
 # ycsb_load is used to run the ycsb load and wait until it completes.
 function ycsb_load {
 	# load on the first server
-	./bin/ycsb load jdbc -s -P $workload -p db.driver=org.postgresql.Driver -p db.user=root -p db.passwd=root -p db.url=jdbc:postgresql://"$initserver":26257/ycsb?sslmode=disable -cp jdbc-binding/lib/postgresql-42.2.10.jar -threads 20
+	./bin/ycsb load jdbc -s -P $workload -p db.driver=org.postgresql.Driver -p db.user=root -p db.passwd=root -p db.url=jdbc:postgresql://"$initserver":26257/ycsb?sslmode=disable -cp jdbc-binding/lib/postgresql-42.2.10.jar -threads 50
 
 	# Check the leaseholders
 	cockroach sql --execute="SELECT table_name,range_id,lease_holder FROM [show ranges from database system];SELECT table_name,range_id,lease_holder FROM [show ranges from database ycsb];" --insecure --host="$initserver"
@@ -281,6 +282,9 @@ function ycsb_run {
 
 	# Verify that all the range leaseholders are on Node 1.
 	cockroach sql --execute="SELECT table_name,range_id,lease_holder FROM [show ranges from database system];SELECT table_name,range_id,lease_holder FROM [show ranges from database ycsb];" --insecure --host="$initserver"
+
+	# Run node status
+	cockroach node status --host="$initserver" --insecure
 }
 
 # cleanup_disk is called at the end of the given trial of an experiment
@@ -400,17 +404,9 @@ function find_node_to_slowdown {
 		primaryip=$slowdownip
 	elif [  "$exptype" == "follower" -o "$exptype" == "noslowfollower" ]; then
 		# Since locality is set on first server, that is the primary and rest are secondary
-        COUNT=0
-        for key in "${!serverNameIPMap[@]}";
-        do  
-            if [ $COUNT -eq 0 ];
-            then
-                primaryip=${serverNameIPMap[$key]}
-            else
-                secondaryip=${serverNameIPMap[$key]}
-            fi  
-            let COUNT=COUNT+1
-        done
+		# Primary ip is the first
+		primaryip=${serverips[0]}
+		secondaryip=${serverips[1]}
 		primarypid=$(ssh -i ~/.ssh/id_rsa "$primaryip" "sh -c 'cat /"$datadir"/pid'")
 		secondarypid=$(ssh -i ~/.ssh/id_rsa "$secondaryip" "sh -c 'cat /"$datadir"/pid'")
 		# The follower node is slowed down
