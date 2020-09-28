@@ -42,7 +42,7 @@ function setup_localvm {
 
 # Create the VM on Azure
 function az_vm_create {
-  rm ~/.ssh/known_hosts
+  rm ~/.ssh/known_hosts -f
 
   # Create client VM
   az vm create --name tidb"$namePrefix"_client --resource-group DepFast3 --subscription 'Last Chance' --zone 1 --image debian --os-disk-size-gb 64 --storage-sku Standard_LRS  --size Standard_D4s_v3 --admin-username tidb --ssh-key-values ~/.ssh/id_rsa.pub --accelerated-networking true
@@ -129,9 +129,8 @@ function setup_servers {
 	  ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'sudo apt-get install ntp ntpstat --assume-yes ; sudo service ntp stop ; sudo ntpd -b time.google.com'"
   	ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'echo -e \"server time1.google.com iburst\nserver time2.google.com iburst\nserver time3.google.com iburst\nserver time4.google.com iburst\" >> /etc/ntp.conf'"
   	ssh -i ~/.ssh/id_rsa tidb@${serverNameIPMap[$key]} "sudo sh -c 'sudo service ntp start ; ntpstat ; true'"
-    scp tidb_mem.yaml tidb@"${serverNameIPMap[$key]}":~/
-    scp tidb_hdd.yaml tidb@"${serverNameIPMap[$key]}":~/
-#    scp tidb_restrict_mem.yaml tidb@"${serverNameIPMap[$key]}":~/
+    scp *.yaml tidb@"${serverNameIPMap[$key]}":~/
+
   done
   az vm open-port --subscription "Last Chance" --resource-group DepFast3 --name tidb"$namePrefix"_pd --port 3000 --priority 901
   az vm open-port --subscription "Last Chance" --resource-group DepFast3 --name tidb"$namePrefix"_pd --port 9090 --priority 902

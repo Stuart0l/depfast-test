@@ -4,15 +4,15 @@ set -ex
 
 # Server specific configs
 ##########################
-pd="10.0.0.9"
-s1="10.0.0.10"
-s2="10.0.0.11"
-s3="10.0.0.12"
+pd="10.0.0.5"
+s1="10.0.0.6"
+s2="10.0.0.7"
+s3="10.0.0.9"
 
-pdname="tidbssd_pd"
-s1name="tidbssd_tikv1"
-s2name="tidbssd_tikv2"
-s3name="tidbssd_tikv3"
+pdname="tidbtidbaa_pd"
+s1name="tidbtidbaa_tikv1"
+s2name="tidbtidbaa_tikv2"
+s3name="tidbtidbaa_tikv3"
 serverZone="us-central1-a"    # for gcp only
 ###########################
 
