@@ -6,7 +6,7 @@
 
  # Trigger file cleanup script first
 
- ssh -i ~/.ssh/id_rsa "$ip" "sudo sh -c 'rm /data1/placeholder'"
+ #ssh -i ~/.ssh/id_rsa "$ip" "sudo sh -c 'rm /data1/placeholder'"
 
  ssh -i ~/.ssh/id_rsa "$ip" "sh -c 'nohup taskset -ac 2 ./clear_dd_file.sh > /dev/null 2>&1 &'"
 
