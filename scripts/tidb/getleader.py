@@ -23,7 +23,7 @@ def main(argv):
     qps={}
     wps={}
     for i in range(nodes3):
-        ip=dres1['data']['result'][i]['metric']['instance'].replace(':20180','')
+        ip=dres3['data']['result'][i]['metric']['instance'].replace(':20180','')
         qps[ip]=0.0
         wps[ip]=0.0
 
