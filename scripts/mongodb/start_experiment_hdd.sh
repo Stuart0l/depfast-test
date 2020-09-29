@@ -141,10 +141,12 @@ function db_init {
 
   if [ "$exptype" == "follower" ]; then
     slowdownpid=$secondarypid
-    slowdownip=$secondaryip  
+    slowdownip=$secondaryip
+    scp clear_dd_file.sh tidb@"$slowdownip":~/
   elif [ "$exptype" == "leader" ]; then
     slowdownpid=$primarypid
     slowdownip=$primaryip
+    scp clear_dd_file.sh tidb@"$slowdownip":~/
   else
     # Nothing to do
     echo ""
