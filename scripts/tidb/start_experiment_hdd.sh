@@ -131,6 +131,7 @@ function start_db {
 
 # db_init initialises the database, get slowdown_ip and pid
 function db_init {
+  sleep 60
   if  [ "$exptype" == "follower" ] || [ "$exptype" == "noslow2" ] ; then
     tiup ctl pd config set label-property reject-leader dc 1 -u http://"$pd":2379     # leader is restricted to s3
     sleep 10
