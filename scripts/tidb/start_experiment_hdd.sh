@@ -141,21 +141,21 @@ function db_init {
     followerpid=$(ssh -i ~/.ssh/id_rsa tidb@"$followerip" "pgrep tikv-server")
     slowdownpid=$followerpid
     slowdownip=$followerip
-    scp clean_dd_file.sh tidb@"$slowdownip":~/
+    scp clear_dd_file.sh tidb@"$slowdownip":~/
     echo $exptype slowdownip slowdownpid
   elif [ "$exptype" == "leaderlow" ]; then
     leaderip=$(python3 getleader.py $pd min)
     leaderpid=$(ssh -i ~/.ssh/id_rsa tidb@"$leaderip" "pgrep tikv-server")
     slowdownpid=$leaderpid
     slowdownip=$leaderip
-    scp clean_dd_file.sh tidb@"$slowdownip":~/
+    scp clear_dd_file.sh tidb@"$slowdownip":~/
     echo $exptype slowdownip slowdownpid
   elif [ "$exptype" == "leaderhigh" ]; then
     leaderip=$(python3 getleader.py $pd max)
     leaderpid=$(ssh -i ~/.ssh/id_rsa tidb@"$leaderip" "pgrep tikv-server")
     slowdownpid=$leaderpid
     slowdownip=$leaderip
-    scp clean_dd_file.sh tidb@"$slowdownip":~/
+    scp clear_dd_file.sh tidb@"$slowdownip":~/
     echo $exptype slowdownip slowdownpid
   else
     # Nothing to do
