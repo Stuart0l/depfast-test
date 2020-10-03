@@ -72,9 +72,10 @@ function start_servers {
 
 # init is called to initialise the db servers
 function init {
-#  ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo parted -s -a optimal /dev/sdc mklabel gpt -- mkpart primary ext4 1 -1'"
-#  ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo parted -s -a optimal /dev/sdc mklabel gpt -- mkpart primary ext4 1 -1'"
-#  ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo parted -s -a optimal /dev/sdc mklabel gpt -- mkpart primary ext4 1 -1'"
+  ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo parted -s -a optimal /dev/sdc mklabel gpt -- mkpart primary ext4 1 -1'"
+  ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo parted -s -a optimal /dev/sdc mklabel gpt -- mkpart primary ext4 1 -1'"
+  ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo parted -s -a optimal /dev/sdc mklabel gpt -- mkpart primary ext4 1 -1'"
+
   ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo umount /dev/sdc1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdc1 -F ; sudo mount -t ext4 /dev/sdc1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
   ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo umount /dev/sdc1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdc1 -F ; sudo mount -t ext4 /dev/sdc1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
   ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo umount /dev/sdc1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdc1 -F ; sudo mount -t ext4 /dev/sdc1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
