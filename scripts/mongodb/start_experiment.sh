@@ -8,13 +8,13 @@ set -ex
 
 # Server specific configs
 ##########################
-s1="10.0.0.13"
-s2="10.0.0.14"
-s3="10.0.0.15"
+s1="10.0.0.11"
+s2="10.0.0.12"
+s3="10.0.0.13"
 
-s1name="mongodb0-1"
-s2name="mongodb0-2"
-s3name="mongodb0-3"
+s1name="mongodbaaa-1"
+s2name="mongodbaaa-2"
+s3name="mongodbaaa-3"
 serverZone="us-central1-a"
 ###########################
 
@@ -67,9 +67,9 @@ function start_servers {
   if [ "$host" == "gcp" ]; then
     gcloud compute instances start "$s1name" "$s2name" "$s3name" --zone="$serverZone"
   elif [ "$host" == "azure" ]; then
-    az vm start --resource-group DepFast --name "$s1name"
-    az vm start --resource-group DepFast --name "$s2name"
-    az vm start --resource-group DepFast --name "$s3name"
+    az vm start --resource-group DepFast3 --subscription "Last Chance" --name "$s1name"
+    az vm start --resource-group DepFast3 --subscription "Last Chance" --name "$s2name"
+    az vm start --resource-group DepFast3 --subscription "Last Chance" --name "$s3name"
   else
     echo "Not implemented error"
     exit 1
@@ -150,8 +150,8 @@ function db_init {
   # Disable chaining allowed
   /home/tidb/mongodb/bin/mongo --host $primaryip --eval "cfg = rs.config(); cfg.settings.chainingAllowed = false; rs.reconfig(cfg);"
   #/home/tidb/mongodb/bin/mongo --host $s1 --eval "db.adminCommand( { replSetSyncFrom: '$primaryip' })"
-  /home/tidb/mongodb/bin/mongo --host mongodb0-2 --eval "db.adminCommand( { replSetSyncFrom: 'mongodb0-1:27017' })"
-  /home/tidb/mongodb/bin/mongo --host mongodb0-3 --eval "db.adminCommand( { replSetSyncFrom: 'mongodb0-1:27017' })"
+  /home/tidb/mongodb/bin/mongo --host mongodbaaa-2 --eval "db.adminCommand( { replSetSyncFrom: 'mongodbaaa-1:27017' })"
+  /home/tidb/mongodb/bin/mongo --host mongodbaaa-3 --eval "db.adminCommand( { replSetSyncFrom: 'mongodbaaa-1:27017' })"
 
   # Set WriteConcern==majority    in order to make it consistent between all DBs
   /home/tidb/mongodb/bin/mongo --host $primaryip --eval "cfg = rs.config(); cfg.settings.getLastErrorDefaults = { j:true, w:'majority', wtimeout:10000 }; rs.reconfig(cfg);"
@@ -204,9 +204,9 @@ function stop_servers {
   if [ "$host" == "gcp" ]; then
     gcloud compute instances stop "$s1name" "$s2name" "$s3name" --zone="$serverZone"
   elif [ "$host" == "azure" ]; then
-    az vm deallocate --resource-group DepFast --name "$s1name"
-    az vm deallocate --resource-group DepFast --name "$s2name"
-    az vm deallocate --resource-group DepFast --name "$s3name"
+    az vm deallocate --resource-group DepFast3 --subscription "Last Chance" --name "$s1name"
+    az vm deallocate --resource-group DepFast3 --subscription "Last Chance" --name "$s2name"
+    az vm deallocate --resource-group DepFast3 --subscription "Last Chance" --name "$s3name"
   else
     echo "Not implemented error"
     exit 1
