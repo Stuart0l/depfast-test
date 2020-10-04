@@ -79,7 +79,11 @@ function init {
   ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo umount /dev/sdc1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdc1 -F ; sudo mount -t ext4 /dev/sdc1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
   ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo umount /dev/sdc1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdc1 -F ; sudo mount -t ext4 /dev/sdc1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
   ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo umount /dev/sdc1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdc1 -F ; sudo mount -t ext4 /dev/sdc1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
-  
+
+  ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'nohup taskset -ac 1 dd if=/dev/zero of=/data1/tmp.txt bs=1000 count=1600000 conv=notrunc'"
+  ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'nohup taskset -ac 1 dd if=/dev/zero of=/data1/tmp.txt bs=1000 count=1600000 conv=notrunc'"
+  ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'nohup taskset -ac 1 dd if=/dev/zero of=/data1/tmp.txt bs=1000 count=1600000 conv=notrunc'"
+
   if [ "$swapness" == "swapoff" ] ; then
     ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
     ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
