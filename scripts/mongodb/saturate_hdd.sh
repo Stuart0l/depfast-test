@@ -13,3 +13,10 @@
 ./start_experiment_hdd.sh 5 ./workloads 300 5 azure follower swapoff hdd 320
 
 
+
+./start_experiment_hdd.sh 5 ./workloads 300 6 azure leader swapon hdd 320
+./start_experiment_hdd.sh 5 ./workloads 300 1 azure noslow swapon hdd 320
+./start_experiment_hdd.sh 5 ./workloads 300 6 azure follower swapon hdd 320
+
+
+
