@@ -80,9 +80,9 @@ function init {
   ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'sudo umount /dev/sdc1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdc1 -F ; sudo mount -t ext4 /dev/sdc1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
   ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'sudo umount /dev/sdc1 ; sudo mkdir -p /data1 ; sudo mkfs.ext4 /dev/sdc1 -F ; sudo mount -t ext4 /dev/sdc1 /data1 -o defaults,nodelalloc,noatime ; sudo chmod o+w /data1/'"
 
-  ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'nohup taskset -ac 1 dd if=/dev/zero of=/data1/tmp.txt bs=1000 count=1600000 conv=notrunc'"
-  ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'nohup taskset -ac 1 dd if=/dev/zero of=/data1/tmp.txt bs=1000 count=1600000 conv=notrunc'"
-  ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'nohup taskset -ac 1 dd if=/dev/zero of=/data1/tmp.txt bs=1000 count=1600000 conv=notrunc'"
+  ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'nohup taskset -ac 1 dd if=/dev/zero of=/data1/tmp.txt bs=1000 count=1500000 conv=notrunc'"
+  ssh -i ~/.ssh/id_rsa "$s2" "sudo sh -c 'nohup taskset -ac 1 dd if=/dev/zero of=/data1/tmp.txt bs=1000 count=1500000 conv=notrunc'"
+  ssh -i ~/.ssh/id_rsa "$s3" "sudo sh -c 'nohup taskset -ac 1 dd if=/dev/zero of=/data1/tmp.txt bs=1000 count=1500000 conv=notrunc'"
 
   if [ "$swapness" == "swapoff" ] ; then
     ssh -i ~/.ssh/id_rsa "$s1" "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
@@ -136,7 +136,7 @@ function start_db {
 
 # db_init initialises the database, get slowdownip and pid
 function db_init {
-  sleep 60
+  sleep 30
   if  [ "$exptype" == "follower" ] || [ "$exptype" == "noslow2" ] ; then
     tiup ctl pd config set label-property reject-leader dc 1 -u http://"$pd":2379     # leader is restricted to s3
     sleep 10
@@ -174,7 +174,7 @@ function ycsb_load {
   if [ "$ycsbthreads" == "1" ]; then
     /home/tidb/go-ycsb/bin/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=16 ; wait $!
   else
-    /home/tidb/go-ycsb/bin/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=512 
+    /home/tidb/go-ycsb/bin/go-ycsb load tikv -P $workload -p tikv.pd="$pd":2379 --threads=320 
   fi
 }
 
@@ -261,6 +261,7 @@ function test_run {
       run_experiment
     fi
 
+    sleep 30
     # 8. ycsb run
     ycsb_run
 
