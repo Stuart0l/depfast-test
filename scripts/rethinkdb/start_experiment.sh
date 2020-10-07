@@ -117,6 +117,13 @@ function init_disk {
 	for key in "${!serverNameIPMap[@]}";
 	do
 		ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
+
+		# If, experiment4, create the file beforehand to which the dd command should write to.
+		# NOTE - The count value should be same as the one mentioned in launch_dd.sh script
+		if [ "$expno" == 4 ]; then
+			ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'taskset -ac 1 dd if=/dev/zero of=/data/tmp.txt bs=1000 count=1800000 conv=notrunc'"
+		fi
+		
 	done
 	
 }
