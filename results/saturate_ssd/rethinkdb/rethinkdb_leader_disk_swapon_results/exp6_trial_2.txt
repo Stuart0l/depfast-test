@@ -1,34 +1,41 @@
 Percentile values from hdrhistogram
 Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
 Still waiting for thread Thread-28 to complete. Workload status: true
 Still waiting for thread Thread-28 to complete. Workload status: true
-Still waiting for thread Thread-28 to complete. Workload status: true
-[OVERALL], RunTime(ms), 306553
-[OVERALL], Throughput(ops/sec), 31.293120602310204
-[TOTAL_GCS_G1_Young_Generation], Count, 6
-[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 62
-[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.02022488770294207
+Still waiting for thread Thread-19 to complete. Workload status: true
+Still waiting for thread Thread-19 to complete. Workload status: true
+Still waiting for thread Thread-19 to complete. Workload status: true
+Still waiting for thread Thread-19 to complete. Workload status: true
+Still waiting for thread Thread-19 to complete. Workload status: true
+Still waiting for thread Thread-19 to complete. Workload status: true
+Still waiting for thread Thread-19 to complete. Workload status: true
+Still waiting for thread Thread-186 to complete. Workload status: true
+Still waiting for thread Thread-186 to complete. Workload status: true
+Still waiting for thread Thread-186 to complete. Workload status: true
+Still waiting for thread Thread-186 to complete. Workload status: true
+Still waiting for thread Thread-186 to complete. Workload status: true
+Still waiting for thread Thread-94 to complete. Workload status: true
+[OVERALL], RunTime(ms), 338374
+[OVERALL], Throughput(ops/sec), 5.216121806048928
+[TOTAL_GCS_G1_Young_Generation], Count, 2
+[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 19
+[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.005615088629741056
 [TOTAL_GCS_G1_Old_Generation], Count, 0
 [TOTAL_GC_TIME_G1_Old_Generation], Time(ms), 0
 [TOTAL_GC_TIME_%_G1_Old_Generation], Time(%), 0.0
-[TOTAL_GCs], Count, 6
-[TOTAL_GC_TIME], Time(ms), 62
-[TOTAL_GC_TIME_%], Time(%), 0.02022488770294207
+[TOTAL_GCs], Count, 2
+[TOTAL_GC_TIME], Time(ms), 19
+[TOTAL_GC_TIME_%], Time(%), 0.005615088629741056
 [CLEANUP], Operations, 200
-[CLEANUP], AverageLatency(us), 59.34
+[CLEANUP], AverageLatency(us), 61.11
 [CLEANUP], MinLatency(us), 24
-[CLEANUP], MaxLatency(us), 570
-[CLEANUP], 99thPercentileLatency(us), 159
-[CLEANUP], 99.9PercentileLatency(us), 570
-[UPDATE], Operations, 9593
-[UPDATE], AverageLatency(us), 6314735.550505577
-[UPDATE], MinLatency(us), 9792
-[UPDATE], MaxLatency(us), 35454975
-[UPDATE], 99thPercentileLatency(us), 22822911
-[UPDATE], 99.9PercentileLatency(us), 30867455
-[UPDATE], Return=OK, 9593
+[CLEANUP], MaxLatency(us), 226
+[CLEANUP], 99thPercentileLatency(us), 191
+[CLEANUP], 99.9PercentileLatency(us), 226
+[UPDATE], Operations, 1765
+[UPDATE], AverageLatency(us), 3.552301418243626E7
+[UPDATE], MinLatency(us), 126144
+[UPDATE], MaxLatency(us), 133234687
+[UPDATE], 99thPercentileLatency(us), 109379583
+[UPDATE], 99.9PercentileLatency(us), 130613247
+[UPDATE], Return=OK, 1765

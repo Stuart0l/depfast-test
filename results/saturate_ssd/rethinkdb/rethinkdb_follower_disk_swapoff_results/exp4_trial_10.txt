@@ -1,0 +1,53 @@
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+[OVERALL], RunTime(ms), 304429
+[OVERALL], Throughput(ops/sec), 721.6723768103565
+[TOTAL_GCS_G1_Young_Generation], Count, 95
+[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 327
+[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.10741420823903111
+[TOTAL_GCS_G1_Old_Generation], Count, 0
+[TOTAL_GC_TIME_G1_Old_Generation], Time(ms), 0
+[TOTAL_GC_TIME_%_G1_Old_Generation], Time(%), 0.0
+[TOTAL_GCs], Count, 95
+[TOTAL_GC_TIME], Time(ms), 327
+[TOTAL_GC_TIME_%], Time(%), 0.10741420823903111
+[CLEANUP], Operations, 200
+[CLEANUP], AverageLatency(us), 119.27
+[CLEANUP], MinLatency(us), 35
+[CLEANUP], MaxLatency(us), 4093
+[CLEANUP], 99thPercentileLatency(us), 761
+[CLEANUP], 99.9PercentileLatency(us), 4093
+[UPDATE], Operations, 219698
+[UPDATE], AverageLatency(us), 276634.09174412146
+[UPDATE], MinLatency(us), 12608
+[UPDATE], MaxLatency(us), 27213823
+[UPDATE], 99thPercentileLatency(us), 1606655
+[UPDATE], 99.9PercentileLatency(us), 22462463
+[UPDATE], Return=OK, 219698

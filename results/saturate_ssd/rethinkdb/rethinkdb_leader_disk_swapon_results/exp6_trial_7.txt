@@ -1,0 +1,43 @@
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-18 to complete. Workload status: true
+Still waiting for thread Thread-18 to complete. Workload status: true
+[OVERALL], RunTime(ms), 334051
+[OVERALL], Throughput(ops/sec), 4.819623350925458
+[TOTAL_GCS_G1_Young_Generation], Count, 2
+[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 22
+[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.006585820727972675
+[TOTAL_GCS_G1_Old_Generation], Count, 0
+[TOTAL_GC_TIME_G1_Old_Generation], Time(ms), 0
+[TOTAL_GC_TIME_%_G1_Old_Generation], Time(%), 0.0
+[TOTAL_GCs], Count, 2
+[TOTAL_GC_TIME], Time(ms), 22
+[TOTAL_GC_TIME_%], Time(%), 0.006585820727972675
+[CLEANUP], Operations, 200
+[CLEANUP], AverageLatency(us), 64.245
+[CLEANUP], MinLatency(us), 25
+[CLEANUP], MaxLatency(us), 247
+[CLEANUP], 99thPercentileLatency(us), 156
+[CLEANUP], 99.9PercentileLatency(us), 247
+[UPDATE], Operations, 1610
+[UPDATE], AverageLatency(us), 3.9291320367701866E7
+[UPDATE], MinLatency(us), 457728
+[UPDATE], MaxLatency(us), 115802111
+[UPDATE], 99thPercentileLatency(us), 105840639
+[UPDATE], 99.9PercentileLatency(us), 110034943
+[UPDATE], Return=OK, 1610

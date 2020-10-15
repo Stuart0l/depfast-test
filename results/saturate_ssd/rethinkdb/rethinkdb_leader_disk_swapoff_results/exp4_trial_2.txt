@@ -1,30 +1,30 @@
 Percentile values from hdrhistogram
+Still waiting for thread Thread-28 to complete. Workload status: true
 Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-[OVERALL], RunTime(ms), 301734
-[OVERALL], Throughput(ops/sec), 16.587457827092738
+Still waiting for thread Thread-52 to complete. Workload status: true
+Still waiting for thread Thread-52 to complete. Workload status: true
+Still waiting for thread Thread-52 to complete. Workload status: true
+[OVERALL], RunTime(ms), 310735
+[OVERALL], Throughput(ops/sec), 16.374080808405875
 [TOTAL_GCS_G1_Young_Generation], Count, 3
-[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 32
-[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.010605367641697654
+[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 30
+[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.0096545287785412
 [TOTAL_GCS_G1_Old_Generation], Count, 0
 [TOTAL_GC_TIME_G1_Old_Generation], Time(ms), 0
 [TOTAL_GC_TIME_%_G1_Old_Generation], Time(%), 0.0
 [TOTAL_GCs], Count, 3
-[TOTAL_GC_TIME], Time(ms), 32
-[TOTAL_GC_TIME_%], Time(%), 0.010605367641697654
+[TOTAL_GC_TIME], Time(ms), 30
+[TOTAL_GC_TIME_%], Time(%), 0.0096545287785412
 [CLEANUP], Operations, 200
-[CLEANUP], AverageLatency(us), 336.24
-[CLEANUP], MinLatency(us), 18
-[CLEANUP], MaxLatency(us), 13399
-[CLEANUP], 99thPercentileLatency(us), 9983
-[CLEANUP], 99.9PercentileLatency(us), 13399
-[UPDATE], Operations, 5005
-[UPDATE], AverageLatency(us), 1.2014192885514485E7
-[UPDATE], MinLatency(us), 168704
-[UPDATE], MaxLatency(us), 39124991
-[UPDATE], 99thPercentileLatency(us), 38502399
-[UPDATE], 99.9PercentileLatency(us), 39124991
-[UPDATE], Return=OK, 5005
+[CLEANUP], AverageLatency(us), 70.925
+[CLEANUP], MinLatency(us), 25
+[CLEANUP], MaxLatency(us), 1268
+[CLEANUP], 99thPercentileLatency(us), 472
+[CLEANUP], 99.9PercentileLatency(us), 1268
+[UPDATE], Operations, 5088
+[UPDATE], AverageLatency(us), 1.1960892871069182E7
+[UPDATE], MinLatency(us), 47520
+[UPDATE], MaxLatency(us), 22691839
+[UPDATE], 99thPercentileLatency(us), 22659071
+[UPDATE], 99.9PercentileLatency(us), 22675455
+[UPDATE], Return=OK, 5088

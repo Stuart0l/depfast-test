@@ -91,98 +91,27 @@ Percentile values from hdrhistogram
 Percentile values from hdrhistogram
 Percentile values from hdrhistogram
 Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-[OVERALL], RunTime(ms), 300421
-[OVERALL], Throughput(ops/sec), 732.1259166303288
+[OVERALL], RunTime(ms), 301230
+[OVERALL], Throughput(ops/sec), 720.5623609866216
 [TOTAL_GCS_G1_Young_Generation], Count, 71
-[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 335
-[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.111510180713066
+[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 276
+[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.09162434020515885
 [TOTAL_GCS_G1_Old_Generation], Count, 0
 [TOTAL_GC_TIME_G1_Old_Generation], Time(ms), 0
 [TOTAL_GC_TIME_%_G1_Old_Generation], Time(%), 0.0
 [TOTAL_GCs], Count, 71
-[TOTAL_GC_TIME], Time(ms), 335
-[TOTAL_GC_TIME_%], Time(%), 0.111510180713066
+[TOTAL_GC_TIME], Time(ms), 276
+[TOTAL_GC_TIME_%], Time(%), 0.09162434020515885
 [CLEANUP], Operations, 200
-[CLEANUP], AverageLatency(us), 561.545
-[CLEANUP], MinLatency(us), 18
-[CLEANUP], MaxLatency(us), 29119
-[CLEANUP], 99thPercentileLatency(us), 6267
-[CLEANUP], 99.9PercentileLatency(us), 29119
-[UPDATE], Operations, 219946
-[UPDATE], AverageLatency(us), 272455.66995535267
-[UPDATE], MinLatency(us), 22784
-[UPDATE], MaxLatency(us), 3758079
-[UPDATE], 99thPercentileLatency(us), 2973695
-[UPDATE], 99.9PercentileLatency(us), 3450879
-[UPDATE], Return=OK, 219946
+[CLEANUP], AverageLatency(us), 1515.645
+[CLEANUP], MinLatency(us), 37
+[CLEANUP], MaxLatency(us), 12487
+[CLEANUP], 99thPercentileLatency(us), 12191
+[CLEANUP], 99.9PercentileLatency(us), 12487
+[UPDATE], Operations, 217055
+[UPDATE], AverageLatency(us), 276957.8667895234
+[UPDATE], MinLatency(us), 36096
+[UPDATE], MaxLatency(us), 5742591
+[UPDATE], 99thPercentileLatency(us), 3743743
+[UPDATE], 99.9PercentileLatency(us), 4161535
+[UPDATE], Return=OK, 217055

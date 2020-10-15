@@ -1,29 +1,52 @@
 Percentile values from hdrhistogram
 Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
 Still waiting for thread Thread-28 to complete. Workload status: true
-[OVERALL], RunTime(ms), 305744
-[OVERALL], Throughput(ops/sec), 29.436391229263698
-[TOTAL_GCS_G1_Young_Generation], Count, 5
-[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 52
-[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.01700769271024125
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-40 to complete. Workload status: true
+Still waiting for thread Thread-40 to complete. Workload status: true
+Still waiting for thread Thread-89 to complete. Workload status: true
+Still waiting for thread Thread-89 to complete. Workload status: true
+Still waiting for thread Thread-89 to complete. Workload status: true
+Still waiting for thread Thread-89 to complete. Workload status: true
+Still waiting for thread Thread-89 to complete. Workload status: true
+Still waiting for thread Thread-23 to complete. Workload status: true
+Still waiting for thread Thread-23 to complete. Workload status: true
+Still waiting for thread Thread-3 to complete. Workload status: true
+[OVERALL], RunTime(ms), 356127
+[OVERALL], Throughput(ops/sec), 3.338696588576547
+[TOTAL_GCS_G1_Young_Generation], Count, 2
+[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 17
+[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.004773577965164113
 [TOTAL_GCS_G1_Old_Generation], Count, 0
 [TOTAL_GC_TIME_G1_Old_Generation], Time(ms), 0
 [TOTAL_GC_TIME_%_G1_Old_Generation], Time(%), 0.0
-[TOTAL_GCs], Count, 5
-[TOTAL_GC_TIME], Time(ms), 52
-[TOTAL_GC_TIME_%], Time(%), 0.01700769271024125
+[TOTAL_GCs], Count, 2
+[TOTAL_GC_TIME], Time(ms), 17
+[TOTAL_GC_TIME_%], Time(%), 0.004773577965164113
 [CLEANUP], Operations, 200
-[CLEANUP], AverageLatency(us), 61.545
-[CLEANUP], MinLatency(us), 24
-[CLEANUP], MaxLatency(us), 372
-[CLEANUP], 99thPercentileLatency(us), 288
-[CLEANUP], 99.9PercentileLatency(us), 372
-[UPDATE], Operations, 9000
-[UPDATE], AverageLatency(us), 6722096.300444445
-[UPDATE], MinLatency(us), 11616
-[UPDATE], MaxLatency(us), 29704191
-[UPDATE], 99thPercentileLatency(us), 22069247
-[UPDATE], 99.9PercentileLatency(us), 28246015
-[UPDATE], Return=OK, 9000
+[CLEANUP], AverageLatency(us), 62.075
+[CLEANUP], MinLatency(us), 23
+[CLEANUP], MaxLatency(us), 312
+[CLEANUP], 99thPercentileLatency(us), 165
+[CLEANUP], 99.9PercentileLatency(us), 312
+[UPDATE], Operations, 1189
+[UPDATE], AverageLatency(us), 5.5950838957106814E7
+[UPDATE], MinLatency(us), 2928640
+[UPDATE], MaxLatency(us), 223084543
+[UPDATE], 99thPercentileLatency(us), 183631871
+[UPDATE], 99.9PercentileLatency(us), 220069887
+[UPDATE], Return=OK, 1189

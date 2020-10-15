@@ -1,0 +1,41 @@
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-28 to complete. Workload status: true
+Still waiting for thread Thread-19 to complete. Workload status: true
+Still waiting for thread Thread-19 to complete. Workload status: true
+Still waiting for thread Thread-19 to complete. Workload status: true
+Still waiting for thread Thread-19 to complete. Workload status: true
+Still waiting for thread Thread-19 to complete. Workload status: true
+Still waiting for thread Thread-19 to complete. Workload status: true
+Still waiting for thread Thread-68 to complete. Workload status: true
+Still waiting for thread Thread-68 to complete. Workload status: true
+Still waiting for thread Thread-68 to complete. Workload status: true
+Still waiting for thread Thread-68 to complete. Workload status: true
+[OVERALL], RunTime(ms), 333369
+[OVERALL], Throughput(ops/sec), 5.075456926108906
+[TOTAL_GCS_G1_Young_Generation], Count, 2
+[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 20
+[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.005999358068686651
+[TOTAL_GCS_G1_Old_Generation], Count, 0
+[TOTAL_GC_TIME_G1_Old_Generation], Time(ms), 0
+[TOTAL_GC_TIME_%_G1_Old_Generation], Time(%), 0.0
+[TOTAL_GCs], Count, 2
+[TOTAL_GC_TIME], Time(ms), 20
+[TOTAL_GC_TIME_%], Time(%), 0.005999358068686651
+[CLEANUP], Operations, 200
+[CLEANUP], AverageLatency(us), 64.37
+[CLEANUP], MinLatency(us), 26
+[CLEANUP], MaxLatency(us), 246
+[CLEANUP], 99thPercentileLatency(us), 162
+[CLEANUP], 99.9PercentileLatency(us), 246
+[UPDATE], Operations, 1692
+[UPDATE], AverageLatency(us), 3.733158906855792E7
+[UPDATE], MinLatency(us), 296704
+[UPDATE], MaxLatency(us), 133496831
+[UPDATE], 99thPercentileLatency(us), 108789759
+[UPDATE], 99.9PercentileLatency(us), 129499135
+[UPDATE], Return=OK, 1692

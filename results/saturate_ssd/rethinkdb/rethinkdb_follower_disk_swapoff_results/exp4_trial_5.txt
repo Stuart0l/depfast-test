@@ -53,27 +53,179 @@ Percentile values from hdrhistogram
 Percentile values from hdrhistogram
 Percentile values from hdrhistogram
 Percentile values from hdrhistogram
-[OVERALL], RunTime(ms), 300603
-[OVERALL], Throughput(ops/sec), 685.3524415923993
-[TOTAL_GCS_G1_Young_Generation], Count, 67
-[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 303
-[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.10079739723156457
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+Percentile values from hdrhistogram
+[OVERALL], RunTime(ms), 301077
+[OVERALL], Throughput(ops/sec), 839.0710681985007
+[TOTAL_GCS_G1_Young_Generation], Count, 83
+[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 325
+[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.10794580788303323
 [TOTAL_GCS_G1_Old_Generation], Count, 0
 [TOTAL_GC_TIME_G1_Old_Generation], Time(ms), 0
 [TOTAL_GC_TIME_%_G1_Old_Generation], Time(%), 0.0
-[TOTAL_GCs], Count, 67
-[TOTAL_GC_TIME], Time(ms), 303
-[TOTAL_GC_TIME_%], Time(%), 0.10079739723156457
+[TOTAL_GCs], Count, 83
+[TOTAL_GC_TIME], Time(ms), 325
+[TOTAL_GC_TIME_%], Time(%), 0.10794580788303323
+[UPDATE-FAILED], Operations, 46155
+[UPDATE-FAILED], AverageLatency(us), 242094.6689632759
+[UPDATE-FAILED], MinLatency(us), 573
+[UPDATE-FAILED], MaxLatency(us), 105512959
+[UPDATE-FAILED], 99thPercentileLatency(us), 2267135
+[UPDATE-FAILED], 99.9PercentileLatency(us), 58294271
 [CLEANUP], Operations, 200
-[CLEANUP], AverageLatency(us), 133.735
-[CLEANUP], MinLatency(us), 20
-[CLEANUP], MaxLatency(us), 4959
-[CLEANUP], 99thPercentileLatency(us), 2319
-[CLEANUP], 99.9PercentileLatency(us), 4959
-[UPDATE], Operations, 206019
-[UPDATE], AverageLatency(us), 291054.053927065
-[UPDATE], MinLatency(us), 26560
-[UPDATE], MaxLatency(us), 3457023
-[UPDATE], 99thPercentileLatency(us), 2691071
-[UPDATE], 99.9PercentileLatency(us), 3414015
-[UPDATE], Return=OK, 206019
+[CLEANUP], AverageLatency(us), 414.45
+[CLEANUP], MinLatency(us), 26
+[CLEANUP], MaxLatency(us), 18815
+[CLEANUP], 99thPercentileLatency(us), 10847
+[CLEANUP], 99.9PercentileLatency(us), 18815
+[UPDATE], Operations, 206470
+[UPDATE], AverageLatency(us), 236075.3364459728
+[UPDATE], MinLatency(us), 10648
+[UPDATE], MaxLatency(us), 79560703
+[UPDATE], 99thPercentileLatency(us), 1034239
+[UPDATE], 99.9PercentileLatency(us), 5840895
+[UPDATE], Return=OK, 206470
+[UPDATE], Return=ERROR, 46155

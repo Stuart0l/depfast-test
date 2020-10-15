@@ -67,133 +67,35 @@ Percentile values from hdrhistogram
 Percentile values from hdrhistogram
 Percentile values from hdrhistogram
 Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-Percentile values from hdrhistogram
-[OVERALL], RunTime(ms), 300314
-[OVERALL], Throughput(ops/sec), 772.6346424076133
-[TOTAL_GCS_G1_Young_Generation], Count, 75
-[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 328
-[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.10921901742842492
+Still waiting for thread Thread-47 to complete. Workload status: true
+[OVERALL], RunTime(ms), 305554
+[OVERALL], Throughput(ops/sec), 627.1297381150304
+[TOTAL_GCS_G1_Young_Generation], Count, 83
+[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 288
+[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.0942550252983106
 [TOTAL_GCS_G1_Old_Generation], Count, 0
 [TOTAL_GC_TIME_G1_Old_Generation], Time(ms), 0
 [TOTAL_GC_TIME_%_G1_Old_Generation], Time(%), 0.0
-[TOTAL_GCs], Count, 75
-[TOTAL_GC_TIME], Time(ms), 328
-[TOTAL_GC_TIME_%], Time(%), 0.10921901742842492
+[TOTAL_GCs], Count, 83
+[TOTAL_GC_TIME], Time(ms), 288
+[TOTAL_GC_TIME_%], Time(%), 0.0942550252983106
+[UPDATE-FAILED], Operations, 290
+[UPDATE-FAILED], AverageLatency(us), 6.786583538275862E7
+[UPDATE-FAILED], MinLatency(us), 926
+[UPDATE-FAILED], MaxLatency(us), 112656383
+[UPDATE-FAILED], 99thPercentileLatency(us), 112656383
+[UPDATE-FAILED], 99.9PercentileLatency(us), 112656383
 [CLEANUP], Operations, 200
-[CLEANUP], AverageLatency(us), 81.045
-[CLEANUP], MinLatency(us), 18
-[CLEANUP], MaxLatency(us), 1326
-[CLEANUP], 99thPercentileLatency(us), 1001
-[CLEANUP], 99.9PercentileLatency(us), 1326
-[UPDATE], Operations, 232033
-[UPDATE], AverageLatency(us), 258251.89529075605
-[UPDATE], MinLatency(us), 10120
-[UPDATE], MaxLatency(us), 3956735
-[UPDATE], 99thPercentileLatency(us), 2418687
-[UPDATE], 99.9PercentileLatency(us), 3508223
-[UPDATE], Return=OK, 232033
+[CLEANUP], AverageLatency(us), 128.825
+[CLEANUP], MinLatency(us), 21
+[CLEANUP], MaxLatency(us), 7027
+[CLEANUP], 99thPercentileLatency(us), 2949
+[CLEANUP], 99.9PercentileLatency(us), 7027
+[UPDATE], Operations, 191332
+[UPDATE], AverageLatency(us), 212350.4658708423
+[UPDATE], MinLatency(us), 13872
+[UPDATE], MaxLatency(us), 35553279
+[UPDATE], 99thPercentileLatency(us), 881151
+[UPDATE], 99.9PercentileLatency(us), 1771519
+[UPDATE], Return=OK, 191332
+[UPDATE], Return=ERROR, 290

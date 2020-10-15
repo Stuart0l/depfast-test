@@ -1,0 +1,911 @@
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.16:26257/ycsb?sslmode=disable
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Using shards: 1, batchSize:-1, fetchSize: -1
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-156 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-119 to complete. Workload status: true
+Still waiting for thread Thread-26 to complete. Workload status: true
+Still waiting for thread Thread-26 to complete. Workload status: true
+Still waiting for thread Thread-26 to complete. Workload status: true
+Still waiting for thread Thread-26 to complete. Workload status: true
+Still waiting for thread Thread-26 to complete. Workload status: true
+Still waiting for thread Thread-26 to complete. Workload status: true
+Still waiting for thread Thread-26 to complete. Workload status: true
+Still waiting for thread Thread-26 to complete. Workload status: true
+Still waiting for thread Thread-26 to complete. Workload status: true
+Still waiting for thread Thread-26 to complete. Workload status: true
+Still waiting for thread Thread-26 to complete. Workload status: true
+Still waiting for thread Thread-26 to complete. Workload status: true
+Still waiting for thread Thread-26 to complete. Workload status: true
+Still waiting for thread Thread-26 to complete. Workload status: true
+Still waiting for thread Thread-26 to complete. Workload status: true
+Still waiting for thread Thread-120 to complete. Workload status: true
+Still waiting for thread Thread-120 to complete. Workload status: true
+[OVERALL], RunTime(ms), 1053049
+[OVERALL], Throughput(ops/sec), 7.088938881286626
+[TOTAL_GCS_Copy], Count, 12
+[TOTAL_GC_TIME_Copy], Time(ms), 86
+[TOTAL_GC_TIME_%_Copy], Time(%), 0.00816676147073878
+[TOTAL_GCS_MarkSweepCompact], Count, 0
+[TOTAL_GC_TIME_MarkSweepCompact], Time(ms), 0
+[TOTAL_GC_TIME_%_MarkSweepCompact], Time(%), 0.0
+[TOTAL_GCs], Count, 12
+[TOTAL_GC_TIME], Time(ms), 86
+[TOTAL_GC_TIME_%], Time(%), 0.00816676147073878
+[CLEANUP], Operations, 256
+[CLEANUP], AverageLatency(us), 87.00390625
+[CLEANUP], MinLatency(us), 33
+[CLEANUP], MaxLatency(us), 294
+[CLEANUP], 99thPercentileLatency(us), 222
+[CLEANUP], 99.9PercentileLatency(us), 294
+[UPDATE], Operations, 7465
+[UPDATE], AverageLatency(us), 1.757684374896182E7
+[UPDATE], MinLatency(us), 3638
+[UPDATE], MaxLatency(us), 1039663103
+[UPDATE], 99thPercentileLatency(us), 553648127
+[UPDATE], 99.9PercentileLatency(us), 842006527
+[UPDATE], Return=OK, 7465

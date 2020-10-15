@@ -284,6 +284,11 @@ function ycsb_run {
 	# For maxthroughput slowness, this is the node with max throughput
 	# For minthroughput slowness, this is the node with min throughput
 	# For follower slowness, we chose leader as first server, as it has the locality config set
+	# WE should clear the memory:db cgroup for ycsb to complete as it keeps waiting for some threads to complete
+	exp6cleartime=$(($ycsbruntime+30))
+	if [ "$expno" == 6 ]; then
+		ssh -i ~/.ssh/id_rsa "$primaryip" "sudo sh -c 'sleep $exp6cleartime && sudo cgdelete memory:db'" > /dev/null 2>&1 & 
+	fi
 	taskset -ac 0 bin/ycsb run jdbc -s -P $workload -p maxexecutiontime=$ycsbruntime -cp jdbc-binding/lib/postgresql-42.2.10.jar -p db.driver=org.postgresql.Driver -p db.user=root -p db.passwd=root -p db.url=jdbc:postgresql://"$primaryip":26257/ycsb?sslmode=disable -threads $ycsbthreads > "$dirname"/exp"$expno"_trial_"$i".txt
 
 	# Verify that all the range leaseholders are on Node 1.

@@ -1,259 +1,259 @@
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
-Adding shard node URL: jdbc:postgresql://10.0.0.27:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
+Adding shard node URL: jdbc:postgresql://10.0.0.15:26257/ycsb?sslmode=disable
 Using shards: 1, batchSize:-1, fetchSize: -1
 Using shards: 1, batchSize:-1, fetchSize: -1
 Using shards: 1, batchSize:-1, fetchSize: -1
@@ -510,123 +510,28 @@ Using shards: 1, batchSize:-1, fetchSize: -1
 Using shards: 1, batchSize:-1, fetchSize: -1
 Using shards: 1, batchSize:-1, fetchSize: -1
 Using shards: 1, batchSize:-1, fetchSize: -1
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
-Still waiting for thread Thread-180 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
+Still waiting for thread Thread-179 to complete. Workload status: true
 Still waiting for thread Thread-174 to complete. Workload status: true
 Still waiting for thread Thread-174 to complete. Workload status: true
 Still waiting for thread Thread-174 to complete. Workload status: true
@@ -634,100 +539,27 @@ Still waiting for thread Thread-174 to complete. Workload status: true
 Still waiting for thread Thread-174 to complete. Workload status: true
 Still waiting for thread Thread-174 to complete. Workload status: true
 Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-174 to complete. Workload status: true
-Still waiting for thread Thread-150 to complete. Workload status: true
-Still waiting for thread Thread-150 to complete. Workload status: true
-Still waiting for thread Thread-150 to complete. Workload status: true
-Still waiting for thread Thread-150 to complete. Workload status: true
-Still waiting for thread Thread-150 to complete. Workload status: true
-Still waiting for thread Thread-150 to complete. Workload status: true
-Still waiting for thread Thread-150 to complete. Workload status: true
-Still waiting for thread Thread-150 to complete. Workload status: true
-Still waiting for thread Thread-150 to complete. Workload status: true
-Still waiting for thread Thread-150 to complete. Workload status: true
-Still waiting for thread Thread-150 to complete. Workload status: true
-Still waiting for thread Thread-150 to complete. Workload status: true
-Still waiting for thread Thread-150 to complete. Workload status: true
-Still waiting for thread Thread-150 to complete. Workload status: true
-Still waiting for thread Thread-115 to complete. Workload status: true
-Still waiting for thread Thread-115 to complete. Workload status: true
-Still waiting for thread Thread-115 to complete. Workload status: true
-Still waiting for thread Thread-115 to complete. Workload status: true
-Still waiting for thread Thread-115 to complete. Workload status: true
-Still waiting for thread Thread-115 to complete. Workload status: true
-Still waiting for thread Thread-115 to complete. Workload status: true
-Still waiting for thread Thread-115 to complete. Workload status: true
-Still waiting for thread Thread-115 to complete. Workload status: true
-Still waiting for thread Thread-115 to complete. Workload status: true
-Still waiting for thread Thread-115 to complete. Workload status: true
-Still waiting for thread Thread-115 to complete. Workload status: true
-[OVERALL], RunTime(ms), 699556
-[OVERALL], Throughput(ops/sec), 40.51998696315949
+[OVERALL], RunTime(ms), 361924
+[OVERALL], Throughput(ops/sec), 36.698312352869664
 [TOTAL_GCS_Copy], Count, 12
-[TOTAL_GC_TIME_Copy], Time(ms), 77
-[TOTAL_GC_TIME_%_Copy], Time(%), 0.011006981571167999
+[TOTAL_GC_TIME_Copy], Time(ms), 85
+[TOTAL_GC_TIME_%_Copy], Time(%), 0.02348559366054752
 [TOTAL_GCS_MarkSweepCompact], Count, 0
 [TOTAL_GC_TIME_MarkSweepCompact], Time(ms), 0
 [TOTAL_GC_TIME_%_MarkSweepCompact], Time(%), 0.0
 [TOTAL_GCs], Count, 12
-[TOTAL_GC_TIME], Time(ms), 77
-[TOTAL_GC_TIME_%], Time(%), 0.011006981571167999
+[TOTAL_GC_TIME], Time(ms), 85
+[TOTAL_GC_TIME_%], Time(%), 0.02348559366054752
 [CLEANUP], Operations, 256
-[CLEANUP], AverageLatency(us), 89.375
-[CLEANUP], MinLatency(us), 33
-[CLEANUP], MaxLatency(us), 443
-[CLEANUP], 99thPercentileLatency(us), 267
-[CLEANUP], 99.9PercentileLatency(us), 443
-[UPDATE], Operations, 28346
-[UPDATE], AverageLatency(us), 3804713.2439497635
-[UPDATE], MinLatency(us), 3486
-[UPDATE], MaxLatency(us), 502530047
-[UPDATE], 99thPercentileLatency(us), 85590015
-[UPDATE], 99.9PercentileLatency(us), 413401087
-[UPDATE], Return=OK, 28346
+[CLEANUP], AverageLatency(us), 91.6015625
+[CLEANUP], MinLatency(us), 36
+[CLEANUP], MaxLatency(us), 539
+[CLEANUP], 99thPercentileLatency(us), 197
+[CLEANUP], 99.9PercentileLatency(us), 539
+[UPDATE], Operations, 13282
+[UPDATE], AverageLatency(us), 6359157.777744316
+[UPDATE], MinLatency(us), 4128
+[UPDATE], MaxLatency(us), 358088703
+[UPDATE], 99thPercentileLatency(us), 180486143
+[UPDATE], 99.9PercentileLatency(us), 309329919
+[UPDATE], Return=OK, 13282
