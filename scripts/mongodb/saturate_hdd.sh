@@ -1,10 +1,10 @@
-./start_experiment_hdd.sh 5 ./workloads 300 1 azure leader swapoff hdd 320
-./start_experiment_hdd.sh 5 ./workloads 300 2 azure leader swapoff hdd 320
-./start_experiment_hdd.sh 5 ./workloads 300 3 azure leader swapoff hdd 320
-./start_experiment_hdd.sh 5 ./workloads 300 4 azure leader swapoff hdd 320
-./start_experiment_hdd.sh 5 ./workloads 300 5 azure leader swapoff hdd 320
+#./start_experiment_hdd.sh 5 ./workloads 300 1 azure leader swapoff hdd 320
+#./start_experiment_hdd.sh 5 ./workloads 300 2 azure leader swapoff hdd 320
+#./start_experiment_hdd.sh 5 ./workloads 300 3 azure leader swapoff hdd 320
+#./start_experiment_hdd.sh 5 ./workloads 300 4 azure leader swapoff hdd 320
+#./start_experiment_hdd.sh 5 ./workloads 300 5 azure leader swapoff hdd 320
 
-./start_experiment_hdd.sh 5 ./workloads 300 1 azure noslow swapoff hdd 320
+#./start_experiment_hdd.sh 5 ./workloads 300 1 azure noslow swapoff hdd 320
 
 ./start_experiment_hdd.sh 5 ./workloads 300 1 azure follower swapoff hdd 320
 ./start_experiment_hdd.sh 5 ./workloads 300 2 azure follower swapoff hdd 320
@@ -14,9 +14,9 @@
 
 
 
-./start_experiment_hdd.sh 5 ./workloads 300 6 azure leader swapon hdd 320
-./start_experiment_hdd.sh 5 ./workloads 300 1 azure noslow swapon hdd 320
-./start_experiment_hdd.sh 5 ./workloads 300 6 azure follower swapon hdd 320
+#./start_experiment_hdd.sh 5 ./workloads 300 6 azure leader swapon hdd 320
+#./start_experiment_hdd.sh 5 ./workloads 300 1 azure noslow swapon hdd 320
+#./start_experiment_hdd.sh 5 ./workloads 300 6 azure follower swapon hdd 320
 
 
 
