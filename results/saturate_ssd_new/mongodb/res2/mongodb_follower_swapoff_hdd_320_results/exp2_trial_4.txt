@@ -1,0 +1,25 @@
+mongo client connection created with mongodb://10.0.0.11:27017/ycsb?w=majority&readConcernLevel=majority
+[OVERALL], RunTime(ms), 300274
+[OVERALL], Throughput(ops/sec), 1968.6885977473908
+[TOTAL_GCS_G1_Young_Generation], Count, 81
+[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 334
+[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.11123174167593597
+[TOTAL_GCS_G1_Old_Generation], Count, 0
+[TOTAL_GC_TIME_G1_Old_Generation], Time(ms), 0
+[TOTAL_GC_TIME_%_G1_Old_Generation], Time(%), 0.0
+[TOTAL_GCs], Count, 81
+[TOTAL_GC_TIME], Time(ms), 334
+[TOTAL_GC_TIME_%], Time(%), 0.11123174167593597
+[CLEANUP], Operations, 320
+[CLEANUP], AverageLatency(us), 65.50625
+[CLEANUP], MinLatency(us), 0
+[CLEANUP], MaxLatency(us), 20799
+[CLEANUP], 99thPercentileLatency(us), 14
+[CLEANUP], 99.9PercentileLatency(us), 20799
+[UPDATE], Operations, 591146
+[UPDATE], AverageLatency(us), 162137.41934479808
+[UPDATE], MinLatency(us), 60736
+[UPDATE], MaxLatency(us), 8306687
+[UPDATE], 99thPercentileLatency(us), 1895423
+[UPDATE], 99.9PercentileLatency(us), 6475775
+[UPDATE], Return=OK, 591146

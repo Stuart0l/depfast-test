@@ -1,0 +1,26 @@
+mongo client connection created with mongodb://10.0.0.11:27017/ycsb?w=majority&readConcernLevel=majority
+Still waiting for thread Thread-256 to complete. Workload status: true
+[OVERALL], RunTime(ms), 302658
+[OVERALL], Throughput(ops/sec), 144.22549544370213
+[TOTAL_GCS_G1_Young_Generation], Count, 7
+[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 92
+[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.030397346179516154
+[TOTAL_GCS_G1_Old_Generation], Count, 0
+[TOTAL_GC_TIME_G1_Old_Generation], Time(ms), 0
+[TOTAL_GC_TIME_%_G1_Old_Generation], Time(%), 0.0
+[TOTAL_GCs], Count, 7
+[TOTAL_GC_TIME], Time(ms), 92
+[TOTAL_GC_TIME_%], Time(%), 0.030397346179516154
+[CLEANUP], Operations, 320
+[CLEANUP], AverageLatency(us), 45.865625
+[CLEANUP], MinLatency(us), 0
+[CLEANUP], MaxLatency(us), 14527
+[CLEANUP], 99thPercentileLatency(us), 7
+[CLEANUP], 99.9PercentileLatency(us), 14527
+[UPDATE], Operations, 43651
+[UPDATE], AverageLatency(us), 2205145.615541454
+[UPDATE], MinLatency(us), 1016832
+[UPDATE], MaxLatency(us), 16015359
+[UPDATE], 99thPercentileLatency(us), 3981311
+[UPDATE], 99.9PercentileLatency(us), 5877759
+[UPDATE], Return=OK, 43651
