@@ -21,10 +21,10 @@
 ./start_experiment_hdd.sh 5 ./workloadsd 300 5 azure follower swapoff hdd 512
 
 
-#./start_experiment_hdd.sh 5 ./workloadsd 300 6 azure leaderhigh swapon hdd 512
-#./start_experiment_hdd.sh 5 ./workloadsd 300 6 azure follower swapon hdd 512
-#./start_experiment_hdd.sh 5 ./workloadsd 300 1 azure noslow1 swapon hdd 512
-#./start_experiment_hdd.sh 5 ./workloadsd 300 1 azure noslow2 swapon hdd 512
+./start_experiment_hdd.sh 5 ./workloadsd 300 6 azure leaderhigh swapon hdd 512
+./start_experiment_hdd.sh 5 ./workloadsd 300 6 azure follower swapon hdd 512
+./start_experiment_hdd.sh 5 ./workloadsd 300 1 azure noslow1 swapon hdd 512
+./start_experiment_hdd.sh 5 ./workloadsd 300 1 azure noslow2 swapon hdd 512
 
 
 
