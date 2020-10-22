@@ -613,7 +613,7 @@ mongo_s_csv=[
                     ['exp3', './saturate_ssd_new/mongodb/mongodb_leader_swapoff_hdd_320_results'],
                     ['exp4', './saturate_ssd_new/mongodb/mongodb_leader_swapoff_hdd_320_results'],
                     ['exp5', './saturate_ssd_new/mongodb/mongodb_leader_swapoff_hdd_320_results'],
-                    ['noslow_swapon', './saturate_ssd_new/mongodb/mongodb_noslow_swapon_hdd_320_results']
+                    ['noslow_swapon', './saturate_ssd_new/mongodb/mongodb_noslow_swapon_hdd_320_results'],
                     ['exp6', './saturate_ssd_new/mongodb/mongodb_leader_swapon_hdd_320_results'],
                 ]
     },
@@ -626,7 +626,7 @@ mongo_s_csv=[
                     ['exp3', './saturate_ssd_new/mongodb/mongodb_follower_swapoff_hdd_320_results'],
                     ['exp4', './saturate_ssd_new/mongodb/mongodb_follower_swapoff_hdd_320_results'],
                     ['exp5', './saturate_ssd_new/mongodb/mongodb_follower_swapoff_hdd_320_results'],
-                    ['noslow_swapon', './saturate_ssd_new/mongodb/mongodb_noslow_swapon_hdd_320_results']
+                    ['noslow_swapon', './saturate_ssd_new/mongodb/mongodb_noslow_swapon_hdd_320_results'],
                     ['exp6', './saturate_ssd_new/mongodb/mongodb_follower_swapon_hdd_320_results'],
                 ]
     },
