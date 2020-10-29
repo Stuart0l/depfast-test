@@ -945,16 +945,16 @@ def draw(metric, _list, _lim, _legend=False):
 #          ]
 
 drawlist_LS=[
-          [mongodb_s_explist, 'mongodb', '/saturate_ssd/mongodb/mongodb_leader_swap', 'MongoDB'],
+          [mongodb_s_explist, 'mongodb', '/saturate_ssd_new/mongodb/mongodb_leader_swap', 'MongoDB'],
           [rethinkdb_s_explist, 'rethinkdb', '/saturate_ssd/rethinkdb/rethinkdb_leader_disk_swap', 'RethinkDB'],
-          [tidb_s_explist, 'tidb', '/saturate_ssd/tidb/tidb_leaderhigh_swap', 'TiDB'],
+          [tidb_s_explist, 'tidb', '/saturate_ssd_new/tidb/tidb_leaderhigh_swap', 'TiDB'],
           [cockroachdb_s_explist, 'cockroachdb', '/saturate_ssd/cockroachdb/cockroachdb_maxthroughput_disk_swap', 'CRDB'],
          ]
 
 drawlist_FS=[
-          [mongodb_s_explist, 'mongodb', '/saturate_ssd/mongodb/mongodb_follower_swap', 'MongoDB'],
+          [mongodb_s_explist, 'mongodb', '/saturate_ssd_new/mongodb/mongodb_follower_swap', 'MongoDB'],
           [rethinkdb_s_explist, 'rethinkdb', '/saturate_ssd/rethinkdb/rethinkdb_follower_disk_swap', 'RethinkDB'],
-          [tidb_s_explist, 'tidb', '/saturate_ssd/tidb/tidb_follower_swap', 'TiDB'],
+          [tidb_s_explist, 'tidb', '/saturate_ssd_new/tidb/tidb_follower_swap', 'TiDB'],
           [cockroachdb_s_explist, 'cockroachdb', '/saturate_ssd/cockroachdb/cockroachdb_follower_disk_swap', 'CRDB'],
          ]
 
@@ -970,14 +970,14 @@ exportcsv(mongo_s_csv, 'mongodb')
 getpercentage(tidb_s_explist, 'tidb')
 exportcsv(tidb_s_csv, 'tidb')
 
-getpercentage(rethinkdb_s_explist, 'rethinkdb')
-exportcsv(rethinkdb_s_csv, 'rethinkdb')
+# getpercentage(rethinkdb_s_explist, 'rethinkdb')
+# exportcsv(rethinkdb_s_csv, 'rethinkdb')
 
-getpercentage(cockroachdb_s_explist, 'cockroachdb')
-exportcsv(cockroachdb_s_csv, 'cockroachdb')
+# getpercentage(cockroachdb_s_explist, 'cockroachdb')
+# exportcsv(cockroachdb_s_csv, 'cockroachdb')
 
-getpercentage(cockroachdb_explist, 'cockroachdb')
-exportcsv(cockroachdb_csv, 'cockroachdb')
+# getpercentage(cockroachdb_explist, 'cockroachdb')
+# exportcsv(cockroachdb_csv, 'cockroachdb')
 
 # getpercentage(rethinkdb_s_explist, 'rethinkdb')
 
@@ -1033,13 +1033,13 @@ plt.figure(figsize=(38,18*DX), dpi=sizei)
 draw('ops',drawlist_LS, [0,1.15,1,0], _legend=True)
 plt.savefig('LSops.pdf')
 
-# plt.figure(figsize=(sizex,sizey*DY), dpi=sizei)
-# draw('avg',drawlist_LS, [0,46,40, 0.5])
-# plt.savefig('LSavg.pdf')
+plt.figure(figsize=(sizex,sizey*DY), dpi=sizei)
+draw('avg',drawlist_LS, [0,46,40, 0.5])
+plt.savefig('LSavg.pdf')
 
-# plt.figure(figsize=(sizex,sizey*DY), dpi=sizei)
-# draw('99',drawlist_LS, [0,46,40, 0.5])
-# plt.savefig('LS99.pdf')
+plt.figure(figsize=(sizex,sizey*DY), dpi=sizei)
+draw('99',drawlist_LS, [0,46,40, 0.5])
+plt.savefig('LS99.pdf')
 
 
 
@@ -1047,11 +1047,11 @@ plt.figure(figsize=(38,18*DX), dpi=sizei)
 draw('ops',drawlist_FS, [0,1.15,1,0], _legend=True)
 plt.savefig('FSops.pdf')
 
-# plt.figure(figsize=(sizex,sizey*DY), dpi=sizei)
-# draw('avg',drawlist_FS, [0, 2.3, 2, 0.02])
-# plt.savefig('FSavg.pdf')
+plt.figure(figsize=(sizex,sizey*DY), dpi=sizei)
+draw('avg',drawlist_FS, [0, 2.3, 2, 0.02])
+plt.savefig('FSavg.pdf')
 
-# plt.figure(figsize=(sizex,sizey*DY), dpi=sizei)
-# draw('99',drawlist_FS, [0,3.3,3, 0.06])
-# plt.savefig('FS99.pdf')
+plt.figure(figsize=(sizex,sizey*DY), dpi=sizei)
+draw('99',drawlist_FS, [0,3.3,3, 0.06])
+plt.savefig('FS99.pdf')
 
