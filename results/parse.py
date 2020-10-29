@@ -970,14 +970,14 @@ exportcsv(mongo_s_csv, 'mongodb')
 getpercentage(tidb_s_explist, 'tidb')
 exportcsv(tidb_s_csv, 'tidb')
 
-# getpercentage(rethinkdb_s_explist, 'rethinkdb')
-# exportcsv(rethinkdb_s_csv, 'rethinkdb')
+getpercentage(rethinkdb_s_explist, 'rethinkdb')
+exportcsv(rethinkdb_s_csv, 'rethinkdb')
 
-# getpercentage(cockroachdb_s_explist, 'cockroachdb')
-# exportcsv(cockroachdb_s_csv, 'cockroachdb')
+getpercentage(cockroachdb_s_explist, 'cockroachdb')
+exportcsv(cockroachdb_s_csv, 'cockroachdb')
 
-# getpercentage(cockroachdb_explist, 'cockroachdb')
-# exportcsv(cockroachdb_csv, 'cockroachdb')
+getpercentage(cockroachdb_explist, 'cockroachdb')
+exportcsv(cockroachdb_csv, 'cockroachdb')
 
 # getpercentage(rethinkdb_s_explist, 'rethinkdb')
 
