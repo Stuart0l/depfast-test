@@ -1,8 +1,7 @@
 #!/bin/bash
 
 date=$(date +"%Y%m%d%s")
-exec > "$date"_experiment.log
-exec 2>&1
+exec > >(tee "$date"_experiment.log) 2>&1
 
 set -ex
 
@@ -276,6 +275,9 @@ function ycsb_load {
 
 	# Check the leaseholders
 	cockroach sql --execute="SELECT table_name,range_id,lease_holder FROM [show ranges from database system];SELECT table_name,range_id,lease_holder FROM [show ranges from database ycsb];" --insecure --host="$initserver"
+
+  # Run node status
+	cockroach node status --host="$initserver" --insecure
 }
 
 # ycsb run exectues the given workload and waits for it to complete
@@ -296,6 +298,8 @@ function ycsb_run {
 
 	# Run node status
 	cockroach node status --host="$initserver" --insecure
+
+  sleep 20s
 }
 
 # cleanup_disk is called at the end of the given trial of an experiment
@@ -305,10 +309,16 @@ function cleanup_disk {
     do
         cockroach quit --insecure --host="${serverNameIPMap[$key]}":26257
     done
+	if [ "$swappiness" == "swapon" ] ; then
+        for key in "${!serverNameIPMap[@]}";
+        do
+            ssh -i ~/.ssh/id_rsa "${serverNameIPMap[$key]}" "sudo sh -c 'pkill cockroach ; sudo swapoff -v /data/swapfile'"
+        done
+	fi
 
     for key in "${!serverNameIPMap[@]}";
     do
-        ssh -i ~/.ssh/id_rsa "${serverNameIPMap[$key]}" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/*; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db memory:db; true'"
+        ssh -i ~/.ssh/id_rsa "${serverNameIPMap[$key]}" "sudo sh -c 'pkill cockroach ; sudo pkill dd; sudo rm -rf /data/*; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db memory:db; true'"
     done
 
 	# Remove the tc rule for exp 5
