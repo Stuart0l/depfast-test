@@ -23,11 +23,11 @@ if [ "$#" -ne 11 ]; then
     echo "4th arg - experiment to run(1,2,3,4,5,6)"
     echo "5th arg - host type(gcp/azure)"
     echo "6th arg - type of experiment(follower/maxthroughput/minthroughput/noslowfolllower/noslowmaxthroughput/noslowminthroughput)"
-	echo "7th arg - file system to use(disk,memory)"
-	echo "8th arg - vm swappiness parameter(swapoff,swapon)[swapon only for exp6+mem]"
-	echo "9th arg - no of servers(3/5)"
-	echo "10th arg - server Regex"
-	echo "11th arg - threads for ycsb run(for saturation exp)"
+	  echo "7th arg - file system to use(disk,memory)"
+ 	  echo "8th arg - vm swappiness parameter(swapoff,swapon)[swapon only for exp6+mem]"
+	  echo "9th arg - no of servers(3/5)"
+	  echo "10th arg - server Regex"
+	  echo "11th arg - threads for ycsb run(for saturation exp)"
     exit 1
 fi
 
@@ -100,7 +100,7 @@ function setup_ssh_client_servers {
 function data_cleanup {
 	for key in "${!serverNameIPMap[@]}";
 	do
-		ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'rm -rf /data/*'"
+		ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'rm -rf /data/*'"
 	done
 }
 
@@ -140,9 +140,9 @@ function init_disk {
 
 		# If, experiment4, create the file beforehand to which the dd command should write to.
 		# NOTE - The count value should be same as the one mentioned in launch_dd.sh script
-		if [ "$expno" == 4 ]; then
-			ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'taskset -ac 1 dd if=/dev/zero of=/data/tmp.txt bs=1000 count=1800000 conv=notrunc'"
-		fi
+		#if [ "$expno" == 4 ]; then
+		#	ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'taskset -ac 1 dd if=/dev/zero of=/data/tmp.txt bs=1000 count=1800000 conv=notrunc'"
+		#fi
     done
 }
 
@@ -218,6 +218,12 @@ function db_init {
 		ALTER  TABLE system.public.jobs CONFIGURE ZONE USING constraints= '{"+datacenter=$dcname": 1}', lease_preferences = '[[+datacenter=$dcname]]';
 
 		ALTER RANGE system CONFIGURE ZONE USING constraints= '{"+datacenter=$dcname": 1}', lease_preferences = '[[+datacenter=$dcname]]';
+		
+    		ALTER RANGE liveness CONFIGURE ZONE USING constraints= '{"+datacenter=$dcname": 1}', lease_preferences = '[[+datacenter=$dcname]]';
+    
+    		ALTER RANGE meta CONFIGURE ZONE USING constraints= '{"+datacenter=$dcname": 1}', lease_preferences = '[[+datacenter=$dcname]]';
+
+    		ALTER RANGE timeseries CONFIGURE ZONE USING constraints= '{"+datacenter=$dcname": 1}', lease_preferences = '[[+datacenter=$dcname]]', num_replicas = 3;
 
 		ALTER DATABASE system CONFIGURE ZONE USING constraints= '{"+datacenter=$dcname": 1}', lease_preferences = '[[+datacenter=$dcname]]';
 
@@ -268,6 +274,16 @@ function db_init {
 	sleep 45s
 }
 
+function verify_range_leaseholders {
+	check_ip=$1
+
+	rm -f range_status.csv range_count.csv
+	cockroach node status --insecure --host="$initserver" --ranges --format=csv > range_status.csv
+	cockroach sql --execute='SELECT count(*) FROM crdb_internal.ranges;' --host="$initserver" --insecure --format csv > range_count.csv
+
+	./ranges_validator.py $check_ip
+}
+
 # ycsb_load is used to run the ycsb load and wait until it completes.
 function ycsb_load {
 	# load on the first server
@@ -276,8 +292,16 @@ function ycsb_load {
 	# Check the leaseholders
 	cockroach sql --execute="SELECT table_name,range_id,lease_holder FROM [show ranges from database system];SELECT table_name,range_id,lease_holder FROM [show ranges from database ycsb];" --insecure --host="$initserver"
 
-  # Run node status
-	cockroach node status --host="$initserver" --insecure
+ 	# Run node status
+	cockroach node status --host="$initserver" --insecure --ranges
+
+	# Show all ranges
+	cockroach sql --execute='SELECT range_id,start_pretty,end_pretty,lease_holder FROM crdb_internal.ranges;' --host=$initserver --insecure
+
+	# Verify total ranges count matches the number of ranges on the pinned node in case of follower experiment
+	if [ "$exptype" == "follower" -o "$exptype" == "noslowfollower" ]; then
+		verify_range_leaseholders $initserver
+	fi
 }
 
 # ycsb run exectues the given workload and waits for it to complete
@@ -297,9 +321,15 @@ function ycsb_run {
 	cockroach sql --execute="SELECT table_name,range_id,lease_holder FROM [show ranges from database system];SELECT table_name,range_id,lease_holder FROM [show ranges from database ycsb];" --insecure --host="$initserver"
 
 	# Run node status
-	cockroach node status --host="$initserver" --insecure
+	cockroach node status --host="$initserver" --insecure --ranges
 
-  sleep 20s
+	# Show all ranges
+	cockroach sql --execute='SELECT range_id,start_pretty,end_pretty,lease_holder FROM crdb_internal.ranges;' --host=$initserver --insecure
+
+	# Verify total ranges count matches the number of ranges on the pinned node in case of follower experiment
+	if [ "$exptype" == "follower" -o "$exptype" == "noslowfollower" ]; then
+		verify_range_leaseholders $primaryip
+	fi
 }
 
 # cleanup_disk is called at the end of the given trial of an experiment
@@ -309,12 +339,13 @@ function cleanup_disk {
     do
         cockroach quit --insecure --host="${serverNameIPMap[$key]}":26257
     done
-	if [ "$swappiness" == "swapon" ] ; then
+
+       if [ "$swappiness" == "swapon" ] ; then
         for key in "${!serverNameIPMap[@]}";
         do
             ssh -i ~/.ssh/id_rsa "${serverNameIPMap[$key]}" "sudo sh -c 'pkill cockroach ; sudo swapoff -v /data/swapfile'"
         done
-	fi
+       fi
 
     for key in "${!serverNameIPMap[@]}";
     do
