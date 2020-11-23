@@ -1,7 +1,8 @@
 #!/bin/bash
 
 date=$(date +"%Y%m%d%s")
-exec > >(tee "$date"_experiment.log) 2>&1
+exec > "$date"_experiment.log
+exec 2>&1
 
 set -ex
 
@@ -23,11 +24,11 @@ if [ "$#" -ne 11 ]; then
     echo "4th arg - experiment to run(1,2,3,4,5,6)"
     echo "5th arg - host type(gcp/azure)"
     echo "6th arg - type of experiment(follower/maxthroughput/minthroughput/noslowfolllower/noslowmaxthroughput/noslowminthroughput)"
-	  echo "7th arg - file system to use(disk,memory)"
- 	  echo "8th arg - vm swappiness parameter(swapoff,swapon)[swapon only for exp6+mem]"
-	  echo "9th arg - no of servers(3/5)"
-	  echo "10th arg - server Regex"
-	  echo "11th arg - threads for ycsb run(for saturation exp)"
+    echo "7th arg - file system to use(disk,memory)"
+    echo "8th arg - vm swappiness parameter(swapoff,swapon)[swapon only for exp6+mem]"
+    echo "9th arg - no of servers(3/5)"
+    echo "10th arg - server Regex"
+    echo "11th arg - threads for ycsb run(for saturation exp)"
     exit 1
 fi
 
@@ -100,7 +101,7 @@ function setup_ssh_client_servers {
 function data_cleanup {
 	for key in "${!serverNameIPMap[@]}";
 	do
-		ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'rm -rf /data/*'"
+		ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'rm -rf /data/*'"
 	done
 }
 
@@ -140,9 +141,9 @@ function init_disk {
 
 		# If, experiment4, create the file beforehand to which the dd command should write to.
 		# NOTE - The count value should be same as the one mentioned in launch_dd.sh script
-		#if [ "$expno" == 4 ]; then
-		#	ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'taskset -ac 1 dd if=/dev/zero of=/data/tmp.txt bs=1000 count=1800000 conv=notrunc'"
-		#fi
+		if [ "$expno" == 4 ]; then
+			ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'taskset -ac 1 dd if=/dev/zero of=/data/tmp.txt bs=1000 count=1800000 conv=notrunc'"
+		fi
     done
 }
 
@@ -187,7 +188,7 @@ function start_follower_db {
         ssh  -i ~/.ssh/id_rsa ${serverips[$r]} "sh -c 'nohup taskset -ac 0 cockroach start --insecure --advertise-addr=${serverips[$r]} --join=$cservers --cache=4GiB --max-sql-memory=4GiB --store=/"$datadir"/node"$r"/ --pid-file /"$datadir"/pid --locality=datacenter="${serverdcnames[$r]}" > /dev/null 2>&1 &'"
 
     done
-	sleep 20
+    sleep 20
 }
 
 # start_max_min_throughput_db starts cockroach instances without the locality config set
@@ -218,12 +219,6 @@ function db_init {
 		ALTER  TABLE system.public.jobs CONFIGURE ZONE USING constraints= '{"+datacenter=$dcname": 1}', lease_preferences = '[[+datacenter=$dcname]]';
 
 		ALTER RANGE system CONFIGURE ZONE USING constraints= '{"+datacenter=$dcname": 1}', lease_preferences = '[[+datacenter=$dcname]]';
-		
-    		ALTER RANGE liveness CONFIGURE ZONE USING constraints= '{"+datacenter=$dcname": 1}', lease_preferences = '[[+datacenter=$dcname]]';
-    
-    		ALTER RANGE meta CONFIGURE ZONE USING constraints= '{"+datacenter=$dcname": 1}', lease_preferences = '[[+datacenter=$dcname]]';
-
-    		ALTER RANGE timeseries CONFIGURE ZONE USING constraints= '{"+datacenter=$dcname": 1}', lease_preferences = '[[+datacenter=$dcname]]', num_replicas = 3;
 
 		ALTER DATABASE system CONFIGURE ZONE USING constraints= '{"+datacenter=$dcname": 1}', lease_preferences = '[[+datacenter=$dcname]]';
 
@@ -238,9 +233,9 @@ function db_init {
 		# Create ycsb DB
 		cockroach sql --execute="CREATE DATABASE ycsb;" --insecure --host="$initserver"
 	else
-		# No Slow
+		# Pathological case
 		# Create ycsb DB
-		echo ""
+		cockroach sql --execute="CREATE DATABASE ycsb;" --insecure --host="$initserver"
 	fi
 
 	# Create ycsb usertable
@@ -274,16 +269,6 @@ function db_init {
 	sleep 45s
 }
 
-function verify_range_leaseholders {
-	check_ip=$1
-
-	rm -f range_status.csv range_count.csv
-	cockroach node status --insecure --host="$initserver" --ranges --format=csv > range_status.csv
-	cockroach sql --execute='SELECT count(*) FROM crdb_internal.ranges;' --host="$initserver" --insecure --format csv > range_count.csv
-
-	./ranges_validator.py $check_ip
-}
-
 # ycsb_load is used to run the ycsb load and wait until it completes.
 function ycsb_load {
 	# load on the first server
@@ -291,17 +276,6 @@ function ycsb_load {
 
 	# Check the leaseholders
 	cockroach sql --execute="SELECT table_name,range_id,lease_holder FROM [show ranges from database system];SELECT table_name,range_id,lease_holder FROM [show ranges from database ycsb];" --insecure --host="$initserver"
-
- 	# Run node status
-	cockroach node status --host="$initserver" --insecure --ranges
-
-	# Show all ranges
-	cockroach sql --execute='SELECT range_id,start_pretty,end_pretty,lease_holder FROM crdb_internal.ranges;' --host=$initserver --insecure
-
-	# Verify total ranges count matches the number of ranges on the pinned node in case of follower experiment
-	if [ "$exptype" == "follower" -o "$exptype" == "noslowfollower" ]; then
-		verify_range_leaseholders $initserver
-	fi
 }
 
 # ycsb run exectues the given workload and waits for it to complete
@@ -310,26 +284,23 @@ function ycsb_run {
 	# For maxthroughput slowness, this is the node with max throughput
 	# For minthroughput slowness, this is the node with min throughput
 	# For follower slowness, we chose leader as first server, as it has the locality config set
-	# WE should clear the memory:db cgroup for ycsb to complete as it keeps waiting for some threads to complete
+	# WE should clear the memory:db cgroup for ycsb to complete as it keeps waiting for some threads to complete if the fail-slow is too aggressive
 	exp6cleartime=$(($ycsbruntime+30))
 	if [ "$expno" == 6 ]; then
 		ssh -i ~/.ssh/id_rsa "$primaryip" "sudo sh -c 'sleep $exp6cleartime && sudo cgdelete memory:db'" > /dev/null 2>&1 & 
 	fi
-	taskset -ac 0 bin/ycsb run jdbc -s -P $workload -p maxexecutiontime=$ycsbruntime -cp jdbc-binding/lib/postgresql-42.2.10.jar -p db.driver=org.postgresql.Driver -p db.user=root -p db.passwd=root -p db.url=jdbc:postgresql://"$primaryip":26257/ycsb?sslmode=disable -threads $ycsbthreads > "$dirname"/exp"$expno"_trial_"$i".txt
 
+	ycsbserverip=$1
+	ycsbrtime=$2
+	# Server IPs for last server
+	taskset -ac 0 bin/ycsb run jdbc -s -P $workload -p maxexecutiontime=$ycsbrtime -cp jdbc-binding/lib/postgresql-42.2.10.jar -p db.driver=org.postgresql.Driver -p db.user=root -p db.passwd=root -p db.url=jdbc:postgresql://"$ycsbserverip":26257/ycsb?sslmode=disable -threads $ycsbthreads > "$dirname"/exp"$expno"_trial_"$i".txt
+
+	sleep 30s
 	# Verify that all the range leaseholders are on Node 1.
 	cockroach sql --execute="SELECT table_name,range_id,lease_holder FROM [show ranges from database system];SELECT table_name,range_id,lease_holder FROM [show ranges from database ycsb];" --insecure --host="$initserver"
 
 	# Run node status
-	cockroach node status --host="$initserver" --insecure --ranges
-
-	# Show all ranges
-	cockroach sql --execute='SELECT range_id,start_pretty,end_pretty,lease_holder FROM crdb_internal.ranges;' --host=$initserver --insecure
-
-	# Verify total ranges count matches the number of ranges on the pinned node in case of follower experiment
-	if [ "$exptype" == "follower" -o "$exptype" == "noslowfollower" ]; then
-		verify_range_leaseholders $primaryip
-	fi
+	cockroach node status --host="$initserver" --insecure
 }
 
 # cleanup_disk is called at the end of the given trial of an experiment
@@ -340,16 +311,9 @@ function cleanup_disk {
         cockroach quit --insecure --host="${serverNameIPMap[$key]}":26257
     done
 
-       if [ "$swappiness" == "swapon" ] ; then
-        for key in "${!serverNameIPMap[@]}";
-        do
-            ssh -i ~/.ssh/id_rsa "${serverNameIPMap[$key]}" "sudo sh -c 'pkill cockroach ; sudo swapoff -v /data/swapfile'"
-        done
-       fi
-
     for key in "${!serverNameIPMap[@]}";
     do
-        ssh -i ~/.ssh/id_rsa "${serverNameIPMap[$key]}" "sudo sh -c 'pkill cockroach ; sudo pkill dd; sudo rm -rf /data/*; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db memory:db; true'"
+        ssh -i ~/.ssh/id_rsa "${serverNameIPMap[$key]}" "sudo sh -c 'pkill cockroach ; sudo rm -rf /data/*; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db memory:db; true'"
     done
 
 	# Remove the tc rule for exp 5
@@ -482,11 +446,11 @@ function test_run {
 		# 1. start servers
 		start_servers
 
-        # 2. Set IP addresses
-        set_ip
+		# 2. Set IP addresses
+		set_ip
 
-        # 3. Copy ssh keys
-        setup_ssh_client_servers
+		# 3. Copy ssh keys
+		setup_ssh_client_servers
 
 		# 4. Cleanup first
 		data_cleanup	
@@ -510,6 +474,8 @@ function test_run {
 		if [ "$exptype" == "follower" -o "$exptype" == "noslowfollower" ]; then
 			# With locality config set
 			start_follower_db
+		elif [ "$exptype" == "pathological" ]; then
+			start_follower_db
 		elif [[ "$exptype" =~ $tppattern ]]; then
 			# Without locality config set
 			start_max_min_throughput_db
@@ -521,18 +487,39 @@ function test_run {
 		db_init
 
 		# 9. ycsb load
+		# YCSB load on serverips[0]
 		ycsb_load
 
 		# 10. Find out node to slowdown
-		find_node_to_slowdown
+		#find_node_to_slowdown
 
 		# 11. Run experiment if this is not a no slow
-		if [ "$exptype" != "noslowmaxthroughput" -a "$exptype" != "noslowminthroughput" -a "$exptype" != "noslowfollower" ]; then
-			run_experiment
-		fi
+		#if [ "$exptype" != "noslowmaxthroughput" -a "$exptype" != "noslowminthroughput" -a "$exptype" != "noslowfollower" ]; then
+		#	run_experiment
+		#fi
 
 		# 12. ycsb run
-		ycsb_run
+		# YCSB run on serverips[2]
+		ycsb_run ${serverips[2]} $ycsbruntime
+
+		# Add 200 ms latency to all nodes
+		# This is required without high latency, follow the workload doesn’t kicks in.
+		# https://www.cockroachlabs.com/docs/stable/demo-follow-the-workload.html#step-3-simulate-network-latency
+	    	for (( z=0; z<$noOfServers;z++ ));
+	    	do
+			ssh -i ~/.ssh/id_rsa "${serverips[$z]}" "sudo sh -c 'sudo /sbin/tc qdisc add dev eth0 root netem delay 200ms'"
+	    	done
+
+		# Add CPU slowness to node 2
+		slowdownip=${serverips[1]}
+		slowdownpid=$(ssh -i ~/.ssh/id_rsa "$slowdownip" "sh -c 'cat /"$datadir"/pid'")
+		ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo mkdir /sys/fs/cgroup/cpu/db'"
+		ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo echo 500000 > /sys/fs/cgroup/cpu/db/cpu.cfs_quota_us'"
+		ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo echo 1000000 > /sys/fs/cgroup/cpu/db/cpu.cfs_period_us'"
+		ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo echo $slowdownpid > /sys/fs/cgroup/cpu/db/cgroup.procs'"
+
+		# Run ycsb at node 2 for 20 mins now
+		ycsb_run ${serverips[1]} 1500
 
 		# 13. cleanup
 		if [ "$filesystem" == "disk" ]; then

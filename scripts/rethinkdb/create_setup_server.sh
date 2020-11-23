@@ -34,7 +34,7 @@ declare -A serverNameIPMap
 # Create the VM on Azure
 function az_vm_create {
   # Create client VM
-  az vm create --name rethinkdb"$namePrefix"-client --resource-group DepFast3 --subscription 'Last Chance' --zone 1 --image debian --os-disk-size-gb 64 --storage-sku Standard_LRS --size Standard_D4s_v3 --admin-username riteshsinha --ssh-key-values ~/.ssh/id_rsa.pub --accelerated-networking true
+  #az vm create --name rethinkdb"$namePrefix"-client --resource-group DepFast3 --subscription 'Last Chance' --zone 1 --image debian --os-disk-size-gb 64 --storage-sku Standard_LRS --size Standard_D4s_v3 --admin-username riteshsinha --ssh-key-values ~/.ssh/id_rsa.pub --accelerated-networking true
 
   # Setup Client IP and name
   clientConfig=$(az vm list-ip-addresses --resource-group DepFast3 --name rethinkdb"$namePrefix"-client --query '[0].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json)
@@ -87,6 +87,7 @@ function setup_servers {
     ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo apt install tmux wget git --assume-yes ; sudo apt-get install cgroup-tools --assume-yes ; sudo apt-get install xfsprogs --assume-yes'"
     ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'wget https://download.rethinkdb.com/repository/debian-buster/pool/r/rethinkdb/rethinkdb_2.4.0~0buster_amd64.deb ; sudo apt install ./rethinkdb_2.4.0~0buster_amd64.deb --assume-yes'"
     scp deadloop "${serverNameIPMap[$key]}":~/
+    scp disk_contention "${serverNameIPMap[$key]}":~/
   done
 }
 
