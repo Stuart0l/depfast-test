@@ -91,14 +91,18 @@ function setup_client {
 	# Install etcd
 	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "sudo sh -c './install_etcd.sh'"
 
-    ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "sudo sh -c 'sudo apt install tmux wget git htop --assume-yes'"
+    ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "sudo sh -c 'sudo apt install tmux wget git htop jq --assume-yes'"
 	# Install go
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "sudo sh -c ' wget https://golang.org/dl/go1.15.5.linux-amd64.tar.gz; tar -C /usr/local -xzf go1.15.5.linux-amd64.tar.gz; export PATH=$PATH:/usr/local/go/bin; echo "PATH=\$PATH:/usr/local/go/bin:./go/src/bin/" >> .bashrc ; echo "PATH=\$PATH:/usr/local/go/bin:./go/src/bin/" >> .bash_profile'"
+	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "sudo sh -c ' wget https://golang.org/dl/go1.15.5.linux-amd64.tar.gz; tar -C /usr/local -xzf go1.15.5.linux-amd64.tar.gz; export PATH=$PATH:/usr/local/go/bin; echo "PATH=\$PATH:/usr/local/go/bin" >> .bashrc ; echo "PATH=\$PATH:/usr/local/go/bin" >> .bash_profile ; echo "GOPATH=./" >> .bashrc '"
 
 	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "sudo /bin/bash --login -c 'go version'"
 
 	# Install benchmark tool
 	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "sudo /bin/bash --login -c 'git clone https://github.com/etcd-io/etcd.git ; cd etcd; go install -v ./tools/benchmark'"
+
+	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "sudo /bin/bash --login -c 'echo "PATH=\$PATH:./go/bin/" >> .bashrc ; echo "PATH=\$PATH:./go/bin/" >> .bash_profile'"
+
+	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "sudo /bin/bash --login -c 'sudo curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash'"
 }
 
 function main {

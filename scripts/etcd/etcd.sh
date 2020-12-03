@@ -51,6 +51,7 @@ declare -A serverNameDCname
 declare -a servernames
 declare -a serverips
 declare -a serverdcnames
+declare -a leaders
 
 # test_start is executed at the beginning
 function test_start {
@@ -199,22 +200,22 @@ function setup_etcd {
 function start_etcd {
     for (( r=0; r<$noOfServers;r++ )); 
     do  
-	THIS_NAME=${servernames[$r]}
-	THIS_IP=${serverips[$r]}
-	ssh  -i ~/.ssh/id_rsa ${serverips[$r]} "sh -c 'nohup taskset -ac 0 etcd --data-dir=/data/data.etcd --name ${THIS_NAME} --initial-advertise-peer-urls http://${THIS_IP}:2380 --listen-peer-urls http://${THIS_IP}:2380 --advertise-client-urls http://${THIS_IP}:2379 --listen-client-urls http://${THIS_IP}:2379 --initial-cluster ${CLUSTER} --initial-cluster-state ${CLUSTER_STATE} --initial-cluster-token ${TOKEN} > /dev/null 2>&1 &'"
+      THIS_NAME=${servernames[$r]}
+      THIS_IP=${serverips[$r]}
+      ssh  -i ~/.ssh/id_rsa ${serverips[$r]} "sh -c 'nohup taskset -ac 0 etcd --data-dir=/data/data.etcd --name ${THIS_NAME} --quota-backend-bytes=$((8*1024*1024*1024)) --initial-advertise-peer-urls http://${THIS_IP}:2380 --listen-peer-urls http://${THIS_IP}:2380 --advertise-client-urls http://${THIS_IP}:2379 --listen-client-urls http://${THIS_IP}:2379 --initial-cluster ${CLUSTER} --initial-cluster-state ${CLUSTER_STATE} --initial-cluster-token ${TOKEN} > /data/etcd.log 2>&1 &'"
 
     done
 
     sleep 5s
 
     # Check status
-    etcdctl --write-out=table --endpoints=$ENDPOINTS endpoint status
+    etcdctl --write-out=table --endpoints=$ENDPOINTS endpoint status || true
 }
 
 function find_follower_leader {
 	rm -f etcd.json jsonres
 
-        etcdctl --write-out=json --endpoints=$ENDPOINTS endpoint status > etcd.json
+  etcdctl --write-out=json --endpoints=$ENDPOINTS endpoint status > etcd.json
 
 	python3 etcd_helper.py etcd.json > jsonres
 
@@ -232,16 +233,25 @@ function find_follower_leader {
 	        slowdownip=$primaryip
 	else
 	        echo ""
-        fi	
+  fi	
 }
 
 function load_benchmark {
-	benchmark --endpoints=$primaryip:2380 --target-leader --conns=100 --clients=1000 put --key-size=8 --total=1000000 --val-size=256
+	benchmark --endpoints=$primaryip:2380 --target-leader --conns=100 --clients=3000 put --key-size=8 --total=3000000 --val-size=256
+  # Check status
+  etcdctl --write-out=table --endpoints=$ENDPOINTS endpoint status || true
+
+  # Check for the leader again after load as leader can change after this!!
+  # We do not want the pre-decide(before load) the node to slow down which becomes
+  # the leader later on.
+  find_follower_leader
 }
 
 function run_benchmark {
 	date_run=$(date +"%Y%m%d%s")
-	benchmark --endpoints=$primaryip:2380 --target-leader --conns=100 --clients=1000 put --key-size=8 --total=1000000 --val-size=256 > "$dirname"/exp"$expno"_trial_"$i"_"$date_run".txt
+	benchmark --endpoints=$primaryip:2380 --target-leader --conns=100 --clients=3000 put --key-size=8 --total=3000000 --val-size=256 > "$dirname"/exp"$expno"_trial_"$i"_"$date_run".txt
+  # Check status
+  etcdctl --write-out=table --endpoints=$ENDPOINTS endpoint status || true
 }
 
 # cleanup_disk is called at the end of the given trial of an experiment
@@ -327,7 +337,7 @@ function test_run {
 		# 7. SSH to all the machines and start db
 		start_etcd
 
-		find_follower_leader
+    find_follower_leader
 
 		load_benchmark
 
