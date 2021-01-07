@@ -125,8 +125,11 @@ function start_db {
       #ssh -i ~/.ssh/id_rsa tidb@"$pd" "./.tiup/bin/tiup cluster deploy mytidb v4.0.0 ./tidb_hdd.yaml --user tidb -y"
       tiup cluster deploy mytidb v4.0.0 ./tidb_hdd.yaml --user tidb -y
     fi
-   
-    
+ 
+scp ~/tikv-server tidb@"$s1":/data1/tidb-deploy/tikv-20160/bin/
+scp ~/tikv-server tidb@"$s2":/data1/tidb-deploy/tikv-20160/bin/ 
+scp ~/tikv-server tidb@"$s3":/data1/tidb-deploy/tikv-20160/bin/
+
 #ssh -i ~/.ssh/id_rsa tidb@"$s1" "cp ~/tikv-server /data1/tidb-deploy/tikv-20160/bin/"
 #ssh -i ~/.ssh/id_rsa tidb@"$s2" "cp ~/tikv-server /data1/tidb-deploy/tikv-20160/bin/"
 #ssh -i ~/.ssh/id_rsa tidb@"$s3" "cp ~/tikv-server /data1/tidb-deploy/tikv-20160/bin/"
@@ -276,6 +279,13 @@ function test_run {
     cleanup
 
     sleep 120
+
+mkdir tidblogs
+mkdir tidblogs/ld tidblogs/sf tidblogs/ff
+scp 10.0.0.9:/data1/tidb-deploy/tikv-20160/log/tikv.log* ./tidblogs/ld/
+scp 10.0.0.6:/data1/tidb-deploy/tikv-20160/log/tikv.log* ./tidblogs/sf/
+scp 10.0.0.7:/data1/tidb-deploy/tikv-20160/log/tikv.log* ./tidblogs/ff/
+
 
     data_cleanup
     
