@@ -34,6 +34,7 @@ tikv_servers:
     #   numa_node: "0"
     config:
       server.labels: { dc: "3", zone: "3", rack: "3", host: "32" }
+      raftstore.store-pool-size: 1
 
 monitoring_servers:
   - host: 10.0.0.5
