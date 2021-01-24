@@ -32,22 +32,32 @@
 
 
 sed -i 's#raftstore.store-pool-size: 1#raftstore.store-pool-size: 4#g' tidb_restrict_hdd.yaml 
+cat tidb_restrict_hdd.yaml  | grep store-pool-size
+echo ------------------------------------------------------------------------------------------------------------
 ./start_experiment_hdd.sh 1 ./workloadsd 300 1 azure noslow2 swapoff hdd 512
 mv tidblogs tidblogs_no4
-mv tidb_follower_swapoff_hdd_512_results/exp5_trial_1.txt ./tidbycsb_no4
+mv tidb_noslow2_swapoff_hdd_512_results/exp1_trial_1.txt ./tidbycsb_no4
+cat tidb_restrict_hdd.yaml  | grep store-pool-size
+echo ------------------------------------------------------------------------------------------------------------
 ./start_experiment_hdd.sh 1 ./workloadsd 300 5 azure follower swapoff hdd 512
 mv tidblogs tidblogs_slow4
 mv tidb_follower_swapoff_hdd_512_results/exp5_trial_1.txt ./tidbycsb_slow4
-
+cat tidb_restrict_hdd.yaml  | grep store-pool-size
+echo ------------------------------------------------------------------------------------------------------------
 
 sed -i 's#raftstore.store-pool-size: 4#raftstore.store-pool-size: 1#g' tidb_restrict_hdd.yaml
+cat tidb_restrict_hdd.yaml  | grep store-pool-size
+echo ------------------------------------------------------------------------------------------------------------
 ./start_experiment_hdd.sh 1 ./workloadsd 300 1 azure noslow2 swapoff hdd 512
 mv tidblogs tidblogs_no1
-mv tidb_follower_swapoff_hdd_512_results/exp5_trial_1.txt ./tidbycsb_no1
+mv tidb_noslow2_swapoff_hdd_512_results/exp1_trial_1.txt ./tidbycsb_no1
+cat tidb_restrict_hdd.yaml  | grep store-pool-size
+echo ------------------------------------------------------------------------------------------------------------
 ./start_experiment_hdd.sh 1 ./workloadsd 300 5 azure follower swapoff hdd 512
 mv tidblogs tidblogs_slow1
 mv tidb_follower_swapoff_hdd_512_results/exp5_trial_1.txt ./tidbycsb_slow1
-
+cat tidb_restrict_hdd.yaml  | grep store-pool-size
+echo ------------------------------------------------------------------------------------------------------------
 
 
 
