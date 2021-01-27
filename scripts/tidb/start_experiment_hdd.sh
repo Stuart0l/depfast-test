@@ -126,9 +126,9 @@ function start_db {
       tiup cluster deploy mytidb v4.0.0 ./tidb_hdd.yaml --user tidb -y
     fi
  
-#scp ~/tikv-server tidb@"$s1":/data1/tidb-deploy/tikv-20160/bin/
-#scp ~/tikv-server tidb@"$s2":/data1/tidb-deploy/tikv-20160/bin/ 
-#scp ~/tikv-server tidb@"$s3":/data1/tidb-deploy/tikv-20160/bin/
+scp ~/tikv-server tidb@"$s1":/data1/tidb-deploy/tikv-20160/bin/
+scp ~/tikv-server tidb@"$s2":/data1/tidb-deploy/tikv-20160/bin/ 
+scp ~/tikv-server tidb@"$s3":/data1/tidb-deploy/tikv-20160/bin/
 
    
     ssh -i ~/.ssh/id_rsa tidb@"$s1" "sudo sed -i 's#bin/tikv-server#taskset -ac 0 bin/tikv-server#g' /data1/tidb-deploy/tikv-20160/scripts/run_tikv.sh "
