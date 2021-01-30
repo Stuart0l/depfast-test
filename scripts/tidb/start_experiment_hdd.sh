@@ -278,6 +278,8 @@ function test_run {
 
 mkdir tidblogs
 mkdir tidblogs/ld tidblogs/sf tidblogs/ff
+tiup ctl pd region -u http://10.0.0.5:2379 >> tidblogs/region
+tiup ctl pd store -u http://10.0.0.5:2379 >> tidblogs/store
 scp 10.0.0.9:/data1/tidb-deploy/tikv-20160/log/tikv.log* ./tidblogs/ld/
 scp 10.0.0.6:/data1/tidb-deploy/tikv-20160/log/tikv.log* ./tidblogs/sf/
 scp 10.0.0.7:/data1/tidb-deploy/tikv-20160/log/tikv.log* ./tidblogs/ff/
