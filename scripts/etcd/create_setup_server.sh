@@ -2,6 +2,7 @@
 # run on local server
 
 date=$(date +"%Y%m%d%s")
+mkdir -p log
 exec > >(tee ./log/"$date"_experiment.log) 2>&1
 
 set -ex
@@ -108,15 +109,15 @@ function setup_client {
 }
 
 function main {
-  az_vm_create
+  # az_vm_create
 
-  write_config
+  # write_config
 
-  find_ip
+  # find_ip
 
-  setup_servers
+  # setup_servers
 
-  setup_client
+  # setup_client
 
   echo "Client and server setup done for etcd."
 }

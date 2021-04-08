@@ -2,6 +2,7 @@
 # run on client server
 
 date=$(date +"%Y%m%d%s")
+mkdir -p log
 exec > >(tee ./log/"$date"_experiment.log) 2>&1
 
 set -ex
