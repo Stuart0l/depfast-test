@@ -1,7 +1,8 @@
 #!/bin/bash
+# run on client server
 
 date=$(date +"%Y%m%d%s")
-exec > >(tee "$date"_experiment.log) 2>&1
+exec > >(tee ./log/"$date"_experiment.log) 2>&1
 
 set -ex
 
@@ -11,7 +12,8 @@ serverZone="us-central1-a"
 nic="eth0"
 partitionName="/dev/sdc"
 # Azure support
-resource="DepFast3"
+resource="DepFast"
+username="xuhao"
 tppattern="[max|min]throughput"
 ###########################
 
@@ -26,7 +28,7 @@ if [ "$#" -ne 11 ]; then
     echo "7th arg - file system to use(disk,memory)"
     echo "8th arg - vm swappiness parameter(swapoff,swapon)[swapon only for exp6+mem]"
     echo "9th arg - no of servers(3/5)"
-    echo "10th arg - server Regex"
+    echo "10th arg - namePrefix"
     echo "11th arg - threads for ycsb run(for saturation exp)"
     exit 1
 fi
@@ -40,8 +42,9 @@ exptype=$6
 filesystem=$7
 swappiness=$8
 noOfServers=$9
-serverRegex=${10}
+namePrefix=${10}
 ycsbthreads=${11}
+serverRegex="etcd-$namePrefix-[1-$noOfServers]"
 
 # Map to keep track of server names to ip address
 declare -A serverNameIPMap
@@ -60,6 +63,11 @@ function test_start {
 	echo "Running $exptype experiment $expno for $name"
 	dirname="$name"_"$exptype"_"$filesystem"_"$swappiness"_results
 	mkdir -p $dirname
+}
+
+function write_config {
+	rm -f config.json
+	az vm list-ip-addresses --ids $(az vm list --query "[].id" --resource-group $resource -o tsv | grep $serverRegex) --query '[].{name:virtualMachine.name, privateip:virtualMachine.network.privateIpAddresses[0], publicip:virtualMachine.network.publicIpAddresses[0].ipAddress}' -o json > config.json
 }
 
 function set_ip {
@@ -102,7 +110,7 @@ function data_cleanup {
 	sleep 45s
 	for key in "${!serverNameIPMap[@]}";
 	do
-		ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'rm -rf /data/*'"
+		ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $username@${serverNameIPMap[$key]} "sh -c 'rm -rf /data/*'"
 	done
 }
 
@@ -113,11 +121,11 @@ function start_servers {
 	elif [ "$host" == "azure" ]; then
         # For regex have the following check to save ourselves from malformed regex which can lead
         # to starting of non-target VMs
-        ns=$(az vm list --query "[].id" --resource-group DepFast3 -o tsv | grep $serverRegex | wc -l)
+        ns=$(az vm list --query "[].id" --resource-group $resource -o tsv | grep $serverRegex | wc -l)
         if [[ $ns -le 5 ]]
         then
             az vm start --ids $(
-                az vm list --query "[].id" --resource-group DepFast3 -o tsv | grep $serverRegex
+                az vm list --query "[].id" --resource-group $resource -o tsv | grep $serverRegex
             )
         else
             echo "Server regex malformed, performing linear start"
@@ -138,12 +146,12 @@ function start_servers {
 function init_disk {
     for key in "${!serverNameIPMap[@]}";
     do
-        ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
+        ssh -i ~/.ssh/id_rsa $username@${serverNameIPMap[$key]} "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
 
 		# If, experiment4, create the file beforehand to which the dd command should write to.
 		# NOTE - The count value should be same as the one mentioned in launch_dd.sh script
 		#if [ "$expno" == 4 ]; then
-		#	ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sh -c 'taskset -ac 1 dd if=/dev/zero of=/data/tmp.txt bs=1000 count=1800000 conv=notrunc'"
+		#	ssh -i ~/.ssh/id_rsa $username@${serverNameIPMap[$key]} "sh -c 'taskset -ac 1 dd if=/dev/zero of=/data/tmp.txt bs=1000 count=1800000 conv=notrunc'"
 		#fi
     done
 }
@@ -152,7 +160,7 @@ function init_disk {
 function init_memory {
     for key in "${!serverNameIPMap[@]}";
     do
-        ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"	
+        ssh -i ~/.ssh/id_rsa $username@${serverNameIPMap[$key]} "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"	
     done
 }
 
@@ -161,7 +169,7 @@ function set_swap_config {
 	if [ "$swappiness" == "swapoff" ] ; then
         for key in "${!serverNameIPMap[@]}";
         do
-            ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
+            ssh -i ~/.ssh/id_rsa $username@${serverNameIPMap[$key]} "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
         done
 	elif [ "$swappiness" == "swapon" ] ; then
 		# Disk needed for swapfile		
@@ -170,8 +178,8 @@ function set_swap_config {
 		fi
 		for key in "${!serverNameIPMap[@]}";
 		do
-		    ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=25165824 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 24GB
-		    ssh -i ~/.ssh/id_rsa ${serverNameIPMap[$key]} "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && sudo swapon -a ; sudo swapon /data/swapfile'"
+		    ssh -i ~/.ssh/id_rsa $username@${serverNameIPMap[$key]} "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=25165824 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 24GB
+		    ssh -i ~/.ssh/id_rsa $username@${serverNameIPMap[$key]} "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && sudo swapon -a ; sudo swapon /data/swapfile'"
 		done
 	else
 		echo "swappiness option not recognised. Exiting."
@@ -202,7 +210,7 @@ function start_etcd {
     do  
       THIS_NAME=${servernames[$r]}
       THIS_IP=${serverips[$r]}
-      ssh  -i ~/.ssh/id_rsa ${serverips[$r]} "sh -c 'nohup taskset -ac 0 etcd --data-dir=/data/data.etcd --name ${THIS_NAME} --quota-backend-bytes=$((8*1024*1024*1024)) --initial-advertise-peer-urls http://${THIS_IP}:2380 --listen-peer-urls http://${THIS_IP}:2380 --advertise-client-urls http://${THIS_IP}:2379 --listen-client-urls http://${THIS_IP}:2379 --initial-cluster ${CLUSTER} --initial-cluster-state ${CLUSTER_STATE} --initial-cluster-token ${TOKEN} > /data/etcd.log 2>&1 &'"
+      ssh  -i ~/.ssh/id_rsa $username@${serverips[$r]} "sh -c 'nohup taskset -ac 0 etcd --data-dir=/data/data.etcd --name ${THIS_NAME} --quota-backend-bytes=$((8*1024*1024*1024)) --initial-advertise-peer-urls http://${THIS_IP}:2380 --listen-peer-urls http://${THIS_IP}:2380 --advertise-client-urls http://${THIS_IP}:2379 --listen-client-urls http://${THIS_IP}:2379 --initial-cluster ${CLUSTER} --initial-cluster-state ${CLUSTER_STATE} --initial-cluster-token ${TOKEN} > /data/etcd.log 2>&1 &'"
 
     done
 
@@ -222,8 +230,8 @@ function find_follower_leader {
 	primaryip=$(cat jsonres | grep -Eo 'leader=.{1,30}' | cut -d'=' -f2-)
 	secondaryip=$(cat jsonres | grep -Eo 'follower=.{1,30}' | cut -d'=' -f2-)
 
-	primarypid=$(ssh -i ~/.ssh/id_rsa "$primaryip" "sh -c 'pgrep etcd'")
-	secondarypid=$(ssh -i ~/.ssh/id_rsa "$secondaryip" "sh -c 'pgrep etcd'")
+	primarypid=$(ssh -i ~/.ssh/id_rsa "$username@$primaryip" "sh -c 'pgrep etcd'")
+	secondarypid=$(ssh -i ~/.ssh/id_rsa "$username@$secondaryip" "sh -c 'pgrep etcd'")
 
 	if [ "$exptype" == "follower" ]; then
 	        slowdownpid=$secondarypid
@@ -258,13 +266,13 @@ function run_benchmark {
 function cleanup_disk {
     for key in "${!serverNameIPMap[@]}";
     do
-        ssh -i ~/.ssh/id_rsa "${serverNameIPMap[$key]}" "sudo sh -c 'pkill etcd ; sudo pkill dd; sudo rm -rf /data/*; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db memory:db; true'"
+        ssh -i ~/.ssh/id_rsa "$username@${serverNameIPMap[$key]}" "sudo sh -c 'pkill etcd ; sudo pkill dd; sudo rm -rf /data/*; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db memory:db; true'"
     done
 
 	# Remove the tc rule for exp 5
 	if [ "$expno" == 5 -a "$exptype" != "noslowfollower" ]; then
 		if [ "$exptype" != "noslowmaxthroughput" -a "$exptype" != "noslowminthroughput" ]; then
-		  ssh -i ~/.ssh/id_rsa "$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev "$nic" root ; true'"
+		  ssh -i ~/.ssh/id_rsa "$username@$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev "$nic" root ; true'"
 		fi  
 	fi  
 }
@@ -275,11 +283,11 @@ function stop_servers {
 	elif [ "$host" == "azure" ]; then
 	    # For regex have the following check to save ourselves from malformed regex which can lead
 		# to stopping of non-target VMs
-		ns=$(az vm list --query "[].id" --resource-group DepFast3 -o tsv | grep $serverRegex | wc -l)
+		ns=$(az vm list --query "[].id" --resource-group $resource -o tsv | grep $serverRegex | wc -l)
 		if [[ $ns -le 5 ]]
 		then
 			az vm deallocate --ids $(
-				az vm list --query "[].id" --resource-group DepFast3 -o tsv | grep $serverRegex
+				az vm list --query "[].id" --resource-group $resource -o tsv | grep $serverRegex
 			)
 		else
 			echo "Server regex malformed, performing linear stop"
@@ -307,6 +315,9 @@ function test_run {
 		echo "Running experiment $expno - Trial $i"
 		# 1. start servers
 		start_servers
+
+		# 2. Write server config
+		write_config
 
 		# 2. Set IP addresses
 		set_ip

@@ -1,7 +1,8 @@
 #!/bin/bash
+# run on local server
 
 date=$(date +"%Y%m%d%s")
-exec > >(tee "$date"_experiment.log) 2>&1
+exec > >(tee ./log/"$date"_experiment.log) 2>&1
 
 set -ex
 
@@ -92,7 +93,7 @@ function setup_client {
 	# Install etcd
 	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $username@$clientPublicIP "sudo sh -c './install_etcd.sh'"
 
-    ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $clientPublicIP "sudo sh -c 'sudo apt install tmux wget git htop jq --assume-yes'"
+    ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $username@$clientPublicIP "sudo sh -c 'sudo apt install tmux wget git htop jq --assume-yes'"
 	# Install go
 	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $username@$clientPublicIP "sudo sh -c ' wget https://golang.org/dl/go1.15.5.linux-amd64.tar.gz; tar -C /usr/local -xzf go1.15.5.linux-amd64.tar.gz; export PATH=$PATH:/usr/local/go/bin; echo "PATH=\$PATH:/usr/local/go/bin" >> .bashrc ; chown $username .bash_profile ; echo "PATH=\$PATH:/usr/local/go/bin" >> .bash_profile ; echo "GOPATH=./" >> .bashrc '"
 
