@@ -306,7 +306,7 @@ function stop_servers {
 
 # run_experiment executes the given experiment
 function run_experiment {
-	./experiment$expno.sh "$slowdownip" "$slowdownpid"
+	./experiment$expno.sh "$slowdownip" "$slowdownpid" "$username"
 }
 
 # test_run is the main driver function
@@ -317,7 +317,7 @@ function test_run {
 		# 1. start servers
 		start_servers
 
-		# 2. Write server config
+		# 1.5. Write server config
 		write_config
 
 		# 2. Set IP addresses
