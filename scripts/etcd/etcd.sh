@@ -349,7 +349,7 @@ function test_run {
 		# 7. SSH to all the machines and start db
 		start_etcd
 
-    find_follower_leader
+    		find_follower_leader
 
 		load_benchmark
 
@@ -375,7 +375,23 @@ function test_run {
 	done
 }
 
-test_start cockroachdb
+# clean up the messy if crashed in the middle
+function clean_up {
+	write_config
+	set_ip
+
+	if [ "$filesystem" == "disk" ]; then
+		cleanup_disk
+	elif [ "$filesystem" == "memory" ]; then
+		cleanup_memory
+	else
+		echo "This option in filesystem is not suppported.Exiting."
+		exit 1
+	fi
+}
+
+#clean_up
+test_start etcd
 test_run
 
 # Make sure either shutdown is executed after you run this script or uncomment the last line
