@@ -18,33 +18,29 @@ username="xuhao"
 tppattern="[max|min]throughput"
 ###########################
 
-if [ "$#" -ne 11 ]; then
+if [ "$#" -ne 9 ]; then
     echo "Wrong number of parameters"
     echo "1st arg - number of iterations"
     echo "2nd arg - workload path"
-    echo "3rd arg - seconds to run ycsb run"
-    echo "4th arg - experiment to run(1,2,3,4,5,6)"
-    echo "5th arg - host type(gcp/azure)"
-    echo "6th arg - type of experiment(follower/maxthroughput/minthroughput/noslowfolllower/noslowmaxthroughput/noslowminthroughput)"
-    echo "7th arg - file system to use(disk,memory)"
-    echo "8th arg - vm swappiness parameter(swapoff,swapon)[swapon only for exp6+mem]"
-    echo "9th arg - no of servers(3/5)"
-    echo "10th arg - namePrefix"
-    echo "11th arg - threads for ycsb run(for saturation exp)"
+    echo "3th arg - experiment to run(1,2,3,4,5,6)"
+    echo "4th arg - host type(gcp/azure)"
+    echo "5th arg - type of experiment(follower/maxthroughput/minthroughput/noslowfolllower/noslowmaxthroughput/noslowminthroughput)"
+    echo "6th arg - file system to use(disk,memory)"
+    echo "7th arg - vm swappiness parameter(swapoff,swapon)[swapon only for exp6+mem]"
+    echo "8th arg - no of servers(3/5)"
+    echo "9th arg - namePrefix"
     exit 1
 fi
 
 iterations=$1
 workload=$2
-ycsbruntime=$3
-expno=$4
-host=$5
-exptype=$6
-filesystem=$7
-swappiness=$8
-noOfServers=$9
-namePrefix=${10}
-ycsbthreads=${11}
+expno=$3
+host=$4
+exptype=$5
+filesystem=$6
+swappiness=$7
+noOfServers=$8
+namePrefix=$9
 serverRegex="etcd-$namePrefix-[1-$noOfServers]"
 
 # Map to keep track of server names to ip address

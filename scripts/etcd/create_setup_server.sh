@@ -103,7 +103,7 @@ function setup_client {
 	# Install benchmark tool
 	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $username@$clientPublicIP "/bin/bash --login -c 'git clone https://github.com/etcd-io/etcd.git ; cd etcd; go install -v ./tools/benchmark'"
 
-	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $username@$clientPublicIP "/bin/bash --login -c 'echo "PATH=\$PATH:./go/bin/" >> .bashrc ; echo "PATH=\$PATH:./go/bin/" >> .bash_profile'"
+	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $username@$clientPublicIP "/bin/bash --login -c 'echo "PATH=\$PATH:~/go/bin/" >> .bashrc ; echo "PATH=\$PATH:~/go/bin/" >> .bash_profile'"
 
 	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $username@$clientPublicIP "/bin/bash --login -c 'sudo curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash'"
 }
