@@ -3,8 +3,8 @@
 set -ex
 
 secondaryip=$1
-secondarypid=$2
-username=$3
+username=$2
+secondarypid=$3
 
 ssh -i ~/.ssh/id_rsa $username@"$secondaryip" "sh -c 'nohup taskset -ac 0 /home/$username/deadloop > /dev/null 2>&1 &'"
 deadlooppid=$(ssh -i ~/.ssh/id_rsa $username@"$secondaryip" "sh -c 'pgrep deadloop'")

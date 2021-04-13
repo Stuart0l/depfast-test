@@ -3,8 +3,8 @@
 set -ex
 
 secondaryip=$1
-secondarypid=$2
-username=$3
+username=$2
+secondarypid=$3
 
 ssh -i ~/.ssh/id_rsa "$username@$secondaryip" "sudo sh -c 'sudo mkdir /sys/fs/cgroup/blkio/db'"
 ssh -i ~/.ssh/id_rsa "$username@$secondaryip" "sudo sh -c 'sync; echo 3 > /proc/sys/vm/drop_caches'"

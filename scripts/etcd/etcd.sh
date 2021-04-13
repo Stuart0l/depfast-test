@@ -18,29 +18,27 @@ username="xuhao"
 tppattern="[max|min]throughput"
 ###########################
 
-if [ "$#" -ne 9 ]; then
+if [ "$#" -ne 8 ]; then
     echo "Wrong number of parameters"
     echo "1st arg - number of iterations"
-    echo "2nd arg - workload path"
-    echo "3th arg - experiment to run(1,2,3,4,5,6)"
-    echo "4th arg - host type(gcp/azure)"
-    echo "5th arg - type of experiment(follower/maxthroughput/minthroughput/noslowfolllower/noslowmaxthroughput/noslowminthroughput)"
-    echo "6th arg - file system to use(disk,memory)"
-    echo "7th arg - vm swappiness parameter(swapoff,swapon)[swapon only for exp6+mem]"
-    echo "8th arg - no of servers(3/5)"
-    echo "9th arg - namePrefix"
+    echo "2th arg - experiment to run(1.cpu quota/period,2.cpu shares,3.disk,4,5.net,6.memory)"
+    echo "3th arg - host type(gcp/azure)"
+    echo "4th arg - type of experiment(leader/follower/maxthroughput/minthroughput/noslowfolllower/noslowmaxthroughput/noslowminthroughput)"
+    echo "5th arg - file system to use(disk,memory)"
+    echo "6th arg - vm swappiness parameter(swapoff,swapon)[swapon only for exp6+mem]"
+    echo "7th arg - no of servers(3/5)"
+    echo "8th arg - namePrefix"
     exit 1
 fi
 
 iterations=$1
-workload=$2
-expno=$3
-host=$4
-exptype=$5
-filesystem=$6
-swappiness=$7
-noOfServers=$8
-namePrefix=$9
+expno=$2
+host=$3
+exptype=$4
+filesystem=$5
+swappiness=$6
+noOfServers=$7
+namePrefix=$8
 serverRegex="etcd-$namePrefix-[1-$noOfServers]"
 
 # Map to keep track of server names to ip address
@@ -242,7 +240,7 @@ function find_follower_leader {
 }
 
 function load_benchmark {
-	benchmark --endpoints=$primaryip:2380 --target-leader --conns=100 --clients=3000 put --key-size=8 --total=3000000 --val-size=256
+	benchmark --endpoints=$primaryip:2380 --target-leader --conns=100 --clients=1000 put --key-size=8 --sequential-keys --total=100000 --val-size=256
   # Check status
   etcdctl --write-out=table --endpoints=$ENDPOINTS endpoint status || true
 
@@ -254,7 +252,7 @@ function load_benchmark {
 
 function run_benchmark {
 	date_run=$(date +"%Y%m%d%s")
-	benchmark --endpoints=$primaryip:2380 --target-leader --conns=100 --clients=3000 put --key-size=8 --total=3000000 --val-size=256 > "$dirname"/exp"$expno"_trial_"$i"_"$date_run".txt
+	benchmark --endpoints=$primaryip:2380 --target-leader --conns=100 --clients=1000 put --key-size=8 --sequential-keys --total=100000 --val-size=256 > "$dirname"/exp"$expno"_trial_"$i"_"$date_run".txt
   # Check status
   etcdctl --write-out=table --endpoints=$ENDPOINTS endpoint status || true
 }
@@ -267,7 +265,7 @@ function cleanup_disk {
     done
 
 	# Remove the tc rule for exp 5
-	if [ "$expno" == 5 -a "$exptype" != "noslowfollower" ]; then
+	if [ $1 == "after" -a "$expno" == 5 -a "$exptype" != "noslowfollower" ]; then
 		if [ "$exptype" != "noslowmaxthroughput" -a "$exptype" != "noslowminthroughput" ]; then
 		  ssh -i ~/.ssh/id_rsa "$username@$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev "$nic" root ; true'"
 		fi  
@@ -302,7 +300,19 @@ function stop_servers {
 
 # run_experiment executes the given experiment
 function run_experiment {
-	./experiment$expno.sh "$slowdownip" "$slowdownpid" "$username"
+	./experiment$expno.sh "$slowdownip" "$username" "$slowdownpid"
+}
+
+# clean up the messy
+function clean_up {
+	if [ "$filesystem" == "disk" ]; then
+		cleanup_disk $1
+	elif [ "$filesystem" == "memory" ]; then
+		cleanup_memory
+	else
+		echo "This option in filesystem is not suppported.Exiting."
+		exit 1
+	fi
 }
 
 # test_run is the main driver function
@@ -313,19 +323,22 @@ function test_run {
 		# 1. start servers
 		start_servers
 
-		# 1.5. Write server config
+		# 2. Write server config
 		write_config
 
-		# 2. Set IP addresses
+		# 3. Set IP addresses
 		set_ip
 
-		# 3. Copy ssh keys
+		# 4. clean up the messy in case previous run crashed in the middle
+		clean_up pre
+
+		# 5. Copy ssh keys
 		setup_ssh_client_servers
 
-		# 4. Cleanup first
+		# 6. Cleanup first
 		data_cleanup	
 
-		# 5. Create data directories
+		# 7. Create data directories
 		datadir="data"
 		if [ "$filesystem" == "disk" ]; then
 			init_disk
@@ -337,56 +350,34 @@ function test_run {
 			exit 1
 		fi
 
-		# 6. Set swappiness config
+		# 8. Set swappiness config
 		set_swap_config
 
 		setup_etcd
 
-		# 7. SSH to all the machines and start db
+		# 9. SSH to all the machines and start db
 		start_etcd
 
-    		find_follower_leader
+		find_follower_leader
 
 		load_benchmark
 
-		# 11. Run experiment if this is not a no slow
+		# 10. Run experiment if this is not a no slow
 		if [ "$exptype" != "noslowmaxthroughput" -a "$exptype" != "noslowminthroughput" -a "$exptype" != "noslowfollower" ]; then
 			run_experiment
 		fi
 
 		run_benchmark
 
-		# 13. cleanup
-		if [ "$filesystem" == "disk" ]; then
-			cleanup_disk
-		elif [ "$filesystem" == "memory" ]; then
-			cleanup_memory
-		else
-			echo "This option in filesystem is not supported.Exiting."
-			exit 1
-		fi
+		# 11. cleanup
+		clean_up after
 		
-		# 14. Power off all the VMs
-		stop_servers
+		# 12. Power off all the VMs
+		# stop_servers
 	done
 }
 
-# clean up the messy if crashed in the middle
-function clean_up {
-	write_config
-	set_ip
-
-	if [ "$filesystem" == "disk" ]; then
-		cleanup_disk
-	elif [ "$filesystem" == "memory" ]; then
-		cleanup_memory
-	else
-		echo "This option in filesystem is not suppported.Exiting."
-		exit 1
-	fi
-}
-
-#clean_up
+# clean_up
 test_start etcd
 test_run
 

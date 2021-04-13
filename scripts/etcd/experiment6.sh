@@ -3,8 +3,8 @@
 set -ex
 
 secondaryip=$1
-secondarypid=$2
-username=$3
+username=$2
+secondarypid=$3
 
 ssh -i ~/.ssh/id_rsa $username@"$secondaryip" "sudo sh -c 'sudo mkdir /sys/fs/cgroup/memory/db'"
 #ssh -i ~/.ssh/id_rsa $username@"$secondaryip" "sudo sh -c 'sudo echo 1 > /sys/fs/cgroup/memory/db/memory.memsw.oom_control'"  # disable OOM killer

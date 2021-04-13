@@ -3,8 +3,8 @@
 set -ex
 
 secondaryip=$1
-secondarypid=$2
-username=$3
+username=$2
+secondarypid=$3
 
 ssh -i ~/.ssh/id_rsa $username@"$secondaryip" "sudo sh -c 'sudo mkdir /sys/fs/cgroup/cpu/db'"
 ssh -i ~/.ssh/id_rsa $username@"$secondaryip" "sudo sh -c 'sudo echo 50000 > /sys/fs/cgroup/cpu/db/cpu.cfs_quota_us'"
