@@ -54,7 +54,7 @@ declare -a leaders
 # test_start is executed at the beginning
 function test_start {
 	name=$1
-	
+
 	echo "Running $exptype experiment $expno for $name"
 	dirname="$name"_"$exptype"_"$filesystem"_"$swappiness"_results
 	mkdir -p $dirname
@@ -110,7 +110,7 @@ function data_cleanup {
 }
 
 # start_servers is used to boot the servers up
-function start_servers {	
+function start_servers {
 	if [ "$host" == "gcp" ]; then
 		gcloud compute instances start ${!serverNameIPMap[@]} --zone="$serverZone"
 	elif [ "$host" == "azure" ]; then
@@ -155,7 +155,7 @@ function init_disk {
 function init_memory {
     for key in "${!serverNameIPMap[@]}";
     do
-        ssh -i ~/.ssh/id_rsa $username@${serverNameIPMap[$key]} "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"	
+        ssh -i ~/.ssh/id_rsa $username@${serverNameIPMap[$key]} "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"
     done
 }
 
@@ -167,7 +167,7 @@ function set_swap_config {
             ssh -i ~/.ssh/id_rsa $username@${serverNameIPMap[$key]} "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
         done
 	elif [ "$swappiness" == "swapon" ] ; then
-		# Disk needed for swapfile		
+		# Disk needed for swapfile
 		if [ "$filesystem" == "memory" ]; then
 			init_disk
 		fi
@@ -201,8 +201,8 @@ function setup_etcd {
 }
 
 function start_etcd {
-    for (( r=0; r<$noOfServers;r++ )); 
-    do  
+    for (( r=0; r<$noOfServers;r++ ));
+    do
       THIS_NAME=${servernames[$r]}
       THIS_IP=${serverips[$r]}
       ssh  -i ~/.ssh/id_rsa $username@${serverips[$r]} "sh -c 'nohup taskset -ac 0 etcd --data-dir=/data/data.etcd --name ${THIS_NAME} --quota-backend-bytes=$((8*1024*1024*1024)) --initial-advertise-peer-urls http://${THIS_IP}:2380 --listen-peer-urls http://${THIS_IP}:2380 --advertise-client-urls http://${THIS_IP}:2379 --listen-client-urls http://${THIS_IP}:2379 --initial-cluster ${CLUSTER} --initial-cluster-state ${CLUSTER_STATE} --initial-cluster-token ${TOKEN} > /data/etcd.log 2>&1 &'"
@@ -236,11 +236,11 @@ function find_follower_leader {
 	        slowdownip=$primaryip
 	else
 	        echo ""
-  fi	
+  fi
 }
 
 function load_benchmark {
-	benchmark --endpoints=$primaryip:2380 --target-leader --conns=100 --clients=1000 put --key-size=8 --sequential-keys --total=100000 --val-size=256
+	benchmark --endpoints=$primaryip:2380 --target-leader --conns=100 --clients=1000 put --key-size=8 --total=100000 --val-size=256
   # Check status
   etcdctl --write-out=table --endpoints=$ENDPOINTS endpoint status || true
 
@@ -252,7 +252,7 @@ function load_benchmark {
 
 function run_benchmark {
 	date_run=$(date +"%Y%m%d%s")
-	benchmark --endpoints=$primaryip:2380 --target-leader --conns=100 --clients=1000 put --key-size=8 --sequential-keys --total=100000 --val-size=256 > "$dirname"/exp"$expno"_trial_"$i"_"$date_run".txt
+	benchmark --endpoints=$primaryip:2380 --target-leader --conns=100 --clients=1000 put --key-size=8 --total=100000 --val-size=256 > "$dirname"/exp"$expno"_trial_"$i"_"$date_run".txt
   # Check status
   etcdctl --write-out=table --endpoints=$ENDPOINTS endpoint status || true
 }
@@ -268,8 +268,23 @@ function cleanup_disk {
 	if [ $1 == "after" -a "$expno" == 5 -a "$exptype" != "noslowfollower" ]; then
 		if [ "$exptype" != "noslowmaxthroughput" -a "$exptype" != "noslowminthroughput" ]; then
 		  ssh -i ~/.ssh/id_rsa "$username@$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev "$nic" root ; true'"
-		fi  
-	fi  
+		fi
+	fi
+}
+
+# cleanup_memory is called at the end of the given trial of an experiment
+function cleanup_memory {
+	for key in "${!serverNameIPMap[@]}";
+    do
+        ssh -i ~/.ssh/id_rsa "$username@${serverNameIPMap[$key]}" "sudo sh -c 'pkill etcd ; sudo pkill dd; sudo rm -rf /ramdisk/*; sudo rm -rf /ramdisk ; sudo umount tmpfs ; sudo rm -rf /ramdisk/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db memory:db; true'"
+    done
+
+	# Remove the tc rule for exp 5
+	if [ $1 == "after" -a "$expno" == 5 -a "$exptype" != "noslowfollower" ]; then
+		if [ "$exptype" != "noslowmaxthroughput" -a "$exptype" != "noslowminthroughput" ]; then
+		  ssh -i ~/.ssh/id_rsa "$username@$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev "$nic" root ; true'"
+		fi
+	fi
 }
 
 function stop_servers {
@@ -336,7 +351,7 @@ function test_run {
 		setup_ssh_client_servers
 
 		# 6. Cleanup first
-		data_cleanup	
+		data_cleanup
 
 		# 7. Create data directories
 		datadir="data"
@@ -371,9 +386,9 @@ function test_run {
 
 		# 11. cleanup
 		clean_up after
-		
+
 		# 12. Power off all the VMs
-		# stop_servers
+		stop_servers
 	done
 }
 
