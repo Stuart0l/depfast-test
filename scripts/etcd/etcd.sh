@@ -134,7 +134,7 @@ function start_servers {
 		echo "Not implemented error"
 		exit 1
 	fi
-	sleep 5
+	sleep 15
 }
 
 # init_disk is called to create and mount directories on disk
