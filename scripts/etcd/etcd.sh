@@ -21,7 +21,7 @@ tppattern="[max|min]throughput"
 if [ "$#" -ne 8 ]; then
     echo "Wrong number of parameters"
     echo "1st arg - number of iterations"
-    echo "2th arg - experiment to run(1.cpu quota/period,2.cpu shares,3.disk,4,5.net,6.memory)"
+    echo "2th arg - experiment to run(1.cpu quota/period,2.cpu shares,3.disk io,4.disk contention,5.net,6.memory)"
     echo "3th arg - host type(gcp/azure)"
     echo "4th arg - type of experiment(leader/follower/maxthroughput/minthroughput/noslowfolllower/noslowmaxthroughput/noslowminthroughput)"
     echo "5th arg - file system to use(disk,memory)"
