@@ -19,16 +19,16 @@ tppattern="[max|min]throughput"
 ###########################
 
 if [ "$#" -ne 8 ]; then
-    echo "Wrong number of parameters"
-    echo "1st arg - number of iterations"
-    echo "2th arg - experiment to run(1.cpu quota/period,2.cpu shares,3.disk io,4.disk contention,5.net,6.memory)"
-    echo "3th arg - host type(gcp/azure)"
-    echo "4th arg - type of experiment(leader/follower/maxthroughput/minthroughput/noslowfolllower/noslowmaxthroughput/noslowminthroughput)"
-    echo "5th arg - file system to use(disk,memory)"
-    echo "6th arg - vm swappiness parameter(swapoff,swapon)[swapon only for exp6+mem]"
-    echo "7th arg - no of servers(3/5)"
-    echo "8th arg - namePrefix"
-    exit 1
+	echo "Wrong number of parameters"
+	echo "1st arg - number of iterations"
+	echo "2th arg - experiment to run(1.cpu quota/period,2.cpu shares,3.disk io,4.disk contention,5.net,6.memory)"
+	echo "3th arg - host type(gcp/azure)"
+	echo "4th arg - type of experiment(leader/follower/maxthroughput/minthroughput/noslowfolllower/noslowmaxthroughput/noslowminthroughput)"
+	echo "5th arg - file system to use(disk,memory)"
+	echo "6th arg - vm swappiness parameter(swapoff,swapon)[swapon only for exp6+mem]"
+	echo "7th arg - no of servers(3/5)"
+	echo "8th arg - namePrefix"
+	exit 1
 fi
 
 iterations=$1
@@ -114,22 +114,22 @@ function start_servers {
 	if [ "$host" == "gcp" ]; then
 		gcloud compute instances start ${!serverNameIPMap[@]} --zone="$serverZone"
 	elif [ "$host" == "azure" ]; then
-        # For regex have the following check to save ourselves from malformed regex which can lead
-        # to starting of non-target VMs
-        ns=$(az vm list --query "[].id" --resource-group $resource -o tsv | grep $serverRegex | wc -l)
-        if [[ $ns -le 5 ]]
-        then
-            az vm start --ids $(
-                az vm list --query "[].id" --resource-group $resource -o tsv | grep $serverRegex
-            )
-        else
-            echo "Server regex malformed, performing linear start"
-            # Switching back to linear start
-            for key in "${!serverNameIPMap[@]}";
-            do
-                az vm start --name "$key" --resource-group "$resource"
-            done
-        fi
+		# For regex have the following check to save ourselves from malformed regex which can lead
+		# to starting of non-target VMs
+		ns=$(az vm list --query "[].id" --resource-group $resource -o tsv | grep $serverRegex | wc -l)
+		if [[ $ns -le 5 ]]
+		then
+			az vm start --ids $(
+				az vm list --query "[].id" --resource-group $resource -o tsv | grep $serverRegex
+			)
+		else
+			echo "Server regex malformed, performing linear start"
+			# Switching back to linear start
+			for key in "${!serverNameIPMap[@]}";
+			do
+				az vm start --name "$key" --resource-group "$resource"
+			done
+		fi
 	else
 		echo "Not implemented error"
 		exit 1
@@ -139,33 +139,33 @@ function start_servers {
 
 # init_disk is called to create and mount directories on disk
 function init_disk {
-    for key in "${!serverNameIPMap[@]}";
-    do
-        ssh -i ~/.ssh/id_rsa $username@${serverNameIPMap[$key]} "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
+	for key in "${!serverNameIPMap[@]}";
+	do
+		ssh -i ~/.ssh/id_rsa $username@${serverNameIPMap[$key]} "sudo sh -c 'sudo mkdir -p /data ; sudo mkfs.xfs $partitionName -f ; sudo mount -t xfs $partitionName /data ; sudo mount -t xfs $partitionName /data -o remount,noatime ; sudo chmod o+w /data'"
 
 		# If, experiment4, create the file beforehand to which the dd command should write to.
 		# NOTE - The count value should be same as the one mentioned in launch_dd.sh script
 		#if [ "$expno" == 4 ]; then
 		#	ssh -i ~/.ssh/id_rsa $username@${serverNameIPMap[$key]} "sh -c 'taskset -ac 1 dd if=/dev/zero of=/data/tmp.txt bs=1000 count=1800000 conv=notrunc'"
 		#fi
-    done
+	done
 }
 
 # init_memory is called to create and mount memory based file system(tmpfs)
 function init_memory {
-    for key in "${!serverNameIPMap[@]}";
-    do
-        ssh -i ~/.ssh/id_rsa $username@${serverNameIPMap[$key]} "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"
-    done
+	for key in "${!serverNameIPMap[@]}";
+	do
+		ssh -i ~/.ssh/id_rsa $username@${serverNameIPMap[$key]} "sudo sh -c 'sudo mkdir -p /ramdisk ; sudo mount -t tmpfs -o rw,size=8G tmpfs /ramdisk/ ; sudo chmod o+w /ramdisk/'"
+	done
 }
 
 function set_swap_config {
 	# swappiness config
 	if [ "$swappiness" == "swapoff" ] ; then
-        for key in "${!serverNameIPMap[@]}";
-        do
-            ssh -i ~/.ssh/id_rsa $username@${serverNameIPMap[$key]} "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
-        done
+		for key in "${!serverNameIPMap[@]}";
+		do
+			ssh -i ~/.ssh/id_rsa $username@${serverNameIPMap[$key]} "sudo sh -c 'sudo sysctl vm.swappiness=0 ; sudo swapoff -a && swapon -a'"
+		done
 	elif [ "$swappiness" == "swapon" ] ; then
 		# Disk needed for swapfile
 		if [ "$filesystem" == "memory" ]; then
@@ -173,8 +173,8 @@ function set_swap_config {
 		fi
 		for key in "${!serverNameIPMap[@]}";
 		do
-		    ssh -i ~/.ssh/id_rsa $username@${serverNameIPMap[$key]} "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=25165824 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 24GB
-		    ssh -i ~/.ssh/id_rsa $username@${serverNameIPMap[$key]} "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && sudo swapon -a ; sudo swapon /data/swapfile'"
+			ssh -i ~/.ssh/id_rsa $username@${serverNameIPMap[$key]} "sudo sh -c 'sudo dd if=/dev/zero of=/data/swapfile bs=1024 count=25165824 ; sudo chmod 600 /data/swapfile ; sudo mkswap /data/swapfile'"  # 24GB
+			ssh -i ~/.ssh/id_rsa $username@${serverNameIPMap[$key]} "sudo sh -c 'sudo sysctl vm.swappiness=60 ; sudo swapoff -a && sudo swapon -a ; sudo swapon /data/swapfile'"
 		done
 	else
 		echo "swappiness option not recognised. Exiting."
@@ -185,40 +185,47 @@ function set_swap_config {
 function join_by { local IFS="$1"; shift; echo "$*"; }
 
 function setup_etcd {
-   TOKEN=token-01
-   CLUSTER_STATE=new
-   # Name is hostname
-   NAME_1=${servernames[0]}
-   NAME_2=${servernames[1]}
-   NAME_3=${servernames[2]}
-   # Host is ip
-   HOST_1=${serverips[0]}
-   HOST_2=${serverips[1]}
-   HOST_3=${serverips[2]}
-   CLUSTER=${NAME_1}=http://${HOST_1}:2380,${NAME_2}=http://${HOST_2}:2380,${NAME_3}=http://${HOST_3}:2380
-    export ETCDCTL_API=3
-    ENDPOINTS=$HOST_1:2379,$HOST_2:2379,$HOST_3:2379
+	 TOKEN=token-01
+	 CLUSTER_STATE=new
+	 # Name is hostname
+	 NAME_1=${servernames[0]}
+	 NAME_2=${servernames[1]}
+	 NAME_3=${servernames[2]}
+	 # Host is ip
+	 HOST_1=${serverips[0]}
+	 HOST_2=${serverips[1]}
+	 HOST_3=${serverips[2]}
+	 CLUSTER=${NAME_1}=http://${HOST_1}:2380,${NAME_2}=http://${HOST_2}:2380,${NAME_3}=http://${HOST_3}:2380
+	export ETCDCTL_API=3
+	ENDPOINTS=$HOST_1:2379,$HOST_2:2379,$HOST_3:2379
 }
 
 function start_etcd {
-    for (( r=0; r<$noOfServers;r++ ));
-    do
-      THIS_NAME=${servernames[$r]}
-      THIS_IP=${serverips[$r]}
-      ssh  -i ~/.ssh/id_rsa $username@${serverips[$r]} "sh -c 'nohup taskset -ac 0 etcd --data-dir=/data/data.etcd --name ${THIS_NAME} --quota-backend-bytes=$((8*1024*1024*1024)) --initial-advertise-peer-urls http://${THIS_IP}:2380 --listen-peer-urls http://${THIS_IP}:2380 --advertise-client-urls http://${THIS_IP}:2379 --listen-client-urls http://${THIS_IP}:2379 --initial-cluster ${CLUSTER} --initial-cluster-state ${CLUSTER_STATE} --initial-cluster-token ${TOKEN} > /data/etcd.log 2>&1 &'"
+	for (( r=0; r<$noOfServers;r++ ));
+	do
+		THIS_NAME=${servernames[$r]}
+		THIS_IP=${serverips[$r]}
+		if [ "$filesystem" == "disk" ]; then
+			ssh  -i ~/.ssh/id_rsa $username@${serverips[$r]} "sh -c 'nohup taskset -ac 0 etcd --data-dir=/data/data.etcd --name ${THIS_NAME} --quota-backend-bytes=$((8*1024*1024*1024)) --initial-advertise-peer-urls http://${THIS_IP}:2380 --listen-peer-urls http://${THIS_IP}:2380 --advertise-client-urls http://${THIS_IP}:2379 --listen-client-urls http://${THIS_IP}:2379 --initial-cluster ${CLUSTER} --initial-cluster-state ${CLUSTER_STATE} --initial-cluster-token ${TOKEN} > /data/etcd.log 2>&1 &'"
+		elif [ "$filesystem" == "memory" ]; then
+			ssh  -i ~/.ssh/id_rsa $username@${serverips[$r]} "sh -c 'nohup taskset -ac 0 etcd --data-dir=/ramdisk/data.etcd --name ${THIS_NAME} --quota-backend-bytes=$((8*1024*1024*1024)) --initial-advertise-peer-urls http://${THIS_IP}:2380 --listen-peer-urls http://${THIS_IP}:2380 --advertise-client-urls http://${THIS_IP}:2379 --listen-client-urls http://${THIS_IP}:2379 --initial-cluster ${CLUSTER} --initial-cluster-state ${CLUSTER_STATE} --initial-cluster-token ${TOKEN} > /ramdisk/etcd.log 2>&1 &'"
+		else
+			echo "This option in filesystem is not suppported.Exiting."
+			exit 1
+		fi
 
-    done
+	done
 
-    sleep 5s
+	sleep 5s
 
-    # Check status
-    etcdctl --write-out=table --endpoints=$ENDPOINTS endpoint status || true
+	# Check status
+	etcdctl --write-out=table --endpoints=$ENDPOINTS endpoint status || true
 }
 
 function find_follower_leader {
 	rm -f etcd.json jsonres
 
-  etcdctl --write-out=json --endpoints=$ENDPOINTS endpoint status > etcd.json
+	etcdctl --write-out=json --endpoints=$ENDPOINTS endpoint status > etcd.json
 
 	python3 etcd_helper.py etcd.json > jsonres
 
@@ -229,45 +236,45 @@ function find_follower_leader {
 	secondarypid=$(ssh -i ~/.ssh/id_rsa "$username@$secondaryip" "sh -c 'pgrep etcd'")
 
 	if [ "$exptype" == "follower" ]; then
-	        slowdownpid=$secondarypid
-	        slowdownip=$secondaryip
+			slowdownpid=$secondarypid
+			slowdownip=$secondaryip
 	elif [ "$exptype" == "leader" ]; then
-	        slowdownpid=$primarypid
-	        slowdownip=$primaryip
+			slowdownpid=$primarypid
+			slowdownip=$primaryip
 	else
-	        echo ""
-  fi
+			echo ""
+	fi
 }
 
 function load_benchmark {
-	benchmark --endpoints=$primaryip:2380 --target-leader --conns=100 --clients=1000 put --key-size=8 --total=100000 --val-size=256
-  # Check status
-  etcdctl --write-out=table --endpoints=$ENDPOINTS endpoint status || true
+	benchmark --endpoints=$primaryip:2380 --target-leader --conns=100 --clients=4000 put --key-size=8 --total=400000 --val-size=256
+	# Check status
+	etcdctl --write-out=table --endpoints=$ENDPOINTS endpoint status || true
 
-  # Check for the leader again after load as leader can change after this!!
-  # We do not want the pre-decide(before load) the node to slow down which becomes
-  # the leader later on.
-  find_follower_leader
+	# Check for the leader again after load as leader can change after this!!
+	# We do not want the pre-decide(before load) the node to slow down which becomes
+	# the leader later on.
+	find_follower_leader
 }
 
 function run_benchmark {
 	date_run=$(date +"%Y%m%d%s")
-	benchmark --endpoints=$primaryip:2380 --target-leader --conns=100 --clients=1000 put --key-size=8 --total=100000 --val-size=256 > "$dirname"/exp"$expno"_trial_"$i"_"$date_run".txt
-  # Check status
-  etcdctl --write-out=table --endpoints=$ENDPOINTS endpoint status || true
+	benchmark --endpoints=$primaryip:2380 --target-leader --conns=100 --clients=4000 put --key-size=8 --total=400000 --val-size=256 > "$dirname"/exp"$expno"_trial_"$i"_"$date_run".txt
+	# Check status
+	etcdctl --write-out=table --endpoints=$ENDPOINTS endpoint status || true
 }
 
 # cleanup_disk is called at the end of the given trial of an experiment
 function cleanup_disk {
-    for key in "${!serverNameIPMap[@]}";
-    do
-        ssh -i ~/.ssh/id_rsa "$username@${serverNameIPMap[$key]}" "sudo sh -c 'pkill etcd ; sudo pkill dd; sudo rm -rf /data/*; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db memory:db; true'"
-    done
+	for key in "${!serverNameIPMap[@]}";
+	do
+		ssh -i ~/.ssh/id_rsa "$username@${serverNameIPMap[$key]}" "sudo sh -c 'pkill etcd ; sudo pkill dd; sudo rm -rf /data/*; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db memory:db; true'"
+	done
 
 	# Remove the tc rule for exp 5
 	if [ $1 == "after" -a "$expno" == 5 -a "$exptype" != "noslowfollower" ]; then
 		if [ "$exptype" != "noslowmaxthroughput" -a "$exptype" != "noslowminthroughput" ]; then
-		  ssh -i ~/.ssh/id_rsa "$username@$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev "$nic" root ; true'"
+			ssh -i ~/.ssh/id_rsa "$username@$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev "$nic" root ; true'"
 		fi
 	fi
 }
@@ -275,23 +282,27 @@ function cleanup_disk {
 # cleanup_memory is called at the end of the given trial of an experiment
 function cleanup_memory {
 	for key in "${!serverNameIPMap[@]}";
-    do
-        ssh -i ~/.ssh/id_rsa "$username@${serverNameIPMap[$key]}" "sudo sh -c 'pkill etcd ; sudo pkill dd; sudo rm -rf /ramdisk/*; sudo rm -rf /ramdisk ; sudo umount tmpfs ; sudo rm -rf /ramdisk/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db memory:db; true'"
-    done
+	do
+		ssh -i ~/.ssh/id_rsa "$username@${serverNameIPMap[$key]}" "sudo sh -c 'pkill etcd ; sudo pkill dd; '"
+		if [ "$swappiness" == "swapon" ]; then
+			ssh -i ~/.ssh_id_rsa "$username@${serverNameIPMap[$key]}" "sudo sh -c 'sudo rm -rf /data/*; sudo rm -rf /data ; sudo umount $partitionName ; sudo rm -rf /data/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db memory:db; true'"
+		fi
+		ssh -i ~/.ssh/id_rsa "$username@${serverNameIPMap[$key]}" "sudo sh -c 'sudo rm -rf /ramdisk/*; sudo rm -rf /ramdisk ; sudo umount tmpfs ; sudo rm -rf /ramdisk/ ; sudo cgdelete cpu:db cpu:cpulow cpu:cpuhigh blkio:db memory:db; true'"
+	done
 
 	# Remove the tc rule for exp 5
 	if [ $1 == "after" -a "$expno" == 5 -a "$exptype" != "noslowfollower" ]; then
 		if [ "$exptype" != "noslowmaxthroughput" -a "$exptype" != "noslowminthroughput" ]; then
-		  ssh -i ~/.ssh/id_rsa "$username@$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev "$nic" root ; true'"
+			ssh -i ~/.ssh/id_rsa "$username@$slowdownip" "sudo sh -c 'sudo /sbin/tc qdisc del dev "$nic" root ; true'"
 		fi
 	fi
 }
 
 function stop_servers {
 	if [ "$host" == "gcp" ]; then
-        gcloud compute instances stop ${!serverNameIPMap[@]}  --zone="$serverZone"
+		gcloud compute instances stop ${!serverNameIPMap[@]}  --zone="$serverZone"
 	elif [ "$host" == "azure" ]; then
-	    # For regex have the following check to save ourselves from malformed regex which can lead
+		# For regex have the following check to save ourselves from malformed regex which can lead
 		# to stopping of non-target VMs
 		ns=$(az vm list --query "[].id" --resource-group $resource -o tsv | grep $serverRegex | wc -l)
 		if [[ $ns -le 5 ]]
