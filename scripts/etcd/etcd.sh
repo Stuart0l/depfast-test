@@ -16,9 +16,13 @@ partitionName="/dev/sdc"
 resource="DepFast"
 username="xuhao"
 tppattern="[max|min]throughput"
+# default
+nConns=300
+nClients=300
+total=2000000
 ###########################
 
-if [ "$#" -ne 8 ]; then
+if [ "$#" -lt 8 -o "$#" -gt 11 ]; then
 	echo "Wrong number of parameters"
 	echo "1st arg - number of iterations"
 	echo "2th arg - experiment to run(1.cpu quota/period,2.cpu shares,3.disk io,4.disk contention,5.net,6.memory)"
@@ -39,6 +43,11 @@ filesystem=$5
 swappiness=$6
 noOfServers=$7
 namePrefix=$8
+if [ "$#" -gt 8 ]; then
+	nConns=$9
+	nClients=${10}
+	total=${11}
+fi
 serverRegex="etcd-$namePrefix-[1-$noOfServers]"
 
 # Map to keep track of server names to ip address
@@ -247,7 +256,9 @@ function find_follower_leader {
 }
 
 function load_benchmark {
-	benchmark --endpoints=$primaryip:2380 --target-leader --conns=100 --clients=4000 put --key-size=8 --total=400000 --val-size=256
+	# conns should be the same as clients
+	# see https://github.com/etcd-io/etcd/blob/bad0b4d5131629f0d7fe3d572cb7953548f54afd/tools/benchmark/cmd/util.go#L136
+	benchmark --endpoints=$primaryip:2380 --target-leader --conns=$nConns --clients=$nClients put --key-size=8 --total=$total --val-size=256
 	# Check status
 	etcdctl --write-out=table --endpoints=$ENDPOINTS endpoint status || true
 
@@ -259,7 +270,14 @@ function load_benchmark {
 
 function run_benchmark {
 	date_run=$(date +"%Y%m%d%s")
-	benchmark --endpoints=$primaryip:2380 --target-leader --conns=100 --clients=4000 put --key-size=8 --total=400000 --val-size=256 > "$dirname"/exp"$expno"_trial_"$i"_"$date_run".txt
+	subDirName="$nConns"_"$nClients"
+	mkdir -p "$dirname"/"$subDirName"
+
+	for (( r=0; r<$noOfServers; r++)); do
+		ssh  -i ~/.ssh/id_rsa $username@${serverips[$r]} "mpstat -P 0 10 30" > "$dirname"/"$subDirName"/exp"$expno"_trial_"$i"_server_"$r"_"$date_run".txt &
+	done
+
+	benchmark --endpoints=$primaryip:2380 --target-leader --conns=$nConns --clients=$nClients put --key-size=8 --total=$total --val-size=256 > "$dirname"/"$subDirName"/exp"$expno"_trial_"$i"_"$date_run".txt
 	# Check status
 	etcdctl --write-out=table --endpoints=$ENDPOINTS endpoint status || true
 }

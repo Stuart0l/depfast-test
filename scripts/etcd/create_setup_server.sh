@@ -76,7 +76,7 @@ function setup_servers {
   for key in "${!serverNameIPMap[@]}";
   do
 	# Install utilities
-    ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $username@${serverNameIPMap[$key]} "sudo sh -c 'sudo apt install tmux wget git sysstats htop --assume-yes ; sudo apt-get install cgroup-tools --assume-yes ; sudo apt-get install xfsprogs --assume-yes'"
+    ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $username@${serverNameIPMap[$key]} "sudo sh -c 'sudo apt install tmux wget git sysstats htop sysstat --assume-yes ; sudo apt-get install cgroup-tools --assume-yes ; sudo apt-get install xfsprogs --assume-yes'"
     scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa deadloop "$username@${serverNameIPMap[$key]}":~/
 	
 	scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa install_etcd.sh "$username@${serverNameIPMap[$key]}":~/
@@ -94,7 +94,7 @@ function setup_client {
 	# Install etcd
 	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $username@$clientPublicIP "sudo sh -c './install_etcd.sh'"
 
-    ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $username@$clientPublicIP "sudo sh -c 'sudo apt install tmux wget git htop jq --assume-yes'"
+    ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $username@$clientPublicIP "sudo sh -c 'sudo apt install tmux wget git htop jq sysstat --assume-yes'"
 	# Install go
 	ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $username@$clientPublicIP "sudo sh -c ' wget https://golang.org/dl/go1.15.5.linux-amd64.tar.gz; tar -C /usr/local -xzf go1.15.5.linux-amd64.tar.gz; export PATH=$PATH:/usr/local/go/bin; echo "PATH=\$PATH:/usr/local/go/bin" >> .bashrc ; chown $username .bash_profile ; echo "PATH=\$PATH:/usr/local/go/bin" >> .bash_profile ; echo "GOPATH=./" >> .bashrc '"
 
