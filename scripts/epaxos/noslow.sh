@@ -4,13 +4,13 @@ date=$(date +"%Y%m%d%s")
 
 if [ "$#" -ne 1 ]; then
 	echo "1st arg - number of iterations"
-	echo "2nd arg - number of threads"
+	# echo "2nd arg - number of threads"
 	exit 1
 fi
 
 iterations=$1
-threads=(8)
-# threads=(8 16 32 64 128 256 300)
+# threads=(8)
+threads=(8 16 32 64 128 256 300)
 # threads=(16 32 64 128 256)
 
 for t in ${threads[@]}

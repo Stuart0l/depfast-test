@@ -18,9 +18,12 @@ declare -a serverPubIPs
 declare -a serverPrIPs
 
 mkdir -p log
-# exec > >(tee ./log/"$name"_experiment.log) 2>&1
+exec > >(tee ./log/"$name"_experiment.log) 2>&1
 
-# sleep 30
+function start_vm {
+	az vm start --ids $(az vm list --query "[].id" -o tsv | grep "andrew-$grp-janus-ssd")
+	sleep 15
+}
 
 function write_config {
 	rm -f config.json
@@ -57,28 +60,28 @@ function set_ip {
 }
 
 function start_master {
-	ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=120 xuhao@$cli_pub_ip "mkdir -p epaxos/log; nohup epaxos/bin/master -ips $all_ip > epaxos/log/master.log 2>&1 &"
+	ssh -o StrictHostKeyChecking=no xuhao@$cli_pub_ip "mkdir -p epaxos/log; nohup epaxos/bin/master -ips $all_ip > epaxos/log/master.log 2>&1 &"
 }
 
 function start_servers {
 	for (( j=0; j<3; j++ ))
 	do
-	ssh -o StrictHostKeyChecking=no xuhao@${serverPubIPs[$j]} "mkdir -p epaxos/log; nohup epaxos/bin/server -e -maddr $cli_pr_ip -addr ${serverPrIPs[$j]} > epaxos/log/server.log 2>&1 &"
+	ssh -o StrictHostKeyChecking=no xuhao@${serverPubIPs[$j]} "mkdir -p epaxos/log; nohup taskset -ac 0 epaxos/bin/server -e -maddr $cli_pr_ip -addr ${serverPrIPs[$j]} > epaxos/log/server.log 2>&1 &"
 	done
 }
 
 function run_epaxos {
-	ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=120 xuhao@$cli_pub_ip "cd epaxos; nohup bin/client -l 0 -T $threads > log/client.log 2>&1 &"
+	ssh -o StrictHostKeyChecking=no xuhao@$cli_pub_ip "cd epaxos; nohup bin/client -l 0 -T $threads > log/client.log 2>&1 &"
 
 	sleep $duration
 
-	ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=120 xuhao@$cli_pub_ip "sudo pkill client; sudo pkill master; python3 epaxos/scripts/client_metrics.py > results/$name.json; mv epaxos/latency.txt backup/latency_$name.txt; mv epaxos/lattput.txt backup/lattput_$name.txt"
+	ssh -o StrictHostKeyChecking=no xuhao@$cli_pub_ip "sudo pkill client; sudo pkill master; python3 epaxos/scripts/client_metrics.py > results/$name.json; mv epaxos/latency.txt backup/latency_$name.txt; mv epaxos/lattput.txt backup/lattput_$name.txt"
 }
 
 function clean_up {
 	for (( j=0; j<3; j++))
 	do
-		ssh -o StrictHostKeyChecking=no xuhao@${serverPubIPs[$j]} "rm -f epaxos/stable-store-replica*"
+		ssh -o StrictHostKeyChecking=no xuhao@${serverPubIPs[$j]} "sudo pkill server; rm -f stable-store-replica*; rm -f epaxos/stable-store-replica*"
 	done
 
 	az vm deallocate --ids $(az vm list --query "[].id" -o tsv | grep "andrew-$grp-janus-ssd")
@@ -86,7 +89,7 @@ function clean_up {
 
 function test_run {
 	
-	az vm start --ids $(az vm list --query "[].id" -o tsv | grep "andrew-$grp-janus-ssd")
+	start_vm
 	
 	write_config
 
