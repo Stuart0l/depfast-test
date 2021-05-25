@@ -20,8 +20,10 @@ declare -A clientNameIPMap
 declare -a serverPubIPs
 declare -a serverPrIPs
 
-mkdir -p log
-exec > >(tee ./log/"$name"_experiment.log) 2>&1
+if [ $threads -ne 0 ]; then
+	mkdir -p log
+	exec > >(tee ./log/"$name"_experiment.log) 2>&1
+fi
 
 function start_vm {
 	az vm start --ids $(az vm list --query "[].id" -o tsv | grep -E "$serverRegex|$clientRegex")
@@ -92,7 +94,7 @@ function start_servers {
 	for key in ${!serverNameIPMap[@]}
 	do
 		serverip=${serverNameIPMap[$key]}
-		ssh -o StrictHostKeyChecking=no xuhao@$serverip "mkdir -p epaxos/log; sudo pkill server; nohup taskset -ac 0 epaxos/bin/server -e -maddr $masterip -addr $serverip > epaxos/log/server.log 2>&1 &"
+		ssh -o StrictHostKeyChecking=no xuhao@$serverip "mkdir -p epaxos/log; sudo pkill server; ulimit -n 4096;  nohup epaxos/bin/server -e -dreply -exec -maddr $masterip -addr $serverip > epaxos/log/server.log 2>&1 &"
 	done
 }
 
@@ -107,7 +109,9 @@ function run_epaxos {
 
 		serverip=${serverNameIPMap["andrew-$grp-janus-ssd-server$((i+2))"]}
 		
-		ssh -o StrictHostKeyChecking=no xuhao@$clientip "mkdir -p epaxos/log; sudo pkill client; cd epaxos; nohup bin/client -l 0 -laddr $serverip -maddr $masterip -T $threads > log/client.log 2>&1 &"
+		# zipfian skew 0.9, 1,000,000 keys, 50% writes, 10 clients
+		ssh -o StrictHostKeyChecking=no xuhao@$clientip "mkdir -p epaxos/log; sudo pkill client; cd epaxos; ulimit -n 4096; nohup bin/client -l 0 -laddr $serverip -maddr $masterip -c -1 -theta 0.9 -z 1000000 -writes 0.5 -T $threads > log/client.log 2>&1 &"
+		# ssh -o StrictHostKeyChecking=no xuhao@$clientip "mkdir -p epaxos/log; sudo pkill client; cd epaxos; nohup bin/client -l 0 -laddr $serverip -maddr $masterip -c 0 -writes 0.5 -T $threads > log/client.log 2>&1 &"
 	done
 
 	sleep $duration
@@ -120,7 +124,7 @@ function run_epaxos {
 			clientip=${clientNameIPMap["andrew-$grp-janus-ssd-client$i"]}
 		fi
 		
-		ssh -o StrictHostKeyChecking=no xuhao@$clientip "sudo pkill client; sudo pkill master; mkdir -p backup; python3 epaxos/scripts/client_metrics.py > results/$name.json; mv epaxos/latency.txt backup/latency_$name.txt; mv epaxos/lattput.txt backup/lattput_$name.txt"
+		ssh -o StrictHostKeyChecking=no xuhao@$clientip "sudo pkill client; sudo pkill master; mkdir -p backup; mkdir -p results; python3 epaxos/scripts/client_metrics.py > results/$name.json; cat results/$name.json; mv epaxos/latency.txt backup/latency_$name.txt; mv epaxos/lattput.txt backup/lattput_$name.txt"
 	done
 }
 
@@ -153,4 +157,9 @@ function test_run {
 	clean_up
 }
 
-test_run
+if [ $threads -eq 0 ]; then
+	set_ip
+	clean_up
+else
+	test_run
+fi
