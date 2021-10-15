@@ -15,10 +15,11 @@ oreq=$5
 conf=$6
 threads=$7
 
-serverRegex="andrew-$grp-janus-ssd-server[3-7]"
-clientRegex="andrew-$grp-janus-ssd-client*"
+serverRegex="andrew-$grp-janus-ssd-server[1-5]"
+clientRegex="andrew-$grp-janus-ssd-client"
 
 declare -A serverNameIPMap
+declare -A serverNamePriIPMap
 declare -A clientNameIPMap
 declare -a serverPubIPs
 declare -a serverPrIPs
@@ -52,32 +53,41 @@ function set_ip {
 		serverip=$(cat server_config.json  | jq .[$j].publicip)
 		serverip=$(sed -e "s/^'//" -e "s/'$//" <<<"$serverip")
 		serverip=$(sed -e 's/^"//' -e 's/"$//' <<<"$serverip")
+		serverippri=$(cat server_config.json  | jq .[$j].privateip)
+		serverippri=$(sed -e "s/^'//" -e "s/'$//" <<<"$serverippri")
+		serverippri=$(sed -e 's/^"//' -e 's/"$//' <<<"$serverippri")
 
-		clientname=$(cat client_config.json  | jq .[$j].name)
-		clientname=$(sed -e "s/^'//" -e "s/'$//" <<<"$clientname")
-		clientname=$(sed -e 's/^"//' -e 's/"$//' <<<"$clientname")
-		clientip=$(cat client_config.json  | jq .[$j].publicip)
-		clientip=$(sed -e "s/^'//" -e "s/'$//" <<<"$clientip")
-		clientip=$(sed -e 's/^"//' -e 's/"$//' <<<"$clientip")
+		if [ $j -eq 0 ]; then
+			clientname=$(cat client_config.json  | jq .[$j].name)
+			clientname=$(sed -e "s/^'//" -e "s/'$//" <<<"$clientname")
+			clientname=$(sed -e 's/^"//' -e 's/"$//' <<<"$clientname")
+			clientip=$(cat client_config.json  | jq .[$j].publicip)
+			clientip=$(sed -e "s/^'//" -e "s/'$//" <<<"$clientip")
+			clientip=$(sed -e 's/^"//' -e 's/"$//' <<<"$clientip")
+			clientippri=$(cat client_config.json  | jq .[$j].privateip)
+			clientippri=$(sed -e "s/^'//" -e "s/'$//" <<<"$clientippri")
+			clientippri=$(sed -e 's/^"//' -e 's/"$//' <<<"$clientippri")
+
+			masterip=$clientip
+			masterippri=$clientippri
+			echo "client $clientname", $clientip, $clientippri
+		fi
 
 
 		serverNameIPMap[$servername]=$serverip
-		echo "server $servername", $serverip
-
-		clientNameIPMap[$clientname]=$clientip
-		echo "client $clientname", $clientip
+		serverNamePriIPMap[$servername]=$serverippri
+		echo "server $servername", $serverip, $serverippri
 
 		let NAME_COUNTER=NAME_COUNTER+1
 
 		if [ $j -eq 0 ]; then
-			all_ip="$serverip"
+			all_ip="$serverippri"
 		else
-			all_ip="$all_ip,$serverip"
+			all_ip="$all_ip,$serverippri"
 		fi
 	done
 
 	# master is the first client
-	masterip=${clientNameIPMap["andrew-$grp-janus-ssd-client1"]}
 }
 
 function setup_ssh_client_servers {
@@ -97,7 +107,8 @@ function start_servers {
 	for key in ${!serverNameIPMap[@]}
 	do
 		serverip=${serverNameIPMap[$key]}
-		ssh -o StrictHostKeyChecking=no xuhao@$serverip "mkdir -p epaxos/log; sudo pkill server; ulimit -n 32768;  nohup epaxos/bin/server -e -exec -dreply -thrifty -maddr $masterip -addr $serverip > epaxos/log/server.log 2>&1 &"
+		serverippri=${serverNamePriIPMap[$key]}
+		ssh -o StrictHostKeyChecking=no xuhao@$serverip "mkdir -p epaxos/log; sudo pkill server; ulimit -n 32768;  nohup epaxos/bin/server -e -exec -dreply -thrifty -maddr $masterippri -addr $serverippri > epaxos/log/server.log 2>&1 &"
 		# ssh -o StrictHostKeyChecking=no xuhao@$serverip "mkdir -p epaxos_new/log; sudo pkill server; ulimit -n 32768;  nohup epaxos_new/bin/server -e -maddr $masterip -addr $serverip > epaxos_new/log/server.log 2>&1 &"
 	done
 }
