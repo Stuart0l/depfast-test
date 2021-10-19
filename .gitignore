@@ -1,3 +1,5 @@
 /.idea/
 /scripts/tidb/*/
-
+log/
+*.json
+*.png
