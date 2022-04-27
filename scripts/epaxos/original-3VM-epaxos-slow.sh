@@ -70,6 +70,15 @@ function start_servers {
 	done
 }
 
+function run_experiemnt {
+	sleep 5
+	ssh -o StrictHostKeyChecking=no xuhao@10.0.0.13 "pid=\`ps -A | grep 'server' | awk '{print \$1}' | cut -f2 -d= | cut -f1 -d,\`; \
+		sudo mkdir /sys/fs/cgroup/cpu/janus; \
+		echo 2000000 | sudo tee /sys/fs/cgroup/cpu/janus/cpu.cfs_quota_us; \
+		echo 1000000 | sudo tee /sys/fs/cgroup/cpu/janus/cpu.cfs_period_us; \
+		echo \$pid | sudo tee /sys/fs/cgroup/cpu/janus/cgroup.procs"
+}
+
 function run_epaxos {
 	sleep 10
 
@@ -90,6 +99,8 @@ function clean_up {
 		ssh -o StrictHostKeyChecking=no xuhao@${serverPrIPs[$j]} "sudo pkill server; rm -f stable-store-replica*; rm -f epaxos/stable-store-replica*;"
 	done
 
+	# ssh -o StrictHostKeyChecking=no xuhao@10.0.0.15 ""
+
 	# az vm deallocate --ids $(az vm list --query "[].id" -o tsv | grep "andrew-$grp-janus-ssd")
 }
 
@@ -106,6 +117,8 @@ function test_run {
 	start_master
 
 	start_servers
+
+	run_experiemnt
 
 	run_epaxos
 

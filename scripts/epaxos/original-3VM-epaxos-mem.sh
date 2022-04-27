@@ -2,7 +2,7 @@
 
 set -ex
 
-if [ "$#" -ne 4 ]; then
+if [ "$#" -ne 5 ]; then
 	echo "wrong number of args"
 	exit 1
 fi
@@ -11,6 +11,7 @@ grp=$1
 name=$2
 duration=$3
 threads=$4
+mem=$5
 
 serverRegex="andrew-$grp-janus-ssd-server[1-3]"
 
@@ -66,8 +67,20 @@ function start_master {
 function start_servers {
 	for (( j=0; j<3; j++ ))
 	do
-	ssh -o StrictHostKeyChecking=no xuhao@${serverPrIPs[$j]} "sudo pkill server; mkdir -p epaxos/log; nohup epaxos/bin/server -e -exec -dreply -maddr $cli_pr_ip -addr ${serverPrIPs[$j]} > epaxos/log/server.log 2>&1 &"
+		ip=${serverPrIPs[$j]}
+		if [ $ip == '10.0.0.13' ]; then
+			ssh -o StrictHostKeyChecking=no xuhao@$ip "sudo pkill server; mkdir -p epaxos/log; cgexec -g memory:janus nohup epaxos/bin/server -e -exec -dreply -maddr $cli_pr_ip -addr ${serverPrIPs[$j]} > epaxos/log/server.log 2>&1 &"
+		else
+			ssh -o StrictHostKeyChecking=no xuhao@$ip "sudo pkill server; mkdir -p epaxos/log; nohup epaxos/bin/server -e -exec -dreply -maddr $cli_pr_ip -addr ${serverPrIPs[$j]} > epaxos/log/server.log 2>&1 &"
+		fi
 	done
+}
+
+function run_experiemnt {
+	sleep 5
+	ssh -o StrictHostKeyChecking=no xuhao@10.0.0.13 "sudo cgcreate -a xuhao:xuhao -t xuhao:xuhao -g memory:janus; \
+		echo ${mem}M | sudo tee /sys/fs/cgroup/memory/janus/memory.limit_in_bytes; \
+		sudo sysctl vm.swappiness=60 ; sudo swapoff -a; sudo swapon /dev/sdc; "
 }
 
 function run_epaxos {
@@ -90,6 +103,8 @@ function clean_up {
 		ssh -o StrictHostKeyChecking=no xuhao@${serverPrIPs[$j]} "sudo pkill server; rm -f stable-store-replica*; rm -f epaxos/stable-store-replica*;"
 	done
 
+	# ssh -o StrictHostKeyChecking=no xuhao@10.0.0.15 ""
+
 	# az vm deallocate --ids $(az vm list --query "[].id" -o tsv | grep "andrew-$grp-janus-ssd")
 }
 
@@ -104,6 +119,8 @@ function test_run {
 	clean_up
 
 	start_master
+
+	run_experiemnt
 
 	start_servers
 

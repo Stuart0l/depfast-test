@@ -70,6 +70,11 @@ function start_servers {
 	done
 }
 
+function stop_server {
+	sleep 5
+	ssh -o StrictHostKeyChecking=no xuhao@10.0.0.15 "sudo pkill server"
+}
+
 function run_epaxos {
 	sleep 10
 
@@ -106,6 +111,8 @@ function test_run {
 	start_master
 
 	start_servers
+
+	stop_server
 
 	run_epaxos
 
