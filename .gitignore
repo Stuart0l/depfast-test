@@ -3,3 +3,5 @@
 log/
 *.json
 *.png
+experiments/
+jsonres
