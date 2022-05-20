@@ -1,6 +1,6 @@
 set -ex
 
-ETCD_VER=v3.4.13
+ETCD_VER=v3.4.16
 
 # choose either URL
 GITHUB_URL=https://github.com/etcd-io/etcd/releases/download

@@ -20,7 +20,7 @@ rm ~/.ssh/known_hosts
 totalNodes=$((rep + 2))
 for i in $(seq 1 $totalNodes); do
 	ssh -o StrictHostKeyChecking=no node-$i " ./killall.sh "
-	ssh -o StrictHostKeyChecking=no node-$i " sudo rm -rf $dataDir "
+	ssh -o StrictHostKeyChecking=no node-$i " sudo rm -rf $dataDir/* "
 done
 
 # setup
@@ -75,7 +75,7 @@ primaryip=$(cat jsonres | grep -Eo 'leader=.{1,30}' | cut -d'=' -f2-)
 
 # run benchmark
 mkdir -p $expDir
-ssh -o StrictHostKeyChecking=no node-$((rep + 2)) "\
+ssh -o StrictHostKeyChecking=no node-1 "\
 	ulimit -n 4096; \
 	nohup benchmark --endpoints=$primaryip:2380 \
 	--target-leader \

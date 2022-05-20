@@ -19,7 +19,7 @@ rm ~/.ssh/known_hosts
 totalNodes=$((rep + 2))
 for i in $(seq 2 $totalNodes); do
 	ssh -o StrictHostKeyChecking=no node-$i " ./killall.sh "
-	ssh -o StrictHostKeyChecking=no node-$i " sudo rm -rf $dataDir "
+	ssh -o StrictHostKeyChecking=no node-$i " sudo rm -rf $dataDir/* "
 done
 
 # setup
