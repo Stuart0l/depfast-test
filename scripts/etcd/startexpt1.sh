@@ -83,6 +83,14 @@ etcdctl --write-out=json --endpoints=$ENDPOINTS endpoint status > etcd.json
 python3 etcd_helper.py etcd.json > jsonres
 primaryip=$(cat jsonres | grep -Eo 'leader=.{1,30}' | cut -d'=' -f2-)
 
+# 
+sleep 5
+ssh -o StrictHostKeyChecking=no $HOST_3 "pid=\`ps -A | grep 'etcd' | awk '{print \$1}' | cut -f2 -d= | cut -f1 -d,\`; \
+	sudo mkdir /sys/fs/cgroup/cpu/janus; \
+	echo 50000 | sudo tee /sys/fs/cgroup/cpu/janus/cpu.cfs_quota_us; \
+	echo 1000000 | sudo tee /sys/fs/cgroup/cpu/janus/cpu.cfs_period_us; \
+	echo \$pid | sudo tee /sys/fs/cgroup/cpu/janus/cgroup.procs"
+
 # run benchmark
 mkdir -p $expDir
 ssh -o StrictHostKeyChecking=no $CLIENT "\

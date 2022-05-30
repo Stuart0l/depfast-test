@@ -83,6 +83,15 @@ etcdctl --write-out=json --endpoints=$ENDPOINTS endpoint status > etcd.json
 python3 etcd_helper.py etcd.json > jsonres
 primaryip=$(cat jsonres | grep -Eo 'leader=.{1,30}' | cut -d'=' -f2-)
 
+#
+sleep 5
+ssh -o StrictHostKeyChecking=no $HOST_3 "pid=\`ps -A | grep 'etcd' | awk '{print \$1}' | cut -f2 -d= | cut -f1 -d,\`; \
+	sync; echo 3 | sudo tee /proc/sys/vm/drop_caches; \
+	sudo mkdir /sys/fs/cgroup/blkio/janus; \
+	echo '8:32 131072' | sudo tee /sys/fs/cgroup/blkio/janus/blkio.throttle.read_bps_device; \
+	echo '8:32 131072' | sudo tee /sys/fs/cgroup/blkio/janus/blkio.throttle.write_bps_device; \
+	echo $pid | sudo tee /sys/fs/cgroup/blkio/janus/cgroup.procs;"
+
 # run benchmark
 mkdir -p $expDir
 ssh -o StrictHostKeyChecking=no $CLIENT "\
