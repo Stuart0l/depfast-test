@@ -5,7 +5,10 @@ set -x
 nClients=$1
 nConns=$nClients
 
-total=$((nConns * 10000))
+total=$((nConns * 2000))
+if [ $# -gt 4 ]; then
+	total=$((total * $5))
+fi
 rep=3
 dataDir="/db/data.etcd"
 expDir="experiments"
@@ -67,7 +70,6 @@ for i in $(seq 1 $rep); do
 	THIS_IP=${hostIPMap[$THIS_NAME]}
 	ssh -o StrictHostKeyChecking=no $THIS_IP "\
 		ulimit -n 4096; \
-		taskset -ac 1 \
 		nohup etcd --data-dir=$dataDir --name ${THIS_NAME} \
 		--quota-backend-bytes=$((8*1024*1024*1024)) \
 		--initial-advertise-peer-urls http://${THIS_IP}:2380 \
