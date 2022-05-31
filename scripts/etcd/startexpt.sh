@@ -150,9 +150,23 @@ elif [ $exp -eq 6 ]; then
 	ssh -o StrictHostKeyChecking=no $followerip " \
 		sudo cgcreate -a $USER:$USER -t $USER:$USER -g memory:janus; \
 		echo 50M | sudo tee /sys/fs/cgroup/memory/janus/memory.limit_in_bytes; \
+		sudo sysctl vm.swappiness=60 ; sudo swapoff -a && sudo swapon -a ; sudo swapon /db/swapfile; \
 		pid=\`ps -A | grep 'etcd' | awk '{print \$1}' | cut -f2 -d= | cut -f1 -d,\`; \
-		echo \$pid | sudo tee /sys/fs/cgroup/memory/janus/cgroup.procs;"
+		sudo kill -9 \$pid; \
+		cgexec -g memory:janus taskset -ac 1 \
+		nohup etcd --data-dir=$dataDir --name ${followerip}_rejoin \
+		--quota-backend-bytes=$((8*1024*1024*1024)) \
+		--initial-advertise-peer-urls http://${followerip}:2380 \
+		--listen-peer-urls http://${followerip}:2380 \
+		--advertise-client-urls http://${followerip}:2379 \
+		--listen-client-urls http://${followerip}:2379 \
+		--initial-cluster ${CLUSTER} \
+		--initial-cluster-state existing \
+		--initial-cluster-token ${TOKEN} \
+		> /db/etcd.log 2>&1 & "
 	done
+	sleep 3
+	etcdctl --write-out=table --endpoints=$ENDPOINTS endpoint status || true
 else
 	echo "run exp $exp"
 fi
@@ -185,11 +199,12 @@ elif [ $exp -eq 3 ]; then
 		echo \$pid | sudo tee /sys/fs/cgroup/cpu/cgroup.procs "
 elif [ $exp -eq 4 ]; then
 	ssh -o StrictHostKeyChecking=no $followerip " \
-		id=`ps aux | grep 'dd if' | head -1 | awk '{print $2}'`; \
+		pid=`ps aux | grep 'dd if' | head -1 | awk '{print $2}'`; \
 		pid2=`ps aux | grep 'dd if' | head -2 | tail -1 | awk '{print $2}'`; \
 		echo \$pid; echo \$pid2; \
 		sudo kill -9 \$pid; \
 		sudo kill -9 \$pid2; \
+		sudo pkill dd; \
 		sudo sh -c 'echo 3 > /proc/sys/vm/drop_caches'; \
 		sudo rm /db/tmp.txt "
 elif [ $exp -eq 5 ]; then
@@ -219,4 +234,4 @@ avg=`cat $expDir/$name.txt | grep "Average" | awk '{print $2}' | cut -f1 -d,`
 med=`cat $expDir/$name.txt | grep "50:" | awk '{print $2}' | cut -f1 -d,`
 p99=`cat $expDir/$name.txt | grep "99:" | awk '{print $2}' | cut -f1 -d,`
 
-echo "$name, $tput, $avg, $med, $p99, $nClients" >> result0_$rep.csv
+echo "$name, $tput, $avg, $med, $p99, $nClients" >> result${exp}_${rep}.csv
