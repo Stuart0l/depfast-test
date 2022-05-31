@@ -11,17 +11,22 @@ def main(argv):
     with open(fileName) as json_file:
         data = json.load(json_file)
 
-        follower = ""
+        follower = []
         leader = ""
         #pdb.set_trace()
         for row in data:
             if row['Status']['leader'] == row['Status']['header']['member_id']:
                 leader = row['Endpoint'].split(":")[0]
             else:
-                follower = row['Endpoint'].split(":")[0]
+                follower.append(row['Endpoint'].split(":")[0])
             
         print("leader=", leader, sep='')
-        print("follower=", follower, sep='')
+
+        n_slow = len(follower) // 2
+        for i, fo in enumerate(follower):
+            if i >= n_slow:
+                break
+            print("follower{}=".format(i), fo, sep='')
 
 if __name__ == "__main__":
    main(sys.argv[1:])
